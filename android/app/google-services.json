@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1022068720458",
+    "firebase_url": "https://parkeringsapp-33929.firebaseio.com",
+    "project_id": "parkeringsapp-33929",
+    "storage_bucket": "parkeringsapp-33929.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1022068720458:android:d43ecbc1b61ee34089f7b3",
+        "android_client_info": {
+          "package_name": "com.martin.flutterparking"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1022068720458-16ia373q0c7e6tmvig3kai6dim1sf01l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDcAXZFTDuq5S8bs0Nd7cIcG9J6he1Yiqk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1022068720458-16ia373q0c7e6tmvig3kai6dim1sf01l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
