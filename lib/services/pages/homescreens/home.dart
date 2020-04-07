@@ -79,7 +79,8 @@ class Home extends StatelessWidget {
         bottomNavigationBar: BottomNavigationBar(
           items:[
             new BottomNavigationBarItem(icon: Icon(Icons.home), title: Text('Home')),
-            new BottomNavigationBarItem(icon: Icon(Icons.home), title: Text('Home')),
+            new BottomNavigationBarItem(icon: Icon(Icons.perm_identity), title: Text('Profile')),
+            new BottomNavigationBarItem(icon: Icon(Icons.settings), title: Text('Settings')),
           ]
         ),
       ),
