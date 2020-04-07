@@ -116,6 +116,7 @@ class _MapState extends State<Map> {
                 width: 100.0,
                 child: IconButton(
                   onPressed: () {
+                    print("hejsan!");
                     getCurrentLocation();
                   },
                   icon: new Image.asset('assets/circle-cropped.png'),
