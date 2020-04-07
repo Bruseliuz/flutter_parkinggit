@@ -76,15 +76,6 @@ class Home extends StatelessWidget {
           ],
         ),
         body: Map(),
-        bottomNavigationBar: BottomNavigationBar(
-          elevation: 3.0,
-          backgroundColor: Color(0xffb4c7e7),
-          items:[
-            new BottomNavigationBarItem(icon: Icon(Icons.home), title: Text('Home')),
-            new BottomNavigationBarItem(icon: Icon(Icons.perm_identity), title: Text('Profile')),
-            new BottomNavigationBarItem(icon: Icon(Icons.settings), title: Text('Settings')),
-          ]
-        ),
       ),
     );
   }
