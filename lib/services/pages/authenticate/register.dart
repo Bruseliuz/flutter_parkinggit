@@ -75,7 +75,7 @@ class _RegisterState extends State<Register> {
               ),
               SizedBox(height: 20.0),
               TextFormField(
-                decoration: textInputDecoration.copyWith(hintText: "Email"),
+                decoration: textInputDecoration.copyWith(hintText: "Email, like admin"),
                   validator: (val) => val.isEmpty ? "Enter an email" : null,
                   onChanged: (val){
                     setState(() => email = val);
