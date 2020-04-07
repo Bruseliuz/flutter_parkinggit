@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutterparkinggit/services/main.dart';
 
 
 class settingsform_anon extends StatefulWidget {
@@ -24,9 +25,9 @@ class _settingsform_anonState extends State<settingsform_anon> {
           ),
           FlatButton(
             onPressed: () {
+              Navigator.pushNamed(context, '/register');
             },
-            child: Text('Click here'),
-
+            child: Text('Click here to register'),
           )
         ],
       ),
