@@ -32,7 +32,7 @@ class Home extends StatelessWidget {
         backgroundColor: Colors.black,
         appBar: AppBar(
           centerTitle: true,
-          backgroundColor: Color.fromRGBO(180, 199, 231, 1),
+          backgroundColor: Color(0xffb4c7e7),
           elevation: 3.0,
           actions: <Widget>[
             Expanded(
@@ -52,7 +52,7 @@ class Home extends StatelessWidget {
             ),
             Expanded(
               flex: 1,
-              child: Text('ParkOhoj',
+              child: Text('ParkApp',
               style: TextStyle(
                 color: Colors.black,
                 fontFamily: "Baloo2",
@@ -76,6 +76,13 @@ class Home extends StatelessWidget {
           ],
         ),
         body: Map(),
+        bottomNavigationBar: BottomNavigationBar(
+          backgroundColor: Color(0xffb4c7e7),
+          items: [
+            new BottomNavigationBarItem(icon: Icon(Icons.home), title: Text('Home')),
+            new BottomNavigationBarItem(icon: Icon(Icons.settings), title: Text('Settings'))
+          ],
+        ),
       ),
     );
   }

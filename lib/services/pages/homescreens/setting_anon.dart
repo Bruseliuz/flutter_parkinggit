@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutterparkinggit/services/main.dart';
 
 
-class settingsform_anon extends StatefulWidget {
+class settings_form_anon extends StatefulWidget {
   @override
-  _settingsform_anonState createState() => _settingsform_anonState();
+  _settings_form_anonState createState() => _settings_form_anonState();
 }
 
-class _settingsform_anonState extends State<settingsform_anon> {
+class _settings_form_anonState extends State<settings_form_anon> {
 
 
   @override
@@ -18,7 +18,7 @@ class _settingsform_anonState extends State<settingsform_anon> {
           Text('To manage your settings you must first create an account.',
             style: TextStyle(
               fontSize: 18.0,
-              color: Colors.lightBlue[400],
+              color: Color(0xffb4c7e7),
               fontWeight: FontWeight.bold,
               fontFamily: 'Baloo2',
             ),
@@ -27,7 +27,11 @@ class _settingsform_anonState extends State<settingsform_anon> {
             onPressed: () {
               Navigator.pushNamed(context, '/register');
             },
-            child: Text('Click here to register'),
+            child:
+            Text('Click here to register'),
+            color: Color(0xffb4c7e7),
+            shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(10.0),
+                side: BorderSide(color: Colors.black, width: 2)),
           )
         ],
       ),
