@@ -76,6 +76,12 @@ class Home extends StatelessWidget {
           ],
         ),
         body: Map(),
+        bottomNavigationBar: BottomNavigationBar(
+          items:[
+            new BottomNavigationBarItem(icon: Icon(Icons.home), title: Text('Home')),
+            new BottomNavigationBarItem(icon: Icon(Icons.home), title: Text('Home')),
+          ]
+        ),
       ),
     );
   }
