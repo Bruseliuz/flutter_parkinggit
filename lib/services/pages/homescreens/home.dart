@@ -52,7 +52,7 @@ class Home extends StatelessWidget {
             ),
             Expanded(
               flex: 1,
-              child: Text('ParkOhoj',
+              child: Text('ParkApp',
               style: TextStyle(
                 color: Colors.black,
                 fontFamily: "Baloo2",
