@@ -37,40 +37,57 @@ class Home extends StatelessWidget {
           actions: <Widget>[
             Expanded(
               flex: 1,
-              child: FlatButton.icon(
-                icon: Icon(Icons.perm_identity,
-                color: Colors.black),
+              child: FlatButton(
+                padding: EdgeInsets.fromLTRB(5, 0, 0, 0),
+                child: Row(
+                  children: <Widget>[
+                    Icon(Icons.perm_identity,
+                        color: Colors.black),
+                    Text("  Signout",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontFamily: "Baloo2",
+                      ),)
+                  ],
+                ),
                 onPressed: () async{
                   await _auth.singOut();
                 },
-                label: Text("Signout",
-                style: TextStyle(
-                  color: Colors.black,
-                  fontFamily: "Baloo2",
-                ),),
               ),
             ),
             Expanded(
               flex: 1,
-              child: Text('ParkOhoj',
-              style: TextStyle(
-                color: Colors.black,
-                fontFamily: "Baloo2",
-                fontSize: 34.0,
-              ),
+              child: Container(
+                child: Text('ParkOhoj',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontFamily: "Baloo2",
+                    fontSize: 34.0,
+                  ),
+                ),
               ),
             ),
             Expanded(
               flex: 1,
-              child: FlatButton.icon(
-                  onPressed: () => _showSettingsPanel(),
-                  icon: Icon(Icons.settings,
-                  color: Colors.black,),
-                  label: Text("Settings",
-                    style: TextStyle(
+              child: FlatButton(
+                child: Row(
+                  children: <Widget>[
+                    Text(
+                      "           Settings ",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontFamily: "Baloo2"
+                      ),
+                    ),
+                    Icon(Icons.settings,
                       color: Colors.black,
-                      fontFamily: "Baloo2",
-                    ),)
+                    ),
+                  ],
+                ),
+                onPressed: () => _showSettingsPanel(),
+
+
+
               ),
             )
           ],
