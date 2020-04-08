@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget{
           '/register': (context) => Register(),
           '/map': (context) => Map(),
           '/mainPage': (context) => MainPage(),
-    },
+        },
     );
   }
 }
