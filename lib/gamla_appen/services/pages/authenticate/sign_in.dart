@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutterparkinggit/services/auth.dart';
-import 'package:flutterparkinggit/shared/constants.dart';
-import 'package:flutterparkinggit/shared/loading.dart';
+import 'package:flutterparkinggit/gamla_appen/services/auth.dart';
+import 'package:flutterparkinggit/gamla_appen/shared/constants.dart';
+import 'package:flutterparkinggit/gamla_appen/shared/loading.dart';
 
 class SignIn extends StatefulWidget {
 

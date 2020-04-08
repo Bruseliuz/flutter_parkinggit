@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutterparkinggit/services//pages/authenticate/authenticate.dart';
-import 'package:flutterparkinggit/models/user.dart';
+import 'package:flutterparkinggit/gamla_appen/services//pages/authenticate/authenticate.dart';
+import 'package:flutterparkinggit/gamla_appen/models/user.dart';
 import 'package:provider/provider.dart';
-import 'package:flutterparkinggit/services//pages/homescreens/home.dart';
+import 'package:flutterparkinggit/gamla_appen/services//pages/homescreens/home.dart';
 class Wrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

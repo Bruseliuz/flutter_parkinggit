@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutterparkinggit/models/parking.dart';
-import 'package:flutterparkinggit/models/user.dart';
+import 'package:flutterparkinggit/gamla_appen/models/parking.dart';
+import 'package:flutterparkinggit/gamla_appen/models/user.dart';
 
 class DatabaseService{
 

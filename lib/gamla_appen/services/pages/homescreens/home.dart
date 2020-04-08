@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutterparkinggit/models/parking.dart';
-import 'package:flutterparkinggit/services/auth.dart';
-import 'package:flutterparkinggit/services/database.dart';
-import 'package:flutterparkinggit/services/pages/homescreens/settings_form.dart';
+import 'package:flutterparkinggit/gamla_appen/models/parking.dart';
+import 'package:flutterparkinggit/gamla_appen/services/auth.dart';
+import 'package:flutterparkinggit/gamla_appen/services/database.dart';
+import 'package:flutterparkinggit/gamla_appen/services/pages/homescreens/settings_form.dart';
 import 'package:provider/provider.dart';
-import 'package:flutterparkinggit/services/pages/map.dart';
+import 'package:flutterparkinggit/gamla_appen/services/pages/map.dart';
 
 
 class Home extends StatelessWidget {

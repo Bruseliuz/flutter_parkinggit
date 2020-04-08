@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutterparkinggit/services/pages/authenticate/register.dart';
-import 'package:flutterparkinggit/services/pages/authenticate/sign_in.dart';
+import 'package:flutterparkinggit/gamla_appen/services/pages/authenticate/register.dart';
+import 'package:flutterparkinggit/gamla_appen/services/pages/authenticate/sign_in.dart';
 
 class Authenticate extends StatefulWidget {
   @override
