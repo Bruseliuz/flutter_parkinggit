@@ -19,7 +19,15 @@ class _RegisterState extends State<Register> {
       backgroundColor: Colors.lightBlue[100],
       appBar: AppBar(
         title: Text('Register page'),
-        centerTitle: true
+        centerTitle: true,
+        actions: <Widget>[
+          FlatButton.icon(
+              onPressed: () {
+                Navigator.pushReplacementNamed(context, '/signIn');
+              } ,
+              icon: Icon(Icons.home),
+              label: Text('Sign Inz'))
+        ],
       ),
       body: Container(
         padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
@@ -74,7 +82,6 @@ class _RegisterState extends State<Register> {
                           checkBox = !checkBox;
                         });
                       },
-
                     ),
                     Text(
                         'Accept the terms and conditions',
