@@ -62,12 +62,25 @@ class _SignInState extends State<SignIn> {
           obscureText: true,
         ),
             SizedBox(height: 10.0),
-            RaisedButton (
-              onPressed: () {},
-              child: Text('Sign in'),
+            Container(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  RaisedButton (
+                    onPressed: () {},
+                    child: Text('Sign in'),
+                  ),
+                  SizedBox(width: 20.0),
+                  RaisedButton(
+                    onPressed: () {},
+                    child: Text('Skip'),
+                  )
+                ],
+              )
+            ),
 
-            )
           ],
+
         ),
       )
       ),
