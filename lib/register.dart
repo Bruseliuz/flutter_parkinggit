@@ -19,14 +19,16 @@ class _RegisterState extends State<Register> {
       backgroundColor: Colors.lightBlue[100],
       appBar: AppBar(
         title: Text('Register page'),
-        centerTitle: true,
         actions: <Widget>[
           FlatButton.icon(
               onPressed: () {
                 Navigator.pushReplacementNamed(context, '/signIn');
               } ,
-              icon: Icon(Icons.home),
-              label: Text('Sign Inz'))
+              icon: Icon(Icons.arrow_back, color: Colors.white),
+              label: Text('Sign In',
+              style: TextStyle(
+                color: Colors.white,
+              ),))
         ],
       ),
       body: Container(
@@ -40,10 +42,12 @@ class _RegisterState extends State<Register> {
               style: TextStyle(
                 fontSize: 35.0,
                 letterSpacing: 2.0,
+                color: Colors.lightBlue[400],
+                fontFamily: "Baloo2",
               ),
               ),
               Divider(
-                color: Colors.black,
+                color: Colors.lightBlue[400],
                 thickness: 2.0,
               ),
               TextFormField(
@@ -90,7 +94,7 @@ class _RegisterState extends State<Register> {
                 ),
               ),
               Divider(
-                color: Colors.black,
+                color: Colors.lightBlue[400],
                 thickness: 2.0,
               ),
               Container(

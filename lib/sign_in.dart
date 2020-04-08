@@ -23,9 +23,12 @@ class _SignInState extends State<SignIn> {
             onPressed: () {
               Navigator.pushReplacementNamed(context, '/register');
             },
-            icon: Icon(Icons.settings),
+            icon: Icon(Icons.person_add, color: Colors.white,),
             label: Text(
-              'Register account'
+              'Register account',
+              style: TextStyle(
+                color: Colors.white,
+              ),
             ),
           )
         ],
