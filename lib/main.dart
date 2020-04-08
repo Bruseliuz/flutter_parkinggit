@@ -15,9 +15,8 @@ class MyApp extends StatelessWidget{
   //Root of app
   @override
   Widget build(BuildContext context) {
-    return StreamProvider<User>.value(
-      value: AuthService().user,
-      child: MaterialApp(
+    return  MaterialApp(
+      initialRoute: "/home",
         routes: {
           "/wrapper": (context) => Wrapper(),
           "/map": (context) => Map(),
@@ -26,7 +25,6 @@ class MyApp extends StatelessWidget{
           "/register": (context) => Register(),
         },
         home: Wrapper(),
-      ),
-    );
+      );
   }
 }
