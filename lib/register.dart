@@ -8,6 +8,7 @@ class Register extends StatefulWidget {
 
 class _RegisterState extends State<Register> {
 
+  final _formKey = GlobalKey<FormState>();
   bool checkBox = true;
   String email, password, name;
 
@@ -22,6 +23,7 @@ class _RegisterState extends State<Register> {
       body: Container(
         padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
         child: Form(
+          key: _formKey,
           child: Column(
             children: <Widget>[
               SizedBox(height: 20.0),
@@ -37,11 +39,16 @@ class _RegisterState extends State<Register> {
               ),
               TextFormField(
                 decoration: InputDecoration(labelText: 'Email'),
+                  validator: (val) => val.isEmpty ? "Enter an email" : null,
+                  onChanged: (val){
+                    setState(() => email = val);
+                  }
               ),
               SizedBox(height: 10.0),
               TextFormField(
                 decoration: InputDecoration(labelText: 'Password'),
                 obscureText: true,
+                validator: (val) => val.length < 6 ? 'Password should be minimum 6 chars' : null,
               ),
               SizedBox(height: 10.0),
               TextFormField(
@@ -51,6 +58,7 @@ class _RegisterState extends State<Register> {
               SizedBox(height: 10.0),
               TextFormField(
                 decoration: InputDecoration(labelText: 'Full name'),
+                validator: (val) => val.length < 4 ? 'A name needs a minimum of 4 chars' : null,
               ),
               SizedBox(height: 10.0),
               Container(
@@ -79,7 +87,11 @@ class _RegisterState extends State<Register> {
                   children: <Widget>[
                     FlatButton.icon(
                         color: Colors.lightBlue[400],
-                        onPressed: () {},
+                        onPressed: () {
+                          if(_formKey.currentState.validate()){
+                            print('hejhej');
+                          }
+                        },
                         icon: Icon(Icons.person_add),
                         label: Text(
                             'Register'
