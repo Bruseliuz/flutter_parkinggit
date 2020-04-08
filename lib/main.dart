@@ -18,11 +18,6 @@ class MyApp extends StatelessWidget{
     return  MaterialApp(
       initialRoute: "/home",
         routes: {
-          "/wrapper": (context) => Wrapper(),
-          "/map": (context) => Map(),
-          "/home": (context) => Home(),
-          '/locationsLoader': (context) => LocationLoader(),
-          "/register": (context) => Register(),
         },
         home: Wrapper(),
       );
