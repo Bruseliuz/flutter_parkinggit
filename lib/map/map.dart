@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
@@ -68,6 +69,9 @@ class _MapState extends State<Map> {
         markers: Set.from(allMarkers),
       ),
       floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.my_location,
+        ),
+        backgroundColor: Colors.lightBlue[400],
         onPressed: () {
           getCurrentLocation();
         },

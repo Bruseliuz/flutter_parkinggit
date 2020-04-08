@@ -25,6 +25,7 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.lightBlue[400],
         title: Text(
           'ParkApp',
           style: TextStyle(
