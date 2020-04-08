@@ -14,6 +14,17 @@ class _SignInState extends State<SignIn> {
         title: Text(
           'Sign in page - Test'
         ),
+        actions: <Widget>[
+          FlatButton.icon(
+            onPressed: () {
+              Navigator.pushNamed(context, '/register');
+            },
+            icon: Icon(Icons.settings),
+            label: Text(
+              'Register'
+            ),
+          )
+        ],
       ),
     );
   }
