@@ -10,7 +10,7 @@ class _RegisterState extends State<Register> {
 
   final _formKey = GlobalKey<FormState>();
   bool checkBox = true;
-  String email, password, name;
+  String email, password, passwordValidate, name;
 
   @override
   Widget build(BuildContext context) {
@@ -49,23 +49,25 @@ class _RegisterState extends State<Register> {
                 decoration: InputDecoration(labelText: 'Password'),
                 obscureText: true,
                 validator: (val) => val.length < 6 ? 'Password should be minimum 6 chars' : null,
-              ),
-              SizedBox(height: 10.0),
-              TextFormField(
-                decoration: InputDecoration(labelText: 'Repeat password'),
-                obscureText: true,
-              ),
-              SizedBox(height: 10.0),
-              TextFormField(
-                decoration: InputDecoration(labelText: 'Full name'),
-                validator: (val) => val.length < 4 ? 'A name needs a minimum of 4 chars' : null,
-              ),
-              SizedBox(height: 10.0),
-              Container(
-                child: Row(
+                onChanged: (val) {
+                  setState(() => password = val);}
+                  ),
+                  SizedBox(height: 10.0),
+                  TextFormField(
+                  decoration: InputDecoration(labelText: 'Repeat password'),
+                  obscureText: true,
+                    validator: (val) => val != password ? 'The passwords does not match' : null,
+                  ),
+                  SizedBox(height: 10.0),
+                  TextFormField(
+                  decoration: InputDecoration(labelText: 'Full name'),
+                  ),
+                  SizedBox(height: 10.0),
+                  Container(
+                  child: Row(
                   children: <Widget>[
-                    Checkbox(
-                      value: checkBox,
+                  Checkbox(
+                  value: checkBox,
                       onChanged: (bool value) {
                         setState(() {
                           checkBox = !checkBox;
