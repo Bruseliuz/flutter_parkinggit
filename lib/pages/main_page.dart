@@ -25,6 +25,7 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        elevation: 3.0,
         backgroundColor: Colors.lightBlue[400],
         title: Text(
           'ParkApp',
@@ -32,9 +33,21 @@ class _MainPageState extends State<MainPage> {
             fontSize: 25.0,
           ),
         ),
+        actions: <Widget>[
+          FlatButton(
+          child: FlatButton.icon(
+              onPressed: () {
+                Navigator.pushReplacementNamed(context, '/signIn');
+              },
+              icon: Icon(Icons.input,
+              color: Colors.white,),
+              label: Text('Sign out', style: TextStyle(color: Colors.white),)),
+          )
+        ],
       ),
       body: tabs[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
+        elevation: 3.0,
         currentIndex: _currentIndex,
         items: [
           BottomNavigationBarItem(

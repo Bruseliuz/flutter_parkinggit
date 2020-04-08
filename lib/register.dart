@@ -20,13 +20,14 @@ class _RegisterState extends State<Register> {
     return Scaffold(
       backgroundColor: Colors.lightBlue[100],
       appBar: AppBar(
+        backgroundColor: Colors.lightBlue[400],
         title: Text('Register page'),
         actions: <Widget>[
           FlatButton.icon(
               onPressed: () {
                 Navigator.pushReplacementNamed(context, '/signIn');
               } ,
-              icon: Icon(Icons.arrow_back, color: Colors.white),
+              icon: Icon(Icons.perm_identity, color: Colors.white),
               label: Text('Sign In',
                 style: TextStyle(
                   color: Colors.white,
@@ -95,7 +96,9 @@ class _RegisterState extends State<Register> {
                       ),
                       Text(
                         'Accept the terms and conditions',
-                      )
+                      style: TextStyle(
+                        color: Colors.grey[700]
+                      ),)
                     ],
                   ),
                 ),
@@ -116,9 +119,13 @@ class _RegisterState extends State<Register> {
 
                             }
                           },
-                          icon: Icon(Icons.person_add),
+                          icon: Icon(Icons.person_add,
+                          color: Colors.white),
                           label: Text(
-                              'Register'
+                              'Register',
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
                           ))
                     ],
                   ),

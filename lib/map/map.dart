@@ -43,8 +43,8 @@ class _MapState extends State<Map> {
     setLocation(location);
   }
 
-  void setLocation(LocationData location) async{
-    LatLng newLocation =  LatLng(location.latitude,location.longitude);
+  void setLocation(LocationData location) async {
+    LatLng newLocation = LatLng(location.latitude, location.longitude);
     CameraPosition cameraPosition = CameraPosition(
       zoom: 15.0,
       target: newLocation,
@@ -54,7 +54,6 @@ class _MapState extends State<Map> {
     controller.animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
     print(newLocation.toString());
   }
-
 
 
   @override
@@ -69,6 +68,7 @@ class _MapState extends State<Map> {
         markers: Set.from(allMarkers),
       ),
       floatingActionButton: FloatingActionButton(
+        elevation: 3.0,
         child: Icon(Icons.my_location,
         ),
         backgroundColor: Colors.lightBlue[400],
