@@ -12,7 +12,8 @@ class _SignInState extends State<SignIn> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+        backgroundColor: Colors.lightBlue[400],
+        appBar: AppBar(
         title: Text(
           'Sign in'
         ),
@@ -29,9 +30,11 @@ class _SignInState extends State<SignIn> {
           )
         ],
       ),
-      body: Form(
+      body: Container(
+        padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
         key: _formKey,
-        child: Column(
+        child: Form(
+          child: Column(
           children: <Widget>[
             TextFormField(
               validator: (input) {
@@ -44,6 +47,8 @@ class _SignInState extends State<SignIn> {
                 labelText: 'Email'
               ),
             ),
+              SizedBox(height: 10.0),
+
         TextFormField(
             validator: (input) {
               if(input.isEmpty) {
@@ -56,14 +61,16 @@ class _SignInState extends State<SignIn> {
             ),
           obscureText: true,
         ),
+            SizedBox(height: 10.0),
             RaisedButton (
               onPressed: () {},
               child: Text('Sign in'),
 
             )
           ],
-        )
+        ),
       )
+      ),
     );
   }
 
