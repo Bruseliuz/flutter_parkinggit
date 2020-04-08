@@ -12,7 +12,7 @@ class _SignInState extends State<SignIn> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Sign in page - Test'
+          'Sign in page'
         ),
         actions: <Widget>[
           FlatButton.icon(
