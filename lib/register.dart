@@ -9,6 +9,7 @@ class Register extends StatefulWidget {
 class _RegisterState extends State<Register> {
 
   bool checkBox = true;
+  String email, password, name;
 
   @override
   Widget build(BuildContext context) {
@@ -64,18 +65,28 @@ class _RegisterState extends State<Register> {
                       },
                     ),
                     Text(
-                        'Accept the terms and conditions'
+                        'Accept the terms and conditions',
                     )
                   ],
                 ),
               ),
-              FlatButton.icon(
-                color: Colors.lightBlue[400],
-                  onPressed: () {},
-                  icon: Icon(Icons.person_add),
-                  label: Text(
-                    'Register'
-                  ))
+              Divider(
+                color: Colors.black,
+                thickness: 2.0,
+              ),
+              Container(
+                child: Row(
+                  children: <Widget>[
+                    FlatButton.icon(
+                        color: Colors.lightBlue[400],
+                        onPressed: () {},
+                        icon: Icon(Icons.person_add),
+                        label: Text(
+                            'Register'
+                        ))
+                  ],
+                ),
+              )
             ],
           ),
         )
