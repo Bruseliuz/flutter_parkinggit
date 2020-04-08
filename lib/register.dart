@@ -9,6 +9,7 @@ class Register extends StatefulWidget {
 class _RegisterState extends State<Register> {
 
   final _formKey = GlobalKey<FormState>();
+
   bool checkBox = true;
   String email, password, passwordValidate, name;
 
@@ -73,6 +74,7 @@ class _RegisterState extends State<Register> {
                           checkBox = !checkBox;
                         });
                       },
+
                     ),
                     Text(
                         'Accept the terms and conditions',
