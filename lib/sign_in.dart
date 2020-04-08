@@ -76,7 +76,7 @@ class _SignInState extends State<SignIn> {
                   SizedBox(width: 20.0),
                   RaisedButton(
                     onPressed: () {
-                      Navigator.pushReplacementNamed(context, '/mainPage');
+                      Navigator.pushReplacementNamed(context, '/map');
                     },
                     child: Text('Skip'),
                   )

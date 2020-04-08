@@ -4,12 +4,12 @@ import 'package:location/location.dart';
 import 'dart:async';
 
 
-class MainPage extends StatefulWidget {
+class Map extends StatefulWidget {
   @override
-  _MainPageState createState() => _MainPageState();
+  _MapState createState() => _MapState();
 }
 
-class _MainPageState extends State<MainPage> {
+class _MapState extends State<Map> {
 
   Location _locationTracker = Location();
   List <Marker> allMarkers = [];
