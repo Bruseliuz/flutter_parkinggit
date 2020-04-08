@@ -17,7 +17,6 @@ class _SignInState extends State<SignIn> {
         title: Text(
           'Sign in'
         ),
-
         actions: <Widget>[
           FlatButton.icon(
             onPressed: () {
@@ -65,7 +64,6 @@ class _SignInState extends State<SignIn> {
             RaisedButton (
               onPressed: () {},
               child: Text('Sign in'),
-
             )
           ],
         ),
