@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutterparkinggit/main_page.dart';
+import 'package:flutterparkinggit/pages/main_page.dart';
 
 class MainPage extends StatefulWidget {
   @override

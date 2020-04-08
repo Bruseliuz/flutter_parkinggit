@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutterparkinggit/map.dart';
+import 'package:flutterparkinggit/map/map.dart';
 import 'package:flutterparkinggit/sign_in.dart';
 import 'package:flutterparkinggit/register.dart';
-import 'package:flutterparkinggit/main_page.dart';
+import 'package:flutterparkinggit/pages/main_page.dart';
 
 void main() => runApp(MyApp());
 
