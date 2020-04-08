@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class Register extends StatefulWidget {
@@ -67,7 +68,14 @@ class _RegisterState extends State<Register> {
                     )
                   ],
                 ),
-              )
+              ),
+              FlatButton.icon(
+                color: Colors.lightBlue[400],
+                  onPressed: () {},
+                  icon: Icon(Icons.person_add),
+                  label: Text(
+                    'Register'
+                  ))
             ],
           ),
         )
