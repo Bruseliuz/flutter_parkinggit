@@ -87,6 +87,7 @@ class _RegisterState extends State<Register> {
                   child: Row(
                     children: <Widget>[
                       Checkbox(
+
                         value: checkBox,
                         onChanged: (bool value) {
                           setState(() {
@@ -95,7 +96,7 @@ class _RegisterState extends State<Register> {
                         },
                       ),
                       Text(
-                        'Accept the terms and conditions',
+                        'I accept the terms and conditions',
                       style: TextStyle(
                         color: Colors.grey[700]
                       ),)
@@ -113,10 +114,9 @@ class _RegisterState extends State<Register> {
                       FlatButton.icon(
                           color: Colors.lightBlue[400],
                           onPressed: () {
-                            if(_formKey.currentState.validate()){
+                            if(_formKey.currentState.validate()) {
                               addUser(name, email, password);
                               print('hejhej');
-
                             }
                           },
                           icon: Icon(Icons.person_add,
