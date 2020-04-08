@@ -36,21 +36,21 @@ class _RegisterState extends State<Register> {
                 thickness: 2.0,
               ),
               TextFormField(
-                decoration: InputDecoration(hintText: 'Email'),
+                decoration: InputDecoration(labelText: 'Email'),
               ),
               SizedBox(height: 10.0),
               TextFormField(
-                decoration: InputDecoration(hintText: 'Password'),
+                decoration: InputDecoration(labelText: 'Password'),
                 obscureText: true,
               ),
               SizedBox(height: 10.0),
               TextFormField(
-                decoration: InputDecoration(hintText: 'Repeat password'),
+                decoration: InputDecoration(labelText: 'Repeat password'),
                 obscureText: true,
               ),
               SizedBox(height: 10.0),
               TextFormField(
-                decoration: InputDecoration(hintText: 'Full name'),
+                decoration: InputDecoration(labelText: 'Full name'),
               ),
               SizedBox(height: 10.0),
               Container(
