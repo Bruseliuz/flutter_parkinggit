@@ -67,9 +67,12 @@ class _MapState extends State<Map> {
         ),
         markers: Set.from(allMarkers),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton:
-      Column(mainAxisAlignment: MainAxisAlignment.end, children: [
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          getCurrentLocation();
+        },
+      ),
+      /*Column(mainAxisAlignment: MainAxisAlignment.end, children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -161,7 +164,7 @@ class _MapState extends State<Map> {
             ),
           ],
         )
-      ]),
+      ]),*/
     );
   }
 }
