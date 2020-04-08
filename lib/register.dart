@@ -87,9 +87,10 @@ class _RegisterState extends State<Register> {
                         });
                       },
                     ),
-                    Text(
-                        'Accept the terms and conditions',
-                    )
+                    Text('Accept the terms and conditions',
+                    style: TextStyle(
+                      color: Colors.lightBlue[400],
+                    ),)
                   ],
                 ),
               ),
