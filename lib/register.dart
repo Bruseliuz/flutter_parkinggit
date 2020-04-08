@@ -27,7 +27,7 @@ class _RegisterState extends State<Register> {
               onPressed: () {
                 Navigator.pushReplacementNamed(context, '/signIn');
               } ,
-              icon: Icon(Icons.perm_identity, color: Colors.white),
+              icon: Icon(Icons.person, color: Colors.white),
               label: Text('Sign In',
                 style: TextStyle(
                   color: Colors.white,
