@@ -99,6 +99,7 @@ class _RegisterState extends State<Register> {
               ),
               Container(
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     FlatButton.icon(
                         color: Colors.lightBlue[400],
