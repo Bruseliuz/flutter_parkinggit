@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterparkinggit/map.dart';
 import 'package:flutterparkinggit/sign_in.dart';
 import 'package:flutterparkinggit/register.dart';
 import 'package:flutterparkinggit/main_page.dart';
@@ -16,6 +17,7 @@ class MyApp extends StatelessWidget{
           '/signIn': (context) => SignIn(),
           '/register': (context) => Register(),
           '/map': (context) => Map(),
+          '/mainPage': (context) => MainPage(),
     },
     );
   }
