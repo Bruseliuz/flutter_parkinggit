@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget{
           '/signIn': (context) => SignIn(),
           '/register': (context) => Register(),
           '/map': (context) => Map(),
-          '/mainPage': (context) => MainPage(),
+          //'/mainPage': (context) => MainPage(),
           '/startParking': (context) => StartParking(),
         },
     );

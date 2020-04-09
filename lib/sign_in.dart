@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'package:flutterparkinggit/pages/main_page.dart';
+import 'package:flutterparkinggit/user.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -46,7 +49,7 @@ class _SignInState extends State<SignIn> {
                   return 'Can not be empty';
                 }
               },
-              onSaved: (input) => _email = input,
+              onChanged: (input) => _email = input,
               decoration: InputDecoration(
                 labelText: 'Email'
               ),
@@ -59,7 +62,7 @@ class _SignInState extends State<SignIn> {
                 return 'Can not be empty';
               }
             },
-            onSaved: (input) => _password = input,
+            onChanged: (input) => _password = input,
             decoration: InputDecoration(
               labelText: 'Password'
             ),
@@ -71,7 +74,9 @@ class _SignInState extends State<SignIn> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   RaisedButton (
-                    onPressed: () {},
+                    onPressed: () {
+                      signIn();
+                    },
                     child: Text('Sign in'),
                   ),
                   SizedBox(width: 20.0),
@@ -92,13 +97,23 @@ class _SignInState extends State<SignIn> {
   }
 
   Future signIn() async {
-    var getUrl = 'https://group7-15.pvt.dsv.su.se/mysqlspring/findbyemailandpwd?email=$_email&password=$_password';
-    http.Response response = await http.get(getUrl);
-    String responseData = response.body;
-    if (responseData == "Yes") {
+    var findUrl = 'https://group7-15.pvt.dsv.su.se/mysqlspring/findbyemailandpwd?email=$_email&password=$_password';
+    http.Response response = await http.get(findUrl);
+    String findResponseData = response.body;
+    if (findResponseData == "Yes") {
+      var getUrl = 'https://group7-15.pvt.dsv.su.se/mysqlspring/getbyemail?email=$_email';
+      http.Response getResponse = await http.get(getUrl);
+      Map getResponseData = jsonDecode(getResponse.body);
+      String name = getResponseData['name'].toString();
+      String email = getResponseData['email'].toString();
+      User newUser = new User(name, email, false);
+      Navigator.push(context, new MaterialPageRoute(
+          builder: (BuildContext context) => new MainPage(newUser)));
+      print(name);
 
+    } else {
+      print("No such user");
     }
   }
-
 }
 

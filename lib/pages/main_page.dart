@@ -4,16 +4,28 @@ import 'package:flutterparkinggit/map/map.dart';
 import 'package:flutterparkinggit/pages/search.dart';
 import 'package:flutterparkinggit/pages/settings.dart';
 import 'package:flutterparkinggit/pages/list.dart';
+import 'package:flutterparkinggit/user.dart';
 
 class MainPage extends StatefulWidget {
+  MainPage(this.user);
+  final User user;
   @override
-  _MainPageState createState() => _MainPageState();
+  _MainPageState createState() => _MainPageState(user);
 
 
 }
 
 class _MainPageState extends State<MainPage> {
 
+  _MainPageState(this.user);
+  final User user;
+
+  @override
+  void initState() {
+    print(user.toString());
+    super.initState();
+
+  }
   int _currentIndex = 0;
   final tabs = [
     Map(),
