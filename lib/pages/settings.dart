@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class Settings extends StatefulWidget {
@@ -28,6 +29,7 @@ class _SettingsState extends State<Settings> {
                 decoration: InputDecoration(hintText: 'Name'),
 
               ),
+              SizedBox(height: 20.0),
               DropdownButtonFormField(
                 value: _currentParkingType,
                 items: parkingType.map((parking){
@@ -38,14 +40,27 @@ class _SettingsState extends State<Settings> {
                 }).toList(),
                 onChanged: (val) => setState(() => _currentParkingType = val),
               ),
+              SizedBox(height: 50.0),
+              Text('Max price: $_currentMaxPrice kr/hour',
+              style: TextStyle(
+                color: Colors.lightBlue[400],
+                fontSize: 18.0,
+              ),),
               Slider(
                 inactiveColor: Colors.lightBlue[400],
                 activeColor: Colors.lightBlue[500],
                 value: _currentMaxPrice.toDouble(),
                 min: 1,
                 max: 100,
-                divisions: 10,
+                divisions: 100,
                 onChanged: (val) => setState(() => _currentMaxPrice = val.round()),
+              ),
+              FlatButton(
+                child: FlatButton.icon(
+                    color: Colors.lightBlue[400],
+                    onPressed: () {},
+                    icon: Icon(Icons.check_circle_outline, color: Colors.white,),
+                    label: Text('Update profile',style: TextStyle(color: Colors.white),)),
               )
             ],
           ),
