@@ -13,6 +13,7 @@ class _SettingsState extends State<Settings> {
   final List<String> parkingType = ['MC','HCP','No preference'];
 
   String _currentParkingType;
+  int _currentMaxPrice = 50;
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +38,15 @@ class _SettingsState extends State<Settings> {
                 }).toList(),
                 onChanged: (val) => setState(() => _currentParkingType = val),
               ),
+              Slider(
+                inactiveColor: Colors.lightBlue[400],
+                activeColor: Colors.lightBlue[500],
+                value: _currentMaxPrice.toDouble(),
+                min: 1,
+                max: 100,
+                divisions: 10,
+                onChanged: (val) => setState(() => _currentMaxPrice = val.round()),
+              )
             ],
           ),
         ),
