@@ -41,7 +41,7 @@ class _SettingsState extends State<Settings> {
                 onChanged: (val) => setState(() => _currentParkingType = val),
               ),
               SizedBox(height: 50.0),
-              Text('Max price: $_currentMaxPrice kr/hour',
+              Text('Filter price: $_currentMaxPrice kr/hour',
               style: TextStyle(
                 color: Colors.lightBlue[400],
                 fontSize: 18.0,
@@ -58,14 +58,16 @@ class _SettingsState extends State<Settings> {
               FlatButton(
                 child: FlatButton.icon(
                     color: Colors.lightBlue[400],
-                    onPressed: () {},
                     icon: Icon(Icons.check_circle_outline, color: Colors.white,),
-                    label: Text('Update profile',style: TextStyle(color: Colors.white),)),
+                    label: Text('Update profile',style: TextStyle(color: Colors.white),
+                    ),
+                    onPressed: () {},
+                ),
               )
             ],
           ),
         ),
-        ),
+      ),
     );
   }
 }
