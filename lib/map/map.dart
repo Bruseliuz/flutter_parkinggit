@@ -59,13 +59,15 @@ class _MapState extends State<Map> {
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
-      body:  GoogleMap(
-        onMapCreated: _onMapCreated,
-        initialCameraPosition: CameraPosition(
-          target: _center,
-          zoom: 12.0,
+      body: Container(
+        child: GoogleMap(
+          onMapCreated: _onMapCreated,
+          initialCameraPosition: CameraPosition(
+            target: _center,
+            zoom: 12.0,
+          ),
+          markers: Set.from(allMarkers),
         ),
-        markers: Set.from(allMarkers),
       ),
       floatingActionButton:
           FloatingActionButton(
