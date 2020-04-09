@@ -39,7 +39,9 @@ class ParkingLotsList {
   }
 
   final simParkingLots = [
-    new ParkingLot(locationCoords: LatLng(59.338871, 17.930309), occupied: true)
+    new ParkingLot(locationCoords: LatLng(59.338871, 17.930309), occupied: true),
+    new ParkingLot(locationCoords: LatLng(59.338871, 17.930344), occupied: false),
+    new ParkingLot(locationCoords: LatLng(59.338871, 17.930344), occupied: true)
   ];
 }
 
