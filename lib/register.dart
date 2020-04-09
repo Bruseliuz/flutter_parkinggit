@@ -34,8 +34,9 @@ class _RegisterState extends State<Register> {
                 ),))
         ],
       ),
-      body: Center(
-        child: SingleChildScrollView(
+      body: Stack(
+        children: <Widget> [
+          SingleChildScrollView(
             child: Container(
                 padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 50.0),
                 child: Form(
@@ -136,6 +137,7 @@ class _RegisterState extends State<Register> {
                 ),
             ),
           ),
+        ]
       ),
     );
   }
