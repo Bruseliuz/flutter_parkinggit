@@ -75,7 +75,7 @@ class _SignInState extends State<SignIn> {
                 children: <Widget>[
                   RaisedButton (
                     onPressed: () {
-                      signIn();
+                      verifyUser();
                     },
                     child: Text('Sign in'),
                   ),
@@ -96,24 +96,30 @@ class _SignInState extends State<SignIn> {
     );
   }
 
-  Future signIn() async {
+  Future verifyUser() async {
     var findUrl = 'https://group7-15.pvt.dsv.su.se/mysqlspring/findbyemailandpwd?email=$_email&password=$_password';
     http.Response response = await http.get(findUrl);
     String findResponseData = response.body;
     if (findResponseData == "Yes") {
-      var getUrl = 'https://group7-15.pvt.dsv.su.se/mysqlspring/getbyemail?email=$_email';
-      http.Response getResponse = await http.get(getUrl);
-      Map getResponseData = jsonDecode(getResponse.body);
-      String name = getResponseData['name'].toString();
-      String email = getResponseData['email'].toString();
-      User newUser = new User(name, email, false);
-      Navigator.push(context, new MaterialPageRoute(
-          builder: (BuildContext context) => new MainPage(newUser)));
-      print(name);
-
+      storeUser();
     } else {
       print("No such user");
     }
+  }
+
+  void signIn(User user) {
+    Navigator.push(context, new MaterialPageRoute(
+        builder: (BuildContext context) => new MainPage(user)));
+  }
+
+  void storeUser() async {
+    var getUrl = 'https://group7-15.pvt.dsv.su.se/mysqlspring/getbyemail?email=$_email';
+    http.Response getResponse = await http.get(getUrl);
+    Map getResponseData = jsonDecode(getResponse.body);
+    String name = getResponseData['name'].toString();
+    String email = getResponseData['email'].toString();
+    User newUser = new User(name, email, false);
+    signIn(newUser);
   }
 }
 
