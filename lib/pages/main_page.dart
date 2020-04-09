@@ -16,9 +16,9 @@ class _MainPageState extends State<MainPage> {
   int _currentIndex = 0;
   final tabs = [
     Map(),
-    Settings(),
     Search(),
     List(),
+    Settings(),
   ];
 
   @override
@@ -56,23 +56,22 @@ class _MainPageState extends State<MainPage> {
             backgroundColor: Colors.lightBlue[400],
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            title: Text('Settings'),
-          ),
-          BottomNavigationBarItem(
             icon: Icon(Icons.search),
             title: Text('Search'),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.list),
             title: Text('Parkings'),
+          ),BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            title: Text('Settings'),
           )
         ],
           onTap: (index) {
           setState(() {
             _currentIndex = index;
           });
-    },
+          },
       ),
     );
   }
