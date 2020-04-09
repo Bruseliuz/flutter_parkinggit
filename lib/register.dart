@@ -146,7 +146,7 @@ class _RegisterState extends State<Register> {
     var getUrl = 'https://group7-15.pvt.dsv.su.se/mysqlspring/findbyemail?email=$email';
     http.Response getResponse = await http.get(getUrl);
     var getResponseData = getResponse.body;
-    if (getResponseData == "Yes") {
+    if (getResponseData == "No") {
       var url = 'https://group7-15.pvt.dsv.su.se/mysqlspring/add?name=$name&email=$email&password=$password';
       http.Response response = await http.post(url);
       var responseData = response.body;
