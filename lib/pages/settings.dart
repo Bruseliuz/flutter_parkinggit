@@ -25,7 +25,6 @@ class _SettingsState extends State<Settings> {
             children: <Widget>[
               TextFormField(
                 decoration: InputDecoration(labelText: 'Name'),
-
               ),
               SizedBox(height: 20.0),
               DropdownButtonFormField(
