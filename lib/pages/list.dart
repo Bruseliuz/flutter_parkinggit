@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterparkinggit/map/location.dart';
 
@@ -17,9 +18,9 @@ class _ListState extends State<List> {
           itemBuilder: (BuildContext context, int index) {
             return Container(
               height: 70,
-              color: Colors.lightBlue,
+              color: Colors.pinkAccent,
               child: ListTile(
-                leading: _parkingAreasList.parkingAreas[index].vacantParkingLots<0?new Icon(Icons.sentiment_dissatisfied):new Icon(Icons.sentiment_very_satisfied),
+                leading: Text('${_parkingAreasList.parkingAreas[index].vacantParkingLots}'),
                 title: Text('ID: ${_parkingAreasList.parkingAreas[index].id}'),
                 subtitle: Text('Price: ${_parkingAreasList.parkingAreas[index].price} kronor per hour'),
                 trailing: FlutterLogo(size: 56.0),
