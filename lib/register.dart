@@ -122,17 +122,11 @@ class _RegisterState extends State<Register> {
                           icon: Icon(Icons.person_add,
                           color: Colors.white),
                           label: Text(
-<<<<<<< HEAD
-                              'Register'
-                          )
-                      )
-=======
                               'Register',
                             style: TextStyle(
                               color: Colors.white,
                             ),
                           ))
->>>>>>> 205b18e162cf604a3132efb31f079d5af1ec4bed
                     ],
                   ),
                 )
@@ -146,8 +140,8 @@ class _RegisterState extends State<Register> {
   Future addUser(String name, String email, String password) async {
     var getUrl = 'https://group7-15.pvt.dsv.su.se/mysqlspring/findbyemail?email=$email';
     http.Response getResponse = await http.get(getUrl);
-    int getStatusCode = getResponse.statusCode;
-    if (getStatusCode != 200) {
+    var getResponseData = jsonDecode(getResponse.body);
+    if (getResponseData == "Yes") {
       var url = 'https://group7-15.pvt.dsv.su.se/mysqlspring/add?name=$name&email=$email&password=$password';
       http.Response response = await http.post(url);
       var responseData = jsonDecode(response.body);
