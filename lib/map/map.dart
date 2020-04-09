@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
@@ -42,8 +43,8 @@ class _MapState extends State<Map> {
     setLocation(location);
   }
 
-  void setLocation(LocationData location) async{
-    LatLng newLocation =  LatLng(location.latitude,location.longitude);
+  void setLocation(LocationData location) async {
+    LatLng newLocation = LatLng(location.latitude, location.longitude);
     CameraPosition cameraPosition = CameraPosition(
       zoom: 15.0,
       target: newLocation,
@@ -53,7 +54,6 @@ class _MapState extends State<Map> {
     controller.animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
     print(newLocation.toString());
   }
-
 
 
   @override
@@ -67,9 +67,16 @@ class _MapState extends State<Map> {
         ),
         markers: Set.from(allMarkers),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton:
-      Column(mainAxisAlignment: MainAxisAlignment.end, children: [
+      floatingActionButton: FloatingActionButton(
+        elevation: 3.0,
+        child: Icon(Icons.my_location,
+        ),
+        backgroundColor: Colors.lightBlue[400],
+        onPressed: () {
+          getCurrentLocation();
+        },
+      ),
+      /*Column(mainAxisAlignment: MainAxisAlignment.end, children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -161,7 +168,7 @@ class _MapState extends State<Map> {
             ),
           ],
         )
-      ]),
+      ]),*/
     );
   }
 }

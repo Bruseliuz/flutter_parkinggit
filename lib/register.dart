@@ -20,13 +20,14 @@ class _RegisterState extends State<Register> {
     return Scaffold(
       backgroundColor: Colors.lightBlue[100],
       appBar: AppBar(
+        backgroundColor: Colors.lightBlue[400],
         title: Text('Register page'),
         actions: <Widget>[
           FlatButton.icon(
               onPressed: () {
                 Navigator.pushReplacementNamed(context, '/signIn');
               } ,
-              icon: Icon(Icons.arrow_back, color: Colors.white),
+              icon: Icon(Icons.person, color: Colors.white),
               label: Text('Sign In',
                 style: TextStyle(
                   color: Colors.white,
@@ -86,6 +87,7 @@ class _RegisterState extends State<Register> {
                   child: Row(
                     children: <Widget>[
                       Checkbox(
+
                         value: checkBox,
                         onChanged: (bool value) {
                           setState(() {
@@ -94,8 +96,10 @@ class _RegisterState extends State<Register> {
                         },
                       ),
                       Text(
-                        'Accept the terms and conditions',
-                      )
+                        'I accept the terms and conditions',
+                      style: TextStyle(
+                        color: Colors.grey[700]
+                      ),)
                     ],
                   ),
                 ),
@@ -110,16 +114,25 @@ class _RegisterState extends State<Register> {
                       FlatButton.icon(
                           color: Colors.lightBlue[400],
                           onPressed: () {
-                            if(_formKey.currentState.validate()){
+                            if(_formKey.currentState.validate()) {
                               addUser(name, email, password);
                               print('hejhej');
                             }
                           },
-                          icon: Icon(Icons.person_add),
+                          icon: Icon(Icons.person_add,
+                          color: Colors.white),
                           label: Text(
+<<<<<<< HEAD
                               'Register'
                           )
                       )
+=======
+                              'Register',
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ))
+>>>>>>> 205b18e162cf604a3132efb31f079d5af1ec4bed
                     ],
                   ),
                 )

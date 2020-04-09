@@ -17,7 +17,7 @@ class _SignInState extends State<SignIn> {
         title: Text(
           'Sign in'
         ),
-
+        backgroundColor: Colors.lightBlue[400],
         actions: <Widget>[
           FlatButton.icon(
             onPressed: () {
