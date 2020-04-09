@@ -72,7 +72,7 @@ class _MapState extends State<Map> {
             elevation: 3.0,
             child: Icon(Icons.my_location,
             ),
-            backgroundColor: Colors.lightBlue[400],
+            backgroundColor: Color(0xff207FC5),
             onPressed: () {
               Navigator.pushNamed(context, '/startParking');
             },

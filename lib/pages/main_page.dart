@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterparkinggit/map/map.dart';
 import 'package:flutterparkinggit/pages/search.dart';
@@ -26,7 +27,7 @@ class _MainPageState extends State<MainPage> {
     return Scaffold(
       appBar: AppBar(
         elevation: 3.0,
-        backgroundColor: Colors.lightBlue[400],
+        backgroundColor: Color(0xff207FC5),
         title: Text(
           'ParkApp',
           style: TextStyle(
@@ -51,7 +52,7 @@ class _MainPageState extends State<MainPage> {
           BottomNavigationBarItem(
             icon: Icon(Icons.map),
             title: Text('Map'),
-            backgroundColor: Colors.lightBlue[400],
+            backgroundColor: Color(0xff207FC5),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.search),

@@ -6,6 +6,12 @@ class StartParking extends StatefulWidget {
 }
 
 class _StartParkingState extends State<StartParking> {
+
+  final _formKey = GlobalKey<FormState>();
+  final List<int> hours = [1,2,3,4,5,6,7,8,9,10];
+
+  int _hoursChosen;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,7 +22,23 @@ class _StartParkingState extends State<StartParking> {
       body: Container(
         padding: EdgeInsets.symmetric(vertical: 20, horizontal: 50),
         child: Form(
-
+          key: _formKey,
+          child: Column(
+            children: <Widget>[
+              TextFormField(
+                decoration: InputDecoration(hintText: 'REGNR'),
+              ),
+              DropdownButtonFormField(
+                items: hours.map((hour){
+                  return DropdownMenuItem(
+                    value: hour,
+                    child: Text('$hour')
+                  );
+                }).toList(),
+                onChanged: (val) => setState(() => _hoursChosen = val),
+              )
+            ],
+        ),
         )
       ),
     );
