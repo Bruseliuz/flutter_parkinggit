@@ -34,15 +34,13 @@ class _MainPageState extends State<MainPage> {
           ),
         ),
         actions: <Widget>[
-          FlatButton(
-          child: FlatButton.icon(
+          FlatButton.icon(
               onPressed: () {
                 Navigator.pushReplacementNamed(context, '/signIn');
               },
               icon: Icon(Icons.input,
               color: Colors.white,),
               label: Text('Sign out', style: TextStyle(color: Colors.white),)),
-          )
         ],
       ),
       body: tabs[_currentIndex],
