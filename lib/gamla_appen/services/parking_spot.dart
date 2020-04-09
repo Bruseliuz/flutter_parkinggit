@@ -17,6 +17,7 @@ class ParkingSpot{
 void getData() async {
   Response response = await get('https://openparking.stockholm.se/LTF-Tolken/v1/servicedagar/weekday/måndag?outputFormat=json&apiKey=e734eaa7-d9b5-422a-9521-844554d9965b');
   Map data = jsonDecode(response.body);
+
   print(data);
   print('HÄÄÄÄÄÄÄÄÄÄÄRRRRRR');
   //TODO - ta in data och gör om till en List
