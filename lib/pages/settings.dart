@@ -6,12 +6,10 @@ class Settings extends StatefulWidget {
   _SettingsState createState() => _SettingsState();
 }
 
-
-
 class _SettingsState extends State<Settings> {
 
   final _formKey = GlobalKey<FormState>();
-  final List<String> parkingType = ['MC','HCP','No preference'];
+  final List<String> parkingType = ['HCP','No preference'];
 
   String _currentParkingType;
   int _currentMaxPrice = 50;
@@ -26,11 +24,12 @@ class _SettingsState extends State<Settings> {
           child: Column(
             children: <Widget>[
               TextFormField(
-                decoration: InputDecoration(hintText: 'Name'),
+                decoration: InputDecoration(labelText: 'Name'),
 
               ),
               SizedBox(height: 20.0),
               DropdownButtonFormField(
+                decoration: InputDecoration(hintText:'Parkingpreference'),
                 value: _currentParkingType,
                 items: parkingType.map((parking){
                   return DropdownMenuItem(
