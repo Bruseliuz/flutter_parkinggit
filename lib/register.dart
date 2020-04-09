@@ -113,13 +113,13 @@ class _RegisterState extends State<Register> {
                             if(_formKey.currentState.validate()){
                               addUser(name, email, password);
                               print('hejhej');
-
                             }
                           },
                           icon: Icon(Icons.person_add),
                           label: Text(
                               'Register'
-                          ))
+                          )
+                      )
                     ],
                   ),
                 )
@@ -131,9 +131,20 @@ class _RegisterState extends State<Register> {
   }
 
   Future addUser(String name, String email, String password) async {
-    var url = 'https://group7-15.pvt.dsv.su.se/mysqlspring/add?name=$name&email=$email&password=$password';
-    http.Response response = await http.post(url);
-    var data = jsonDecode(response.body);
-    print(data.toString());
+    var getUrl = 'https://group7-15.pvt.dsv.su.se/mysqlspring/findbyemail?email=$email';
+    http.Response getResponse = await http.get(getUrl);
+    int getStatusCode = getResponse.statusCode;
+    if (getStatusCode != 200) {
+      var url = 'https://group7-15.pvt.dsv.su.se/mysqlspring/add?name=$name&email=$email&password=$password';
+      http.Response response = await http.post(url);
+      var responseData = jsonDecode(response.body);
+      if (responseData != "Saved") {
+        print("nånting gick fel");
+        //TODO Lägga till någon form av varning om att användaren inte kunde registreras
+      }
+    } else {
+      print("email existerar redan");
+      //TODO Lägga till varning om att email redan är registrerad
+    }
   }
 }
