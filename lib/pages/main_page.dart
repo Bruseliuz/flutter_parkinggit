@@ -57,13 +57,16 @@ class _MainPageState extends State<MainPage> {
           BottomNavigationBarItem(
             icon: Icon(Icons.search),
             title: Text('Search'),
+            backgroundColor: Color(0xff207FC5),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.list),
             title: Text('Parkings'),
+            backgroundColor: Color(0xff207FC5),
           ),BottomNavigationBarItem(
             icon: Icon(Icons.settings),
             title: Text('Settings'),
+            backgroundColor: Color(0xff207FC5),
           )
         ],
           onTap: (index) {
