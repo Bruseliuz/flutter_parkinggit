@@ -32,7 +32,7 @@ class _MapState extends State<Map> {
   }
 
   Completer<GoogleMapController> _controller = Completer();
-  static LatLng _center =  LatLng(40.785091, -73.968285);
+  static LatLng _center =  LatLng(59.334591,  18.063240);
 
   void _onMapCreated(GoogleMapController controller){
     _controller.complete(controller);
