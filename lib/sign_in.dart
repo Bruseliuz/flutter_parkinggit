@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 
 class SignIn extends StatefulWidget {
@@ -89,5 +90,15 @@ class _SignInState extends State<SignIn> {
       ),
     );
   }
+
+  Future signIn() async {
+    var getUrl = 'https://group7-15.pvt.dsv.su.se/mysqlspring/findbyemailandpwd?email=$_email&password=$_password';
+    http.Response response = await http.get(getUrl);
+    String responseData = response.body;
+    if (responseData == "Yes") {
+
+    }
+  }
+
 }
 
