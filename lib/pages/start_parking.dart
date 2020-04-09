@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class StartParking extends StatefulWidget {
@@ -15,6 +16,8 @@ class _StartParkingState extends State<StartParking> {
   TimeOfDay picked;
   int _hoursChosen;
 
+
+
   void selectTime() async {
     picked = await showTimePicker(
         context: context,
@@ -27,6 +30,8 @@ class _StartParkingState extends State<StartParking> {
     });
     setState(() {
       _time = picked;
+      print(picked.hour - TimeOfDay.now().hour);
+      print(picked.minute - TimeOfDay.now().minute);
     });
   }
 
@@ -40,19 +45,21 @@ class _StartParkingState extends State<StartParking> {
         padding: EdgeInsets.symmetric(vertical: 20, horizontal: 50),
         child: Form(
           key: _formKey,
-          child: Column(
-            children: <Widget>[
-              TextFormField(
-                decoration: InputDecoration(labelText: 'REGNR'),
-              ),
-              FlatButton.icon(
-                  onPressed: () {
-                    selectTime();
-                  },
-                  icon: Icon(Icons.timer),
-                  label: Text('Set time'))
-            ],
+          child: Center(
+            child: Column(
+              children: <Widget>[
+                FlatButton.icon(
+                  color: Color(0xff207FC5),
+                    onPressed: () {
+                      selectTime();
+                    },
+                    icon: Icon(Icons.timer, color: Colors.white,),
+                    label: Text('Set time', style: TextStyle(color: Colors.white),)),
+                SizedBox(height: 40.0),
+                Text('Your parking is set for: ')
+              ],
         ),
+          ),
         )
       ),
     );
