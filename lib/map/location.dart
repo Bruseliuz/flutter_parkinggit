@@ -2,35 +2,66 @@ import 'package:flutter/material.dart';
 import 'package:geolocation/geolocation.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-class ParkingLots {
+class ParkingAreas {
   String id;
- // LatLng location;
-  bool available;
+  int totalNumberOfParkingLots;
+  int vacantParkingLots;
+  ParkingLotsList connectedParkingLots; //lista som består av parkinglots
+  LatLng locationCoords;
+  int price;
 
-  ParkingLots ({
-    this.id, /*this.location,*/ this.available
-  });
-
+  ParkingAreas(
+      {this.id,
+      this.locationCoords,
+      this.totalNumberOfParkingLots,
+      this.vacantParkingLots,
+      this.connectedParkingLots,
+      this.price});
 }
 
-class ParkingList {
-  List<ParkingLots> parkingLots;
+class ParkingLot {
+  //för att kunna veta hur många av parkeringareas lots som är tillgängliga
+  LatLng locationCoords;
+  bool occupied;
 
-  ParkingList (){
-    updateParkingLots();
+  ParkingLot({this.locationCoords, this.occupied});
+}
+
+class ParkingLotsList {
+  List<ParkingLot> parkingLots;
+
+  ParkingLotsList() {
+    addParkingLot();
   }
 
-  void updateParkingLots() {
+  addParkingLot() {
     parkingLots = simParkingLots;
   }
 
   final simParkingLots = [
-    new ParkingLots(
-        id: 'test1234',
-        //location:
-        available: false,
-    )
-
+    new ParkingLot(locationCoords: LatLng(59.338871, 17.930309), occupied: true)
   ];
+}
 
+class ParkingAreasList {
+  //denna som ska visas på kartan
+  List<ParkingAreas> parkingAreas;
+
+  ParkingAreasList() {
+    updateParkingLots();
+  }
+
+  void updateParkingLots() {
+    parkingAreas = simParkingAreas;
+  }
+
+  final simParkingAreas = [
+    new ParkingAreas(
+        id: 'test1234',
+        totalNumberOfParkingLots: 3,
+        vacantParkingLots: 1,
+        connectedParkingLots: new ParkingLotsList(),
+        locationCoords: LatLng(59.338871, 17.930309),
+        price: 10)
+  ];
 }
