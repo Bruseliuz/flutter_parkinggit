@@ -12,7 +12,6 @@ class _ListState extends State<List> {
 
   Location _locationTracker = Location();
 
-
   void getCurrentLocation() async {
     var location = await _locationTracker.getLocation();
     setLocation(location);
@@ -25,7 +24,7 @@ class _ListState extends State<List> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Scaffold( //TODO - Skapa en lista av parkeringsplatser som kan visas upp
       body: Text('List'),
       floatingActionButton: FloatingActionButton(
         elevation: 3.0,
