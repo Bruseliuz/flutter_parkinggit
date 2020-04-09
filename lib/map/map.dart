@@ -32,7 +32,7 @@ class _MapState extends State<Map> {
   }
 
   Completer<GoogleMapController> _controller = Completer();
-  static LatLng _center =  LatLng(40.785091, -73.968285);
+  static LatLng _center =  LatLng(59.334591, 18.063240);
 
   void _onMapCreated(GoogleMapController controller){
     _controller.complete(controller);
@@ -55,6 +55,7 @@ class _MapState extends State<Map> {
     print(newLocation.toString());
   }
 
+  int _currentValue = 500;
 
   @override
   Widget build(BuildContext context) {
@@ -67,14 +68,28 @@ class _MapState extends State<Map> {
         ),
         markers: Set.from(allMarkers),
       ),
-      floatingActionButton: FloatingActionButton(
-        elevation: 3.0,
-        child: Icon(Icons.my_location,
-        ),
-        backgroundColor: Colors.lightBlue[400],
-        onPressed: () {
-          getCurrentLocation();
-        },
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: <Widget>[
+          SizedBox(width: 20),
+          Slider(
+            value: _currentValue.toDouble(),
+            min: 100,
+            max: 1000,
+            divisions: 10,
+            onChanged: (val) => setState(() => _currentValue = val.round()),
+          ),
+          FloatingActionButton(
+            elevation: 3.0,
+            child: Icon(Icons.my_location,
+            ),
+            backgroundColor: Colors.lightBlue[400],
+            onPressed: () {
+              getCurrentLocation();
+            },
+          ),
+        ],
       ),
       /*Column(mainAxisAlignment: MainAxisAlignment.end, children: [
         Row(
