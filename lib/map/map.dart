@@ -59,7 +59,7 @@ class _MapState extends State<Map> {
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
-      body: GoogleMap(
+      body:  GoogleMap(
         onMapCreated: _onMapCreated,
         initialCameraPosition: CameraPosition(
           target: _center,
@@ -74,7 +74,7 @@ class _MapState extends State<Map> {
             ),
             backgroundColor: Colors.lightBlue[400],
             onPressed: () {
-              getCurrentLocation();
+              Navigator.pushNamed(context, '/startParking');
             },
           ),
       );
