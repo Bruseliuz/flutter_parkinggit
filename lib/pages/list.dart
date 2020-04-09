@@ -28,7 +28,7 @@ class _ListState extends State<List> {
   Widget _getParkingAreasList(BuildContext context, int index) {
     return GestureDetector(
       onTap: () {
-
+openPage(context);
       },
       child: Container(
         height: 70,
@@ -38,7 +38,8 @@ class _ListState extends State<List> {
               '${_parkingAreasList.parkingAreas[index].vacantParkingLots}'),
           title: Text('ID: ${_parkingAreasList.parkingAreas[index].id}'),
           subtitle: Text(
-              'Price: ${_parkingAreasList.parkingAreas[index].price} kronor per hour'),
+              'Price: ${_parkingAreasList.parkingAreas[index]
+                  .price} kronor per hour'),
           trailing: FlutterLogo(size: 56.0),
         ),
       ),
@@ -58,22 +59,27 @@ class _ListState extends State<List> {
         ),
       );
     }
+    ));
+  }
 
-    Widget _getParkingAreasList(BuildContext context, int index) {
-      return GestureDetector(
-        onTap: () {
-        },
-        child: Container(
-            height: 70,
-            color: Colors.pinkAccent,
-            child: ListTile(
-                leading: parkingLotsList.parkingLots[index].occupied==bool.true?new Icon(Icons.sentiment_dissatisfied):new Icon(Icons.sentiment_very_satisfied),
-        title: Text('Located: ${ parkingLotsList.parkingLots[index].locationsCoord}'),
-        subtitle: Text(
-            'Go there'),
-        trailing: FlutterLogo(size: 56.0),
-      ),
-      ),
-      );
-    }
+  Widget _getParkingLotsList(BuildContext context, int index) {
+    return GestureDetector(
+      onTap: () {},
+      child: Container(
+          height: 70,
+          color: Colors.pinkAccent,
+          child: ListTile(
+              leading: _parkingLotsList.parkingLots[index].occupied == true
+              ?new Icon(Icons.sentiment_dissatisfied):new Icon(Icons.
+          sentiment_very_satisfied),
+      title: Text(
+          'Located: ${ _parkingLotsList.parkingLots[index].locationCoords}'),
+      subtitle: Text(
+          'Go there'),
+      trailing: FlutterLogo(size: 56.0),
+    ),)
+    ,
+    );
+  }
+
 }
