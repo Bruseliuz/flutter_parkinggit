@@ -9,12 +9,13 @@ class List extends StatefulWidget {
 
 class _ListState extends State<List> {
   ParkingAreasList _parkingAreasList = new ParkingAreasList();
+  ParkingLotsList _parkingLotsList = new ParkingLotsList();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Availabe parking areas nearby"),
+        title: const Text("Availabe parking areas nearby"),
       ),
       body: ListView.builder(
         padding: const EdgeInsets.all(8),
@@ -27,7 +28,7 @@ class _ListState extends State<List> {
   Widget _getParkingAreasList(BuildContext context, int index) {
     return GestureDetector(
       onTap: () {
-        openPage(context);
+
       },
       child: Container(
         height: 70,
@@ -48,19 +49,31 @@ class _ListState extends State<List> {
     Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
       return Scaffold(
         appBar: AppBar(
-          title: const Text('Happy Rebben'),
+          title: const Text('Available parking lots in this area'),
         ),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text(
-                'This is a happy Reb:',
-              ),
-            ],
-          ),
+        body: ListView.builder(
+          padding: const EdgeInsets.all(8),
+          itemCount: _parkingLotsList.parkingLots.length,
+          itemBuilder: _getParkingLotsList,
         ),
       );
-    }));
-  }
+    }
+
+    Widget _getParkingAreasList(BuildContext context, int index) {
+      return GestureDetector(
+        onTap: () {
+        },
+        child: Container(
+            height: 70,
+            color: Colors.pinkAccent,
+            child: ListTile(
+                leading: parkingLotsList.parkingLots[index].occupied==bool.true?new Icon(Icons.sentiment_dissatisfied):new Icon(Icons.sentiment_very_satisfied),
+        title: Text('Located: ${ parkingLotsList.parkingLots[index].locationsCoord}'),
+        subtitle: Text(
+            'Go there'),
+        trailing: FlutterLogo(size: 56.0),
+      ),
+      ),
+      );
+    }
 }
