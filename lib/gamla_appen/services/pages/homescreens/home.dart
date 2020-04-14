@@ -58,7 +58,7 @@ class _HomeState extends State<Home> {
           actions: <Widget>[
             FlatButton.icon(
                 onPressed: () {
-                  Navigator.pushReplacementNamed(context, '/signIn');
+                  _auth.signOut();
                 },
                 icon: Icon(Icons.input,
                   color: Colors.white,),
