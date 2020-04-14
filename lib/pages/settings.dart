@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterparkinggit/gamla_appen/services/database.dart';
 
 class Settings extends StatefulWidget {
   @override
@@ -59,7 +60,11 @@ class _SettingsState extends State<Settings> {
                     icon: Icon(Icons.check_circle_outline, color: Colors.white,),
                     label: Text('Update profile',style: TextStyle(color: Colors.white),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      if (_currentParkingType == 'HCP') {
+
+                      }
+                    },
                 ),
               )
             ],
