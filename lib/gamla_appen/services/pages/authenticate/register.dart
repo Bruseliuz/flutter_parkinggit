@@ -4,6 +4,8 @@ import 'package:flutterparkinggit/gamla_appen/shared/loading.dart';
 import 'package:flutterparkinggit/gamla_appen/services/auth.dart';
 import 'package:flutterparkinggit/gamla_appen/shared/constants.dart';
 
+import '../../../../constants.dart';
+
 class Register extends StatefulWidget {
 
   final Function toggleView;
@@ -28,7 +30,76 @@ class _RegisterState extends State<Register> {
   @override
   Widget build(BuildContext context) {
     return loading ? Loading() : Scaffold(
-      backgroundColor: Colors.lightBlue[100],
+      body: Stack(
+        children: <Widget>[
+          Form(
+            key: _formKey,
+            child: Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Color(0xff207FC5),
+                    Color(0xff348aca),
+                    Color(0xff4896cf),
+                    Color(0xff5ca1d4)
+                  ],
+                  stops: [0.1,0.4,0.7,0.9],
+                )
+              ),
+            ),
+          ),
+          Container(
+            height: double.infinity,
+            child: SingleChildScrollView(
+              physics: AlwaysScrollableScrollPhysics(),
+              padding: EdgeInsets.symmetric(
+                vertical: 120,
+                horizontal: 40,
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text('PARK´N',
+                  style: TextStyle(
+                    decoration: TextDecoration.underline,
+                    color: Colors.white,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold
+                  ),
+                  ),
+                  Text('STOCKHOLM',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        letterSpacing: 1.5,
+                        fontWeight: FontWeight.w400
+                    ),
+                  ),
+                  SizedBox(height: 20.0),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
+                        decoration: parkBoxDecoration,
+                      )
+                    ],
+                  )
+                ],
+              ),
+            ),
+          )
+        ],
+      ),
+    );
+
+
+
+
+
+
+      /*backgroundColor: Colors.lightBlue[100],
       appBar: AppBar(
         backgroundColor: Colors.lightBlue[400],
         elevation: 3.0,
@@ -129,6 +200,6 @@ class _RegisterState extends State<Register> {
           ),
         ),
       ),
-    );
+    */
   }
 }
