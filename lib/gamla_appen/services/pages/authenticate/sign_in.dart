@@ -197,7 +197,7 @@ class _SignInState extends State<SignIn> {
                               ],
                             ),
                             Container(
-                              padding: EdgeInsets.symmetric(vertical: 25),
+                              padding: EdgeInsets.only(top: 25, bottom: 5),
                               width: double.infinity,
                               child: MaterialButton(
                                 color: Color(0xff3b5998),
@@ -227,7 +227,37 @@ class _SignInState extends State<SignIn> {
                               ),
                             ),
                             Container(
-                              padding: EdgeInsets.symmetric(vertical: 25),
+                              padding: EdgeInsets.symmetric(vertical: 0),
+                              width: double.infinity,
+                              child: MaterialButton(
+                                color: Colors.transparent,
+                                elevation: 0.0,
+                                onPressed: (){
+                                  _auth.signInAnon();
+                                },
+                                padding: EdgeInsets.all(15),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Text('Continue without signing in',
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          letterSpacing: 1.5,
+                                          fontSize: 13.0,
+                                          fontWeight: FontWeight.w400
+                                      ),
+                                    ),
+                                    Icon(
+                                      Icons.arrow_forward_ios,
+                                      color: Colors.white70,
+                                      size: 14,
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Container(
+                              padding: EdgeInsets.symmetric(vertical: 15),
                               width: double.infinity,
                               child: MaterialButton(
                                 color: Colors.transparent,
