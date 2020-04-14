@@ -14,6 +14,7 @@ class _StartParkingState extends State<StartParking> {
   final List<int> hours = [1,2,3,4,5,6,7,8,9,10];
   TimeOfDay _time = TimeOfDay.now();
   TimeOfDay picked;
+  String _displayTime = "None";
   int _hoursChosen;
 
 
@@ -30,6 +31,16 @@ class _StartParkingState extends State<StartParking> {
     });
     setState(() {
       _time = picked;
+      if (picked.hour < 10) {
+        _displayTime = '0';
+        _displayTime += picked.hour.toString();
+        _displayTime += ":";
+        _displayTime += picked.minute.toString();
+      } else {
+        _displayTime = picked.hour.toString();
+        _displayTime += ":";
+        _displayTime += picked.minute.toString();
+      }
       print(picked.hour - TimeOfDay.now().hour);
       print(picked.minute - TimeOfDay.now().minute);
     });
@@ -56,7 +67,7 @@ class _StartParkingState extends State<StartParking> {
                     icon: Icon(Icons.timer, color: Colors.white,),
                     label: Text('Set time', style: TextStyle(color: Colors.white),)),
                 SizedBox(height: 40.0),
-                Text('Your parking is set for: ')
+                Text('Your parking is set for: $_displayTime')
               ],
         ),
           ),
