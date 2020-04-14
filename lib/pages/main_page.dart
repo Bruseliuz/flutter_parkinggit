@@ -38,12 +38,13 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         elevation: 3.0,
         backgroundColor: Color(0xff207FC5),
         title: Text(
-          'ParkApp',
+          'PARK´N STOCKHOLM',
           style: TextStyle(
-            fontSize: 25.0,
+            fontSize: 18.0,
           ),
         ),
         actions: <Widget>[

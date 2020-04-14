@@ -53,6 +53,7 @@ class _SignInState extends State<SignIn> {
                   children: <Widget>[
                     Text('PARK´N',
                       style: TextStyle(
+                        decoration: TextDecoration.underline,
                           color: Colors.white,
                           fontSize: 20,
                           fontWeight: FontWeight.bold
@@ -60,9 +61,10 @@ class _SignInState extends State<SignIn> {
                     ),
                     Text('STOCKHOLM',
                       style: TextStyle(
+                          letterSpacing: 1.5,
                           color: Colors.white,
                           fontSize: 30,
-                          fontWeight: FontWeight.bold
+                          fontWeight: FontWeight.w400
                       ),
                     ),
                     SizedBox(height: 20),
@@ -163,7 +165,7 @@ class _SignInState extends State<SignIn> {
           children: <Widget>[
             Text('LOGIN',
               style: TextStyle(
-                color: Color(0xff207FC5 ),
+                color: Color(0xff207FC5),
                 letterSpacing: 1.5,
                 fontSize: 18.0,
               ),
@@ -250,6 +252,7 @@ class _SignInState extends State<SignIn> {
               TextSpan(
                   text: 'Sign Up!',
                   style: TextStyle(
+                    decoration: TextDecoration.underline,
                       color: Colors.white,
                       fontSize: 18.0,
                       fontWeight: FontWeight.bold
