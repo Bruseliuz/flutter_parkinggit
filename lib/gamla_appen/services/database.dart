@@ -11,11 +11,17 @@ class DatabaseService{
   final CollectionReference parkCollection = Firestore.instance.collection("parkingPreference");
 
   //create user data & update user data
-  Future updateUserData(String parking, String name, int maxPrice) async {
+  Future updateUserData(bool parking, String name, int maxPrice) async {
     return await parkCollection.document(uid).setData({
       'parkering': parking,
       'name': name,
       'maxPrice': maxPrice,
+    });
+  }
+
+  Future updateParkingPref(bool parking) async {
+    return await parkCollection.document(uid).setData({
+      'parkering': parking
     });
   }
 
