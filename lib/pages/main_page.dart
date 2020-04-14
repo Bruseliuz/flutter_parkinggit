@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutterparkinggit/map/map.dart';
 import 'package:flutterparkinggit/pages/search.dart';
 import 'package:flutterparkinggit/pages/settings.dart';
-import 'package:flutterparkinggit/pages/list.dart';
+import 'package:flutterparkinggit/pages/parklist.dart';
 import 'package:flutterparkinggit/user.dart';
 
 class MainPage extends StatefulWidget {
@@ -30,7 +30,7 @@ class _MainPageState extends State<MainPage> {
   final tabs = [
     Map(),
     Search(),
-    List(),
+    ParkList(),
     Settings(),
   ];
 

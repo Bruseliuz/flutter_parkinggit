@@ -2,12 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterparkinggit/map/location.dart';
 
-class List extends StatefulWidget {
+class ParkList extends StatefulWidget {
   @override
-  _ListState createState() => _ListState();
+  _ParkListState createState() => _ParkListState();
 }
 
-class _ListState extends State<List> {
+class _ParkListState extends State<ParkList> {
   ParkingAreasList _parkingAreasList = new ParkingAreasList();
   ParkingLotsList _parkingLotsList = new ParkingLotsList();
 

@@ -3,19 +3,35 @@ import 'package:flutter/material.dart';
 import 'package:flutterparkinggit/gamla_appen/models/parking.dart';
 import 'package:flutterparkinggit/gamla_appen/services/auth.dart';
 import 'package:flutterparkinggit/gamla_appen/services/database.dart';
-import 'package:flutterparkinggit/gamla_appen/services/pages/homescreens/settings_form.dart';
+import 'package:flutterparkinggit/pages/parklist.dart';
+import 'package:flutterparkinggit/pages/settings.dart';
+import 'package:flutterparkinggit/pages/search.dart';
 import 'package:provider/provider.dart';
-import 'package:flutterparkinggit/gamla_appen/services/pages/map.dart';
+import 'package:flutterparkinggit/map/map.dart';
 
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
+  @override
+  _HomeState createState() => _HomeState();
+
+}
+
+class _HomeState extends State<Home> {
 
   final AuthService _auth = AuthService();
+
+  int _currentIndex = 0;
+  final tabs = [
+    Map(),
+    Search(),
+    ParkList(),
+    Settings(),
+  ];
 
   @override
   Widget build(BuildContext context) {
 
-    void _showSettingsPanel(){
+    /*void _showSettingsPanel(){
       showModalBottomSheet(
           context: context,
           builder: (context){
@@ -24,58 +40,62 @@ class Home extends StatelessWidget {
               child: SettingsForm(),
             );
           });
-    }
+    }*/
 
-    return StreamProvider<List<Parking>>.value(
+    return StreamProvider.value(
       value: DatabaseService().parking,
       child: Scaffold(
-        backgroundColor: Colors.black,
         appBar: AppBar(
           centerTitle: true,
-          backgroundColor: Color(0xffb4c7e7),
           elevation: 3.0,
+          backgroundColor: Color(0xff207FC5),
+          title: Text(
+            'PARK´N STOCKHOLM',
+            style: TextStyle(
+              fontSize: 18.0,
+            ),
+          ),
           actions: <Widget>[
-            Expanded(
-              flex: 1,
-              child: FlatButton.icon(
-                icon: Icon(Icons.perm_identity,
-                color: Colors.black),
-                onPressed: () async{
-                  await _auth.singOut();
+            FlatButton.icon(
+                onPressed: () {
+                  Navigator.pushReplacementNamed(context, '/signIn');
                 },
-                label: Text("Signout",
-                style: TextStyle(
-                  color: Colors.black,
-                  fontFamily: "Baloo2",
-                ),),
-              ),
+                icon: Icon(Icons.input,
+                  color: Colors.white,),
+                label: Text('Sign out', style: TextStyle(color: Colors.white),)),
+          ],
+        ),
+        body: tabs[_currentIndex],
+        bottomNavigationBar: BottomNavigationBar(
+          onTap: (index) {
+            setState(() {
+              _currentIndex = index;
+            });
+          },
+          elevation: 3.0,
+          currentIndex: _currentIndex,
+          items: [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.map),
+              title: Text('Map'),
+              backgroundColor: Color(0xff207FC5),
             ),
-            Expanded(
-              flex: 1,
-              child: Text('ParkApp',
-              style: TextStyle(
-                color: Colors.black,
-                fontFamily: "Baloo2",
-                fontSize: 34.0,
-              ),
-              ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.search),
+              title: Text('Search'),
+              backgroundColor: Color(0xff207FC5),
             ),
-            Expanded(
-              flex: 1,
-              child: FlatButton.icon(
-                  onPressed: () => _showSettingsPanel(),
-                  icon: Icon(Icons.settings,
-                  color: Colors.black,),
-                  label: Text("Settings",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontFamily: "Baloo2",
-                    ),)
-              ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.list),
+              title: Text('Parkings'),
+              backgroundColor: Color(0xff207FC5),
+            ),BottomNavigationBarItem(
+              icon: Icon(Icons.settings),
+              title: Text('Settings'),
+              backgroundColor: Color(0xff207FC5),
             )
           ],
         ),
-        body: Map(),
       ),
     );
   }
