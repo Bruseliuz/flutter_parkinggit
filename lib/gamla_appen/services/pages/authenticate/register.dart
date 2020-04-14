@@ -4,7 +4,6 @@ import 'package:flutterparkinggit/gamla_appen/shared/loading.dart';
 import 'package:flutterparkinggit/gamla_appen/services/auth.dart';
 import 'package:flutterparkinggit/gamla_appen/shared/constants.dart';
 
-import '../../../../constants.dart';
 
 class Register extends StatefulWidget {
 
@@ -23,9 +22,11 @@ class _RegisterState extends State<Register> {
   bool loading = false;
 
   //textfield state
+  String name= "";
   String email ="";
   String password ="";
   String error = "";
+  bool checkBox = false;
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +73,7 @@ class _RegisterState extends State<Register> {
                   Text('STOCKHOLM',
                     style: TextStyle(
                         color: Colors.white,
-                        fontSize: 20,
+                        fontSize: 30,
                         letterSpacing: 1.5,
                         fontWeight: FontWeight.w400
                     ),
@@ -83,9 +84,225 @@ class _RegisterState extends State<Register> {
                     children: <Widget>[
                       Container(
                         decoration: parkBoxDecoration,
+                        height: 50,
+                        alignment: Alignment.centerLeft,
+                        child: TextFormField(
+                          validator: (val) => val.isEmpty ? "Enter an email" : null,
+                          onChanged: (val){
+                            setState(() => email = val);
+                          },
+                          keyboardType: TextInputType.emailAddress,
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            contentPadding: EdgeInsets.only(top: 15.0),
+                            prefixIcon: Icon(
+                              Icons.mail_outline,
+                              color: Colors.white,
+                            ),
+                            hintText: 'Email',
+                            hintStyle: TextStyle(color: Colors.white70)
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 20.0),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Container(
+                            decoration: parkBoxDecoration,
+                            height: 50,
+                            alignment: Alignment.centerLeft,
+                            child: TextFormField(
+                              validator: (val) => val.length < 6 ? "Enter a password 6+ chars long" : null,
+                              obscureText: true,
+                              onChanged: (val) {
+                                setState(() => password = val);
+                              },
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                contentPadding: EdgeInsets.only(top: 15.0),
+                                prefixIcon: Icon(
+                                  Icons.lock_outline,
+                                  color: Colors.white,
+                                ),
+                                hintText: 'Password',
+                                hintStyle: TextStyle(color: Colors.white70),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                      SizedBox(height: 20.0),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          Container(
+                            decoration: parkBoxDecoration,
+                            height: 50,
+                            alignment: Alignment.centerLeft,
+                            child: TextFormField(
+                              validator: (val) => val != password ? 'Passwords does not match': null,
+                              obscureText: true,
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                contentPadding: EdgeInsets.only(top:15.0),
+                                prefixIcon: Icon(
+                                  Icons.repeat,
+                                  color: Colors.white,
+                                ),
+                                hintText: 'Repeat password',
+                                hintStyle: TextStyle(color: Colors.white70)
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                      SizedBox(height: 20.0),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          Container(
+                            decoration: parkBoxDecoration,
+                            alignment: Alignment.centerLeft,
+                            height: 50.0,
+                            child: TextFormField(
+                              validator: (val) => val.length < 1 ? 'Your have to enter a name': null,
+                              onChanged: (val){
+                                setState(() => name = val);
+                              },
+                              style: TextStyle(
+                                color: Colors.white
+                              ),
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                contentPadding: EdgeInsets.only(top: 15.0),
+                                prefixIcon: Icon(
+                                  Icons.perm_identity,
+                                  color: Colors.white,
+                                ),
+                                hintText: 'Full name',
+                                hintStyle: TextStyle(color: Colors.white70)
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                      SizedBox(height: 10.0),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: <Widget>[
+                          Container(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Checkbox(
+                                  value: checkBox,
+                                  onChanged: (bool value){
+                                    setState(() {
+                                      checkBox = !checkBox;
+                                    });
+                                  },
+                                ),
+                                Text(
+                                  'I accept the tems and conditions',
+                                  style: TextStyle(
+                                    color: Colors.white70,
+                                    fontSize: 15.0
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 20.0),
+                      Container(
+                        padding: EdgeInsets.symmetric(vertical: 25),
+                        width: double.infinity,
+                        child: MaterialButton(
+                          color: Colors.white,
+                          elevation: 4.0,
+                          onPressed: ()async{
+                            if(_formKey.currentState.validate()){
+                              setState(() => loading = true);
+                              dynamic result = await _auth.registerWithEmailAndPassword(email,password);
+                              if(result == null){
+                                setState(() {
+                                  error = "Woop! Something went wrong, lets try again!";
+                                  loading = false;
+                                });
+                              }
+                            }
+                          },
+                          padding: EdgeInsets.all(15),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Text('REGISTER  ',
+                              style: TextStyle(
+                                color: Color(0xff207FC5),
+                                letterSpacing: 1.5,
+                                fontSize: 18.0
+                              ),
+                              ),
+                              Icon(
+                                Icons.person_add,
+                                color: Color(0xff207FC5),
+                              )
+                            ],
+                          ),
+                          shape: RoundedRectangleBorder(
+                            side: BorderSide(
+                              color: Colors.white,
+                            ),
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                        )
                       )
                     ],
-                  )
+                  ),
+                  SizedBox(height: 10.0),
+                  Text(
+                    error,
+                    style: TextStyle(color: Colors.red, fontSize: 16.0, fontWeight: FontWeight.bold),
+                  ),
+                  Container(
+                    padding: EdgeInsets.symmetric(vertical: 25),
+                    width: double.infinity,
+                    child: MaterialButton(
+                      color: Colors.transparent,
+                      elevation: 0.0,
+                      onPressed: (){
+                        widget.toggleView();
+                      },
+                      padding: EdgeInsets.all(15),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text('Already have an account? ',
+                            style: TextStyle(
+                                color: Colors.white,
+                                letterSpacing: 1.5,
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.w400
+                            ),
+                          ),
+                          Text('Sign In!',
+                            style: TextStyle(
+                                color: Colors.white,
+                                decoration: TextDecoration.underline,
+                                letterSpacing: 1.5,
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.bold
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),

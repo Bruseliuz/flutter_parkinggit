@@ -16,6 +16,7 @@ class DatabaseService{
       'parkering': parking,
       'name': name,
       'maxPrice': maxPrice,
+
     });
   }
 

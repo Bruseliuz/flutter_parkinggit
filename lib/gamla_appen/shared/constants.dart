@@ -27,4 +27,3 @@ final parkBoxDecoration = BoxDecoration(
     ]
 );
 
-final Color grey = Colors.white;

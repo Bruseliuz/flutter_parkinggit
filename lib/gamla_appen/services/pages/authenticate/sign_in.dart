@@ -247,12 +247,13 @@ class _SignInState extends State<SignIn> {
                                         fontWeight: FontWeight.w400
                                       ),
                                     ),
-                                    Text('Sign Up! ',
+                                    Text('Sign Up!',
                                       style: TextStyle(
-                                        color: Colors.white,
-                                        letterSpacing: 1.5,
-                                        fontSize: 18.0,
-                                        fontWeight: FontWeight.bold
+                                          color: Colors.white,
+                                          decoration: TextDecoration.underline,
+                                          letterSpacing: 1.5,
+                                          fontSize: 18.0,
+                                          fontWeight: FontWeight.bold
                                       ),
                                     ),
                                   ],
