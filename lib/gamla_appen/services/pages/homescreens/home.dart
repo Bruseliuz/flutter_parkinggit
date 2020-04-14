@@ -8,6 +8,7 @@ import 'package:flutterparkinggit/pages/settings.dart';
 import 'package:flutterparkinggit/pages/search.dart';
 import 'package:provider/provider.dart';
 import 'package:flutterparkinggit/map/map.dart';
+import 'package:flutterparkinggit/gamla_appen/services/pages/homescreens/settings_form.dart';
 
 
 class Home extends StatefulWidget {
@@ -25,7 +26,7 @@ class _HomeState extends State<Home> {
     Map(),
     Search(),
     ParkList(),
-    Settings(),
+    SettingsForm(),
   ];
 
   @override
