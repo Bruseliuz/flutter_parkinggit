@@ -4,7 +4,7 @@ import 'package:flutterparkinggit/gamla_appen/services/auth.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/database.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/search.dart';
 import 'package:provider/provider.dart';
-import 'package:flutterparkinggit/gamla_appen/services/pages/map.dart';
+import 'package:flutterparkinggit/gamla_appen/services/pages/map/map.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/homescreens/settings_form.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/parklist.dart';
 
