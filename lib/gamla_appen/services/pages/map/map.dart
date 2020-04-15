@@ -4,7 +4,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'dart:async';
 import 'package:flutterparkinggit/gamla_appen/services/parking_spot.dart';
-
+import 'package:flutterparkinggit/gamla_appen/shared/constants.dart';
 
 class Map extends StatefulWidget {
   @override
@@ -24,12 +24,66 @@ class _MapState extends State<Map> {
       allMarkers.add(Marker(
           markerId: MarkerId(element.streetName),
           draggable: false,
-          infoWindow: InfoWindow(
-              title: element.streetName, snippet: element.price),
+          onTap: (){
+            showDialog(context: context,builder: (_) => 
+                _alertDialogWidget(element)
+            );
+          },
+          /*infoWindow: InfoWindow(
+              title: element.streetName, snippet: element.price),*/
           position: element.locatinCoords
       ));
     });
 
+  }
+  
+  Widget _alertDialogWidget(element){
+    return AlertDialog(
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20)
+      ),
+      backgroundColor: Color(0xff207FC5),
+      title: Text(element.streetName,
+        style: TextStyle(
+            color: Colors.white
+        ),
+      ),
+      content: Container(
+        height: 140,
+        child: Column(
+          children: <Widget>[
+            Row(
+              children: <Widget>[
+                Text('Price: ',
+                  style: TextStyle(
+                      color: Colors.white
+                  ),
+                ),
+                Text(element.price,
+                  style: TextStyle(
+                      color: Colors.white
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                Text('Number of parking spots: ',
+                  style: TextStyle(
+                      color: Colors.white
+                  ),
+                ),
+                Text(element.parkingSpots,
+                  style: TextStyle(
+                      color: Colors.white
+                  ),
+                ),
+              ],
+            )
+          ],
+        ),
+      ),
+    );
   }
 
   Completer<GoogleMapController> _controller = Completer();
