@@ -262,7 +262,7 @@ class _SettingsFormState extends State<SettingsForm> {
           ),
           actions: <Widget>[
             FlatButton(
-              child: Text('OK'),
+              child: Text('OK', textScaleFactor: 1.5),
               onPressed: () {
                 Navigator.of(context).pop();
               },
