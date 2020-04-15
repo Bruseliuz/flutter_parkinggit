@@ -1,10 +1,10 @@
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
-import 'package:flutterparkinggit/pages/main_page.dart';
-import 'package:flutterparkinggit/user.dart';
+import 'package:flutterparkinggit/nya_appen/pages/main_page.dart';
+import 'package:flutterparkinggit/nya_appen/user.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutterparkinggit/constants.dart';
+import 'package:flutterparkinggit/nya_appen/constants.dart';
 
 
 class SignIn extends StatefulWidget {

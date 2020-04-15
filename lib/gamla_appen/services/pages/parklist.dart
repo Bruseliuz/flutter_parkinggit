@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutterparkinggit/map/location.dart';
+import 'package:flutterparkinggit/gamla_appen/services/pages//map/location.dart';
 
 class ParkList extends StatefulWidget {
   @override

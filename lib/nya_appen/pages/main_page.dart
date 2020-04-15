@@ -4,7 +4,7 @@ import 'package:flutterparkinggit/map/map.dart';
 import 'package:flutterparkinggit/pages/search.dart';
 import 'package:flutterparkinggit/pages/settings.dart';
 import 'package:flutterparkinggit/pages/parklist.dart';
-import 'package:flutterparkinggit/user.dart';
+import 'package:flutterparkinggit/nya_appen/user.dart';
 
 class MainPage extends StatefulWidget {
   MainPage(this.user);

@@ -27,3 +27,15 @@ final parkBoxDecoration = BoxDecoration(
     ]
 );
 
+final settingsDecoration = BoxDecoration(
+    color: Color(0xff5ca1d4),
+    borderRadius: BorderRadius.circular(18),
+    boxShadow: [
+      BoxShadow(
+          color: Colors.black12,
+          blurRadius: 5.0,
+          offset: Offset(0,2)
+      )
+    ]
+);
+
