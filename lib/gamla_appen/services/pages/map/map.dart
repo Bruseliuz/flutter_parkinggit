@@ -42,10 +42,10 @@ class _MapState extends State<Map> {
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20)
       ),
-      backgroundColor: Color(0xff207FC5),
+      backgroundColor: Colors.white,
       title: Text(element.streetName,
         style: TextStyle(
-            color: Colors.white
+            color: Color(0xff207FC5)
         ),
       ),
       content: Container(
@@ -56,12 +56,12 @@ class _MapState extends State<Map> {
               children: <Widget>[
                 Text('Price: ',
                   style: TextStyle(
-                      color: Colors.white
+                      color: Color(0xff207FC5)
                   ),
                 ),
                 Text(element.price,
                   style: TextStyle(
-                      color: Colors.white
+                      color: Color(0xff207FC5)
                   ),
                 ),
               ],
@@ -70,12 +70,12 @@ class _MapState extends State<Map> {
               children: <Widget>[
                 Text('Number of parking spots: ',
                   style: TextStyle(
-                      color: Colors.white
+                      color: Color(0xff207FC5)
                   ),
                 ),
                 Text(element.parkingSpots,
                   style: TextStyle(
-                      color: Colors.white
+                      color: Color(0xff207FC5)
                   ),
                 ),
               ],
