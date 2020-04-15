@@ -4,6 +4,7 @@ import 'package:flutterparkinggit/gamla_appen/services/pages/database.dart';
 import 'package:flutterparkinggit/gamla_appen/shared/constants.dart';
 import 'package:provider/provider.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/homescreens/setting_anon.dart';
+import 'package:flutterparkinggit/gamla_appen/services/pages/homescreens/home.dart';
 
 
 
@@ -24,7 +25,7 @@ class _SettingsFormState extends State<SettingsForm> {
 
   String _currentName;
   String _currentParking;
-  int _currentMaxPrice;
+  int _currentMaxPrice = 50;
 
   @override
   Widget build(BuildContext context) {
@@ -94,7 +95,13 @@ class _SettingsFormState extends State<SettingsForm> {
                                       style: TextStyle(color: Color(0xff207FC5)),),
                                     );
                                   }).toList(),
-                                  onChanged: (val) => setState(() => _currentParking = val) //TODO - plockar den upp svaret?
+                                  onChanged: (val) {
+                                    setState(() {
+                                      _currentParking = val;
+
+                                    });
+                                    print(_currentParking);
+                                  }/*=> setState(() => _currentParking = val)*/ //TODO - plockar den upp svaret?
                               ),
                             ),
                             SizedBox(height: 30.0),
@@ -149,7 +156,7 @@ class _SettingsFormState extends State<SettingsForm> {
                                         _currentName ?? userData.name,
                                         _currentMaxPrice ?? userData.maxPrice
                                     );
-                                    Navigator.pop(context);
+                                    Navigator.of(context).push(_createRoute());
                                     print(userData.parking);
                                   }
                                 },
@@ -234,6 +241,24 @@ class _SettingsFormState extends State<SettingsForm> {
           return settings_form_anon();
         }
       }
+    );
+  }
+
+  Route _createRoute() {
+    return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => Home(),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        var begin = Offset(0.0, -1.0);
+        var end = Offset.zero;
+        var curve = Curves.ease;
+
+        var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+        return SlideTransition(
+          position: animation.drive(tween),
+          child: child,
+        );
+      },
     );
   }
 }
