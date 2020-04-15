@@ -14,8 +14,7 @@ class Map extends StatefulWidget {
 class _MapState extends State<Map> {
 
   Location _locationTracker = Location();
-  List <Marker> allMarkers = [];
-
+  List <Marker> allMarkers = [];//TODO - 3 Lists
   @override
   void initState(){
     super.initState();
