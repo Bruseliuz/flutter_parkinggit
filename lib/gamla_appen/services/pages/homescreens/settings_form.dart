@@ -61,13 +61,13 @@ class _SettingsFormState extends State<SettingsForm> {
                                   border: InputBorder.none,
                                     prefixIcon: Icon(
                                     Icons.perm_identity,
-                                    color: Colors.white,
+                                    color: Color(0xff207FC5),
                                   )
                                 ),
                                 validator: (val) => val.isEmpty ? 'Please enter a name' : null,
                                 onChanged: (val) => setState(() => _currentName = val),
                                 style: TextStyle(
-                                  color: Colors.white70
+                                  color: Color(0xff207FC5)
                                 ),
                               ),
                             ),
@@ -76,25 +76,27 @@ class _SettingsFormState extends State<SettingsForm> {
                             Container(
                               decoration: settingsDecoration,
                               child: DropdownButtonFormField(//TODO - Visa det valda maxpriset
-                                decoration: InputDecoration(
+                                iconEnabledColor: Color(0xff207FC5),
+                                  decoration: InputDecoration(
                                   contentPadding: EdgeInsets.all(15),
                                   border: InputBorder.none,
                                   prefixIcon: Icon(
-                                    Icons.directions_car, color: Colors.white,
+                                    Icons.directions_car, color: Color(0xff207FC5),
                                   )
                                 ),
+
                                   value: userData.parking ?? _currentParking ,
                                   items: parkingType.map((parking){
                                     return DropdownMenuItem(
                                       value: parking,
                                       child: Text('$parking',
-                                      style: TextStyle(color: Colors.white),),
+                                      style: TextStyle(color: Color(0xff207FC5)),),
                                     );
                                   }).toList(),
                                   onChanged: (val) => setState(() => _currentParking = val) //TODO - plockar den upp svaret?
                               ),
                             ),
-                            SizedBox(height: 20.0),
+                            SizedBox(height: 30.0),
                             Text(
                                 'Chosen max price: $_currentMaxPrice kr / hour', //TODO - Visa det valda maxpriset (userData.maxPrice)
                                 style: TextStyle(
@@ -102,9 +104,10 @@ class _SettingsFormState extends State<SettingsForm> {
                                   fontSize: 18,
                                 )
                             ),
+                            SizedBox(height: 20.0),
                             Slider(
-                              activeColor: Colors.lightBlue[100],
-                              inactiveColor: Colors.white,
+                              activeColor: Colors.white,
+                              inactiveColor: Colors.white70,
                               value: (_currentMaxPrice ?? userData.maxPrice).toDouble(),
                               min: 10,
                               max: 90,

@@ -28,7 +28,7 @@ final parkBoxDecoration = BoxDecoration(
 );
 
 final settingsDecoration = BoxDecoration(
-    color: Color(0xff5ca1d4),
+    color: Colors.white70,
     borderRadius: BorderRadius.circular(18),
     boxShadow: [
       BoxShadow(
