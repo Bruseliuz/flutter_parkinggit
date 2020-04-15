@@ -15,6 +15,7 @@ class _ParkListState extends State<ParkList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Color(0xff207FC5),
         title: const Text("Availabe parking areas nearby"),
       ),
       body: ListView.builder(
@@ -49,6 +50,7 @@ class _ParkListState extends State<ParkList> {
     Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
       return Scaffold(
         appBar: AppBar(
+          backgroundColor: Color(0xff207FC5),
           title: const Text('Available parking lots in this area'),
         ),
         body: ListView.builder(

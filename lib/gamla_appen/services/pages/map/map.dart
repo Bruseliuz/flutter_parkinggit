@@ -23,6 +23,7 @@ class _MapState extends State<Map> {
     parkingSpots.forEach((element) {
       allMarkers.add(Marker(
           markerId: MarkerId(element.streetName),
+          icon: BitmapDescriptor.defaultMarker, //TODO - Custom marker
           draggable: false,
           onTap: (){
             showDialog(context: context,builder: (_) => 
@@ -39,13 +40,15 @@ class _MapState extends State<Map> {
   
   Widget _alertDialogWidget(element){
     return AlertDialog(
+      elevation: 3.0,
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20)
       ),
       backgroundColor: Colors.white,
       title: Text(element.streetName,
         style: TextStyle(
-            color: Color(0xff207FC5)
+            color: Color(0xff207FC5),
+            fontWeight: FontWeight.bold
         ),
       ),
       content: Container(
@@ -54,7 +57,11 @@ class _MapState extends State<Map> {
           children: <Widget>[
             Row(
               children: <Widget>[
-                Text('Price: ',
+                Icon(
+                  Icons.attach_money,
+                  color: Color(0xff207FC5),
+                ),
+                Text('Price per hours: ',
                   style: TextStyle(
                       color: Color(0xff207FC5)
                   ),
@@ -68,7 +75,29 @@ class _MapState extends State<Map> {
             ),
             Row(
               children: <Widget>[
+                Icon(
+                  Icons.directions_car,
+                  color: Color(0xff207FC5),
+                ),
                 Text('Number of parking spots: ',
+                  style: TextStyle(
+                      color: Color(0xff207FC5)
+                  ),
+                ),
+                Text(element.parkingSpots,
+                  style: TextStyle(
+                      color: Color(0xff207FC5)
+                  ),
+                ),
+              ],
+            ),
+            Row(
+              children: <Widget>[
+                Icon(
+                  Icons.local_car_wash,
+                  color: Colors.green,
+                ),
+                Text('Available parking spots: ',
                   style: TextStyle(
                       color: Color(0xff207FC5)
                   ),
