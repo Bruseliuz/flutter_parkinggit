@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'dart:async';
+import 'package:flutterparkinggit/gamla_appen/services/parking_spot.dart';
 
 
 class Map extends StatefulWidget {
@@ -18,7 +19,7 @@ class _MapState extends State<Map> {
   @override
   void initState(){
     super.initState();
-/*
+
     parkingSpots.forEach((element) {
       allMarkers.add(Marker(
           markerId: MarkerId(element.streetName),
@@ -28,11 +29,11 @@ class _MapState extends State<Map> {
           position: element.locatinCoords
       ));
     });
-*/
+
   }
 
   Completer<GoogleMapController> _controller = Completer();
-  static LatLng _center =  LatLng(59.334591,  18.063240);
+  static LatLng _center =  LatLng(59.334591, 18.063240);
 
   void _onMapCreated(GoogleMapController controller){
     _controller.complete(controller);
@@ -76,7 +77,7 @@ class _MapState extends State<Map> {
             ),
             backgroundColor: Color(0xff207FC5),
             onPressed: () {
-              Navigator.pushNamed(context, '/startParking');
+              getCurrentLocation();
             },
           ),
       );

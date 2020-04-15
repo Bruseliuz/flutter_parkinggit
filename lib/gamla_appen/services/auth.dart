@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutterparkinggit/gamla_appen/models/user.dart';
-import 'package:flutterparkinggit/gamla_appen/services/database.dart';
+import 'package:flutterparkinggit/gamla_appen/services/pages/database.dart';
 
 class AuthService{
 
