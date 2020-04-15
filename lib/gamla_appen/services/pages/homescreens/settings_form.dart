@@ -98,7 +98,6 @@ class _SettingsFormState extends State<SettingsForm> {
                                   onChanged: (val) {
                                     setState(() {
                                       _currentParking = val;
-
                                     });
                                     print(_currentParking);
                                   }/*=> setState(() => _currentParking = val)*/ //TODO - plockar den upp svaret?
@@ -156,7 +155,7 @@ class _SettingsFormState extends State<SettingsForm> {
                                         _currentName ?? userData.name,
                                         _currentMaxPrice ?? userData.maxPrice
                                     );
-                                    Navigator.of(context).push(_createRoute());
+                                    _neverSatisfied();
                                     print(userData.parking);
                                   }
                                 },
@@ -244,19 +243,32 @@ class _SettingsFormState extends State<SettingsForm> {
     );
   }
 
-  Route _createRoute() {
-    return PageRouteBuilder(
-      pageBuilder: (context, animation, secondaryAnimation) => Home(),
-      transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        var begin = Offset(0.0, -1.0);
-        var end = Offset.zero;
-        var curve = Curves.ease;
-
-        var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-
-        return SlideTransition(
-          position: animation.drive(tween),
-          child: child,
+  Future<void> _neverSatisfied() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Youre settings have been saved.'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Container(
+                  margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
+                ),
+                Icon(Icons.check_circle_outline, size: 50),
+                //Text('You\’re like me. I’m never satisfied.'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
         );
       },
     );
