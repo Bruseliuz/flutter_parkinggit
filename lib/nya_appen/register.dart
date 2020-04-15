@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterparkinggit/nya_appen/constants.dart';
+import 'package:flutterparkinggit/nya_appen/sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -289,7 +290,7 @@ class _RegisterState extends State<Register> {
   }
   Widget alreadyHaveAccountWidget(){
     return GestureDetector(
-      onTap: () => Navigator.pushReplacementNamed(context, '/signIn'),
+      onTap: () => Navigator.of(context).push(_createRoute()),
       child: RichText(
         text: TextSpan(
           children: [
@@ -459,5 +460,23 @@ class _RegisterState extends State<Register> {
       print("email existerar redan");
       //TODO Lägga till varning om att email redan är registrerad
     }
+  }
+
+  Route _createRoute() {
+    return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => SignIn(),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        var begin = Offset(0.0, -1.0);
+        var end = Offset.zero;
+        var curve = Curves.ease;
+
+        var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+        return SlideTransition(
+          position: animation.drive(tween),
+          child: child,
+        );
+      },
+    );
   }
 }

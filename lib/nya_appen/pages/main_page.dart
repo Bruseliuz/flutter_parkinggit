@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutterparkinggit/map/map.dart';
-import 'package:flutterparkinggit/pages/search.dart';
-import 'package:flutterparkinggit/pages/settings.dart';
-import 'package:flutterparkinggit/pages/parklist.dart';
+import 'package:flutterparkinggit/gamla_appen/services/pages/map/map.dart';
+import 'package:flutterparkinggit/gamla_appen/services/pages/search.dart';
+import 'package:flutterparkinggit/gamla_appen/services/pages/homescreens/settings_form.dart';
+import 'package:flutterparkinggit/gamla_appen/services/pages/parklist.dart';
 import 'package:flutterparkinggit/nya_appen/user.dart';
 
 class MainPage extends StatefulWidget {
@@ -31,7 +31,7 @@ class _MainPageState extends State<MainPage> {
     Map(),
     Search(),
     ParkList(),
-    Settings(),
+    SettingsForm(),
   ];
 
   @override
