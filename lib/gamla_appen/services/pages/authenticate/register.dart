@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutterparkinggit/gamla_appen/shared/loading.dart';
 import 'package:flutterparkinggit/gamla_appen/services/auth.dart';
 import 'package:flutterparkinggit/gamla_appen/shared/constants.dart';
+import 'package:flutterparkinggit/gamla_appen/services/pages/authenticate/sign_in.dart';
 
 
 class Register extends StatefulWidget {
@@ -276,7 +277,7 @@ class _RegisterState extends State<Register> {
                       color: Colors.transparent,
                       elevation: 0.0,
                       onPressed: (){
-                        widget.toggleView();
+                        Navigator.of(context).push(_createRoute());
                       },
                       padding: EdgeInsets.all(15),
                       child: Row(
@@ -418,5 +419,23 @@ class _RegisterState extends State<Register> {
         ),
       ),
     */
+  }
+
+  Route _createRoute() {
+    return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => SignIn(),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        var begin = Offset(0.0, -1.0);
+        var end = Offset.zero;
+        var curve = Curves.ease;
+
+        var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+        return SlideTransition(
+          position: animation.drive(tween),
+          child: child,
+        );
+      },
+    );
   }
 }

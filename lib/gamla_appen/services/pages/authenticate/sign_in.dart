@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutterparkinggit/gamla_appen/services/auth.dart';
 import 'package:flutterparkinggit/gamla_appen/shared/constants.dart';
 import 'package:flutterparkinggit/gamla_appen/shared/loading.dart';
+import 'package:flutterparkinggit/gamla_appen/services/pages/authenticate/register.dart';
 import 'package:flutterparkinggit/gamla_appen/shared/constants.dart';
 
 
@@ -32,41 +33,41 @@ class _SignInState extends State<SignIn> {
       body: Stack(
         children: <Widget>[
           Form(
-        key: _formKey,
+            key: _formKey,
             child: Container(
               decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    Color(0xff207FC5),
-                    Color(0xff348aca),
-                    Color(0xff4896cf),
-                    Color(0xff5ca1d4)
-                  ],
-                  stops: [0.1,0.4,0.7,0.9],
-                )
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Color(0xff207FC5),
+                      Color(0xff348aca),
+                      Color(0xff4896cf),
+                      Color(0xff5ca1d4)
+                    ],
+                    stops: [0.1,0.4,0.7,0.9],
+                  )
               ),
             ),
           ),
           Container(
-            height: double.infinity,
-            child: SingleChildScrollView(
-              physics: AlwaysScrollableScrollPhysics(),
-              padding: EdgeInsets.symmetric(
-                horizontal: 40.0,
-                vertical: 120.0,
-              ),
+              height: double.infinity,
+              child: SingleChildScrollView(
+                physics: AlwaysScrollableScrollPhysics(),
+                padding: EdgeInsets.symmetric(
+                  horizontal: 40.0,
+                  vertical: 120.0,
+                ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Text('PARK´N',
-                    style: TextStyle(
-                      decoration: TextDecoration.underline,
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold
-                    ),
+                      style: TextStyle(
+                          decoration: TextDecoration.underline,
+                          color: Colors.white,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold
+                      ),
                     ),
                     Text(
                       'STOCKHOLM',
@@ -92,19 +93,19 @@ class _SignInState extends State<SignIn> {
                             },
                             keyboardType: TextInputType.emailAddress,
                             style: TextStyle(
-                              color: Colors.white
+                                color: Colors.white
                             ),
                             decoration: InputDecoration(
-                              border: InputBorder.none,
-                              contentPadding: EdgeInsets.only(top: 15),
-                              prefixIcon: Icon(
+                                border: InputBorder.none,
+                                contentPadding: EdgeInsets.only(top: 15),
+                                prefixIcon: Icon(
                                   Icons.mail_outline,
-                              color: Colors.white,
-                              ),
-                              hintText: 'Email',
-                              hintStyle: TextStyle(
-                                  color: Colors.white70
-                              )
+                                  color: Colors.white,
+                                ),
+                                hintText: 'Email',
+                                hintStyle: TextStyle(
+                                    color: Colors.white70
+                                )
                             ),
                           ),
                         ),
@@ -123,17 +124,17 @@ class _SignInState extends State<SignIn> {
                                 },
                                 obscureText: true,
                                 style: TextStyle(
-                                  color: Colors.white
+                                    color: Colors.white
                                 ),
                                 decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  contentPadding: EdgeInsets.only(top:15),
-                                  prefixIcon: Icon(
-                                    Icons.lock_outline,
-                                    color: Colors.white,
-                                  ),
-                                  hintText: 'Password',
-                                  hintStyle: TextStyle(color: Colors.white70)
+                                    border: InputBorder.none,
+                                    contentPadding: EdgeInsets.only(top:15),
+                                    prefixIcon: Icon(
+                                      Icons.lock_outline,
+                                      color: Colors.white,
+                                    ),
+                                    hintText: 'Password',
+                                    hintStyle: TextStyle(color: Colors.white70)
                                 ),
                               ),
                             ),
@@ -161,20 +162,20 @@ class _SignInState extends State<SignIn> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: <Widget>[
                                     Text('LOGIN',
-                                    style: TextStyle(
-                                    color: Color(0xff207FC5),
-                                      letterSpacing: 1.5,
-                                      fontSize: 18.0,
-                                    ),
+                                      style: TextStyle(
+                                        color: Color(0xff207FC5),
+                                        letterSpacing: 1.5,
+                                        fontSize: 18.0,
+                                      ),
                                     ),
                                     Icon(Icons.time_to_leave, color: Color(0xff207FC5))
                                   ],
                                 ),
                                 shape: RoundedRectangleBorder(
-                                  side: BorderSide(
-                                    color: Colors.white
-                                  ),
-                                  borderRadius: BorderRadius.circular(30)
+                                    side: BorderSide(
+                                        color: Colors.white
+                                    ),
+                                    borderRadius: BorderRadius.circular(30)
                                 ),
                               ),
                             ),
@@ -183,10 +184,10 @@ class _SignInState extends State<SignIn> {
                               children: <Widget>[
                                 SizedBox(width: 400.0),
                                 Text('- OR -',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold
-                                ),
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold
+                                  ),
                                 ),
                                 Text('Sign in with',
                                   style: TextStyle(
@@ -210,19 +211,19 @@ class _SignInState extends State<SignIn> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: <Widget>[
                                     Text('facebook',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      letterSpacing: 1.5,
-                                      fontSize: 18.0
-                                    ),
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          letterSpacing: 1.5,
+                                          fontSize: 18.0
+                                      ),
                                     ),
                                   ],
                                 ),
                                 shape: RoundedRectangleBorder(
-                                  side: BorderSide(
-                                    color: Color(0xff3b5998)
-                                  ),
-                                  borderRadius: BorderRadius.circular(30)
+                                    side: BorderSide(
+                                        color: Color(0xff3b5998)
+                                    ),
+                                    borderRadius: BorderRadius.circular(30)
                                 ),
                               ),
                             ),
@@ -263,7 +264,7 @@ class _SignInState extends State<SignIn> {
                                 color: Colors.transparent,
                                 elevation: 0.0,
                                 onPressed: (){
-                                  widget.toggleView();
+                                  Navigator.of(context).push(_createRoute());
                                 },
                                 padding: EdgeInsets.all(15),
                                 child: Row(
@@ -271,10 +272,10 @@ class _SignInState extends State<SignIn> {
                                   children: <Widget>[
                                     Text('No account? ',
                                       style: TextStyle(
-                                        color: Colors.white,
-                                        letterSpacing: 1.5,
-                                        fontSize: 18.0,
-                                        fontWeight: FontWeight.w400
+                                          color: Colors.white,
+                                          letterSpacing: 1.5,
+                                          fontSize: 18.0,
+                                          fontWeight: FontWeight.w400
                                       ),
                                     ),
                                     Text('Sign Up!',
@@ -288,8 +289,8 @@ class _SignInState extends State<SignIn> {
                                     ),
                                   ],
                                 ),
-                                ),
                               ),
+                            ),
                           ],
                         )
                       ],
@@ -308,7 +309,7 @@ class _SignInState extends State<SignIn> {
 
 
 
-     /* backgroundColor: Colors.lightBlue[100],
+    /* backgroundColor: Colors.lightBlue[100],
       appBar: AppBar(
         backgroundColor: Colors.lightBlue[400],
         elevation: 3.0,
@@ -436,5 +437,22 @@ class _SignInState extends State<SignIn> {
         ),
       ),
     */
+  }
+  Route _createRoute() {
+    return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => Register(),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        var begin = Offset(0.0, 1.0);
+        var end = Offset.zero;
+        var curve = Curves.ease;
+
+        var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+        return SlideTransition(
+          position: animation.drive(tween),
+          child: child,
+        );
+      },
+    );
   }
 }
