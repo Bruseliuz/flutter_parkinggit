@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutterparkinggit/gamla_appen/services/database.dart';
+import 'package:flutterparkinggit/gamla_appen/services/pages/database.dart';
 
 class Settings extends StatefulWidget {
   @override

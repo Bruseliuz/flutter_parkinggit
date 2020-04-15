@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutterparkinggit/nya_appen/pages/main_page.dart';
+import 'package:flutterparkinggit/nya_appen/register.dart';
 import 'package:flutterparkinggit/nya_appen/user.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -237,7 +238,7 @@ class _SignInState extends State<SignIn> {
   }
   Widget signUpButton() {
     return GestureDetector(
-        onTap: () => Navigator.pushReplacementNamed(context, '/register'),
+        onTap: () => Navigator.of(context).push(_createRoute()),
         child: RichText(
           text: TextSpan(
             children: [
@@ -289,6 +290,24 @@ class _SignInState extends State<SignIn> {
     String email = getResponseData['email'].toString();
     User newUser = new User(name, email, false);
     signIn(newUser);
+  }
+
+  Route _createRoute() {
+    return PageRouteBuilder(
+      pageBuilder: (context, animation, secondaryAnimation) => SignIn(),
+      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+        var begin = Offset(0.0, 1.0);
+        var end = Offset.zero;
+        var curve = Curves.ease;
+
+        var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+        return SlideTransition(
+          position: animation.drive(tween),
+          child: child,
+        );
+      },
+    );
   }
 }
 
