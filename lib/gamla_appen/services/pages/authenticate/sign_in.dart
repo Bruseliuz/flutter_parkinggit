@@ -203,8 +203,21 @@ class _SignInState extends State<SignIn> {
                               child: MaterialButton(
                                 color: Color(0xff3b5998),
                                 elevation: 4.0,
-                                onPressed: () {
-                                  print('facebook login');
+                                onPressed: ()
+//                                {
+//                                  print("facebook login");
+//                                },
+                                async{
+                                  if(_formKey.currentState.validate()){
+                                    setState(() => loading = true);
+                                    dynamic result = await _auth.handleFacebookSignIn();
+                                    if(result == null){
+                                      setState(() {
+                                        error = "That is not a registered user";
+                                        loading = false;
+                                      });
+                                    }
+                                  }
                                 },
                                 padding: EdgeInsets.all(15),
                                 child: Row(
