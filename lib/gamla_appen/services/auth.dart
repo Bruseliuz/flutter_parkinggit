@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutterparkinggit/gamla_appen/models/user.dart';
-import 'package:flutterparkinggit/gamla_appen/services/database.dart';
+import 'package:flutterparkinggit/gamla_appen/services/pages/database.dart';
 
 class AuthService{
 
@@ -29,6 +29,7 @@ class AuthService{
       return null;
     }
   }
+
   //sign in email & password
   Future singInWithEmailAndPassword(String email, String password) async{
     try{
@@ -47,7 +48,7 @@ class AuthService{
       AuthResult result = await _auth.createUserWithEmailAndPassword(email: email, password: password);
       FirebaseUser user = result.user;
       //create a new document for the user with the uid
-      await DatabaseService(uid: user.uid).updateUserData('-', 'New User', 100);
+      await DatabaseService(uid: user.uid).updateUserData('none', 'New User', 100);
       return _userFromFirebaseUser(user);
     }catch(e){
       print(e.toString());
@@ -57,7 +58,7 @@ class AuthService{
 
 
   //sign out
-  Future singOut() async{
+  Future signOut() async{
     try{
       return await _auth.signOut();
     }catch(e){

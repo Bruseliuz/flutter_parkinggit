@@ -19,15 +19,15 @@ void getData() async {
   Map data = jsonDecode(response.body);
 
   print(data);
-  print('HÄÄÄÄÄÄÄÄÄÄÄRRRRRR');
+
   //TODO - ta in data och gör om till en List
 }
 
 
 final List<ParkingSpot> parkingSpots = [
   ParkingSpot(
-    streetName: "Hemma hos martin & bea",
-    price: "2 650 000",
+    streetName: "Bårdgränd 16",
+    price: "21",
     parkingSpots: "10",
     availableParkingSpots: "5",
     locatinCoords: LatLng(59.338871, 17.930309)

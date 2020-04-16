@@ -1,37 +1,50 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutterparkinggit/map/map.dart';
-import 'package:flutterparkinggit/pages/search.dart';
-import 'package:flutterparkinggit/pages/settings.dart';
-import 'package:flutterparkinggit/pages/list.dart';
+import 'package:flutterparkinggit/gamla_appen/services/pages/map/map.dart';
+import 'package:flutterparkinggit/gamla_appen/services/pages/favorites.dart';
+import 'package:flutterparkinggit/gamla_appen/services/pages/homescreens/settings_form.dart';
+import 'package:flutterparkinggit/gamla_appen/services/pages/parklist.dart';
+import 'package:flutterparkinggit/nya_appen/user.dart';
 
 class MainPage extends StatefulWidget {
+  MainPage(this.user);
+  final User user;
   @override
-  _MainPageState createState() => _MainPageState();
+  _MainPageState createState() => _MainPageState(user);
 
 
 }
 
 class _MainPageState extends State<MainPage> {
 
+  _MainPageState(this.user);
+  final User user;
+
+  @override
+  void initState() {
+    print(user.toString());
+    super.initState();
+
+  }
   int _currentIndex = 0;
   final tabs = [
     Map(),
-    Search(),
-    List(),
-    Settings(),
+    Favorites(),
+    ParkList(),
+    SettingsForm(),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         elevation: 3.0,
         backgroundColor: Color(0xff207FC5),
         title: Text(
-          'ParkApp',
+          'PARK´N STOCKHOLM',
           style: TextStyle(
-            fontSize: 25.0,
+            fontSize: 18.0,
           ),
         ),
         actions: <Widget>[

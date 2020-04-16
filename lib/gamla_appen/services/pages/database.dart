@@ -16,6 +16,13 @@ class DatabaseService{
       'parkering': parking,
       'name': name,
       'maxPrice': maxPrice,
+
+    });
+  }
+
+  Future updateParkingPref(String parking) async {
+    return await parkCollection.document(uid).setData({
+      'parkering': parking
     });
   }
 

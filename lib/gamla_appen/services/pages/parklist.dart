@@ -1,13 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutterparkinggit/map/location.dart';
+import 'package:flutterparkinggit/gamla_appen/services/pages//map/location.dart';
 
-class List extends StatefulWidget {
+class ParkList extends StatefulWidget {
   @override
-  _ListState createState() => _ListState();
+  _ParkListState createState() => _ParkListState();
 }
 
-class _ListState extends State<List> {
+class _ParkListState extends State<ParkList> {
   ParkingAreasList _parkingAreasList = new ParkingAreasList();
   ParkingLotsList _parkingLotsList = new ParkingLotsList();
 
@@ -15,6 +15,7 @@ class _ListState extends State<List> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Color(0xff207FC5),
         title: const Text("Availabe parking areas nearby"),
       ),
       body: ListView.builder(
@@ -49,6 +50,7 @@ class _ListState extends State<List> {
     Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
       return Scaffold(
         appBar: AppBar(
+          backgroundColor: Color(0xff207FC5),
           title: const Text('Available parking lots in this area'),
         ),
         body: ListView.builder(
