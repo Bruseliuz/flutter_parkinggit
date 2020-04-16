@@ -7,7 +7,7 @@
     <item>
         <bitmap
             android:gravity="center"
-            android:src="@android:drawable/checkbox_off_background"/>
+            android:src="@android:drawable/btn_star_big_on"/>
     </item>
 
 </layer-list>

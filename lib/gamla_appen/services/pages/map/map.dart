@@ -144,6 +144,8 @@ class _MapState extends State<Map> {
     return  Scaffold(
       body: Container(
         child: GoogleMap(
+          myLocationButtonEnabled: false,
+          mapToolbarEnabled: false,
           onMapCreated: _onMapCreated,
           initialCameraPosition: CameraPosition(
             target: _center,
@@ -154,14 +156,17 @@ class _MapState extends State<Map> {
       ),
       floatingActionButton:
           FloatingActionButton(
-            elevation: 3.0,
-            child: Icon(Icons.my_location,
+
+            elevation: 4.0,
+            child: Image.asset(
+                "assets/circle-cropped.png"
             ),
             backgroundColor: Color(0xff207FC5),
             onPressed: () {
               getCurrentLocation();
             },
           ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       );
   }
 }
