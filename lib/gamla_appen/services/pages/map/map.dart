@@ -5,6 +5,10 @@ import 'package:location/location.dart';
 import 'dart:async';
 import 'package:flutterparkinggit/gamla_appen/services/parking_spot.dart';
 import 'package:flutterparkinggit/gamla_appen/shared/constants.dart';
+import 'package:http/http.dart';
+import 'dart:convert';
+
+
 
 class Map extends StatefulWidget {
   @override
@@ -14,18 +18,21 @@ class Map extends StatefulWidget {
 class _MapState extends State<Map> {
 
   Location _locationTracker = Location();
-  List <Marker> allMarkers = [];//TODO - 3 Lists
+  List <Marker> allMarkers = []; //TODO - 3 Lists
+  LocationData newLocation;
+
   @override
-  void initState(){
+  void initState() {
     super.initState();
 
     parkingSpots.forEach((element) {
       allMarkers.add(Marker(
           markerId: MarkerId(element.streetName),
-          icon: BitmapDescriptor.defaultMarker, //TODO - Custom marker
+          icon: BitmapDescriptor.defaultMarker,
+          //TODO - Custom marker
           draggable: false,
-          onTap: (){
-            showDialog(context: context,builder: (_) => 
+          onTap: () {
+            showDialog(context: context, builder: (_) =>
                 _alertDialogWidget(element)
             );
           },
@@ -34,10 +41,9 @@ class _MapState extends State<Map> {
           position: element.locatinCoords
       ));
     });
-
   }
-  
-  Widget _alertDialogWidget(element){
+
+  Widget _alertDialogWidget(element) {
     return AlertDialog(
       elevation: 3.0,
       shape: RoundedRectangleBorder(
@@ -120,11 +126,11 @@ class _MapState extends State<Map> {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20)
               ),
-              onPressed: (){
+              onPressed: () {
                 Navigator.of(context).pop();
               },
               icon: Icon(Icons.check_circle_outline, color: Color(0xff207FC5),),
-              label: Text('OK',style: TextStyle(color: Color(0xff207FC5)),
+              label: Text('OK', style: TextStyle(color: Color(0xff207FC5)),
               ),
             ),
           ],
@@ -134,9 +140,9 @@ class _MapState extends State<Map> {
   }
 
   Completer<GoogleMapController> _controller = Completer();
-  static LatLng _center =  LatLng(59.334591, 18.063240);
+  static LatLng _center = LatLng(59.334591, 18.063240);
 
-  void _onMapCreated(GoogleMapController controller){
+  void _onMapCreated(GoogleMapController controller) {
     _controller.complete(controller);
   }
 
@@ -144,6 +150,7 @@ class _MapState extends State<Map> {
     var location = await _locationTracker.getLocation();
     setLocation(location);
   }
+
 
   void setLocation(LocationData location) async {
     LatLng newLocation = LatLng(location.latitude, location.longitude);
@@ -158,38 +165,41 @@ class _MapState extends State<Map> {
   }
 
 
-  @override
-  Widget build(BuildContext context) {
-    return  Scaffold(
-      body: Container(
-        child: GoogleMap(
-          myLocationButtonEnabled: false,
-          mapToolbarEnabled: false,
-          onMapCreated: _onMapCreated,
-          initialCameraPosition: CameraPosition(
-            target: _center,
-            zoom: 12.0,
-          ),
-          markers: Set.from(allMarkers),
-        ),
-      ),
-      floatingActionButton:
-          FloatingActionButton(
-
-            elevation: 4.0,
-            child: Image.asset(
-                "assets/circle-cropped.png"
-            ),
-            backgroundColor: Color(0xff207FC5),
-            onPressed: () {
-              getCurrentLocation();
-            },
-          ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      );
+  void getData() async {
+    Response response = await get(
+        'https://openparking.stockholm.se/LTF-Tolken/v1/ptillaten/within?radius=100&lat=${newLocation.latitude.toString()},lng=${newLocation.longitude.toString()}&outputFormat=json&apiKey=e734eaa7-d9b5-422a-9521-844554d9965b');
+    Map data = jsonDecode(response.body);
+    print('HÄRRRRRRRRRRÄRÄRÄRÄRÄRÄRÄRÄÄRÄR');
+    print(data);
   }
-}
-      /*Column(mainAxisAlignment: MainAxisAlignment.end, children: [
+    @override
+    Widget build(BuildContext context) {
+      return Scaffold(
+        body: Container(
+          child: GoogleMap(
+            onMapCreated: _onMapCreated,
+            initialCameraPosition: CameraPosition(
+              target: _center,
+              zoom: 12.0,
+            ),
+            markers: Set.from(allMarkers),
+          ),
+        ),
+        floatingActionButton:
+        FloatingActionButton(
+          elevation: 3.0,
+          child: Icon(Icons.my_location,
+          ),
+          backgroundColor: Color(0xff207FC5),
+          onPressed: () {
+            getCurrentLocation();
+            getData();
+          },
+        ),
+      );
+    }
+  }
+/*Column(mainAxisAlignment: MainAxisAlignment.end, children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
