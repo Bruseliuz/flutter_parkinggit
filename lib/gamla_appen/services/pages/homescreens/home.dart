@@ -80,8 +80,8 @@ class _HomeState extends State<Home> {
                   backgroundColor: Color(0xff207FC5),
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.search),
-                  title: Text('Search'),
+                  icon: Icon(Icons.favorite),
+                  title: Text('Favorites'),
                   backgroundColor: Color(0xff207FC5),
                 ),
                 BottomNavigationBarItem(
