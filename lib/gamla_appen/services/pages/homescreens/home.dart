@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterparkinggit/gamla_appen/services/auth.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/database.dart';
-import 'package:flutterparkinggit/gamla_appen/services/pages/search.dart';
+import 'package:flutterparkinggit/gamla_appen/services/pages/favorites.dart';
 import 'package:provider/provider.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/map/map.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/homescreens/settings_form.dart';
@@ -20,7 +20,7 @@ class _HomeState extends State<Home> {
   int _currentIndex = 0;
   final tabs = [
     Map(),
-    Search(),
+    Favorites(),
     ParkList(),
     SettingsForm(),
   ];
@@ -94,8 +94,9 @@ class _HomeState extends State<Home> {
                   backgroundColor: Color(0xff207FC5),
                 )
               ],
-            )
+
         )
+    )
     );
   }
 }

@@ -18,7 +18,11 @@ class _ParkListState extends State<ParkList> {
         backgroundColor: Color(0xff207FC5),
         title: const Text("Availabe parking areas nearby"),
       ),
-      body: ListView.builder(
+      body: ListView.separated(
+        separatorBuilder: (context, index) => Divider(
+          color: Colors.white,
+        ),
+
         padding: const EdgeInsets.all(8),
         itemCount: _parkingAreasList.parkingAreas.length,
         itemBuilder: _getParkingAreasList,
@@ -53,7 +57,10 @@ class _ParkListState extends State<ParkList> {
           backgroundColor: Color(0xff207FC5),
           title: const Text('Available parking lots in this area'),
         ),
-        body: ListView.builder(
+        body: ListView.separated(
+          separatorBuilder: (context, index) => Divider(
+            color: Colors.white,
+          ),
           padding: const EdgeInsets.all(8),
           itemCount: _parkingLotsList.parkingLots.length,
           itemBuilder: _getParkingLotsList,

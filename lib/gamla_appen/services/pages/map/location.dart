@@ -45,6 +45,7 @@ class ParkingLotsList {
   ];
 }
 
+
 class ParkingAreasList {
   //denna som ska visas på kartan
   List<ParkingAreas> parkingAreas;

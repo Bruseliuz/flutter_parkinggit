@@ -4,18 +4,12 @@ import 'package:flutterparkinggit/gamla_appen/services/pages/database.dart';
 import 'package:flutterparkinggit/gamla_appen/shared/constants.dart';
 import 'package:provider/provider.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/homescreens/setting_anon.dart';
-import 'package:flutterparkinggit/gamla_appen/services/pages/homescreens/home.dart';
-
-
-
-
 
 
 class SettingsForm extends StatefulWidget {
   @override
   _SettingsFormState createState() => _SettingsFormState();
 }
-
 
 
 class _SettingsFormState extends State<SettingsForm> {
@@ -79,7 +73,7 @@ class _SettingsFormState extends State<SettingsForm> {
                               child: DropdownButtonFormField(//TODO - Visa det valda maxpriset
                                 iconEnabledColor: Color(0xff207FC5),
                                   decoration: InputDecoration(
-                                  contentPadding: EdgeInsets.all(15),
+                                  contentPadding: EdgeInsets.all(5),
                                   border: InputBorder.none,
                                   hintText: 'Parking preference',
                                   hintStyle: TextStyle(color: Color(0xff207FC5)),

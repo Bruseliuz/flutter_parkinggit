@@ -29,7 +29,7 @@ final parkBoxDecoration = BoxDecoration(
 
 final settingsDecoration = BoxDecoration(
     color: Colors.white70,
-    borderRadius: BorderRadius.circular(18),
+    borderRadius: BorderRadius.circular(30),
     boxShadow: [
       BoxShadow(
           color: Colors.black12,

@@ -53,6 +53,7 @@ class _MapState extends State<Map> {
       content: Container(
         height: 140,
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Row(
               children: <Widget>[
@@ -111,6 +112,24 @@ class _MapState extends State<Map> {
           ],
         ),
       ),
+      actions: <Widget>[
+        Row(
+          children: <Widget>[
+            FlatButton.icon(
+              color: Colors.white,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20)
+              ),
+              onPressed: (){
+                Navigator.of(context).pop();
+              },
+              icon: Icon(Icons.check_circle_outline, color: Color(0xff207FC5),),
+              label: Text('OK',style: TextStyle(color: Color(0xff207FC5)),
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 
