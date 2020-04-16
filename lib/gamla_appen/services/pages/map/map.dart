@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -19,7 +21,6 @@ class _MapState extends State<Map> {
 
   Location _locationTracker = Location();
   List <Marker> allMarkers = []; //TODO - 3 Lists
-  LocationData newLocation;
 
   @override
   void initState() {
@@ -157,19 +158,20 @@ class _MapState extends State<Map> {
     CameraPosition cameraPosition = CameraPosition(
       zoom: 15.0,
       target: newLocation,
-
     );
+
     final GoogleMapController controller = await _controller.future;
     controller.animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
     print(newLocation.toString());
+    getData(newLocation);
   }
 
 
-  void getData() async {
-    Response response = await get(
-        'https://openparking.stockholm.se/LTF-Tolken/v1/ptillaten/within?radius=100&lat=${newLocation.latitude.toString()},lng=${newLocation.longitude.toString()}&outputFormat=json&apiKey=e734eaa7-d9b5-422a-9521-844554d9965b');
-    Map data = jsonDecode(response.body);
-    print('HÄRRRRRRRRRRÄRÄRÄRÄRÄRÄRÄRÄÄRÄR');
+  void getData(LatLng location) async {
+    print('1 check'); //
+    Response response = await get('https://openparking.stockholm.se/LTF-Tolken/v1/ptillaten/within?radius=100&lat=${location.latitude.toString()}&lng=${location.longitude.toString()}&outputFormat=json&apiKey=e734eaa7-d9b5-422a-9521-844554d9965b');
+    LinkedHashMap data = jsonDecode(response.body);
+    print('2 check');
     print(data);
   }
     @override
@@ -193,7 +195,6 @@ class _MapState extends State<Map> {
           backgroundColor: Color(0xff207FC5),
           onPressed: () {
             getCurrentLocation();
-            getData();
           },
         ),
       );
