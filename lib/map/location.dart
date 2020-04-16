@@ -7,6 +7,7 @@ class ParkingAreas {
   int totalNumberOfParkingLots;
   int vacantParkingLots;
   ParkingLotsList connectedParkingLots; //lista som består av parkinglots
+  VacantParkingLotsList vacantParkingLotsList;
   LatLng locationCoords;
   int price;
 
@@ -44,6 +45,7 @@ class ParkingLotsList {
     new ParkingLot(locationCoords: LatLng(59.338871, 17.930344), occupied: true)
   ];
 }
+
 
 class ParkingAreasList {
   //denna som ska visas på kartan
