@@ -7,7 +7,6 @@ class ParkingAreas {
   int totalNumberOfParkingLots;
   int vacantParkingLots;
   ParkingLotsList connectedParkingLots; //lista som består av parkinglots
-  VacantParkingLotsList vacantParkingLotsList;
   LatLng locationCoords;
   int price;
 
