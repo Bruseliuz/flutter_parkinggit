@@ -21,7 +21,6 @@ class _SignInState extends State<SignIn> {
   final _formKey = GlobalKey<FormState>();
   bool loading = false;
 
-  //textfield state
   String email ="";
   String password ="";
   String error = "";
