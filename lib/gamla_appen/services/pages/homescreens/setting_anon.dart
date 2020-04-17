@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutterparkinggit/gamla_appen/services/auth.dart';
 
 
-class settings_form_anon extends StatefulWidget {
+class SettingsFormAnon extends StatefulWidget {
   @override
-  _settings_form_anonState createState() => _settings_form_anonState();
+  _SettingsFormAnonState createState() => _SettingsFormAnonState();
 }
 
-class _settings_form_anonState extends State<settings_form_anon> {
+class _SettingsFormAnonState extends State<SettingsFormAnon> {
 
   final AuthService _auth = AuthService();
 
