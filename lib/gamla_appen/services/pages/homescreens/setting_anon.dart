@@ -1,9 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterparkinggit/gamla_appen/services/auth.dart';
-import 'package:flutterparkinggit/gamla_appen/main.dart';
-
-import '../wrapper.dart';
 
 
 class settings_form_anon extends StatefulWidget {

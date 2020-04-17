@@ -1,12 +1,10 @@
 import 'dart:collection';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'dart:async';
 import 'package:flutterparkinggit/gamla_appen/services/parking_spot.dart';
-import 'package:flutterparkinggit/gamla_appen/shared/constants.dart';
 import 'package:http/http.dart';
 import 'dart:convert';
 
@@ -171,7 +169,7 @@ class _MapState extends State<Map> {
     print('1 check'); //
     Response response = await get('https://openparking.stockholm.se/LTF-Tolken/v1/ptillaten/within?radius=100&lat=${location.latitude.toString()}&lng=${location.longitude.toString()}&outputFormat=json&apiKey=e734eaa7-d9b5-422a-9521-844554d9965b');
     LinkedHashMap data = jsonDecode(response.body);
-    print(data['type']);
+    print(data['features']); //TODO - hämta lat och long samt göra om till "location"
     print('2 check');
 
   }

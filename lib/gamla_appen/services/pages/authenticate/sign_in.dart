@@ -4,7 +4,6 @@ import 'package:flutterparkinggit/gamla_appen/services/auth.dart';
 import 'package:flutterparkinggit/gamla_appen/shared/constants.dart';
 import 'package:flutterparkinggit/gamla_appen/shared/loading.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/authenticate/register.dart';
-import 'package:flutterparkinggit/gamla_appen/shared/constants.dart';
 
 
 class SignIn extends StatefulWidget {
