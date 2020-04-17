@@ -231,7 +231,7 @@ class _SettingsFormState extends State<SettingsForm> {
               ],
             );
         }else{
-          return settings_form_anon();
+          return SettingsFormAnon();
         }
       }
     );
