@@ -161,6 +161,7 @@ class _MapState extends State<Map> {
 
     final GoogleMapController controller = await _controller.future;
     controller.animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
+    print(newLocation.toString());
     getData(newLocation);
   }
 

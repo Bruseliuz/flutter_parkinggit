@@ -99,16 +99,17 @@ class _SettingsFormState extends State<SettingsForm> {
                             ),
                             SizedBox(height: 30.0),
                             Text(
-                                'Chosen max price: $_currentMaxPrice kr / hour', //TODO - Visa det valda maxpriset (userData.maxPrice)
+                                'Chosen max price: ${userData.maxPrice} kr / hour', //TODO - Visa det valda maxpriset (userData.maxPrice)
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 18,
                                 )
                             ),
-                            SizedBox(height: 20.0),
+                            SizedBox(height: 50.0),
                             Slider(
-                              activeColor: Colors.white,
-                              inactiveColor: Colors.white70,
+                              label: _currentMaxPrice.toString() ,
+                              activeColor: Colors.black54,
+                              inactiveColor: Colors.black,
                               value: (_currentMaxPrice ?? userData.maxPrice).toDouble(),
                               min: 10,
                               max: 90,
@@ -243,14 +244,18 @@ class _SettingsFormState extends State<SettingsForm> {
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Youre settings have been saved.'),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(18)
+          ),
+          title: Text('Your settings have been saved.', style: TextStyle(color:  Color(0xff207FC5)),),
           content: SingleChildScrollView(
             child: ListBody(
               children: <Widget>[
                 Container(
+                  decoration: settingsDecoration,
                   margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
                 ),
-                Icon(Icons.check_circle_outline, size: 50),
+                Icon(Icons.check_circle_outline, size: 50, color:  Color(0xff207FC5)),
                 //Text('You\’re like me. I’m never satisfied.'),
               ],
             ),
