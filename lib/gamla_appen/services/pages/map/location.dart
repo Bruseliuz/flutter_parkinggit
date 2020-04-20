@@ -1,3 +1,4 @@
+import 'package:flutterparkinggit/gamla_appen/services/pages/map/testParking.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart';
 import 'dart:convert';
@@ -74,7 +75,13 @@ void getData(LatLng location) async {
   print('1 check'); //
   Response response = await get('https://openparking.stockholm.se/LTF-Tolken/v1/ptillaten/within?radius=100&lat=${location.latitude.toString()}&lng=${location.longitude.toString()}&outputFormat=json&apiKey=e734eaa7-d9b5-422a-9521-844554d9965b');
   Map data = jsonDecode(response.body);
-  print(data);//TODO - Göra om varje plats till en "location"
+  String id = data['features'][0]['id'].toString();
+  String coordinates = data['features'][0]['geometry']['coordinates'][0].toString();
+  var newParking  = new testParking();
+  newParking.streetName = id;
+  newParking.coordinates = coordinates;
+  addParking(newParking);
+  print(data['features'][0]['geometry']['coordinates'][0]);//TODO - Göra om varje plats till en "location"
   print('2 check');
 
 }
