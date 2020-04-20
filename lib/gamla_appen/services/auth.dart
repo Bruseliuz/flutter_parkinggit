@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutterparkinggit/gamla_appen/models/user.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/database.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 
 class AuthService{
@@ -32,7 +33,7 @@ class AuthService{
   }
 
   //sign in email & password
-  Future singInWithEmailAndPassword(String email, String password) async{
+  Future signInWithEmailAndPassword(String email, String password) async{
     try{
       AuthResult result = await _auth.signInWithEmailAndPassword(email: email, password: password);
       FirebaseUser user = result.user;
@@ -92,8 +93,16 @@ class AuthService{
       final accessToken = facebookLoginResult.accessToken.token;
       if (facebookLoginResult.status == FacebookLoginStatus.loggedIn) {
         final facebookAuthCred = FacebookAuthProvider.getCredential(accessToken: accessToken);
+
         final result = await _auth.signInWithCredential(facebookAuthCred);
         FirebaseUser user = result.user;
+        int i = await DatabaseService(uid: user.uid).getUsername(user.displayName);
+        print(i);
+        String email = user.email;
+        if (i == 1) {
+          await registerWithEmailAndPassword('a$email', "hemlig");
+        }
+        print(user.displayName);
         return _userFromFirebaseUser(user);
       } else
         return null;
@@ -102,4 +111,5 @@ class AuthService{
     }
 
   }
+
 }

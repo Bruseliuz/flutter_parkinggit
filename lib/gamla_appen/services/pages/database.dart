@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutterparkinggit/gamla_appen/models/parking.dart';
 import 'package:flutterparkinggit/gamla_appen/models/user.dart';
 
-class DatabaseService{
+class DatabaseService {
 
   final String uid;
   DatabaseService({ this.uid });
@@ -18,6 +18,19 @@ class DatabaseService{
       'maxPrice': maxPrice,
 
     });
+  }
+
+  Future<int> getUsername(String username) async {
+    try {
+      DocumentReference docRef = parkCollection.document(uid);
+      if (docRef != null) {
+        return 1;
+      } else {
+        return 0;
+      }
+    } catch (e) {
+      return 0;
+    }
   }
 
   Future updateParkingPref(String parking) async {

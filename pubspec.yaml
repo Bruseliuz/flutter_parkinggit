@@ -31,6 +31,7 @@ dependencies:
   curved_navigation_bar: ^0.1.2
   flutter_facebook_login: ^3.0.0
   flutter_auth_buttons: ^0.8.0
+  firebase_database: ^3.1.3
 
 
 

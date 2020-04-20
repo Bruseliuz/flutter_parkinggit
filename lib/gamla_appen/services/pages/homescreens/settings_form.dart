@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterparkinggit/gamla_appen/models/user.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/database.dart';
@@ -26,9 +27,11 @@ class _SettingsFormState extends State<SettingsForm> {
 
     final user = Provider.of<User>(context);
 
+
     return StreamBuilder<UserData>(
       stream: DatabaseService(uid: user.uid).userData,
       builder: (context, snapshot) {
+        print(user.uid);
         if(snapshot.hasData){
           UserData userData = snapshot.data;
             return Stack(
