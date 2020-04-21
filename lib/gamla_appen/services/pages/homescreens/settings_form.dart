@@ -78,10 +78,11 @@ class _SettingsFormState extends State<SettingsForm> {
                                   decoration: InputDecoration(
                                   contentPadding: EdgeInsets.all(5),
                                   border: InputBorder.none,
-                                  hintText: 'Parking preference',
+                                  hintText: userData.parking.toString() ?? _currentParking,
                                   hintStyle: TextStyle(color: Color(0xff207FC5)),
                                   prefixIcon: Icon(
                                     Icons.directions_car, color: Color(0xff207FC5),
+
                                   )
                                 ),
                                   value: userData.parking ?? _currentParking ,
