@@ -20,7 +20,7 @@ class _SettingsFormState extends State<SettingsForm> {
 
   String _currentName;
   String _currentParking;
-  int _currentMaxPrice = 50;
+  int _currentMaxPrice;
 
   @override
   Widget build(BuildContext context) {
@@ -84,7 +84,7 @@ class _SettingsFormState extends State<SettingsForm> {
                                     Icons.directions_car, color: Color(0xff207FC5),
                                   )
                                 ),
-                                  value: userData.parking ?? _currentParking ,
+                                  value: userData.parking,
                                   items: parkingType.map((parking){
                                     return DropdownMenuItem(
                                       value: parking,
