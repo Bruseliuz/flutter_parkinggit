@@ -1,13 +1,18 @@
+import 'dart:collection';
+
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:flutterparkinggit/gamla_appen/models/user.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/database.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
 
 
 class AuthService{
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final Firestore _databaseReference = Firestore.instance;
 
   //create user obj based on FirebaseUser
   User _userFromFirebaseUser(FirebaseUser user){
@@ -96,18 +101,32 @@ class AuthService{
 
         final result = await _auth.signInWithCredential(facebookAuthCred);
         FirebaseUser user = result.user;
-        int i = await DatabaseService(uid: user.uid).getUsername(user.displayName);
-        print(i);
-        String email = user.email;
-        if (i == 1) {
-          await registerWithEmailAndPassword('a$email', "hemlig");
-        }
+
+        await checkUserInDB(user.uid, user.displayName);
+
         print(user.displayName);
         return _userFromFirebaseUser(user);
+
       } else
         return null;
     } catch (e) {
       print(e);
+    }
+
+  }
+
+  Future<int> checkUserInDB(String uid, String username) async {
+    final snapshot = await _databaseReference.collection('parkingPreference').document(uid).get();
+    if (snapshot == null || !snapshot.exists) {
+      await _databaseReference.collection('parkingPreference').document(uid).setData({
+        'maxPrice': 50,
+        'name': username,
+        'parkingPreference': 'None'
+      });
+      print('0');
+      return 1;
+    } else {
+       return 0;
     }
 
   }
