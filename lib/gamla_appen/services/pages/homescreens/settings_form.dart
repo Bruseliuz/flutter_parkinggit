@@ -21,6 +21,9 @@ class _SettingsFormState extends State<SettingsForm> {
   String _currentName;
   String _currentParking;
   int _currentMaxPrice;
+  Icon _updateSettingsIcon = new Icon(Icons.refresh,
+  color: Color(0xff207FC5));
+
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +66,11 @@ class _SettingsFormState extends State<SettingsForm> {
                                   )
                                 ),
                                 validator: (val) => val.isEmpty ? 'Please enter a name' : null,
-                                onChanged: (val) => setState(() => _currentName = val),
+                                onChanged: (val) => setState(() {
+                                  _currentName = val;
+                                  _updateSettingsIcon = new Icon(Icons.refresh,
+                                      color: Color(0xff207FC5));
+                                }),
                                 style: TextStyle(
                                   color: Color(0xff207FC5)
                                 ),
@@ -96,12 +103,14 @@ class _SettingsFormState extends State<SettingsForm> {
                                   onChanged: (val) {
                                     setState(() {
                                       _currentParking = val;
+                                      _updateSettingsIcon = new Icon(Icons.refresh,
+                                          color: Color(0xff207FC5));
                                     });
                                     print(_currentParking);
                                   }/*=> setState(() => _currentParking = val)*/ //TODO - plockar den upp svaret?
                               ),
                             ),
-                            SizedBox(height: 30.0),
+                            SizedBox(height: 60.0),
                             Text(
                                 'Chosen max price: ${userData.maxPrice} kr / hour', //TODO - Visa det valda maxpriset (userData.maxPrice)
                                 style: TextStyle(
@@ -109,7 +118,7 @@ class _SettingsFormState extends State<SettingsForm> {
                                   fontSize: 18,
                                 )
                             ),
-                            SizedBox(height: 50.0),
+                            SizedBox(height: 15.0),
                             Slider(
                               label: _currentMaxPrice.toString() ,
                               activeColor: Colors.black54,
@@ -118,9 +127,14 @@ class _SettingsFormState extends State<SettingsForm> {
                               min: 10,
                               max: 90,
                               divisions: 8,
-                              onChanged: (val) => setState(() => _currentMaxPrice = val.round()),
+                              onChanged: (val) => setState(() {
+                                _currentMaxPrice = val.round();
+                                _updateSettingsIcon = new Icon(Icons.refresh,
+                                    color: Color(0xff207FC5));
+                              }),
                             ),
                             Container(
+                              margin: EdgeInsets.symmetric(horizontal: 50),
                               padding: EdgeInsets.symmetric(vertical: 25),
                               width: double.infinity,
                               child: MaterialButton(
@@ -133,16 +147,13 @@ class _SettingsFormState extends State<SettingsForm> {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: <Widget>[
-                                    Text('Update settings',
+                                    Text('Update settings ',
                                       style: TextStyle(
                                           color: Color(0xff207FC5),
                                           fontSize: 18.0
                                       ),
                                     ),
-                                    Icon(
-                                      Icons.refresh,
-                                      color: Color(0xff207FC5),
-                                    )
+                                    _updateSettingsIcon
                                   ],
                                 ),
                                 color: Colors.white,
@@ -155,6 +166,10 @@ class _SettingsFormState extends State<SettingsForm> {
                                         _currentMaxPrice ?? userData.maxPrice
                                     );
                                     _neverSatisfied();
+                                    setState(() {
+                                      _updateSettingsIcon = new Icon(Icons.check_circle_outline,
+                                          color: Color(0xff207FC5));
+                                    });
                                     print(userData.parking);
                                   }
                                 },
