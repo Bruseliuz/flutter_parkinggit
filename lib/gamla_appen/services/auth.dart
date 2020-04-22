@@ -7,12 +7,14 @@ import 'package:flutterparkinggit/gamla_appen/services/pages/database.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 
 class AuthService{
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final Firestore _databaseReference = Firestore.instance;
+  final GoogleSignIn googleSignIn = GoogleSignIn();
 
   //create user obj based on FirebaseUser
   User _userFromFirebaseUser(FirebaseUser user){
@@ -92,6 +94,24 @@ class AuthService{
     return facebookLoginResult;
   }
 
+  Future handleGoogleSignIn() async {
+    final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
+    final GoogleSignInAuthentication googleSignInAuthentication =
+    await googleSignInAccount.authentication;
+
+    final AuthCredential credential = GoogleAuthProvider.getCredential(
+      accessToken: googleSignInAuthentication.accessToken,
+      idToken: googleSignInAuthentication.idToken,
+    );
+
+    final AuthResult authResult = await _auth.signInWithCredential(credential);
+    final FirebaseUser user = authResult.user;
+
+    await checkUserInDB(user.uid, user.displayName);
+    return _userFromFirebaseUser(user);
+
+  }
+
   Future handleFacebookSignIn() async {
     FacebookLoginResult facebookLoginResult = await getFBLoginResult();
     try {
@@ -100,7 +120,7 @@ class AuthService{
         final facebookAuthCred = FacebookAuthProvider.getCredential(accessToken: accessToken);
 
         final result = await _auth.signInWithCredential(facebookAuthCred);
-        FirebaseUser user = result.user;
+        final FirebaseUser user = result.user;
 
         await checkUserInDB(user.uid, user.displayName);
 

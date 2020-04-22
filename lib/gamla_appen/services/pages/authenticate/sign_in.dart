@@ -4,6 +4,7 @@ import 'package:flutterparkinggit/gamla_appen/services/auth.dart';
 import 'package:flutterparkinggit/gamla_appen/shared/constants.dart';
 import 'package:flutterparkinggit/gamla_appen/shared/loading.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/authenticate/register.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 
 class SignIn extends StatefulWidget {
@@ -222,6 +223,49 @@ class _SignInState extends State<SignIn> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: <Widget>[
                                     Text('facebook',
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          letterSpacing: 1.5,
+                                          fontSize: 18.0
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                shape: RoundedRectangleBorder(
+                                    side: BorderSide(
+                                        color: Color(0xff3b5998)
+                                    ),
+                                    borderRadius: BorderRadius.circular(30)
+                                ),
+                              ),
+                            ),
+                            Container(
+                              padding: EdgeInsets.only(top: 25, bottom: 5),
+                              width: double.infinity,
+                              child: MaterialButton(
+                                color: Color(0xff3b5998),
+                                elevation: 4.0,
+                                onPressed: ()
+//                                {
+//                                  print("facebook login");
+//                                },
+                                async{
+                                  if(_formKey.currentState.validate()){
+                                    setState(() => loading = true);
+                                    dynamic result = await _auth.handleGoogleSignIn();
+                                    if(result == null){
+                                      setState(() {
+                                        error = "That is not a registered user";
+                                        loading = false;
+                                      });
+                                    }
+                                  }
+                                },
+                                padding: EdgeInsets.all(15),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    Text('google',
                                       style: TextStyle(
                                           color: Colors.white,
                                           letterSpacing: 1.5,

@@ -243,7 +243,7 @@ class _RegisterState extends State<Register> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
-                              Text('REGISTER  ',
+                              Text('REGISTER & LOGIN  ',
                               style: TextStyle(
                                 color: Color(0xff207FC5),
                                 letterSpacing: 1.5,
