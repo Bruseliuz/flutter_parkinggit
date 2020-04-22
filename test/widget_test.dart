@@ -40,7 +40,7 @@ void main() {
   // Define a test. The TestWidgets function also provides a WidgetTester
   // to work with. The WidgetTester allows you to build and interact
   // with widgets in the test environment.
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
+  testWidgets('Testa Rebben', (WidgetTester tester) async {
     // Build our app and trigger a frame.
     //testcode
 
@@ -57,11 +57,11 @@ void main() {
     expect(messageFinder, findsOneWidget);
 
     // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+  //  await tester.tap(find.byIcon(Icons.add));
+   // await tester.pump();
 
     // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+  //  expect(find.text('0'), findsNothing);
+  //  expect(find.text('1'), findsOneWidget);
   });
 }
