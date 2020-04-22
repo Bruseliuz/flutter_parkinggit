@@ -74,8 +74,8 @@ void getData(LatLng location) async {
   print('1 check'); //
   Response response = await get('https://openparking.stockholm.se/LTF-Tolken/v1/ptillaten/within?radius=100&lat=${location.latitude.toString()}&lng=${location.longitude.toString()}&outputFormat=json&apiKey=e734eaa7-d9b5-422a-9521-844554d9965b');
   Map data = jsonDecode(response.body);
-  print(data['features'][0]['id'].toString()); //TODO - Göra om varje plats till en "location"
-  print(data['features']['coordinates']);
+  print(data['features'][0]['properties']['ADDRESS']); //TODO - Göra om varje plats till en "location"
+  print(data['features'][0]['geometry']['coordinates']);
   print('2 check');
 
 }

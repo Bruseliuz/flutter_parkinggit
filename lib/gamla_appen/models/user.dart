@@ -10,7 +10,7 @@ class UserData{
 
   final String uid;
   final String name;
-  final bool parking;
+  final String parking;
   final int maxPrice;
 
   UserData({this.uid, this.name, this.parking, this.maxPrice});
