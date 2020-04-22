@@ -85,10 +85,11 @@ class _SettingsFormState extends State<SettingsForm> {
                                   decoration: InputDecoration(
                                   contentPadding: EdgeInsets.all(5),
                                   border: InputBorder.none,
-                                  hintText: 'Parking preference',
+                                  hintText: _currentParking ?? userData.parking,
                                   hintStyle: TextStyle(color: Color(0xff207FC5)),
                                   prefixIcon: Icon(
                                     Icons.directions_car, color: Color(0xff207FC5),
+
                                   )
                                 ),
                                   value: userData.parking,
@@ -105,7 +106,7 @@ class _SettingsFormState extends State<SettingsForm> {
                                       _updateSettingsIcon = new Icon(Icons.refresh,
                                           color: Color(0xff207FC5));
                                     });
-                                    print(_currentParking);
+                                    print(_currentParking.toString());
                                   }/*=> setState(() => _currentParking = val)*/ //TODO - plockar den upp svaret?
                               ),
                             ),

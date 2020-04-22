@@ -79,7 +79,7 @@ class _HomeState extends State<Home> {
                   backgroundColor: Color(0xff207FC5),
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.favorite),
+                  icon: Icon(Icons.favorite_border),
                   title: Text('Favorites'),
                   backgroundColor: Color(0xff207FC5),
                 ),
