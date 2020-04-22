@@ -230,6 +230,7 @@ class _RegisterState extends State<Register> {
                             if(_formKey.currentState.validate()){
                               setState(() => loading = true);
                               dynamic result = await _auth.registerWithEmailAndPassword(email,password);
+                              setState(() => loading = false);
                               if(result == null){
                                 setState(() {
                                   error = "Woop! Something went wrong, lets try again!";
