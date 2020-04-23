@@ -171,6 +171,7 @@ class _MapState extends State<Map> {
       return Scaffold(
         body: Container(
           child: GoogleMap(
+            zoomControlsEnabled: false,
             onMapCreated: _onMapCreated,
             initialCameraPosition: CameraPosition(
               target: _center,

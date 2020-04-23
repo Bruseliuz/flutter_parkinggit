@@ -55,7 +55,7 @@ class DatabaseService {
     return UserData(
       uid: uid,
       name: snapshot.data['name'],
-      parking: snapshot.data['parking'],
+      parking: snapshot.data['parkering'],
       maxPrice: snapshot.data['maxPrice'],
     );
   }

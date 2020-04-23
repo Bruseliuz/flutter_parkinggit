@@ -185,7 +185,7 @@ class _RegisterState extends State<Register> {
                                   color: Colors.white,
                                 ),
                                 hintText: 'Full name',
-                                hintStyle: TextStyle(color: Colors.white70)
+                                hintStyle: TextStyle(color: Colors.white70),
                               ),
                             ),
                           )
@@ -229,7 +229,7 @@ class _RegisterState extends State<Register> {
                           onPressed: ()async{
                             if(_formKey.currentState.validate()){
                               setState(() => loading = true);
-                              dynamic result = await _auth.registerWithEmailAndPassword(email,password);
+                              dynamic result = await _auth.registerWithEmailAndPassword(email, password, name);
                               setState(() => loading = false);
                               if(result == null){
                                 setState(() {
