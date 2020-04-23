@@ -166,124 +166,32 @@ class _MapState extends State<Map> {
   }
 
 
-    @override
-    Widget build(BuildContext context) {
-      return Scaffold(
-        body: Container(
-          child: GoogleMap(
-            zoomControlsEnabled: false,
-            onMapCreated: _onMapCreated,
-            initialCameraPosition: CameraPosition(
-              target: _center,
-              zoom: 12.0,
-            ),
-            markers: Set.from(allMarkers),
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+        child: GoogleMap(
+          zoomControlsEnabled: false,
+          onMapCreated: _onMapCreated,
+          initialCameraPosition: CameraPosition(
+            target: _center,
+            zoom: 12.0,
           ),
+          markers: Set.from(allMarkers),
         ),
-        floatingActionButton:
-        FloatingActionButton(
-          elevation: 3.0,
-          child: Icon(Icons.my_location,
-          ),
-          backgroundColor: Color(0xff207FC5),
-          onPressed: () {
-            getCurrentLocation();
-          },
+      ),
+      floatingActionButton:
+      FloatingActionButton(
+        elevation: 3.0,
+        child: Icon(Icons.my_location,
         ),
-      );
-    }
+        backgroundColor: Color(0xff207FC5),
+        onPressed: () {
+          getCurrentLocation();
+        },
+      ),
+    );
   }
-/*Column(mainAxisAlignment: MainAxisAlignment.end, children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Expanded(
-              flex: 2,
-              child: Card(
-                child: Row(
-                    children: <Widget> [
-                      Expanded(
-                        child: Ink(
-                          decoration: const ShapeDecoration(
-                            color: Colors.white30,
-                            shape: OutlineInputBorder(),
-                          ),
-                          child: IconButton(
-                            onPressed: () {
-                              Navigator.pushReplacementNamed(context, '/signIn');
-                            }
-                            ,
-                            icon: Icon(Icons.account_box),
-                            iconSize: 50,
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: Ink(
-                          decoration: const ShapeDecoration(
-                            color: Colors.white30,
-                            shape: OutlineInputBorder(),
-                          ),
-                          child: IconButton(
-                            icon: Icon(Icons.settings),
-                            iconSize: 50,
-                          ),
-                        ),
-                      )
-                    ]
-                ),
-              ),
-            ),
-            Expanded(
-              flex: 1,
-              child: Container(
-                height: 100.0,
-                width: 100.0,
-                child: IconButton(
-                  onPressed: () {
-                    getCurrentLocation();
-                  },
-                  icon: new Image.asset('assets/circle-cropped.png'),
-                  tooltip: 'Call',
-                ),
-              ),
-            ),
-            Expanded(
-              flex: 2,
-              child: Card(
-                child: Row(
-                    children: <Widget> [
-                      Expanded(
-                        child: Ink(
-                          decoration: const ShapeDecoration(
-                            color: Colors.white30,
-                            shape: OutlineInputBorder(),
-                          ),
-                          child: IconButton(
+}
 
-                            icon: Icon(Icons.list),
-                            iconSize: 50,
-                          ),
-
-                        ),
-                      ),
-                      Expanded(
-                        child: Ink(
-                          decoration: const ShapeDecoration(
-                            color: Colors.white30,
-                            shape: OutlineInputBorder(),
-                          ),
-                          child: IconButton(
-                            icon: Icon(Icons.home),
-                            iconSize: 50,
-                          ),
-                        ),
-                      )
-                    ]
-                ),
-              ),
-            ),
-          ],
-        )
-      ]),*/
 

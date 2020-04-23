@@ -4,6 +4,7 @@ import 'package:flutterparkinggit/gamla_appen/services/auth.dart';
 import 'package:flutterparkinggit/gamla_appen/shared/constants.dart';
 import 'package:flutterparkinggit/gamla_appen/shared/loading.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/authenticate/register.dart';
+import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 
@@ -55,7 +56,7 @@ class _SignInState extends State<SignIn> {
                 physics: AlwaysScrollableScrollPhysics(),
                 padding: EdgeInsets.symmetric(
                   horizontal: 40.0,
-                  vertical: 120.0,
+                  vertical: 60.0,
                 ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -77,7 +78,7 @@ class _SignInState extends State<SignIn> {
                           fontWeight: FontWeight.w400
                       ),
                     ),
-                    SizedBox(height: 20.0),
+                    SizedBox(height: 40.0),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
@@ -189,20 +190,15 @@ class _SignInState extends State<SignIn> {
                                       fontWeight: FontWeight.bold
                                   ),
                                 ),
-                                Text('Sign in with',
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w400
-                                  ),
-                                ),
                               ],
                             ),
                             Container(
-                              padding: EdgeInsets.only(top: 25, bottom: 5),
+                              padding: EdgeInsets.only(top: 15, bottom: 5, left: 43, right: 43),
                               width: double.infinity,
-                              child: MaterialButton(
-                                color: Color(0xff3b5998),
-                                elevation: 4.0,
+                              child:FacebookSignInButton(
+                                borderRadius: 5,
+//                                color: Color(0xff3b5998),
+//                                elevation: 4.0,
                                 onPressed: ()
 //                                {
 //                                  print("facebook login");
@@ -220,33 +216,33 @@ class _SignInState extends State<SignIn> {
                                     }
                                   }
                                 },
-                                padding: EdgeInsets.all(15),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    Text('facebook',
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          letterSpacing: 1.5,
-                                          fontSize: 18.0
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                shape: RoundedRectangleBorder(
-                                    side: BorderSide(
-                                        color: Color(0xff3b5998)
-                                    ),
-                                    borderRadius: BorderRadius.circular(30)
-                                ),
+//                                padding: EdgeInsets.all(15),
+//                                child: Row(
+//                                  mainAxisAlignment: MainAxisAlignment.center,
+//                                  children: <Widget>[
+//                                    Text('facebook',
+//                                      style: TextStyle(
+//                                          color: Colors.white,
+//                                          letterSpacing: 1.5,
+//                                          fontSize: 18.0
+//                                      ),
+//                                    ),
+//                                  ],
+//                                ),
+//                                shape: RoundedRectangleBorder(
+//                                    side: BorderSide(
+//                                        color: Color(0xff3b5998)
+//                                    ),
+//                                    borderRadius: BorderRadius.circular(30)
+//                                ),
                               ),
                             ),
                             Container(
-                              padding: EdgeInsets.only(top: 25, bottom: 5),
+                              padding: EdgeInsets.only(top: 5, bottom: 5, left: 43, right: 43),
                               width: double.infinity,
-                              child: MaterialButton(
-                                color: Color(0xff3b5998),
-                                elevation: 4.0,
+                              child: GoogleSignInButton(
+//                                color: Color(0xff3b5998),
+//                                elevation: 4.0,
                                 onPressed: ()
 //                                {
 //                                  print("facebook login");
@@ -264,25 +260,25 @@ class _SignInState extends State<SignIn> {
                                     }
                                   }
                                 },
-                                padding: EdgeInsets.all(15),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    Text('google',
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          letterSpacing: 1.5,
-                                          fontSize: 18.0
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                shape: RoundedRectangleBorder(
-                                    side: BorderSide(
-                                        color: Color(0xff3b5998)
-                                    ),
-                                    borderRadius: BorderRadius.circular(30)
-                                ),
+//                                padding: EdgeInsets.all(15),
+//                                child: Row(
+//                                  mainAxisAlignment: MainAxisAlignment.center,
+//                                  children: <Widget>[
+//                                    Text('google',
+//                                      style: TextStyle(
+//                                          color: Colors.white,
+//                                          letterSpacing: 1.5,
+//                                          fontSize: 18.0
+//                                      ),
+//                                    ),
+//                                  ],
+//                                ),
+//                                shape: RoundedRectangleBorder(
+//                                    side: BorderSide(
+//                                        color: Color(0xff3b5998)
+//                                    ),
+//                                    borderRadius: BorderRadius.circular(30)
+//                                ),
                               ),
                             ),
                             Container(
