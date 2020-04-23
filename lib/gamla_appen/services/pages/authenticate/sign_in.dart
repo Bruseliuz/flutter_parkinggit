@@ -148,6 +148,7 @@ class _SignInState extends State<SignIn> {
                                   if(_formKey.currentState.validate()){
                                     setState(() => loading = true);
                                     dynamic result = await _auth.signInWithEmailAndPassword(email, password);
+                                    setState(() => loading = false);
                                     if(result == null){
                                       setState(() {
                                         error = "That is not a registered user";
@@ -210,6 +211,7 @@ class _SignInState extends State<SignIn> {
                                   if(_formKey.currentState.validate()){
                                     setState(() => loading = true);
                                     dynamic result = await _auth.handleFacebookSignIn();
+                                    setState(() => loading = false);
                                     if(result == null){
                                       setState(() {
                                         error = "That is not a registered user";
@@ -253,6 +255,7 @@ class _SignInState extends State<SignIn> {
                                   if(_formKey.currentState.validate()){
                                     setState(() => loading = true);
                                     dynamic result = await _auth.handleGoogleSignIn();
+                                    setState(() => loading = false);
                                     if(result == null){
                                       setState(() {
                                         error = "That is not a registered user";

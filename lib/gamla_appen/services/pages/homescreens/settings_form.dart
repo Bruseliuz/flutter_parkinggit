@@ -16,7 +16,7 @@ class SettingsForm extends StatefulWidget {
 class _SettingsFormState extends State<SettingsForm> {
 
   final _formKey = GlobalKey<FormState>();
-  final List<String> parkingType = ['MC','HCP','No preference'];
+  final List<String> parkingType = ['MC','HCP','No Preference'];
 
   String _currentName;
   String _currentParking;
@@ -37,6 +37,7 @@ class _SettingsFormState extends State<SettingsForm> {
         print(user.uid);
         if(snapshot.hasData){
           UserData userData = snapshot.data;
+          _currentParking = userData.parking;
             return Stack(
               children: <Widget>[
                 Container(
@@ -85,7 +86,7 @@ class _SettingsFormState extends State<SettingsForm> {
                                   decoration: InputDecoration(
                                   contentPadding: EdgeInsets.all(5),
                                   border: InputBorder.none,
-                                  hintText: _currentParking ?? userData.parking,
+                                  hintText: userData.parking,
                                   hintStyle: TextStyle(color: Color(0xff207FC5)),
                                   prefixIcon: Icon(
                                     Icons.directions_car, color: Color(0xff207FC5),
@@ -112,7 +113,7 @@ class _SettingsFormState extends State<SettingsForm> {
                             ),
                             SizedBox(height: 60.0),
                             Text(
-                                'Chosen max price: ${userData.maxPrice} kr / hour', //TODO - Visa det valda maxpriset (userData.maxPrice)
+                                'Chosen max price: ${userData.maxPrice} kr / hour',
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 18,
