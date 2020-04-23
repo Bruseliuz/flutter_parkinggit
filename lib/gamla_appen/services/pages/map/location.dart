@@ -74,6 +74,7 @@ class testParking{
   String streetName;
   List<dynamic> coordinatesList;
 
+
   testParking({this.streetName, this.coordinatesList});
 
 
@@ -84,11 +85,7 @@ class testParking{
     );
   }
 
-
-
-
-
-  @override toString() => 'Streetname: $streetName Coordinates: ${parseCoordinates(coordinatesList).toString()}';
+  @override toString() => 'Streetname: $streetName Coordinates: ${parseCoordinates(coordinatesList)}';
 }
 
 void getData(LatLng location) async {
@@ -108,4 +105,7 @@ LatLng parseCoordinates(List<dynamic> coordinates){
   LatLng coordinatesParsed = new LatLng(latitude, longitude);
   return coordinatesParsed;
 }
+
+
+
 
