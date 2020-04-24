@@ -1,3 +1,5 @@
+
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +8,7 @@ import 'package:flutterparkinggit/gamla_appen/shared/constants.dart';
 import 'package:flutterparkinggit/gamla_appen/shared/loading.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/authenticate/register.dart';
 import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
+import 'package:flutterparkinggit/gamla_appen/models/user.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 
@@ -154,9 +157,12 @@ class _SignInState extends State<SignIn> {
                                   if(_formKey.currentState.validate()) {
                                     setState(() => loading = true);
                                     dynamic result = await _auth.signInWithEmailAndPassword(email, password);
-                                    if (result != FirebaseUser) {
+                                    if (result is! User) {
                                       setState(() => loading = false);
                                       _signInError(result);
+                                    }
+                                    if (this.mounted) {
+                                      setState(() => loading = false);
                                     }
                                   }
                                 },
@@ -206,7 +212,9 @@ class _SignInState extends State<SignIn> {
                                   if(_formKey.currentState.validate()){
                                     setState(() => loading = true);
                                     dynamic result = await _auth.handleFacebookSignIn();
-                                    setState(() => loading = false);
+                                    if (this.mounted) {
+                                      setState(() => loading = false);
+                                    }
                                     if(result == null){
                                       setState(() {
                                         error = "That is not a registered user";
@@ -225,7 +233,9 @@ class _SignInState extends State<SignIn> {
                                   if(_formKey.currentState.validate()){
                                     setState(() => loading = true);
                                     dynamic result = await _auth.handleGoogleSignIn();
-                                    setState(() => loading = false);
+                                    if (this.mounted) {
+                                      setState(() => loading = false);
+                                    }
                                     if(result == null){
                                       setState(() {
                                         error = "That is not a registered user";
