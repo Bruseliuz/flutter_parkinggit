@@ -2,10 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/authenticate/register.dart';
 import 'package:provider/provider.dart';
-import 'services/auth.dart';
-import 'services/pages/authenticate/register.dart';
-import 'services/pages/wrapper.dart';
-import 'models/user.dart';
+import 'gamla_appen/services/auth.dart';
+import 'gamla_appen/services/pages/authenticate/register.dart';
+import 'gamla_appen/services/pages/wrapper.dart';
+import 'gamla_appen/models/user.dart';
 
 void main() => runApp(MyApp());
 

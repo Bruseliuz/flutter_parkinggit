@@ -8,7 +8,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:flutterparkinggit/gamla_appen/main.dart';
+import 'package:flutterparkinggit/main.dart';
 
 
 void main() {
