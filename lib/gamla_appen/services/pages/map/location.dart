@@ -70,6 +70,8 @@ class ParkingAreasList {
   ];
 }
 
+
+
 class testParking{
   String streetName;
   List<dynamic> coordinatesList;
@@ -89,7 +91,7 @@ class testParking{
 
 
 
-  @override toString() => 'Streetname: $streetName Coordinates: ${parseCoordinates(coordinatesList)}';
+  @override toString() => 'Streetname: $streetName Coordinateslist: $coordinatesList Coordinates: ${coordinates.toString()}';
 }
 
 
@@ -104,20 +106,34 @@ void getData(LatLng location) async {
 
 }
 
-LatLng parseCoordinates(List<dynamic> coordinates){
-  String coordinatesCleaned = coordinates.toString().replaceAll('[', '').replaceAll(']', '').trim().replaceAll(',', '');
-  List temp = coordinatesCleaned.split(' ');
-  double longitude = double.parse(temp[0]);
-  double latitude = double.parse(temp[1]);
-  LatLng coordinatesParsed = new LatLng(latitude, longitude);
-  return coordinatesParsed;
-}
-/*testParking newParking = testParking(
-    streetName: coordinates.toString(),
-    coordinatesList: coordinates,
-    coordinates: coordinatesParsed);
-createNewParking(newParking);
-return newParking;*/
+void parseCoordinates(List<dynamic> coordinates){
+  parkingSpotsList.clear();
+  coordinates.forEach((element){
+    String coordinatesCleaned = coordinates.toString().trim().replaceAll('[', '').replaceAll(']', '');
+    print('-------------------Coordinater utan krimskrams-------------------');
+    print(coordinatesCleaned);
+    print('-------------------Coordinater utan krimskrams-------------------');
+    List temp = coordinatesCleaned.split(',');
+    print('-------------------Coordinates-------------------');
+    print('Longitude: ${temp[1]}');
+    print('Latitude: ${temp[2]}');
+    double longitude = double.parse(temp[1]);
+    double latitude = double.parse(temp[2]);
+    LatLng coordinatesParsed = new LatLng(longitude, latitude);
+    parkingSpotsList.add(testParking(
+      streetName: element.streetName,
+      coordinates: coordinatesParsed,
+      coordinatesList: null
+    ));
+    print('-------------------Lista på parkeringsplatser-------------------');
+    print(parkingSpotsList);
+    print('Längden på listan: ${parkingSpotsList.length}');
+
+  });
+      }
+
+
+
 
 void createNewParking(testParking newParking) {
   parkingSpotsList.add(newParking);
