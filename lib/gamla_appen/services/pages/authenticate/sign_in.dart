@@ -93,6 +93,7 @@ class _SignInState extends State<SignIn> {
                           height: 60,
                           alignment: Alignment.centerLeft,
                           child: TextFormField(
+                            key: Key('email'),
                             validator: (val) => val.isEmpty ? "Enter an email" : null,
                             onChanged: (val){
                               setState(() => email = val);
@@ -124,6 +125,7 @@ class _SignInState extends State<SignIn> {
                               height: 60,
                               alignment: Alignment.centerLeft,
                               child: TextFormField(
+                                key: Key('password'),
                                 validator: (val) => val.length < 6 ? "Enter a password 6+ chars long" : null,
                                 onChanged: (val) {
                                   setState(() => password = val);
@@ -149,6 +151,7 @@ class _SignInState extends State<SignIn> {
                               padding: EdgeInsets.symmetric(vertical: 25),
                               width: double.infinity,
                               child: MaterialButton(
+                                key: Key('SignIn'),
                                 color: Colors.white,
                                 elevation: 4.0,
                                 onPressed: ()async{
