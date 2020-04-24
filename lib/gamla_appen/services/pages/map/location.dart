@@ -95,7 +95,7 @@ class testParking{
     testParking newParking = testParking(streetName: streetName, coordinatesList: coordinatesList, coordinates: coordinatesParsed);
     List <testParking> newList = [];
     newList.add(newParking);
-    print(newList);
+ //   print(newList);
     return coordinatesParsed;
   }
 
@@ -111,6 +111,7 @@ void getData(LatLng location) async {
   var dataList = data['features'] as List;
   List list = dataList.map<testParking>((json) => testParking.fromJson(json)).toList();
   print(list);
+  //parsa listan av coordinates
 
 }
 
