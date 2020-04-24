@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "1022068720458-45fae20vf5j08fdsmib2gc7uf7stu8qt.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.martin.flutterparking",
+            "certificate_hash": "7b2b01c92f9adb3837f724bcc2fdc6c39eed496a"
+          }
+        },
+        {
           "client_id": "1022068720458-16ia373q0c7e6tmvig3kai6dim1sf01l.apps.googleusercontent.com",
           "client_type": 3
         }

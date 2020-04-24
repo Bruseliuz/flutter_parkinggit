@@ -21,8 +21,6 @@ class SignIn extends StatefulWidget {
   _SignInState createState() => _SignInState();
 }
 
-enum authProblems { UserNotFound, PasswordNotValid, NetworkError }
-
 class _SignInState extends State<SignIn> {
 
   final AuthService _auth = AuthService();
