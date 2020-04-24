@@ -1,6 +1,7 @@
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart';
 import 'dart:convert';
+import 'package:flutterparkinggit/gamla_appen/services/pages/map/map.dart' as karta;
 
 class ParkingAreas {
   String id;
@@ -72,9 +73,10 @@ class ParkingAreasList {
 class testParking{
   String streetName;
   List<dynamic> coordinatesList;
+  LatLng coordinates;
 
 
-  testParking({this.streetName, this.coordinatesList});
+  testParking({this.streetName, this.coordinatesList,this.coordinates});
 
 
   factory testParking.fromJson(Map<String, dynamic> json){
@@ -84,25 +86,33 @@ class testParking{
     );
   }
 
+  LatLng parseCoordinates(List<dynamic> coordinates){
+    String coordinatesCleaned = coordinates.toString().replaceAll('[', '').replaceAll(']', '');
+    List temp = coordinatesCleaned.split(',');
+    double latitude = double.parse(temp[1]);
+    double longitude = double.parse(temp[0]);
+    LatLng coordinatesParsed = new LatLng(latitude, longitude);
+    testParking newParking = testParking(streetName: streetName, coordinatesList: coordinatesList, coordinates: coordinatesParsed);
+    List <testParking> newList = [];
+    newList.add(newParking);
+    print(newList);
+    return coordinatesParsed;
+  }
+
+
+
   @override toString() => 'Streetname: $streetName Coordinates: ${parseCoordinates(coordinatesList)}';
 }
+
 
 void getData(LatLng location) async {
   Response response = await get('https://openparking.stockholm.se/LTF-Tolken/v1/ptillaten/within?radius=100&lat=${location.latitude.toString()}&lng=${location.longitude.toString()}&outputFormat=json&apiKey=e734eaa7-d9b5-422a-9521-844554d9965b');
   Map data = jsonDecode(response.body);
   var dataList = data['features'] as List;
   List list = dataList.map<testParking>((json) => testParking.fromJson(json)).toList();
-
+  print(list);
 
 }
 
-LatLng parseCoordinates(List<dynamic> coordinates){
-  String coordinatesCleaned = coordinates.toString().replaceAll('[', '').replaceAll(']', '');
-  List temp = coordinatesCleaned.split(',');
-  double latitude = double.parse(temp[0]);
-  double longitude = double.parse(temp[1]);
-  LatLng coordinatesParsed = new LatLng(latitude, longitude);
-  return coordinatesParsed;
-}
 
 

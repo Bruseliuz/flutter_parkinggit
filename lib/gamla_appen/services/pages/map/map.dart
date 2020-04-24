@@ -38,10 +38,12 @@ class _MapState extends State<Map> {
           },
           /*infoWindow: InfoWindow(
               title: element.streetName, snippet: element.price),*/
-          position: element.locatinCoords
+          position: element.coordinates
       ));
     });
   }
+
+
 
   Widget _alertDialogWidget(element) {
     return AlertDialog(
