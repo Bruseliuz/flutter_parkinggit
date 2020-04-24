@@ -21,15 +21,15 @@ void main() {
     );
   }
 
-  testWidgets('SLUTA VARA RÖD FÖR I HELVETE', WidgetTester tester) async {
+  testWidgets('test empty email or password, dont sign in', (WidgetTester tester) async {
     MockAuth mockAuth = MockAuth();
 
     SignIn page = SignIn(toggleView: () {});
 
-    await tester.pump(makeTestableWidget(child: page, auth: mockAuth));
-    await tester.tap(find.)
+    await tester.pumpWidget(makeTestableWidget(child: page, auth: mockAuth));
+    await tester.tap(find.byKey(Key('SignIn')));
+
+    verifyNever(mockAuth.signInWithEmailAndPassword('', ''));
 
   });
-
-
 }
