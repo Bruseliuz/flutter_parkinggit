@@ -46,6 +46,7 @@ class AuthService{
       FirebaseUser user = result.user;
       return _userFromFirebaseUser(user);
     }catch(e){
+      return e.code;
       print(e.toString());
       return null;
     }

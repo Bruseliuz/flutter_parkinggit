@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterparkinggit/gamla_appen/services/auth.dart';
@@ -17,6 +18,8 @@ class SignIn extends StatefulWidget {
   _SignInState createState() => _SignInState();
 }
 
+enum authProblems { UserNotFound, PasswordNotValid, NetworkError }
+
 class _SignInState extends State<SignIn> {
 
   final AuthService _auth = AuthService();
@@ -26,6 +29,8 @@ class _SignInState extends State<SignIn> {
   String email ="";
   String password ="";
   String error = "";
+
+  String errorMessage;
 
   @override
   Widget build(BuildContext context) {
@@ -146,15 +151,12 @@ class _SignInState extends State<SignIn> {
                                 color: Colors.white,
                                 elevation: 4.0,
                                 onPressed: ()async{
-                                  if(_formKey.currentState.validate()){
+                                  if(_formKey.currentState.validate()) {
                                     setState(() => loading = true);
                                     dynamic result = await _auth.signInWithEmailAndPassword(email, password);
-                                    setState(() => loading = false);
-                                    if(result == null){
-                                      setState(() {
-                                        error = "That is not a registered user";
-                                        loading = false;
-                                      });
+                                    if (result != FirebaseUser) {
+                                      setState(() => loading = false);
+                                      _signInError(result);
                                     }
                                   }
                                 },
@@ -199,11 +201,7 @@ class _SignInState extends State<SignIn> {
                                 borderRadius: 5,
 //                                color: Color(0xff3b5998),
 //                                elevation: 4.0,
-                                onPressed: ()
-//                                {
-//                                  print("facebook login");
-//                                },
-                                async{
+                                onPressed: () async{
                                   if(_formKey.currentState.validate()){
                                     setState(() => loading = true);
                                     dynamic result = await _auth.handleFacebookSignIn();
@@ -216,38 +214,13 @@ class _SignInState extends State<SignIn> {
                                     }
                                   }
                                 },
-//                                padding: EdgeInsets.all(15),
-//                                child: Row(
-//                                  mainAxisAlignment: MainAxisAlignment.center,
-//                                  children: <Widget>[
-//                                    Text('facebook',
-//                                      style: TextStyle(
-//                                          color: Colors.white,
-//                                          letterSpacing: 1.5,
-//                                          fontSize: 18.0
-//                                      ),
-//                                    ),
-//                                  ],
-//                                ),
-//                                shape: RoundedRectangleBorder(
-//                                    side: BorderSide(
-//                                        color: Color(0xff3b5998)
-//                                    ),
-//                                    borderRadius: BorderRadius.circular(30)
-//                                ),
                               ),
                             ),
                             Container(
                               padding: EdgeInsets.only(top: 5, bottom: 5, left: 43, right: 43),
                               width: double.infinity,
                               child: GoogleSignInButton(
-//                                color: Color(0xff3b5998),
-//                                elevation: 4.0,
-                                onPressed: ()
-//                                {
-//                                  print("facebook login");
-//                                },
-                                async{
+                                onPressed: () async {
                                   if(_formKey.currentState.validate()){
                                     setState(() => loading = true);
                                     dynamic result = await _auth.handleGoogleSignIn();
@@ -260,25 +233,6 @@ class _SignInState extends State<SignIn> {
                                     }
                                   }
                                 },
-//                                padding: EdgeInsets.all(15),
-//                                child: Row(
-//                                  mainAxisAlignment: MainAxisAlignment.center,
-//                                  children: <Widget>[
-//                                    Text('google',
-//                                      style: TextStyle(
-//                                          color: Colors.white,
-//                                          letterSpacing: 1.5,
-//                                          fontSize: 18.0
-//                                      ),
-//                                    ),
-//                                  ],
-//                                ),
-//                                shape: RoundedRectangleBorder(
-//                                    side: BorderSide(
-//                                        color: Color(0xff3b5998)
-//                                    ),
-//                                    borderRadius: BorderRadius.circular(30)
-//                                ),
                               ),
                             ),
                             Container(
@@ -371,6 +325,53 @@ class _SignInState extends State<SignIn> {
         return SlideTransition(
           position: animation.drive(tween),
           child: child,
+        );
+      },
+    );
+  }
+
+
+  Future<void> _signInError(String error) async {
+    String errorMessage;
+    switch (error) {
+      case "ERROR_INVALID_EMAIL":
+        errorMessage = "The email or password is invalid";
+        break;
+      case "ERROR_WRONG_PASSWORD":
+        errorMessage = "The email or password is invalid";
+        break;
+      case "ERROR_USER_NOT_FOUND":
+        errorMessage = "A user with this email doesn't exist.";
+        break;
+    }
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(18)
+          ),
+          title: Text('$errorMessage \n           Let´s try that again!', style: TextStyle(color:  Color(0xff207FC5)),),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Container(
+                  decoration: settingsDecoration,
+                  margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
+                ),
+                Icon(Icons.error_outline, size: 50, color:  Color(0xff207FC5)),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('OK', textScaleFactor: 1.5),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
         );
       },
     );
