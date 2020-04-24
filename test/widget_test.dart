@@ -10,31 +10,6 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:flutterparkinggit/gamla_appen/main.dart';
 
-class MyWidget extends StatelessWidget {
-  final String title;
-  final String message;
-
-  const MyWidget({
-    Key key,
-    @required this.title,
-    @required this.message,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text(title),
-        ),
-        body: Center(
-          child: Text(message),
-        ),
-      ),
-    );
-  }
-}
 
 void main() {
   // Define a test. The TestWidgets function also provides a WidgetTester
@@ -46,7 +21,7 @@ void main() {
 
 
     // Create the widget by telling the tester to build it.
-    await tester.pumpWidget(MaterialApp ());
+    await tester.pumpWidget(MyApp ());
 
     final titleFinder = find.text('T');
     final messageFinder = find.text('M');

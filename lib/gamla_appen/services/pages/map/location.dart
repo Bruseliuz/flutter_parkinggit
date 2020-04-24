@@ -89,8 +89,8 @@ class testParking{
   LatLng parseCoordinates(List<dynamic> coordinates){
     String coordinatesCleaned = coordinates.toString().replaceAll('[', '').replaceAll(']', '');
     List temp = coordinatesCleaned.split(',');
-    double latitude = double.parse(temp[1]);
     double longitude = double.parse(temp[0]);
+    double latitude = double.parse(temp[1]);
     LatLng coordinatesParsed = new LatLng(latitude, longitude);
     testParking newParking = testParking(streetName: streetName, coordinatesList: coordinatesList, coordinates: coordinatesParsed);
     List <testParking> newList = [];
