@@ -79,25 +79,13 @@ class testParking{
   testParking({this.streetName, this.coordinatesList,this.coordinates});
 
 
-  factory testParking.fromJson(Map<String, dynamic> json){
+  factory testParking.fromJson(Map<String,dynamic> json){
     return testParking(
         streetName: json['properties']['ADDRESS'],
         coordinatesList: json['geometry']['coordinates']
     );
   }
 
-  LatLng parseCoordinates(List<dynamic> coordinates){
-    String coordinatesCleaned = coordinates.toString().replaceAll('[', '').replaceAll(']', '');
-    List temp = coordinatesCleaned.split(',');
-    double longitude = double.parse(temp[0]);
-    double latitude = double.parse(temp[1]);
-    LatLng coordinatesParsed = new LatLng(latitude, longitude);
-    testParking newParking = testParking(streetName: streetName, coordinatesList: coordinatesList, coordinates: coordinatesParsed);
-    List <testParking> newList = [];
-    newList.add(newParking);
- //   print(newList);
-    return coordinatesParsed;
-  }
 
 
 
@@ -111,9 +99,29 @@ void getData(LatLng location) async {
   var dataList = data['features'] as List;
   List list = dataList.map<testParking>((json) => testParking.fromJson(json)).toList();
   print(list);
-  //parsa listan av coordinates
+ // parseCoordinates(list);
 
 }
 
+LatLng parseCoordinates(List<dynamic> coordinates){
+  String coordinatesCleaned = coordinates.toString().replaceAll('[', '').replaceAll(']', '');
+  List temp = coordinatesCleaned.split(',');
+  double longitude = double.parse(temp[0]);
+  double latitude = double.parse(temp[1]);
+  LatLng coordinatesParsed = new LatLng(latitude, longitude);
+  return coordinatesParsed;
+}
+/*testParking newParking = testParking(
+    streetName: coordinates.toString(),
+    coordinatesList: coordinates,
+    coordinates: coordinatesParsed);
+createNewParking(newParking);
+return newParking;*/
 
 
+
+void createNewParking(testParking newParking) {
+  List <testParking> newList = [];
+  newList.add(newParking);
+  print(newList);
+}
