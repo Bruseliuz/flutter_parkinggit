@@ -149,6 +149,7 @@ class _SignInState extends State<SignIn> {
                               padding: EdgeInsets.symmetric(vertical: 25),
                               width: double.infinity,
                               child: MaterialButton(
+                                key: Key('SignIn'),
                                 color: Colors.white,
                                 elevation: 4.0,
                                 onPressed: ()async{
