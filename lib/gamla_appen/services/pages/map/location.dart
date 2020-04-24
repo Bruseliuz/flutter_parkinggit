@@ -99,13 +99,14 @@ void getData(LatLng location) async {
   var dataList = data['features'] as List;
   List list = dataList.map<testParking>((json) => testParking.fromJson(json)).toList();
   print(list);
+  parseCoordinates(list);
  // parseCoordinates(list);
 
 }
 
 LatLng parseCoordinates(List<dynamic> coordinates){
-  String coordinatesCleaned = coordinates.toString().replaceAll('[', '').replaceAll(']', '');
-  List temp = coordinatesCleaned.split(',');
+  String coordinatesCleaned = coordinates.toString().replaceAll('[', '').replaceAll(']', '').trim().replaceAll(',', '');
+  List temp = coordinatesCleaned.split(' ');
   double longitude = double.parse(temp[0]);
   double latitude = double.parse(temp[1]);
   LatLng coordinatesParsed = new LatLng(latitude, longitude);
@@ -118,10 +119,10 @@ LatLng parseCoordinates(List<dynamic> coordinates){
 createNewParking(newParking);
 return newParking;*/
 
-
-
 void createNewParking(testParking newParking) {
-  List <testParking> newList = [];
-  newList.add(newParking);
-  print(newList);
+  parkingSpotsList.add(newParking);
+  print(parkingSpotsList);
 }
+
+List <testParking> parkingSpotsList = [];
+
