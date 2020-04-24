@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterparkinggit/gamla_appen/services/auth.dart';
+import 'package:flutterparkinggit/gamla_appen/services/auth_provider.dart';
 import 'package:flutterparkinggit/gamla_appen/shared/constants.dart';
 import 'package:flutterparkinggit/gamla_appen/shared/loading.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/authenticate/register.dart';
@@ -13,9 +14,8 @@ import 'package:google_sign_in/google_sign_in.dart';
 
 
 class SignIn extends StatefulWidget {
-
-  final Function toggleView;
-  SignIn({this.toggleView});
+  const SignIn({this.toggleView});
+  final VoidCallback toggleView;
 
   @override
   _SignInState createState() => _SignInState();
@@ -165,6 +165,7 @@ class _SignInState extends State<SignIn> {
                                     if (this.mounted) {
                                       setState(() => loading = false);
                                     }
+                                    widget.toggleView();
                                   }
                                 },
                                 padding: EdgeInsets.all(15),
