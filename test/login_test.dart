@@ -24,12 +24,31 @@ void main() {
   testWidgets('test empty email or password, dont sign in', (WidgetTester tester) async {
     MockAuth mockAuth = MockAuth();
 
-    SignIn page = SignIn(toggleView: () {});
+    bool didSignIn = false;
+    SignIn page = SignIn(toggleView: () => didSignIn = true);
 
     await tester.pumpWidget(makeTestableWidget(child: page, auth: mockAuth));
     await tester.tap(find.byKey(Key('SignIn')));
 
     verifyNever(mockAuth.signInWithEmailAndPassword('', ''));
+    expect(didSignIn, false);
+  });
 
+  testWidgets('non-empty email and password, valid account, call sign in, succeed', (WidgetTester tester) async {
+    MockAuth mockAuth = MockAuth();
+
+    bool didSignIn = false;
+    SignIn page = SignIn(toggleView: () => didSignIn = true);
+
+    await tester.pumpWidget(makeTestableWidget(child: page, auth: mockAuth));
+    Finder emailField = find.byKey(Key('email'));
+    await tester.enterText(emailField, 'email');
+    Finder passwordField = find.byKey(Key('password'));
+    await tester.enterText(passwordField, 'password');
+
+    await tester.tap(find.byKey(Key('SignIn')));
+
+    verifyNever(mockAuth.signInWithEmailAndPassword('', ''));
+    expect(didSignIn, false);
   });
 }
