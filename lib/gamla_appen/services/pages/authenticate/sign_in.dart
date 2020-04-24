@@ -198,6 +198,7 @@ class _SignInState extends State<SignIn> {
                               padding: EdgeInsets.only(top: 15, bottom: 5, left: 43, right: 43),
                               width: double.infinity,
                               child:FacebookSignInButton(
+                                textStyle: TextStyle(fontSize: 16, color: Colors.white),
                                 borderRadius: 5,
 //                                color: Color(0xff3b5998),
 //                                elevation: 4.0,

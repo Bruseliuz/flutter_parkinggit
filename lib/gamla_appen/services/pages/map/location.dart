@@ -1,7 +1,6 @@
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart';
 import 'dart:convert';
-import 'dart:collection';
 
 class ParkingAreas {
   String id;
@@ -93,7 +92,7 @@ void getData(LatLng location) async {
   Map data = jsonDecode(response.body);
   var dataList = data['features'] as List;
   List list = dataList.map<testParking>((json) => testParking.fromJson(json)).toList();
-  print(list);
+
 
 }
 
@@ -105,7 +104,5 @@ LatLng parseCoordinates(List<dynamic> coordinates){
   LatLng coordinatesParsed = new LatLng(latitude, longitude);
   return coordinatesParsed;
 }
-
-
 
 
