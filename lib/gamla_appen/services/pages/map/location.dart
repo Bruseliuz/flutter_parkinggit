@@ -95,6 +95,7 @@ class TestParking{
 }
 
 
+
 void getData(LatLng location) async {
   Response response = await get('https://openparking.stockholm.se/LTF-Tolken/v1/ptillaten/within?radius=100&lat=${location.latitude.toString()}&lng=${location.longitude.toString()}&outputFormat=json&apiKey=e734eaa7-d9b5-422a-9521-844554d9965b');
   Map data = jsonDecode(response.body);
@@ -102,17 +103,14 @@ void getData(LatLng location) async {
   List list = dataList.map<TestParking>((json) => TestParking.fromJson(json)).toList();
   print(list);
   parseCoordinates(list);
- // parseCoordinates(list);
 
 }
 
 void parseCoordinates(List<dynamic> coordinates){
   parkingSpotsList.clear();
   coordinates.forEach((element){
-    String coordinatesCleaned = coordinates.toString().trim().replaceAll('[', '').replaceAll(']', '');
-    List temp = element.coordinatesList[1];
-    String coordinatesString = temp[1].toString();
-    //TODO - Loopa för att kika på varje element i listan
+    print(element.coordinatesList[1]);
+    List temp = element.coordinatesList[1];    //TODO - Loopa för att kika på varje element i listan
     double longitude = temp[1];
     double latitude = temp[0];
     LatLng coordinatesParsed = new LatLng(longitude, latitude);
@@ -126,15 +124,9 @@ void parseCoordinates(List<dynamic> coordinates){
     print('Längden på listan: ${parkingSpotsList.length}');
 
   });
-      }
-
-
-
-
-void createNewParking(TestParking newParking) {
-  parkingSpotsList.add(newParking);
-  print(parkingSpotsList);
 }
 
 List <TestParking> parkingSpotsList = [];
+
+
 

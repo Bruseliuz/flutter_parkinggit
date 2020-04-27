@@ -24,23 +24,6 @@ class _MapState extends State<Map> {
   @override
   void initState() {
     super.initState();
-
-    parkingSpots.forEach((element) {
-      allMarkers.add(Marker(
-          markerId: MarkerId(element.streetName),
-          icon: BitmapDescriptor.defaultMarker,
-          //TODO - Custom marker
-          draggable: false,
-          onTap: () {
-            showDialog(context: context, builder: (_) =>
-                _alertDialogWidget(element)
-            );
-          },
-          /*infoWindow: InfoWindow(
-              title: element.streetName, snippet: element.price),*/
-          position: element.coordinates
-      ));
-    });
   }
 
 
@@ -150,6 +133,8 @@ class _MapState extends State<Map> {
 
   void getCurrentLocation() async {
     var location = await _locationTracker.getLocation();
+    allMarkers.clear();
+    getMarkers();
     setLocation(location);
   }
 
@@ -166,6 +151,26 @@ class _MapState extends State<Map> {
     print(newLocation.toString());
     getData(newLocation);
   }
+
+  void getMarkers() async{
+    parkingSpotsList.forEach((element) {
+      allMarkers.add(Marker(
+          markerId: MarkerId(element.streetName),
+          icon: BitmapDescriptor.defaultMarker,
+          //TODO - Custom marker
+          draggable: false,
+          onTap: () {
+            showDialog(context: context, builder: (_) =>
+                _alertDialogWidget(element)
+            );
+          },
+          /*infoWindow: InfoWindow(
+              title: element.streetName, snippet: element.price),*/
+          position: element.coordinates
+      ));
+    });
+  }
+
 
 
   @override
