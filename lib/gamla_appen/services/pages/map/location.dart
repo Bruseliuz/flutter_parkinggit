@@ -110,16 +110,11 @@ void parseCoordinates(List<dynamic> coordinates){
   parkingSpotsList.clear();
   coordinates.forEach((element){
     String coordinatesCleaned = coordinates.toString().trim().replaceAll('[', '').replaceAll(']', '');
-    print('-------------------Coordinater utan krimskrams-------------------');
-    print(coordinatesCleaned);
-    print('-------------------Coordinater utan krimskrams-------------------');
-    List temp = coordinatesCleaned.split(',');
-    print('-------------------Coordinates-------------------');
-    print(temp);
-    print('Longitude: ${temp[1]}');//TODO - Loopa för att kika på varje idividuell "sak" i listan
-    print('Latitude: ${temp[2]}');
-    double longitude = double.parse(temp[1]);
-    double latitude = double.parse(temp[2]);
+    List temp = element.coordinatesList[1];
+    String coordinatesString = temp[1].toString();
+    //TODO - Loopa för att kika på varje element i listan
+    double longitude = temp[1];
+    double latitude = temp[0];
     LatLng coordinatesParsed = new LatLng(longitude, latitude);
     parkingSpotsList.add(TestParking(
       streetName: element.streetName,
