@@ -115,7 +115,8 @@ void parseCoordinates(List<dynamic> coordinates){
     print('-------------------Coordinater utan krimskrams-------------------');
     List temp = coordinatesCleaned.split(',');
     print('-------------------Coordinates-------------------');
-    print('Longitude: ${temp[1]}');
+    print(temp);
+    print('Longitude: ${temp[1]}');//TODO - Loopa för att kika på varje idividuell "sak" i listan
     print('Latitude: ${temp[2]}');
     double longitude = double.parse(temp[1]);
     double latitude = double.parse(temp[2]);
