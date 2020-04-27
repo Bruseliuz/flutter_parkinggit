@@ -72,17 +72,17 @@ class ParkingAreasList {
 
 
 
-class testParking{
+class TestParking{
   String streetName;
   List<dynamic> coordinatesList;
   LatLng coordinates;
 
 
-  testParking({this.streetName, this.coordinatesList,this.coordinates});
+  TestParking({this.streetName, this.coordinatesList,this.coordinates});
 
 
-  factory testParking.fromJson(Map<String,dynamic> json){
-    return testParking(
+  factory TestParking.fromJson(Map<String,dynamic> json){
+    return TestParking(
         streetName: json['properties']['ADDRESS'],
         coordinatesList: json['geometry']['coordinates']
     );
@@ -99,7 +99,7 @@ void getData(LatLng location) async {
   Response response = await get('https://openparking.stockholm.se/LTF-Tolken/v1/ptillaten/within?radius=100&lat=${location.latitude.toString()}&lng=${location.longitude.toString()}&outputFormat=json&apiKey=e734eaa7-d9b5-422a-9521-844554d9965b');
   Map data = jsonDecode(response.body);
   var dataList = data['features'] as List;
-  List list = dataList.map<testParking>((json) => testParking.fromJson(json)).toList();
+  List list = dataList.map<TestParking>((json) => TestParking.fromJson(json)).toList();
   print(list);
   parseCoordinates(list);
  // parseCoordinates(list);
@@ -121,7 +121,7 @@ void parseCoordinates(List<dynamic> coordinates){
     double longitude = double.parse(temp[1]);
     double latitude = double.parse(temp[2]);
     LatLng coordinatesParsed = new LatLng(longitude, latitude);
-    parkingSpotsList.add(testParking(
+    parkingSpotsList.add(TestParking(
       streetName: element.streetName,
       coordinates: coordinatesParsed,
       coordinatesList: null
@@ -136,10 +136,10 @@ void parseCoordinates(List<dynamic> coordinates){
 
 
 
-void createNewParking(testParking newParking) {
+void createNewParking(TestParking newParking) {
   parkingSpotsList.add(newParking);
   print(parkingSpotsList);
 }
 
-List <testParking> parkingSpotsList = [];
+List <TestParking> parkingSpotsList = [];
 
