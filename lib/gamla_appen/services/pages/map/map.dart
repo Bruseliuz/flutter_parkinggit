@@ -1,15 +1,9 @@
-import 'dart:collection';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/map/location.dart';
 import 'dart:async';
-import 'package:flutterparkinggit/gamla_appen/services/parking_spot.dart';
-import 'package:http/http.dart';
-import 'dart:convert';
-
-
 
 class Map extends StatefulWidget {
   @override
@@ -17,6 +11,8 @@ class Map extends StatefulWidget {
 }
 
 class _MapState extends State<Map> {
+
+
 
   Location _locationTracker = Location();
   List <Marker> allMarkers = []; //TODO - 3 Lists
@@ -57,7 +53,7 @@ class _MapState extends State<Map> {
                       color: Color(0xff207FC5)
                   ),
                 ),
-                Text(element.price,
+                Text('Price',
                   style: TextStyle(
                       color: Color(0xff207FC5)
                   ),
@@ -75,7 +71,7 @@ class _MapState extends State<Map> {
                       color: Color(0xff207FC5)
                   ),
                 ),
-                Text(element.parkingSpots,
+                Text(element.numberOfParkingSpots,
                   style: TextStyle(
                       color: Color(0xff207FC5)
                   ),
@@ -93,7 +89,7 @@ class _MapState extends State<Map> {
                       color: Color(0xff207FC5)
                   ),
                 ),
-                Text(element.parkingSpots,
+                Text(element.availableParkingSpots,
                   style: TextStyle(
                       color: Color(0xff207FC5)
                   ),
@@ -134,7 +130,6 @@ class _MapState extends State<Map> {
   void getCurrentLocation() async {
     var location = await _locationTracker.getLocation();
     allMarkers.clear();
-    getMarkers();
     setLocation(location);
   }
 
@@ -148,25 +143,22 @@ class _MapState extends State<Map> {
 
     final GoogleMapController controller = await _controller.future;
     controller.animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
-    print(newLocation.toString());
     getData(newLocation);
+    getMarkers();
   }
 
-  void getMarkers() async{
+  Future getMarkers() async{
     parkingSpotsList.forEach((element) {
       allMarkers.add(Marker(
           markerId: MarkerId(element.streetName),
           icon: BitmapDescriptor.defaultMarker,
-          //TODO - Custom marker
+          visible: true,
           draggable: false,
           onTap: () {
-            showDialog(context: context, builder: (_) =>
-                _alertDialogWidget(element)
+            showDialog(context: context, builder: (_) => _alertDialogWidget(element)
             );
           },
-          /*infoWindow: InfoWindow(
-              title: element.streetName, snippet: element.price),*/
-          position: element.coordinates
+         position: element.coordinates
       ));
     });
   }
@@ -194,11 +186,10 @@ class _MapState extends State<Map> {
         ),
         backgroundColor: Color(0xff207FC5),
         onPressed: () {
+          allMarkers.clear();
           getCurrentLocation();
         },
       ),
     );
   }
 }
-
-

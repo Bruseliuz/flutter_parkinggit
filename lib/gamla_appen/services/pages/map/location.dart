@@ -2,6 +2,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart';
 import 'dart:convert';
 import 'package:flutterparkinggit/gamla_appen/services/pages/map/map.dart' as karta;
+import 'dart:math';
+
 
 class ParkingAreas {
   String id;
@@ -76,9 +78,11 @@ class TestParking{
   String streetName;
   List<dynamic> coordinatesList;
   LatLng coordinates;
+  String numberOfParkingSpots;
+  String availableParkingSpots;
 
 
-  TestParking({this.streetName, this.coordinatesList,this.coordinates});
+  TestParking({this.streetName, this.coordinatesList,this.coordinates, this.numberOfParkingSpots, this.availableParkingSpots});
 
 
   factory TestParking.fromJson(Map<String,dynamic> json){
@@ -117,16 +121,21 @@ void parseCoordinates(List<dynamic> coordinates){
     parkingSpotsList.add(TestParking(
       streetName: element.streetName,
       coordinates: coordinatesParsed,
-      coordinatesList: null
+      numberOfParkingSpots: coordinates.length.toString(),
+      availableParkingSpots: getRandomParkingSpot(coordinates)
     ));
     print('-------------------Lista på parkeringsplatser-------------------');
     print(parkingSpotsList);
     print('Längden på listan: ${parkingSpotsList.length}');
-
   });
 }
 
 List <TestParking> parkingSpotsList = [];
 
 
+String getRandomParkingSpot(List<dynamic> coordinates){
+  var random = new Random();
+  int randomNumber = random.nextInt(coordinates.length);
+  return randomNumber.toString();
+}
 
