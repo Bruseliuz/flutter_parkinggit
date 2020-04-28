@@ -36,7 +36,7 @@ void main() {
 
   testWidgets('non-empty email and password, valid account, call sign in, succees', (WidgetTester tester) async {
     MockAuth mockAuth = MockAuth();
-    when(mockAuth.signInWithEmailAndPassword('email', 'password')).thenAnswer((invocation) => Future.value('uid'));
+    when(mockAuth.signInWithEmailAndPassword('email', 'password')).thenAnswer((invocation) => Future.value('user'));
     bool didSignIn = false;
     SignIn page = SignIn(toggleView: () => didSignIn = true);
 
@@ -52,4 +52,24 @@ void main() {
     verify(mockAuth.signInWithEmailAndPassword('email', 'password')).called(1);
     expect(didSignIn, true);
   });
+
+  testWidgets('non-empty email and password, valid account, call sign in, fail', (WidgetTester tester) async {
+    MockAuth mockAuth = MockAuth();
+    when(mockAuth.signInWithEmailAndPassword('email', 'password')).thenThrow(StateError('invalid credentials'));
+    bool didSignIn = false;
+    SignIn page = SignIn(toggleView: () => didSignIn = true);
+
+    await tester.pumpWidget(makeTestableWidget(child: page, auth: mockAuth));
+    Finder emailField = find.byKey(Key('email'));
+    await tester.enterText(emailField, 'email');
+
+    Finder passwordField = find.byKey(Key('password'));
+    await tester.enterText(passwordField, 'password');
+
+    await tester.tap(find.byKey(Key('SignIn')));
+
+    verify(mockAuth.signInWithEmailAndPassword('email', 'password')).called(1);
+    expect(didSignIn, false);
+  });
+
 }
