@@ -19,8 +19,7 @@ class MyApp extends StatelessWidget{
         home: Wrapper(),
         routes: {
       '/register':(context) => Register(),
-      }
-      ),
+      }),
     );
   }
 }

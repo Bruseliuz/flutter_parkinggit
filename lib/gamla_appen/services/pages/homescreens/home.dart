@@ -9,6 +9,7 @@ import 'package:flutterparkinggit/gamla_appen/services/pages/homescreens/setting
 import 'package:flutterparkinggit/gamla_appen/services/pages/parklist.dart';
 
 class Home extends StatefulWidget {
+  final Key _mapKey = UniqueKey();
   @override
   _HomeState createState() => _HomeState();
 }
@@ -17,15 +18,16 @@ class _HomeState extends State<Home> {
   final AuthService _auth = AuthService();
 
   int _currentIndex = 0;
-  final tabs = [
-    Map(),
-    Favorites(),
-    ParkList(),
-    SettingsForm(),
-  ];
+
 
   @override
   Widget build(BuildContext context) {
+    final tabs = [
+      Map(key: widget._mapKey),
+      Favorites(),
+      ParkList(),
+      SettingsForm(),
+    ];
     /*void _showSettingsPanel(){
       showModalBottomSheet(
           context: context,

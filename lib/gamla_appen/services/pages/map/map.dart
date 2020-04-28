@@ -6,6 +6,7 @@ import 'package:flutterparkinggit/gamla_appen/services/pages/map/location.dart';
 import 'dart:async';
 
 class Map extends StatefulWidget {
+  Map({ @required Key key}) : super(key:key);
   @override
   _MapState createState() => _MapState();
 }
@@ -157,7 +158,7 @@ class _MapState extends State<Map> {
             showDialog(context: context, builder: (_) => _alertDialogWidget(element)
             );
           },
-         position: element.coordinates
+          position: element.coordinates
       ));
     });
   }

@@ -390,6 +390,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.1.1"
+<<<<<<< HEAD
+  page_transition:
+    dependency: "direct main"
+    description:
+      name: page_transition
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.1.5"
+=======
   multi_server_socket:
     dependency: transitive
     description:
@@ -432,6 +441,7 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.10"
+>>>>>>> 5a4737d425d79816e7caedd03c0a69988c02208d
   path:
     dependency: transitive
     description:
