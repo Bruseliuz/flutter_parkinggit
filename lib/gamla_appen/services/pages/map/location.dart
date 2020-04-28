@@ -112,7 +112,7 @@ void getData(LatLng location) async {
 void parseCoordinates(List<dynamic> coordinates){
   parkingSpotsList.clear();
   coordinates.forEach((element){
-    print(element.coordinatesList[1]);
+    print('${element.coordinatesList} HÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄR');
     List temp = element.coordinatesList[1];
     double longitude = temp[1];
     double latitude = temp[0];
@@ -121,7 +121,7 @@ void parseCoordinates(List<dynamic> coordinates){
       streetName: element.streetName,
       coordinates: coordinatesParsed,
       numberOfParkingSpots: element.coordinatesList.length.toString(),
-      availableParkingSpots: getRandomAvailableParkingSpot(coordinates)
+      availableParkingSpots: getRandomAvailableParkingSpot(element.coordinatesList)
     ));
     print('-------------------Lista på parkeringsplatser-------------------');
     print(parkingSpotsList);

@@ -178,18 +178,36 @@ class _MapState extends State<Map> {
         ),
       ),
       floatingActionButton:
-      FloatingActionButton(
-        elevation: 3.0,
-        child: Icon(Icons.my_location,
-        ),
-        backgroundColor: Color(0xff207FC5),
-        onPressed: () {
-          allMarkers.clear();// Ta bort alla Markers ifrån kartan
-          getCurrentLocation();
-          setState(() {
-            getMarkers();
-          });
-        },
+      Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: <Widget>[
+          FloatingActionButton(
+            elevation: 3.0,
+            child: Icon(Icons.my_location,
+            ),
+            backgroundColor: Color(0xff207FC5),
+            onPressed: () {
+              setState(() {
+                allMarkers.clear();// Ta bort alla Markers ifrån kartan
+                getCurrentLocation();
+                getMarkers();
+              });
+            },
+          ),
+          SizedBox(height: 10),
+          FloatingActionButton(
+            elevation: 3.0,
+            child: Icon(Icons.refresh,
+            ),
+            backgroundColor: Color(0xff207FC5),
+            onPressed: () {
+              setState(() {
+                allMarkers.clear();// Ta bort alla Markers ifrån kartan
+                getMarkers();
+              });
+            },
+          ),
+        ],
       ),
     );
   }
