@@ -21,7 +21,7 @@ class _SettingsFormState extends State<SettingsForm> {
   final _formKey = GlobalKey<FormState>();
   final List<String> parkingType = ['MC','HCP','No Preference'];
 
-  int currentDistance = 100;
+  int _currentDistance = 100;
   String _currentName;
   String _currentParking;
   int _currentMaxPrice;
@@ -138,7 +138,7 @@ class _SettingsFormState extends State<SettingsForm> {
                           ),
                           SizedBox(height: 10.0),
                           Text(
-                              'Chosen radius: $currentDistance meters',
+                              'Chosen radius: $_currentDistance meters',
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 18,
@@ -148,16 +148,16 @@ class _SettingsFormState extends State<SettingsForm> {
                           Slider(
                             activeColor: Colors.white70,
                             inactiveColor: Colors.black,
-                            value: (currentDistance ?? userData.radius).toDouble(),
+                            value: (_currentDistance ?? userData.radius).toDouble(),
                             min: 100,
                             max: 300,
                             divisions: 2,
                             onChanged: (val) => setState(() {
-                              currentDistance = val.round();
+                              _currentDistance = val.round();
                               _updateSettingsIcon = new Icon(Icons.refresh,
                                   color: Color(0xff207FC5));
                             setState(() {
-                              distance = currentDistance;
+                              distance = _currentDistance;
                             });
                             }),
 
@@ -193,7 +193,7 @@ class _SettingsFormState extends State<SettingsForm> {
                                       _currentParking ?? userData.parking,
                                       _currentName ?? userData.name,
                                       _currentMaxPrice ?? userData.maxPrice,
-                                    currentDistance ?? userData.radius
+                                    _currentDistance ?? userData.radius
                                   );
                                   _neverSatisfied();
                                   setState(() {

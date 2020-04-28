@@ -102,6 +102,7 @@ class _MapState extends State<Map> {
       ),
       actions: <Widget>[
         Row(
+          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             FlatButton.icon(
               color: Colors.white,
@@ -113,6 +114,18 @@ class _MapState extends State<Map> {
               },
               icon: Icon(Icons.check_circle_outline, color: Color(0xff207FC5),),
               label: Text('OK', style: TextStyle(color: Color(0xff207FC5)),
+              ),
+            ),
+            FlatButton.icon(
+              color: Colors.white,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20)
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              icon: Icon(Icons.timer, color: Color(0xff207FC5),),
+              label: Text('Start parking', style: TextStyle(color: Color(0xff207FC5)),
               ),
             ),
           ],
@@ -212,3 +225,5 @@ class _MapState extends State<Map> {
     );
   }
 }
+
+
