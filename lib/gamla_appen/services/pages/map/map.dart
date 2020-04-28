@@ -16,7 +16,16 @@ class ParkingMap extends StatefulWidget {
 
 class _ParkingMapState extends State<ParkingMap> {
 
-
+  TimeOfDay _time = TimeOfDay.now();
+  Future<Null> selectTime(BuildContext context) async {
+    _time = await showTimePicker(context: context, initialTime: _time,
+        builder: (BuildContext context, Widget child) {
+          return MediaQuery(
+            data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
+            child: child,
+          );
+        });
+  }
 
   Location _locationTracker = Location();
   List <Marker> allMarkers = []; //TODO - 3 Lists
@@ -126,6 +135,7 @@ class _ParkingMapState extends State<ParkingMap> {
               ),
               onPressed: () {
                 Navigator.of(context).pop();
+                selectTime(context);
               },
               icon: Icon(Icons.timer, color: Color(0xff207FC5),),
               label: Text('Start parking', style: TextStyle(color: Color(0xff207FC5)),
@@ -136,6 +146,8 @@ class _ParkingMapState extends State<ParkingMap> {
       ],
     );
   }
+
+
 
   Completer<GoogleMapController> _controller = Completer();
   static LatLng _center = LatLng(59.334591, 18.063240);
@@ -192,7 +204,6 @@ class _ParkingMapState extends State<ParkingMap> {
         ));
       });
       });
-
   }
 
   @override
@@ -210,9 +221,6 @@ class _ParkingMapState extends State<ParkingMap> {
         ),
       ),
       floatingActionButton:
-      Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: <Widget>[
           FloatingActionButton(
             elevation: 3.0,
             child: Icon(Icons.my_location,
@@ -220,28 +228,11 @@ class _ParkingMapState extends State<ParkingMap> {
             backgroundColor: Color(0xff207FC5),
             onPressed: () async {
               await getCurrentLocation();
-//              allMarkers.clear();// Ta bort alla Markers ifrån kartan
-
               print(allMarkers.toString());
               getMarkers();
             },
           ),
-          SizedBox(height: 10),
-          FloatingActionButton(
-            elevation: 3.0,
-            child: Icon(Icons.refresh,
-            ),
-            backgroundColor: Color(0xff207FC5),
-            onPressed: () {
-              setState(() {
-                allMarkers.clear();// Ta bort alla Markers ifrån kartan
-                getMarkers(); // Lägger till markers
-              });
-            },
-          ),
-        ],
-      ),
-    );
+      );
   }
 }
 
