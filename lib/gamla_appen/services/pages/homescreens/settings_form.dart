@@ -8,6 +8,7 @@ import 'package:flutterparkinggit/gamla_appen/services/pages/homescreens/setting
 
 
 int distance;
+String preference;
 
 class SettingsForm extends StatefulWidget {
   @override
@@ -48,7 +49,7 @@ class _SettingsFormState extends State<SettingsForm> {
                   child: SingleChildScrollView(
                     physics: AlwaysScrollableScrollPhysics(),
                     padding: EdgeInsets.symmetric(
-                        vertical: 120,
+                        vertical: 70,
                         horizontal: 40
                     ),
                     child: Form(
@@ -113,7 +114,7 @@ class _SettingsFormState extends State<SettingsForm> {
                                 }
                             ),
                           ),
-                          SizedBox(height: 60.0),
+                          SizedBox(height: 30.0),
                           Text(
                               'Chosen max price: ${userData.maxPrice} kr / hour',
                               style: TextStyle(
@@ -124,8 +125,8 @@ class _SettingsFormState extends State<SettingsForm> {
                           SizedBox(height: 40.0),
                           Slider(
                             label: _currentMaxPrice.toString() ,
-                            activeColor: Colors.white70,
-                            inactiveColor: Colors.black,
+                            activeColor: Colors.black54,
+                            inactiveColor: Colors.white,
                             value: (_currentMaxPrice ?? userData.maxPrice).toDouble(),
                             min: 10,
                             max: 90,
@@ -144,14 +145,15 @@ class _SettingsFormState extends State<SettingsForm> {
                                 fontSize: 18,
                               )
                           ),
-                          SizedBox(height: 15.0),
+                          SizedBox(height: 40.0),
                           Slider(
-                            activeColor: Colors.white70,
-                            inactiveColor: Colors.black,
+                            label: currentDistance.toString(),
+                            activeColor: Colors.black54,
+                            inactiveColor: Colors.white,
                             value: (currentDistance ?? userData.radius).toDouble(),
                             min: 100,
                             max: 300,
-                            divisions: 2,
+                            divisions: 4,
                             onChanged: (val) => setState(() {
                               currentDistance = val.round();
                               _updateSettingsIcon = new Icon(Icons.refresh,
@@ -199,6 +201,8 @@ class _SettingsFormState extends State<SettingsForm> {
                                   setState(() {
                                     _updateSettingsIcon = new Icon(Icons.check_circle_outline,
                                         color: Color(0xff207FC5));
+                                    setPreference(userData.parking);
+
                                   });
                                   print(userData.parking);
                                 }
@@ -218,6 +222,18 @@ class _SettingsFormState extends State<SettingsForm> {
           }
         }
     );
+  }
+
+  void setPreference(String parking){
+    if(parking == 'HCP'){
+      preference = 'prorelsehindrad';
+    } else if(parking == 'MC'){
+      preference = 'pmotorcykel';
+    } else if(parking == 'No Preference'){
+      preference ='ptillaten';
+    } else{
+      preference ='ptillaten';
+    }
   }
 
   Future<void> _neverSatisfied() async {

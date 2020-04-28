@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterparkinggit/gamla_appen/services/pages/homescreens/settings_form.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/map/location.dart';
@@ -186,7 +187,7 @@ class _ParkingMapState extends State<ParkingMap> {
   }
 
   Future<void> getData(LatLng location) async {
-    Response response = await get('https://openparking.stockholm.se/LTF-Tolken/v1/ptillaten/within?radius=100&lat=${location.latitude.toString()}&lng=${location.longitude.toString()}&outputFormat=json&apiKey=e734eaa7-d9b5-422a-9521-844554d9965b');
+    Response response = await get('https://openparking.stockholm.se/LTF-Tolken/v1/${preference.toString()}/within?radius=100&lat=${location.latitude.toString()}&lng=${location.longitude.toString()}&outputFormat=json&apiKey=e734eaa7-d9b5-422a-9521-844554d9965b');
     Map data = jsonDecode(response.body);
     var dataList = data['features'] as List;
     List list = dataList.map<TestParking>((json) => TestParking.fromJson(json)).toList();
