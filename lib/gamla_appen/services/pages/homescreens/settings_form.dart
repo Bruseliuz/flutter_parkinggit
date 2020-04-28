@@ -21,7 +21,7 @@ class _SettingsFormState extends State<SettingsForm> {
   final _formKey = GlobalKey<FormState>();
   final List<String> parkingType = ['MC','HCP','No Preference'];
 
-  int currentDistance = 100;
+  int currentDistance;
   String _currentName;
   String _currentParking;
   int _currentMaxPrice;
@@ -138,7 +138,7 @@ class _SettingsFormState extends State<SettingsForm> {
                           ),
                           SizedBox(height: 10.0),
                           Text(
-                              'Chosen radius: $currentDistance meters',
+                              'Chosen radius: ${userData.radius} meters',
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 18,

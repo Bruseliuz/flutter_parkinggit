@@ -12,7 +12,7 @@ class UserData{
   final String name;
   final String parking;
   final int maxPrice;
-  final double radius;
+  final int radius;
 
   UserData({this.uid, this.name, this.parking, this.maxPrice, this.radius});
 
