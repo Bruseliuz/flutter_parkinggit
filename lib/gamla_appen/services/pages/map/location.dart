@@ -1,7 +1,6 @@
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart';
 import 'dart:convert';
-import 'package:flutterparkinggit/gamla_appen/services/pages/map/map.dart' as karta;
 import 'dart:math';
 
 
@@ -114,15 +113,15 @@ void parseCoordinates(List<dynamic> coordinates){
   parkingSpotsList.clear();
   coordinates.forEach((element){
     print(element.coordinatesList[1]);
-    List temp = element.coordinatesList[1];    //TODO - Loopa för att kika på varje element i listan
+    List temp = element.coordinatesList[1];
     double longitude = temp[1];
     double latitude = temp[0];
     LatLng coordinatesParsed = new LatLng(longitude, latitude);
     parkingSpotsList.add(TestParking(
       streetName: element.streetName,
       coordinates: coordinatesParsed,
-      numberOfParkingSpots: coordinates.length.toString(),
-      availableParkingSpots: getRandomParkingSpot(coordinates)
+      numberOfParkingSpots: element.coordinatesList.length.toString(),
+      availableParkingSpots: getRandomAvailableParkingSpot(coordinates)
     ));
     print('-------------------Lista på parkeringsplatser-------------------');
     print(parkingSpotsList);
@@ -133,9 +132,8 @@ void parseCoordinates(List<dynamic> coordinates){
 List <TestParking> parkingSpotsList = [];
 
 
-String getRandomParkingSpot(List<dynamic> coordinates){
+String getRandomAvailableParkingSpot(List<dynamic> coordinates){
   var random = new Random();
   int randomNumber = random.nextInt(coordinates.length);
   return randomNumber.toString();
 }
-
