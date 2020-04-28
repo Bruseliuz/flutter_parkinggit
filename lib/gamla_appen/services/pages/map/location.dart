@@ -1,10 +1,8 @@
-import 'dart:developer';
-
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+//import 'package:flutterparkinggit/gamla_appen/services/pages/map/map.dart';
 import 'package:http/http.dart';
 import 'dart:convert';
 import 'dart:math';
-import 'package:flutterparkinggit/gamla_appen/services/pages/homescreens/settings_form.dart';
 
 
 class ParkingAreas {
@@ -102,15 +100,15 @@ class TestParking{
 
 
 
-void getData(LatLng location) async {
-  Response response = await get('https://openparking.stockholm.se/LTF-Tolken/v1/ptillaten/within?radius=100&lat=${location.latitude.toString()}&lng=${location.longitude.toString()}&outputFormat=json&apiKey=e734eaa7-d9b5-422a-9521-844554d9965b');
-  Map data = jsonDecode(response.body);
-  var dataList = data['features'] as List;
-  List list = dataList.map<TestParking>((json) => TestParking.fromJson(json)).toList();
-  print(list);
-  parseCoordinates(list);
-
-}
+//Future<void> getData(LatLng location) async {
+//  Response response = await get('https://openparking.stockholm.se/LTF-Tolken/v1/ptillaten/within?radius=100&lat=${location.latitude.toString()}&lng=${location.longitude.toString()}&outputFormat=json&apiKey=e734eaa7-d9b5-422a-9521-844554d9965b');
+//  Map data = jsonDecode(response.body);
+//  var dataList = data['features'] as List;
+//  List list = dataList.map<TestParking>((json) => TestParking.fromJson(json)).toList();
+//  print(list);
+//  parseCoordinates(list);
+//
+//}
 
 void parseCoordinates(List<dynamic> coordinates){
   parkingSpotsList.clear();

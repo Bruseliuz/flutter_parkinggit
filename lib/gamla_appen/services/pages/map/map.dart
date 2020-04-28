@@ -5,13 +5,16 @@ import 'package:location/location.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/map/location.dart';
 import 'dart:async';
 
-class Map extends StatefulWidget {
-  Map({ @required Key key}) : super(key:key);
+import 'package:http/http.dart';
+import 'dart:convert';
+
+class ParkingMap extends StatefulWidget {
+  ParkingMap({ @required Key key}) : super(key:key);
   @override
-  _MapState createState() => _MapState();
+  _ParkingMapState createState() => _ParkingMapState();
 }
 
-class _MapState extends State<Map> {
+class _ParkingMapState extends State<ParkingMap> {
 
 
 
@@ -141,14 +144,14 @@ class _MapState extends State<Map> {
     _controller.complete(controller);
   }
 
-  void getCurrentLocation() async {
+  Future getCurrentLocation() async {
     var location = await _locationTracker.getLocation();
     allMarkers.clear();
-    setLocation(location);
+    await setLocation(location);
   }
 
 
-  void setLocation(LocationData location) async {
+  Future<void> setLocation(LocationData location) async {
     LatLng newLocation = LatLng(location.latitude, location.longitude);
     CameraPosition cameraPosition = CameraPosition(
       zoom: 15.0,
@@ -157,23 +160,39 @@ class _MapState extends State<Map> {
 
     final GoogleMapController controller = await _controller.future;
     controller.animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
-    getData(newLocation);
+    await getData(newLocation);
+
   }
 
-  Future getMarkers() async{
+  Future<void> getData(LatLng location) async {
+    Response response = await get('https://openparking.stockholm.se/LTF-Tolken/v1/ptillaten/within?radius=100&lat=${location.latitude.toString()}&lng=${location.longitude.toString()}&outputFormat=json&apiKey=e734eaa7-d9b5-422a-9521-844554d9965b');
+    Map data = jsonDecode(response.body);
+    var dataList = data['features'] as List;
+    List list = dataList.map<TestParking>((json) => TestParking.fromJson(json)).toList();
+    print(list);
+    parseCoordinates(list);
+    allMarkers.clear();
+    getMarkers();
+
+  }
+
+  void getMarkers() {
     parkingSpotsList.forEach((element) {
-      allMarkers.add(Marker(
-          markerId: MarkerId(element.streetName),
-          icon: BitmapDescriptor.defaultMarker,
-          visible: true,
-          draggable: false,
-          onTap: () {
-            showDialog(context: context, builder: (_) => _alertDialogWidget(element)
-            );
-          },
-          position: element.coordinates
-      ));
-    });
+      setState(() {
+        allMarkers.add(Marker(
+            markerId: MarkerId(element.streetName),
+            icon: BitmapDescriptor.defaultMarker,
+            visible: true,
+            draggable: false,
+            onTap: () {
+              showDialog(context: context, builder: (_) => _alertDialogWidget(element)
+              );
+            },
+            position: element.coordinates
+        ));
+      });
+      });
+
   }
 
   @override
@@ -187,7 +206,7 @@ class _MapState extends State<Map> {
             target: _center,
             zoom: 12.0,
           ),
-          markers: Set.from(allMarkers),
+          markers: Set<Marker>.of(allMarkers),
         ),
       ),
       floatingActionButton:
@@ -199,12 +218,12 @@ class _MapState extends State<Map> {
             child: Icon(Icons.my_location,
             ),
             backgroundColor: Color(0xff207FC5),
-            onPressed: () {
-              setState(() {
-                allMarkers.clear();// Ta bort alla Markers ifrån kartan
-                getCurrentLocation();
-                getMarkers();
-              });
+            onPressed: () async {
+              await getCurrentLocation();
+//              allMarkers.clear();// Ta bort alla Markers ifrån kartan
+
+              print(allMarkers.toString());
+              getMarkers();
             },
           ),
           SizedBox(height: 10),
