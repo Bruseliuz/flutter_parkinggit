@@ -36,7 +36,7 @@ class _ParkingMapState extends State<ParkingMap> {
     super.initState();
   }
 
-  Widget noParkingAlertDialogWidget(){
+  Widget _noParkingAlertDialogWidget(){
     return AlertDialog(
       elevation: 3.0,
       shape: RoundedRectangleBorder(
@@ -269,7 +269,7 @@ class _ParkingMapState extends State<ParkingMap> {
               print(allMarkers.toString());
               getMarkers();
               if(allMarkers.isEmpty){
-                showDialog(context: context, builder: (_) => noParkingAlertDialogWidget());
+                showDialog(context: context, builder: (_) => _noParkingAlertDialogWidget());
               }
             },
           ),
