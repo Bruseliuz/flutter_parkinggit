@@ -144,7 +144,6 @@ class _MapState extends State<Map> {
     final GoogleMapController controller = await _controller.future;
     controller.animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
     getData(newLocation);
-    getMarkers(); // Sätter alla markers på kartan.
   }
 
   Future getMarkers() async{
@@ -186,6 +185,9 @@ class _MapState extends State<Map> {
         onPressed: () {
           allMarkers.clear();// Ta bort alla Markers ifrån kartan
           getCurrentLocation();
+          setState(() {
+            getMarkers();
+          });
         },
       ),
     );
