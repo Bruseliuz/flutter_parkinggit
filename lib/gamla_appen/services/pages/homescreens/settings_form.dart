@@ -7,6 +7,8 @@ import 'package:provider/provider.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/homescreens/setting_anon.dart';
 
 
+int distance;
+
 class SettingsForm extends StatefulWidget {
   @override
   _SettingsFormState createState() => _SettingsFormState();
@@ -15,10 +17,11 @@ class SettingsForm extends StatefulWidget {
 
 class _SettingsFormState extends State<SettingsForm> {
 
+
   final _formKey = GlobalKey<FormState>();
   final List<String> parkingType = ['MC','HCP','No Preference'];
 
-
+  int currentDistance = 100;
   String _currentName;
   String _currentParking;
   int _currentMaxPrice;
@@ -118,10 +121,10 @@ class _SettingsFormState extends State<SettingsForm> {
                                 fontSize: 18,
                               )
                           ),
-                          SizedBox(height: 15.0),
+                          SizedBox(height: 40.0),
                           Slider(
                             label: _currentMaxPrice.toString() ,
-                            activeColor: Colors.black54,
+                            activeColor: Colors.white70,
                             inactiveColor: Colors.black,
                             value: (_currentMaxPrice ?? userData.maxPrice).toDouble(),
                             min: 10,
@@ -132,6 +135,32 @@ class _SettingsFormState extends State<SettingsForm> {
                               _updateSettingsIcon = new Icon(Icons.refresh,
                                   color: Color(0xff207FC5));
                             }),
+                          ),
+                          SizedBox(height: 10.0),
+                          Text(
+                              'Chosen radius: $currentDistance meters',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                              )
+                          ),
+                          SizedBox(height: 15.0),
+                          Slider(
+                            activeColor: Colors.white70,
+                            inactiveColor: Colors.black,
+                            value: (currentDistance ?? userData.radius).toDouble(),
+                            min: 100,
+                            max: 300,
+                            divisions: 2,
+                            onChanged: (val) => setState(() {
+                              currentDistance = val.round();
+                              _updateSettingsIcon = new Icon(Icons.refresh,
+                                  color: Color(0xff207FC5));
+                            setState(() {
+                              distance = currentDistance;
+                            });
+                            }),
+
                           ),
                           Container(
                             margin: EdgeInsets.symmetric(horizontal: 50),
@@ -163,7 +192,8 @@ class _SettingsFormState extends State<SettingsForm> {
                                   await DatabaseService(uid: user.uid).updateUserData(
                                       _currentParking ?? userData.parking,
                                       _currentName ?? userData.name,
-                                      _currentMaxPrice ?? userData.maxPrice
+                                      _currentMaxPrice ?? userData.maxPrice,
+                                    currentDistance ?? userData.radius
                                   );
                                   _neverSatisfied();
                                   setState(() {

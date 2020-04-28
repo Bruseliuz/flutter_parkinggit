@@ -222,7 +222,7 @@ class _ParkingMapState extends State<ParkingMap> {
             onPressed: () {
               setState(() {
                 allMarkers.clear();// Ta bort alla Markers ifrån kartan
-                getMarkers();
+                getMarkers(); // Lägger till markers
               });
             },
           ),
