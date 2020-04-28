@@ -201,7 +201,7 @@ class _SettingsFormState extends State<SettingsForm> {
                                   setState(() {
                                     _updateSettingsIcon = new Icon(Icons.check_circle_outline,
                                         color: Color(0xff207FC5));
-                                    setPreference(userData.parking);
+                                    setPreference();
 
                                   });
                                   print(userData.parking);
@@ -224,12 +224,12 @@ class _SettingsFormState extends State<SettingsForm> {
     );
   }
 
-  void setPreference(String parking){
-    if(parking == 'HCP'){
+  void setPreference(){
+    if(_currentParking == 'HCP'){
       preference = 'prorelsehindrad';
-    } else if(parking == 'MC'){
+    } else if(_currentParking == 'MC'){
       preference = 'pmotorcykel';
-    } else if(parking == 'No Preference'){
+    } else if(_currentParking == 'No Preference'){
       preference ='ptillaten';
     } else{
       preference ='ptillaten';
