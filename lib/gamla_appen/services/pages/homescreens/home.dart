@@ -23,7 +23,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     final tabs = [
-      Map(key: widget._mapKey),
+      ParkingMap(key: widget._mapKey),
       Favorites(),
       ParkList(),
       SettingsForm(),
