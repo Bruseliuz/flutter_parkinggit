@@ -46,6 +46,7 @@ class DatabaseService {
         name: doc.data['name'] ?? '',
         parkering: doc.data['parkering'] ?? '',
         maxPrice: doc.data['maxPrice'] ?? 0,
+
       );
     }).toList();
   }
@@ -57,7 +58,7 @@ class DatabaseService {
       name: snapshot.data['name'],
       parking: snapshot.data['parkering'],
       maxPrice: snapshot.data['maxPrice'],
-
+      radius: snapshot.data['radius']
     );
   }
 
