@@ -203,7 +203,7 @@ class _MapState extends State<Map> {
             onPressed: () {
               setState(() {
                 allMarkers.clear();// Ta bort alla Markers ifrån kartan
-                getMarkers();
+                getMarkers(); // Lägger till markers
               });
             },
           ),
