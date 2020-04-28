@@ -148,7 +148,7 @@ class _SettingsFormState extends State<SettingsForm> {
                           Slider(
                             activeColor: Colors.white70,
                             inactiveColor: Colors.black,
-                            value: currentDistance.toDouble(),
+                            value: (currentDistance ?? userData.radius).toDouble(),
                             min: 100,
                             max: 300,
                             divisions: 2,
@@ -193,6 +193,7 @@ class _SettingsFormState extends State<SettingsForm> {
                                       _currentParking ?? userData.parking,
                                       _currentName ?? userData.name,
                                       _currentMaxPrice ?? userData.maxPrice,
+                                    currentDistance ?? userData.radius
                                   );
                                   _neverSatisfied();
                                   setState(() {
