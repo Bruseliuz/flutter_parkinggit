@@ -36,7 +36,35 @@ class _ParkingMapState extends State<ParkingMap> {
     super.initState();
   }
 
-
+  Widget noParkingAlertDialogWidget(){
+    return AlertDialog(
+      elevation: 3.0,
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20)
+      ),
+      backgroundColor: Colors.white,
+      title: Text('No parking available in your area.',
+        style: TextStyle(
+            color: Color(0xff207FC5),
+            fontWeight: FontWeight.bold
+        ),
+      ),
+      content: Container(
+        child: FlatButton.icon(
+          color: Colors.white,
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20)
+          ),
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          icon: Icon(Icons.clear, color: Color(0xff207FC5), size: 25,),
+          label: Text('Close', style: TextStyle(color: Color(0xff207FC5), fontSize: 20),
+          ),
+        ),
+      ),
+    );
+  }
 
   Widget _alertDialogWidget(element) {
     return AlertDialog(
@@ -240,6 +268,9 @@ class _ParkingMapState extends State<ParkingMap> {
               await getCurrentLocation();
               print(allMarkers.toString());
               getMarkers();
+              if(allMarkers.isEmpty){
+                showDialog(context: context, builder: (_) => noParkingAlertDialogWidget());
+              }
             },
           ),
       );
