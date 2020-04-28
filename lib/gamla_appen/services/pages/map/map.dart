@@ -128,17 +128,26 @@ class _ParkingMapState extends State<ParkingMap> {
               label: Text('OK', style: TextStyle(color: Color(0xff207FC5)),
               ),
             ),
-            FlatButton.icon(
-              color: Colors.white,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20)
+            Theme(
+              data: Theme.of(context).copyWith(
+                primaryColor:  Color(0xff207FC5),
+                highlightColor:  Colors.black,
+                accentColor: Color(0xff207FC5),
               ),
-              onPressed: () {
-                Navigator.of(context).pop();
-                selectTime(context);
-              },
-              icon: Icon(Icons.timer, color: Color(0xff207FC5),),
-              label: Text('Start parking', style: TextStyle(color: Color(0xff207FC5)),
+              child: Builder(
+                builder: (context)=> FlatButton.icon(
+                  color: Colors.white,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20)
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    selectTime(context);
+                  },
+                  icon: Icon(Icons.timer, color: Color(0xff207FC5),),
+                  label: Text('Start parking', style: TextStyle(color: Color(0xff207FC5)),
+                  ),
+                ),
               ),
             ),
           ],
