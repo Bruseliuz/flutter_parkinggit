@@ -95,7 +95,6 @@ class _HomeState extends State<Home> {
                   backgroundColor: Color(0xff207FC5),
                 )
               ],
-
         )
     )
     );
