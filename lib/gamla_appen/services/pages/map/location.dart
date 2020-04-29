@@ -63,6 +63,23 @@ class ParkingAreasList {
 
 }
 
+class PriceArea {
+  List<dynamic> coordinatesList;
+  String name;
+
+  PriceArea({this.coordinatesList, this.name});
+
+  factory PriceArea.fromJson(Map<String, dynamic> json) {
+    return PriceArea(
+      coordinatesList: json['geometry']['coordinates'],
+      name: json['properties']['DISTRICT_NAME'],
+    );
+  }
+
+  @override
+  toString() => 'Taxa: $name PolyCoordinates: $coordinatesList';
+}
+
 class ParkingAreas{
   String streetName;
   List<dynamic> coordinatesList;
@@ -101,8 +118,9 @@ class ParkingAreas{
 
 
 List <ParkingAreas> parkingSpotsList = [];
+List <PriceArea> priceAreaList = [];
 
-void parseCoordinates(List<dynamic> coordinates){
+void parseParkingCoordinates(List<dynamic> coordinates){
   parkingSpotsList.clear();
   coordinates.forEach((element){
     print('${element.coordinatesList} HÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄR');
@@ -121,6 +139,23 @@ void parseCoordinates(List<dynamic> coordinates){
     print('Längden på listan: ${parkingSpotsList.length}');
   });
 }
+
+//void parsePriceAreaCoordinates(List<dynamic> coordinates){
+//  priceAreaList.clear();
+//  coordinates.forEach((element){
+////    print('${element.coordinatesList} HÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄR');
+//    List temp = element.coordinatesList[1];
+////    double longitude = temp[1];
+////    double latitude = temp[0];
+////    LatLng coordinatesParsed = new LatLng(longitude, latitude);
+//    priceAreaList.add(PriceArea(
+//      name: element.name,
+//    ));
+//    print('-------------------Lista på parkeringsplatser-------------------');
+//    print(parkingSpotsList);
+//    print('Längden på listan: ${parkingSpotsList.length}');
+//  });
+//}
 
 String getRandomAvailableParkingSpot(List<dynamic> coordinates){
   var random = new Random();
