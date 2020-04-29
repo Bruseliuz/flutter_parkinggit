@@ -110,6 +110,9 @@ class TestParking{
 //
 //}
 
+
+List <TestParking> parkingSpotsList = [];
+
 void parseCoordinates(List<dynamic> coordinates){
   parkingSpotsList.clear();
   coordinates.forEach((element){
@@ -129,9 +132,6 @@ void parseCoordinates(List<dynamic> coordinates){
     print('Längden på listan: ${parkingSpotsList.length}');
   });
 }
-
-List <TestParking> parkingSpotsList = [];
-
 
 String getRandomAvailableParkingSpot(List<dynamic> coordinates){
   var random = new Random();
