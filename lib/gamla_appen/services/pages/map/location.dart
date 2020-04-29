@@ -109,13 +109,13 @@ void parseCoordinates(List<dynamic> coordinates) {
     double longitude = temp[1];
     double latitude = temp[0];
     LatLng coordinatesParsed = new LatLng(longitude, latitude);
-    if (getRandomAvailableParkingSpot(element.coordinatesList).) {
+    if(getRandomAvailableParkingSpot(element.coordinatesList)!='0') {
     parkingSpotsList.add(ParkingAreas(
     streetName: element.streetName,
     coordinates: coordinatesParsed,
     numberOfParkingSpots: element.coordinatesList.length.toString(),
     availableParkingSpots: getRandomAvailableParkingSpot(element.coordinatesList)
-    ))};
+    ));}
     print('-------------------Lista på parkeringsplatser-------------------');
     print(parkingSpotsList);
     print('Längden på listan: ${parkingSpotsList.length}');
