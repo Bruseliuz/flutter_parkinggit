@@ -112,6 +112,7 @@ void parseCoordinates(List<dynamic> coordinates) {
           numberOfParkingSpots: element.coordinatesList.length.toString(),
           availableParkingSpots:
               getRandomAvailableParkingSpot(element.coordinatesList)));
+      checkParkingSpot();
     print('-------------------Lista på parkeringsplatser-------------------');
     print(parkingSpotsList);
     print('Längden på listan: ${parkingSpotsList.length}');
@@ -122,4 +123,7 @@ String getRandomAvailableParkingSpot(List<dynamic> coordinates) {
   var random = new Random();
   int randomNumber = random.nextInt(coordinates.length);
   return randomNumber.toString();
+}
+void checkParkingSpot() {
+  parkingSpotsList.removeWhere((item) => item.availableParkingSpots == '0');
 }
