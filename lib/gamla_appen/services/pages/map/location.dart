@@ -63,7 +63,7 @@ class ParkingAreasList {
 
 }
 
-class ParkingAreas{
+class ParkingAreas {
   String streetName;
   List<dynamic> coordinatesList;
   LatLng coordinates;
@@ -71,19 +71,21 @@ class ParkingAreas{
   String availableParkingSpots;
 
 
-  ParkingAreas({this.streetName, this.coordinatesList,this.coordinates, this.numberOfParkingSpots, this.availableParkingSpots});
+  ParkingAreas(
+      {this.streetName, this.coordinatesList, this.coordinates, this.numberOfParkingSpots, this.availableParkingSpots});
 
 
-  factory ParkingAreas.fromJson(Map<String,dynamic> json){
+  factory ParkingAreas.fromJson(Map<String, dynamic> json){
     return ParkingAreas(
         streetName: json['properties']['ADDRESS'],
         coordinatesList: json['geometry']['coordinates']
     );
   }
 
-  @override toString() => 'Streetname: $streetName Coordinateslist: $coordinatesList Coordinates: ${coordinates.toString()}';
+  @override toString() =>
+      'Streetname: $streetName Coordinateslist: $coordinatesList Coordinates: ${coordinates
+          .toString()}';
 }
-
 
 
 //Future<void> getData(LatLng location) async {
@@ -99,27 +101,28 @@ class ParkingAreas{
 
 List <ParkingAreas> parkingSpotsList = [];
 
-void parseCoordinates(List<dynamic> coordinates){
+void parseCoordinates(List<dynamic> coordinates) {
   parkingSpotsList.clear();
-  coordinates.forEach((element){
+  coordinates.forEach((element) {
     print('${element.coordinatesList} HÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄR');
     List temp = element.coordinatesList[1];
     double longitude = temp[1];
     double latitude = temp[0];
     LatLng coordinatesParsed = new LatLng(longitude, latitude);
+    if (getRandomAvailableParkingSpot(element.coordinatesList).) {
     parkingSpotsList.add(ParkingAreas(
-      streetName: element.streetName,
-      coordinates: coordinatesParsed,
-      numberOfParkingSpots: element.coordinatesList.length.toString(),
-      availableParkingSpots: getRandomAvailableParkingSpot(element.coordinatesList)
-    ));
+    streetName: element.streetName,
+    coordinates: coordinatesParsed,
+    numberOfParkingSpots: element.coordinatesList.length.toString(),
+    availableParkingSpots: getRandomAvailableParkingSpot(element.coordinatesList)
+    ))};
     print('-------------------Lista på parkeringsplatser-------------------');
     print(parkingSpotsList);
     print('Längden på listan: ${parkingSpotsList.length}');
   });
 }
 
-String getRandomAvailableParkingSpot(List<dynamic> coordinates){
+String getRandomAvailableParkingSpot(List<dynamic> coordinates) {
   var random = new Random();
   int randomNumber = random.nextInt(coordinates.length);
   return randomNumber.toString();
