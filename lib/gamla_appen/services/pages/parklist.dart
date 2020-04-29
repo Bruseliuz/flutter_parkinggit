@@ -49,7 +49,7 @@ class _ParkListState extends State<ParkList> {
               '${_parkingAreasList.parkingAreas[index].vacantParkingLots}'),
           title: Text('ID: ${_parkingAreasList.parkingAreas[index].id}'),
           subtitle: Text(
-              'Price: ${_parkingAreasList.parkingAreas[index].price} kronor per hour'),
+              'Price: 12 kronor per hour'),
           trailing: Icon(Icons.directions_car),
         ),
       ),
