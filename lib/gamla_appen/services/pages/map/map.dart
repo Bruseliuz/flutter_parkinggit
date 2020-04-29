@@ -8,6 +8,8 @@ import 'dart:async';
 import 'package:http/http.dart';
 import 'dart:convert';
 
+List<LatLng> latlngList = List();
+
 class ParkingMap extends StatefulWidget {
   ParkingMap({ @required Key key}) : super(key:key);
   @override
@@ -15,6 +17,12 @@ class ParkingMap extends StatefulWidget {
 }
 
 class _ParkingMapState extends State<ParkingMap> {
+
+  LatLng _lastCameraPosition;
+  final Set<Polyline> _polyLines = {};
+
+  LatLng _new = LatLng(59.287674, 18.091698000000008);
+  LatLng _news = LatLng(58.287674, 17.091698000000008);
 
   TimeOfDay _time = TimeOfDay.now();
   Future<Null> selectTime(BuildContext context) async {
@@ -29,6 +37,7 @@ class _ParkingMapState extends State<ParkingMap> {
 
   Location _locationTracker = Location();
   List <Marker> allMarkers = []; //TODO - 3 Lists
+
 
   @override
   void initState() {
@@ -184,7 +193,18 @@ class _ParkingMapState extends State<ParkingMap> {
     );
   }
 
-
+  void addPolyLines() {
+    setState(() {
+      latlngList.add(_new);
+      latlngList.add(_news);
+      _polyLines.add(Polyline(
+        polylineId: PolylineId(_lastCameraPosition.toString()),
+        visible: true,
+        points: latlngList,
+        color: Colors.blue
+      ));
+    });
+  }
 
   Completer<GoogleMapController> _controller = Completer();
   static LatLng _center = LatLng(59.334591, 18.063240);
@@ -202,6 +222,7 @@ class _ParkingMapState extends State<ParkingMap> {
 
   Future<void> setLocation(LocationData location) async {
     LatLng newLocation = LatLng(location.latitude, location.longitude);
+    _lastCameraPosition = newLocation;
     CameraPosition cameraPosition = CameraPosition(
       zoom: 15.0,
       target: newLocation,
@@ -211,10 +232,11 @@ class _ParkingMapState extends State<ParkingMap> {
     controller.animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
     await getData(newLocation);
 
+
   }
 
   Future<void> getData(LatLng location) async {
-    Response response = await get('https://openparking.stockholm.se/LTF-Tolken/v1/${preference.toString()}/within?radius=100&lat=${location.latitude.toString()}&lng=${location.longitude.toString()}&outputFormat=json&apiKey=e734eaa7-d9b5-422a-9521-844554d9965b');
+    Response response = await get('https://openparking.stockholm.se/LTF-Tolken/v1/${preference.toString()}/within?radius=$distance&lat=${location.latitude.toString()}&lng=${location.longitude.toString()}&outputFormat=json&apiKey=e734eaa7-d9b5-422a-9521-844554d9965b');
     Map data = jsonDecode(response.body);
     var dataList = data['features'] as List;
     List list = dataList.map<ParkingAreas>((json) => ParkingAreas.fromJson(json)).toList();
@@ -247,6 +269,7 @@ class _ParkingMapState extends State<ParkingMap> {
     return Scaffold(
       body: Container(
         child: GoogleMap(
+          polylines: _polyLines,
           zoomControlsEnabled: false,
           onMapCreated: _onMapCreated,
           initialCameraPosition: CameraPosition(
@@ -266,6 +289,7 @@ class _ParkingMapState extends State<ParkingMap> {
               await getCurrentLocation();
               print(allMarkers.toString());
               getMarkers();
+              addPolyLines();
               if(allMarkers.isEmpty){
                 showDialog(context: context, builder: (_) => _noParkingAlertDialogWidget());
               }
