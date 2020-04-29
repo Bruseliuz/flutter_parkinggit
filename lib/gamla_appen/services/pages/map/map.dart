@@ -25,6 +25,7 @@ class _ParkingMapState extends State<ParkingMap> {
   LatLng _news = LatLng(58.287674, 17.091698000000008);
 
   TimeOfDay _time = TimeOfDay.now();
+  TimeOfDay timerSet;
   Future<Null> selectTime(BuildContext context) async {
     _time = await showTimePicker(context: context, initialTime: _time,
         builder: (BuildContext context, Widget child) {
@@ -33,6 +34,11 @@ class _ParkingMapState extends State<ParkingMap> {
             child: child,
           );
         });
+    setState(() {
+      print(timerSet);
+      timerSet = _time;
+      print(timerSet);
+    });
   }
 
   Location _locationTracker = Location();
@@ -218,8 +224,7 @@ class _ParkingMapState extends State<ParkingMap> {
     allMarkers.clear();
     await setLocation(location);
   }
-
-
+  
   Future<void> setLocation(LocationData location) async {
     LatLng newLocation = LatLng(location.latitude, location.longitude);
     _lastCameraPosition = newLocation;
@@ -266,36 +271,44 @@ class _ParkingMapState extends State<ParkingMap> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        child: GoogleMap(
-          polylines: _polyLines,
-          zoomControlsEnabled: false,
-          onMapCreated: _onMapCreated,
-          initialCameraPosition: CameraPosition(
-            target: _center,
-            zoom: 12.0,
-          ),
-          markers: Set<Marker>.of(allMarkers),
-        ),
-      ),
-      floatingActionButton:
-          FloatingActionButton(
-            elevation: 3.0,
-            child: Icon(Icons.my_location,
+    if(timerSet == null) {
+      return Scaffold(
+        body: Container(
+          child: GoogleMap(
+            polylines: _polyLines,
+            zoomControlsEnabled: false,
+            onMapCreated: _onMapCreated,
+            initialCameraPosition: CameraPosition(
+              target: _center,
+              zoom: 12.0,
             ),
-            backgroundColor: Color(0xff207FC5),
-            onPressed: () async {
-              await getCurrentLocation();
-              print(allMarkers.toString());
-              getMarkers();
-              addPolyLines();
-              if(allMarkers.isEmpty){
-                showDialog(context: context, builder: (_) => _noParkingAlertDialogWidget());
-              }
-            },
+            markers: Set<Marker>.of(allMarkers),
           ),
+        ),
+        floatingActionButton:
+        FloatingActionButton(
+          elevation: 3.0,
+          child: Icon(Icons.my_location,
+          ),
+          backgroundColor: Color(0xff207FC5),
+          onPressed: () async {
+            await getCurrentLocation();
+            print(allMarkers.toString());
+            getMarkers();
+            addPolyLines();
+            if (allMarkers.isEmpty) {
+              showDialog(context: context,
+                  builder: (_) => _noParkingAlertDialogWidget());
+            }
+          },
+        ),
       );
+    }else{
+      return Scaffold(
+        body: Text('Timer set'),
+      );
+    }
+    //Annars returnera timer
   }
 }
 

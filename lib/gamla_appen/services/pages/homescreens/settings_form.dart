@@ -8,7 +8,7 @@ import 'package:flutterparkinggit/gamla_appen/services/pages/homescreens/setting
 
 
 int distance = 100;
-String preference;
+String preference = 'ptillaten';
 
 class SettingsForm extends StatefulWidget {
   @override
