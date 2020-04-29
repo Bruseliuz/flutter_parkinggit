@@ -56,7 +56,7 @@ class AuthService{
       AuthResult result = await _auth.createUserWithEmailAndPassword(email: email, password: password);
       FirebaseUser user = result.user;
       //create a new document for the user with the uid
-      await DatabaseService(uid: user.uid).updateUserData('none', name, 50,100);
+      await DatabaseService(uid: user.uid).updateUserData('none', name, 50, 100);
       return _userFromFirebaseUser(user);
     }catch(e){
       print(e.toString());
@@ -76,23 +76,7 @@ class AuthService{
     }
   }
 
-  Future<FacebookLoginResult> getFBLoginResult() async {
-    final facebookLogin = FacebookLogin();
-    FacebookLoginResult facebookLoginResult =
-    await facebookLogin.logIn(['email']);
-    switch (facebookLoginResult.status) {
-      case FacebookLoginStatus.cancelledByUser:
-        print("Cancelled");
-        break;
-      case FacebookLoginStatus.error:
-        print("error");
-        break;
-      case FacebookLoginStatus.loggedIn:
-        print("Logged In");
-        break;
-    }
-    return facebookLoginResult;
-  }
+
 
   Future handleGoogleSignIn() async {
     final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
@@ -110,6 +94,24 @@ class AuthService{
     await checkUserInDB(user.uid, user.displayName);
     return _userFromFirebaseUser(user);
 
+  }
+
+  Future<FacebookLoginResult> getFBLoginResult() async {
+    final facebookLogin = FacebookLogin();
+    FacebookLoginResult facebookLoginResult =
+    await facebookLogin.logIn(['email']);
+    switch (facebookLoginResult.status) {
+      case FacebookLoginStatus.cancelledByUser:
+        print("Cancelled");
+        break;
+      case FacebookLoginStatus.error:
+        print("error");
+        break;
+      case FacebookLoginStatus.loggedIn:
+        print("Logged In");
+        break;
+    }
+    return facebookLoginResult;
   }
 
   Future handleFacebookSignIn() async {
@@ -141,7 +143,8 @@ class AuthService{
       await _databaseReference.collection('parkingPreference').document(uid).setData({
         'maxPrice': 50,
         'name': username,
-        'parkingPreference': 'No Preference'
+        'parkingPreference': 'No Preference',
+        'radius': 200
       });
       print('0');
       return 1;

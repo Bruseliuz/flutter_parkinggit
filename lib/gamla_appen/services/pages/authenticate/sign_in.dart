@@ -165,7 +165,6 @@ class _SignInState extends State<SignIn> {
                                     if (this.mounted) {
                                       setState(() => loading = false);
                                     }
-                                    widget.toggleView();
                                   }
                                 },
                                 padding: EdgeInsets.all(15),
