@@ -4,7 +4,6 @@ import 'package:http/http.dart';
 import 'dart:convert';
 import 'dart:math';
 
-
 /* class ParkingAreas {
   String id;
   int totalNumberOfParkingLots;
@@ -60,7 +59,6 @@ class ParkingAreasList {
   void updateParkingLots() {
     parkingAreas = parkingSpotsList;
   }
-
 }
 
 class ParkingAreas {
@@ -70,23 +68,23 @@ class ParkingAreas {
   String numberOfParkingSpots;
   String availableParkingSpots;
 
-
   ParkingAreas(
-      {this.streetName, this.coordinatesList, this.coordinates, this.numberOfParkingSpots, this.availableParkingSpots});
+      {this.streetName,
+      this.coordinatesList,
+      this.coordinates,
+      this.numberOfParkingSpots,
+      this.availableParkingSpots});
 
-
-  factory ParkingAreas.fromJson(Map<String, dynamic> json){
+  factory ParkingAreas.fromJson(Map<String, dynamic> json) {
     return ParkingAreas(
         streetName: json['properties']['ADDRESS'],
-        coordinatesList: json['geometry']['coordinates']
-    );
+        coordinatesList: json['geometry']['coordinates']);
   }
 
-  @override toString() =>
-      'Streetname: $streetName Coordinateslist: $coordinatesList Coordinates: ${coordinates
-          .toString()}';
+  @override
+  toString() =>
+      'Streetname: $streetName Coordinateslist: $coordinatesList Coordinates: ${coordinates.toString()}';
 }
-
 
 //Future<void> getData(LatLng location) async {
 //  Response response = await get('https://openparking.stockholm.se/LTF-Tolken/v1/ptillaten/within?radius=100&lat=${location.latitude.toString()}&lng=${location.longitude.toString()}&outputFormat=json&apiKey=e734eaa7-d9b5-422a-9521-844554d9965b');
@@ -98,8 +96,7 @@ class ParkingAreas {
 //
 //}
 
-
-List <ParkingAreas> parkingSpotsList = [];
+List<ParkingAreas> parkingSpotsList = [];
 
 void parseCoordinates(List<dynamic> coordinates) {
   parkingSpotsList.clear();
@@ -109,13 +106,12 @@ void parseCoordinates(List<dynamic> coordinates) {
     double longitude = temp[1];
     double latitude = temp[0];
     LatLng coordinatesParsed = new LatLng(longitude, latitude);
-    if(getRandomAvailableParkingSpot(element.coordinatesList)!='0') {
-    parkingSpotsList.add(ParkingAreas(
-    streetName: element.streetName,
-    coordinates: coordinatesParsed,
-    numberOfParkingSpots: element.coordinatesList.length.toString(),
-    availableParkingSpots: getRandomAvailableParkingSpot(element.coordinatesList)
-    ));}
+      parkingSpotsList.add(ParkingAreas(
+          streetName: element.streetName,
+          coordinates: coordinatesParsed,
+          numberOfParkingSpots: element.coordinatesList.length.toString(),
+          availableParkingSpots:
+              getRandomAvailableParkingSpot(element.coordinatesList)));
     print('-------------------Lista på parkeringsplatser-------------------');
     print(parkingSpotsList);
     print('Längden på listan: ${parkingSpotsList.length}');
