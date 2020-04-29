@@ -98,7 +98,7 @@ class ParkingAreas {
 
 List<ParkingAreas> parkingSpotsList = [];
 
-void parseCoordinates(List<dynamic> coordinates) {
+void parseParkingCoordinates(List<dynamic> coordinates) {
   parkingSpotsList.clear();
   coordinates.forEach((element) {
     print('${element.coordinatesList} HÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄR');
