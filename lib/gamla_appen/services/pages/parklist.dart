@@ -46,8 +46,8 @@ class _ParkListState extends State<ParkList> {
         color: Color(0xffA5C9EA),
         child: ListTile(
           leading: Text(
-              '${_parkingAreasList.parkingAreas[index].vacantParkingLots}'),
-          title: Text('ID: ${_parkingAreasList.parkingAreas[index].id}'),
+              '${_parkingAreasList.parkingAreas[index].availableParkingSpots}'),
+          title: Text('Adress: ${_parkingAreasList.parkingAreas[index].streetName}'),
           subtitle: Text(
               'Price: 12 kronor per hour'),
           trailing: Icon(Icons.directions_car),
