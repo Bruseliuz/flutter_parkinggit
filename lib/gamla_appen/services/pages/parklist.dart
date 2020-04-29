@@ -9,7 +9,6 @@ class ParkList extends StatefulWidget {
 
 class _ParkListState extends State<ParkList> {
   ParkingAreasList _parkingAreasList = new ParkingAreasList();
-  ParkingLotsList _parkingLotsList = new ParkingLotsList();
 
   @override
   Widget build(BuildContext context) {
@@ -51,6 +50,14 @@ class _ParkListState extends State<ParkList> {
   }
 
   void openPage(BuildContext context) {
+  //Gå till parkeringsarean i map
+  }
+
+}
+
+
+
+ /* void openPage(BuildContext context) {
     Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
       return Scaffold(
         appBar: AppBar(
@@ -67,9 +74,9 @@ class _ParkListState extends State<ParkList> {
         ),
       );
     }));
-  }
+  } */
 
-  Widget _getParkingLotsList(BuildContext context, int index) {
+/*  Widget _getParkingLotsList(BuildContext context, int index) {
     return GestureDetector(
       onTap: () {},
       child: Container(
@@ -88,3 +95,4 @@ class _ParkListState extends State<ParkList> {
     );
   }
 }
+*/

@@ -9,7 +9,7 @@ class ParkingAreas {
   String id;
   int totalNumberOfParkingLots;
   int vacantParkingLots;
-  ParkingLotsList connectedParkingLots; //lista som består av parkinglots
+  //ParkingLotsList connectedParkingLots; //lista som består av parkinglots
   LatLng locationCoords;
   int price;
 
@@ -18,11 +18,11 @@ class ParkingAreas {
       this.locationCoords,
       this.totalNumberOfParkingLots,
       this.vacantParkingLots,
-      this.connectedParkingLots,
+     // this.connectedParkingLots,
       this.price});
 }
 
-class ParkingLot {
+/* class ParkingLot {
   //för att kunna veta hur många av parkeringareas lots som är tillgängliga
   LatLng locationCoords;
   bool occupied;
@@ -46,7 +46,7 @@ class ParkingLotsList {
     new ParkingLot(locationCoords: LatLng(59.338871, 17.930344), occupied: false),
     new ParkingLot(locationCoords: LatLng(59.338871, 17.930344), occupied: true)
   ];
-}
+} */
 
 
 class ParkingAreasList {
@@ -66,7 +66,7 @@ class ParkingAreasList {
         id: 'test1234',
         totalNumberOfParkingLots: 3,
         vacantParkingLots: 1,
-        connectedParkingLots: new ParkingLotsList(),
+     //   connectedParkingLots: new ParkingLotsList(),
         locationCoords: LatLng(59.338871, 17.930309),
         price: 10)
   ];
