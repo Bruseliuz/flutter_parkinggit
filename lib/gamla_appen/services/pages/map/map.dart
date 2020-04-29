@@ -7,10 +7,8 @@ import 'package:flutterparkinggit/gamla_appen/services/pages/map/location.dart';
 import 'dart:async';
 import 'package:http/http.dart';
 import 'dart:convert';
-import 'package:provider/provider.dart';
-import 'package:flutterparkinggit/gamla_appen/models/user.dart';
 
-
+List<LatLng> latlngList = List();
 
 class ParkingMap extends StatefulWidget {
   ParkingMap({ @required Key key}) : super(key:key);
@@ -20,11 +18,13 @@ class ParkingMap extends StatefulWidget {
 
 class _ParkingMapState extends State<ParkingMap> {
 
+  LatLng _lastCameraPosition;
+  final Set<Polyline> _polyLines = {};
 
+  LatLng _new = LatLng(59.287674, 18.091698000000008);
+  LatLng _news = LatLng(58.287674, 17.091698000000008);
 
   TimeOfDay _time = TimeOfDay.now();
-  TimeOfDay timePicked;
-
   Future<Null> selectTime(BuildContext context) async {
     _time = await showTimePicker(context: context, initialTime: _time,
         builder: (BuildContext context, Widget child) {
@@ -33,17 +33,15 @@ class _ParkingMapState extends State<ParkingMap> {
             child: child,
           );
         });
-    print(_time);
   }
 
   Location _locationTracker = Location();
   List <Marker> allMarkers = []; //TODO - 3 Lists
 
+
   @override
   void initState() {
     super.initState();
-
-
   }
 
   Widget _noParkingAlertDialogWidget(){
@@ -195,6 +193,18 @@ class _ParkingMapState extends State<ParkingMap> {
     );
   }
 
+  void addPolyLines() {
+    setState(() {
+      latlngList.add(_new);
+      latlngList.add(_news);
+      _polyLines.add(Polyline(
+        polylineId: PolylineId(_lastCameraPosition.toString()),
+        visible: true,
+        points: latlngList,
+        color: Colors.blue
+      ));
+    });
+  }
 
   Completer<GoogleMapController> _controller = Completer();
   static LatLng _center = LatLng(59.334591, 18.063240);
@@ -212,6 +222,7 @@ class _ParkingMapState extends State<ParkingMap> {
 
   Future<void> setLocation(LocationData location) async {
     LatLng newLocation = LatLng(location.latitude, location.longitude);
+    _lastCameraPosition = newLocation;
     CameraPosition cameraPosition = CameraPosition(
       zoom: 15.0,
       target: newLocation,
@@ -220,6 +231,7 @@ class _ParkingMapState extends State<ParkingMap> {
     final GoogleMapController controller = await _controller.future;
     controller.animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
     await getData(newLocation);
+
 
   }
 
@@ -253,13 +265,11 @@ class _ParkingMapState extends State<ParkingMap> {
   }
 
   @override
-
   Widget build(BuildContext context) {
-
-
     return Scaffold(
       body: Container(
         child: GoogleMap(
+          polylines: _polyLines,
           zoomControlsEnabled: false,
           onMapCreated: _onMapCreated,
           initialCameraPosition: CameraPosition(
@@ -279,6 +289,7 @@ class _ParkingMapState extends State<ParkingMap> {
               await getCurrentLocation();
               print(allMarkers.toString());
               getMarkers();
+              addPolyLines();
               if(allMarkers.isEmpty){
                 showDialog(context: context, builder: (_) => _noParkingAlertDialogWidget());
               }
