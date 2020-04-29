@@ -130,7 +130,7 @@ void parseCoordinates(List<dynamic> coordinates){
   });
 }
 
-List <TestParking> parkingSpotsList = [];
+List<TestParking> parkingSpotsList = [];
 
 
 String getRandomAvailableParkingSpot(List<dynamic> coordinates){

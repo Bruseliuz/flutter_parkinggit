@@ -96,7 +96,7 @@ class _SettingsFormState extends State<SettingsForm> {
 
                                     )
                                 ),
-                                value: userData.parking,
+                                value: (_currentParking ?? userData.parking),
                                 items: parkingType.map((parking){
                                   return DropdownMenuItem(
                                     value: parking,

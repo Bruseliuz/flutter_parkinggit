@@ -1,17 +1,11 @@
-
-
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterparkinggit/gamla_appen/services/auth.dart';
-import 'package:flutterparkinggit/gamla_appen/services/auth_provider.dart';
 import 'package:flutterparkinggit/gamla_appen/shared/constants.dart';
 import 'package:flutterparkinggit/gamla_appen/shared/loading.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/authenticate/register.dart';
 import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
 import 'package:flutterparkinggit/gamla_appen/models/user.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-
 
 class SignIn extends StatefulWidget {
   const SignIn({this.toggleView});
@@ -27,8 +21,8 @@ class _SignInState extends State<SignIn> {
   final _formKey = GlobalKey<FormState>();
   bool loading = false;
 
-  String email ="";
-  String password ="";
+  String email = "";
+  String password = "";
   String error = "";
 
   String errorMessage;
