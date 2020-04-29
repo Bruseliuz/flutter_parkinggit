@@ -7,6 +7,10 @@ import 'package:flutterparkinggit/gamla_appen/services/pages/map/location.dart';
 import 'dart:async';
 import 'package:http/http.dart';
 import 'dart:convert';
+import 'package:provider/provider.dart';
+import 'package:flutterparkinggit/gamla_appen/models/user.dart';
+
+
 
 class ParkingMap extends StatefulWidget {
   ParkingMap({ @required Key key}) : super(key:key);
@@ -16,7 +20,11 @@ class ParkingMap extends StatefulWidget {
 
 class _ParkingMapState extends State<ParkingMap> {
 
+
+
   TimeOfDay _time = TimeOfDay.now();
+  TimeOfDay timePicked;
+
   Future<Null> selectTime(BuildContext context) async {
     _time = await showTimePicker(context: context, initialTime: _time,
         builder: (BuildContext context, Widget child) {
@@ -25,6 +33,7 @@ class _ParkingMapState extends State<ParkingMap> {
             child: child,
           );
         });
+    print(_time);
   }
 
   Location _locationTracker = Location();
@@ -33,6 +42,8 @@ class _ParkingMapState extends State<ParkingMap> {
   @override
   void initState() {
     super.initState();
+
+
   }
 
   Widget _noParkingAlertDialogWidget(){
@@ -185,7 +196,6 @@ class _ParkingMapState extends State<ParkingMap> {
   }
 
 
-
   Completer<GoogleMapController> _controller = Completer();
   static LatLng _center = LatLng(59.334591, 18.063240);
 
@@ -214,7 +224,7 @@ class _ParkingMapState extends State<ParkingMap> {
   }
 
   Future<void> getData(LatLng location) async {
-    Response response = await get('https://openparking.stockholm.se/LTF-Tolken/v1/${preference.toString()}/within?radius=100&lat=${location.latitude.toString()}&lng=${location.longitude.toString()}&outputFormat=json&apiKey=e734eaa7-d9b5-422a-9521-844554d9965b');
+    Response response = await get('https://openparking.stockholm.se/LTF-Tolken/v1/${preference.toString()}/within?radius=$distance&lat=${location.latitude.toString()}&lng=${location.longitude.toString()}&outputFormat=json&apiKey=e734eaa7-d9b5-422a-9521-844554d9965b');
     Map data = jsonDecode(response.body);
     var dataList = data['features'] as List;
     List list = dataList.map<ParkingAreas>((json) => ParkingAreas.fromJson(json)).toList();
@@ -243,7 +253,10 @@ class _ParkingMapState extends State<ParkingMap> {
   }
 
   @override
+
   Widget build(BuildContext context) {
+
+
     return Scaffold(
       body: Container(
         child: GoogleMap(
