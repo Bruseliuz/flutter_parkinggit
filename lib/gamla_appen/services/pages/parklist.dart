@@ -1,6 +1,12 @@
+import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutterparkinggit/gamla_appen/services/pages//map/location.dart';
+import 'package:flutterparkinggit/gamla_appen/services/pages/homescreens/settings_form.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:http/http.dart';
+import 'package:location/location.dart';
+import 'package:flutterparkinggit/gamla_appen/services/pages/map/location.dart';
+import 'dart:async';
 
 class ParkList extends StatefulWidget {
   @override
@@ -9,6 +15,7 @@ class ParkList extends StatefulWidget {
 
 class _ParkListState extends State<ParkList> {
   ParkingAreasList _parkingAreasList = new ParkingAreasList();
+  Location _locationTracker = Location();
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +35,9 @@ class _ParkListState extends State<ParkList> {
       floatingActionButton:
       FloatingActionButton(
         elevation: 3.0,
-        onPressed: (){},
+        onPressed: () async {
+         await getCurrentLocation();
+        },
         child: Icon(Icons.refresh,
         ),
         backgroundColor:Color(0xff207FC5),
@@ -39,6 +48,7 @@ class _ParkListState extends State<ParkList> {
   Widget _getParkingAreasList(BuildContext context, int index) {
     return GestureDetector(
       onTap: () {
+
         openPage(context);
       },
       child: Container(
@@ -60,6 +70,19 @@ class _ParkListState extends State<ParkList> {
   //Gå till parkeringsarean i map
   }
 
+  Future getCurrentLocation() async {
+    var location = await _locationTracker.getLocation();
+    LatLng newLocation = LatLng(location.latitude, location.longitude);
+    await getData(newLocation);
+  }
+
+  Future<void> getData(LatLng location) async {
+    Response response = await get('https://openparking.stockholm.se/LTF-Tolken/v1/${preference.toString()}/within?radius=100&lat=${location.latitude.toString()}&lng=${location.longitude.toString()}&outputFormat=json&apiKey=e734eaa7-d9b5-422a-9521-844554d9965b');
+    Map data = jsonDecode(response.body);
+    var dataList = data['features'] as List;
+    List list = dataList.map<ParkingAreas>((json) => ParkingAreas.fromJson(json)).toList();
+    parseCoordinates(list);
+    }
 }
 
 
