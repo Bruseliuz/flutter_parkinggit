@@ -82,7 +82,7 @@ class _ParkListState extends State<ParkList> {
     Map data = jsonDecode(response.body);
     var dataList = data['features'] as List;
     List list = dataList.map<ParkingAreas>((json) => ParkingAreas.fromJson(json)).toList();
-    parseCoordinates(list);
+    parseParkingCoordinates(list);
     }
 }
 

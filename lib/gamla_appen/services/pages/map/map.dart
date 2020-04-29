@@ -8,7 +8,7 @@ import 'dart:async';
 import 'package:http/http.dart';
 import 'dart:convert';
 
-List<LatLng> latlngList = List();
+//List<LatLng> latlngList = List();
 
 class ParkingMap extends StatefulWidget {
   ParkingMap({ @required Key key}) : super(key:key);
@@ -18,14 +18,15 @@ class ParkingMap extends StatefulWidget {
 
 class _ParkingMapState extends State<ParkingMap> {
 
-  LatLng _lastCameraPosition;
-  final Set<Polyline> _polyLines = {};
-
-  LatLng _new = LatLng(59.287674, 18.091698000000008);
-  LatLng _news = LatLng(58.287674, 17.091698000000008);
+//  LatLng _lastCameraPosition;
+//  final Set<Polyline> _polyLines = {};
+//  List<LatLng> _lines = [];
+//  Set<Polygon> _polygons = {};
+//
+//  LatLng _new = LatLng(59.287674, 18.091698000000008);
+//  LatLng _news = LatLng(58.287674, 17.091698000000008);
 
   TimeOfDay _time = TimeOfDay.now();
-  TimeOfDay timerSet;
   Future<Null> selectTime(BuildContext context) async {
     _time = await showTimePicker(context: context, initialTime: _time,
         builder: (BuildContext context, Widget child) {
@@ -34,11 +35,6 @@ class _ParkingMapState extends State<ParkingMap> {
             child: child,
           );
         });
-    setState(() {
-      print(timerSet);
-      timerSet = _time;
-      print(timerSet);
-    });
   }
 
   Location _locationTracker = Location();
@@ -199,18 +195,25 @@ class _ParkingMapState extends State<ParkingMap> {
     );
   }
 
-  void addPolyLines() {
-    setState(() {
-      latlngList.add(_new);
-      latlngList.add(_news);
-      _polyLines.add(Polyline(
-        polylineId: PolylineId(_lastCameraPosition.toString()),
-        visible: true,
-        points: latlngList,
-        color: Colors.blue
-      ));
-    });
-  }
+//  void addPolyLines() {
+//    _polygons.add(Polygon(
+//      polygonId: PolygonId(_lastCameraPosition.toString()),
+//      points: _lines,
+//      visible: true,
+//      strokeColor: Colors.blue,
+//      fillColor: Colors.lightBlueAccent
+//    ));
+//    setState(() {
+//      latlngList.add(_new);
+//      latlngList.add(_news);
+//      _polyLines.add(Polyline(
+//        polylineId: PolylineId(_lastCameraPosition.toString()),
+//        visible: true,
+//        points: latlngList,
+//        color: Colors.blue
+//      ));
+//    });
+//  }
 
   Completer<GoogleMapController> _controller = Completer();
   static LatLng _center = LatLng(59.334591, 18.063240);
@@ -224,10 +227,11 @@ class _ParkingMapState extends State<ParkingMap> {
     allMarkers.clear();
     await setLocation(location);
   }
-  
+
+
   Future<void> setLocation(LocationData location) async {
     LatLng newLocation = LatLng(location.latitude, location.longitude);
-    _lastCameraPosition = newLocation;
+//    _lastCameraPosition = newLocation;
     CameraPosition cameraPosition = CameraPosition(
       zoom: 15.0,
       target: newLocation,
@@ -245,9 +249,34 @@ class _ParkingMapState extends State<ParkingMap> {
     Map data = jsonDecode(response.body);
     var dataList = data['features'] as List;
     List list = dataList.map<ParkingAreas>((json) => ParkingAreas.fromJson(json)).toList();
-    parseCoordinates(list);
+    parseParkingCoordinates(list);
     allMarkers.clear();
     getMarkers();
+//    Response priceResponse = await get('http://openstreetgs.stockholm.se/geoservice/api/e734eaa7-d9b5-422a-9521-844554d9965b/wfs/?version=1.0.0&request=GetFeature&typename=ltfr:LTFR_TAXA_VIEW&outputFormat=json');
+//    Map priceData = jsonDecode(priceResponse.body);
+//    var priceDataList = priceData['features'] as List;
+//    List priceList = priceDataList.map<PriceArea>((json) => PriceArea.fromJson(json)).toList();
+//    priceList.forEach((element) {
+//      priceAreaList.add(element);
+//      List tempList = element.coordinatesList;
+//      tempList.forEach((v) {
+//        v.forEach((n) {
+////          print(n[1]);
+//          print('innan double');
+//          double lat = n[1];
+//          double long = n[0];
+//          print('efter double');
+//          print(long);
+//
+//          LatLng latl = new LatLng(lat, long);
+//          _lines.add(latl);
+//          print(_lines.toString());
+//        });
+//      });
+//    });
+//
+//    print(priceAreaList.toString());
+    
 
   }
 
@@ -271,44 +300,36 @@ class _ParkingMapState extends State<ParkingMap> {
 
   @override
   Widget build(BuildContext context) {
-    if(timerSet == null) {
-      return Scaffold(
-        body: Container(
-          child: GoogleMap(
-            polylines: _polyLines,
-            zoomControlsEnabled: false,
-            onMapCreated: _onMapCreated,
-            initialCameraPosition: CameraPosition(
-              target: _center,
-              zoom: 12.0,
+    return Scaffold(
+      body: Container(
+        child: GoogleMap(
+//          polygons: _polygons,
+//          polylines: _polyLines,
+          zoomControlsEnabled: false,
+          onMapCreated: _onMapCreated,
+          initialCameraPosition: CameraPosition(
+            target: _center,
+            zoom: 12.0,
+          ),
+          markers: Set<Marker>.of(allMarkers),
+        ),
+      ),
+      floatingActionButton:
+          FloatingActionButton(
+            elevation: 3.0,
+            child: Icon(Icons.my_location,
             ),
-            markers: Set<Marker>.of(allMarkers),
+            backgroundColor: Color(0xff207FC5),
+            onPressed: () async {
+              await getCurrentLocation();
+              print(allMarkers.toString());
+              getMarkers();
+              if(allMarkers.isEmpty){
+                showDialog(context: context, builder: (_) => _noParkingAlertDialogWidget());
+              }
+            },
           ),
-        ),
-        floatingActionButton:
-        FloatingActionButton(
-          elevation: 3.0,
-          child: Icon(Icons.my_location,
-          ),
-          backgroundColor: Color(0xff207FC5),
-          onPressed: () async {
-            await getCurrentLocation();
-            print(allMarkers.toString());
-            getMarkers();
-            addPolyLines();
-            if (allMarkers.isEmpty) {
-              showDialog(context: context,
-                  builder: (_) => _noParkingAlertDialogWidget());
-            }
-          },
-        ),
       );
-    }else{
-      return Scaffold(
-        body: Text('Timer set'),
-      );
-    }
-    //Annars returnera timer
   }
 }
 
