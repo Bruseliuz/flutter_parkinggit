@@ -9,7 +9,6 @@ class ParkList extends StatefulWidget {
 
 class _ParkListState extends State<ParkList> {
   ParkingAreasList _parkingAreasList = new ParkingAreasList();
-  ParkingLotsList _parkingLotsList = new ParkingLotsList();
 
   @override
   Widget build(BuildContext context) {
@@ -22,11 +21,18 @@ class _ParkListState extends State<ParkList> {
         separatorBuilder: (context, index) => Divider(
           color: Colors.white,
         ),
-
         padding: const EdgeInsets.all(8),
         itemCount: _parkingAreasList.parkingAreas.length,
         itemBuilder: _getParkingAreasList,
       ),
+      floatingActionButton:
+      FloatingActionButton(
+        elevation: 3.0,
+        onPressed: (){},
+        child: Icon(Icons.refresh,
+        ),
+        backgroundColor:Color(0xff207FC5),
+      )
     );
   }
 
@@ -40,10 +46,10 @@ class _ParkListState extends State<ParkList> {
         color: Color(0xffA5C9EA),
         child: ListTile(
           leading: Text(
-              '${_parkingAreasList.parkingAreas[index].vacantParkingLots}'),
-          title: Text('ID: ${_parkingAreasList.parkingAreas[index].id}'),
+              '${_parkingAreasList.parkingAreas[index].availableParkingSpots}'),
+          title: Text('Adress: ${_parkingAreasList.parkingAreas[index].streetName}'),
           subtitle: Text(
-              'Price: ${_parkingAreasList.parkingAreas[index].price} kronor per hour'),
+              'Price: 12 kronor per hour'),
           trailing: Icon(Icons.directions_car),
         ),
       ),
@@ -51,6 +57,14 @@ class _ParkListState extends State<ParkList> {
   }
 
   void openPage(BuildContext context) {
+  //Gå till parkeringsarean i map
+  }
+
+}
+
+
+
+ /* void openPage(BuildContext context) {
     Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
       return Scaffold(
         appBar: AppBar(
@@ -67,9 +81,9 @@ class _ParkListState extends State<ParkList> {
         ),
       );
     }));
-  }
+  } */
 
-  Widget _getParkingLotsList(BuildContext context, int index) {
+/*  Widget _getParkingLotsList(BuildContext context, int index) {
     return GestureDetector(
       onTap: () {},
       child: Container(
@@ -88,3 +102,4 @@ class _ParkListState extends State<ParkList> {
     );
   }
 }
+*/

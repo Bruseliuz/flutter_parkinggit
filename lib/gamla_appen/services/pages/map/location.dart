@@ -5,11 +5,11 @@ import 'dart:convert';
 import 'dart:math';
 
 
-class ParkingAreas {
+/* class ParkingAreas {
   String id;
   int totalNumberOfParkingLots;
   int vacantParkingLots;
-  ParkingLotsList connectedParkingLots; //lista som består av parkinglots
+  //ParkingLotsList connectedParkingLots; //lista som består av parkinglots
   LatLng locationCoords;
   int price;
 
@@ -18,11 +18,11 @@ class ParkingAreas {
       this.locationCoords,
       this.totalNumberOfParkingLots,
       this.vacantParkingLots,
-      this.connectedParkingLots,
+     // this.connectedParkingLots,
       this.price});
 }
 
-class ParkingLot {
+ class ParkingLot {
   //för att kunna veta hur många av parkeringareas lots som är tillgängliga
   LatLng locationCoords;
   bool occupied;
@@ -47,7 +47,7 @@ class ParkingLotsList {
     new ParkingLot(locationCoords: LatLng(59.338871, 17.930344), occupied: true)
   ];
 }
-
+*/
 
 class ParkingAreasList {
   //denna som ska visas på kartan
@@ -58,23 +58,12 @@ class ParkingAreasList {
   }
 
   void updateParkingLots() {
-    parkingAreas = simParkingAreas;
+    parkingAreas = parkingSpotsList;
   }
 
-  final simParkingAreas = [
-    new ParkingAreas(
-        id: 'test1234',
-        totalNumberOfParkingLots: 3,
-        vacantParkingLots: 1,
-        connectedParkingLots: new ParkingLotsList(),
-        locationCoords: LatLng(59.338871, 17.930309),
-        price: 10)
-  ];
 }
 
-
-
-class TestParking{
+class ParkingAreas{
   String streetName;
   List<dynamic> coordinatesList;
   LatLng coordinates;
@@ -82,11 +71,11 @@ class TestParking{
   String availableParkingSpots;
 
 
-  TestParking({this.streetName, this.coordinatesList,this.coordinates, this.numberOfParkingSpots, this.availableParkingSpots});
+  ParkingAreas({this.streetName, this.coordinatesList,this.coordinates, this.numberOfParkingSpots, this.availableParkingSpots});
 
 
-  factory TestParking.fromJson(Map<String,dynamic> json){
-    return TestParking(
+  factory ParkingAreas.fromJson(Map<String,dynamic> json){
+    return ParkingAreas(
         streetName: json['properties']['ADDRESS'],
         coordinatesList: json['geometry']['coordinates']
     );
@@ -110,6 +99,9 @@ class TestParking{
 //
 //}
 
+
+List <ParkingAreas> parkingSpotsList = [];
+
 void parseCoordinates(List<dynamic> coordinates){
   parkingSpotsList.clear();
   coordinates.forEach((element){
@@ -118,7 +110,7 @@ void parseCoordinates(List<dynamic> coordinates){
     double longitude = temp[1];
     double latitude = temp[0];
     LatLng coordinatesParsed = new LatLng(longitude, latitude);
-    parkingSpotsList.add(TestParking(
+    parkingSpotsList.add(ParkingAreas(
       streetName: element.streetName,
       coordinates: coordinatesParsed,
       numberOfParkingSpots: element.coordinatesList.length.toString(),
@@ -129,9 +121,6 @@ void parseCoordinates(List<dynamic> coordinates){
     print('Längden på listan: ${parkingSpotsList.length}');
   });
 }
-
-List<TestParking> parkingSpotsList = [];
-
 
 String getRandomAvailableParkingSpot(List<dynamic> coordinates){
   var random = new Random();
