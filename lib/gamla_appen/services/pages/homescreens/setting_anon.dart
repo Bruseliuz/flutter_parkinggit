@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterparkinggit/gamla_appen/services/auth.dart';
+import 'package:flutterparkinggit/gamla_appen/services/pages/homescreens/settings_form.dart';
 
 
 class SettingsFormAnon extends StatefulWidget {
@@ -8,9 +9,18 @@ class SettingsFormAnon extends StatefulWidget {
   _SettingsFormAnonState createState() => _SettingsFormAnonState();
 }
 
+
 class _SettingsFormAnonState extends State<SettingsFormAnon> {
 
   final AuthService _auth = AuthService();
+
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +106,6 @@ class _SettingsFormAnonState extends State<SettingsFormAnon> {
             ),
           ],
         ),
-
       );
     }
   }

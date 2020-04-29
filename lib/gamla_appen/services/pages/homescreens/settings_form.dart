@@ -218,6 +218,8 @@ class _SettingsFormState extends State<SettingsForm> {
               ],
             );
           }else{
+          preference = 'ptillaten';
+          distance = 300;
             return SettingsFormAnon();
           }
         }
