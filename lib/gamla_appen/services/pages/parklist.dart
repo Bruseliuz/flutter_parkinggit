@@ -21,11 +21,18 @@ class _ParkListState extends State<ParkList> {
         separatorBuilder: (context, index) => Divider(
           color: Colors.white,
         ),
-
         padding: const EdgeInsets.all(8),
         itemCount: _parkingAreasList.parkingAreas.length,
         itemBuilder: _getParkingAreasList,
       ),
+      floatingActionButton:
+      FloatingActionButton(
+        elevation: 3.0,
+        onPressed: (){},
+        child: Icon(Icons.refresh,
+        ),
+        backgroundColor:Color(0xff207FC5),
+      )
     );
   }
 

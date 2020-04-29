@@ -218,7 +218,6 @@ class _ParkingMapState extends State<ParkingMap> {
     Map data = jsonDecode(response.body);
     var dataList = data['features'] as List;
     List list = dataList.map<TestParking>((json) => TestParking.fromJson(json)).toList();
-    print(list);
     parseCoordinates(list);
     allMarkers.clear();
     getMarkers();
