@@ -8,6 +8,7 @@ import 'package:location/location.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/map/location.dart';
 import 'dart:async';
 
+
 class ParkList extends StatefulWidget {
   @override
   _ParkListState createState() => _ParkListState();
