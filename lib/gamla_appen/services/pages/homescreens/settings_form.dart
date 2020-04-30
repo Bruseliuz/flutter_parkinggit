@@ -7,7 +7,6 @@ import 'package:provider/provider.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/homescreens/setting_anon.dart';
 
 
-int distance = 100;
 String preference = 'ptillaten';
 
 class SettingsForm extends StatefulWidget {
@@ -158,9 +157,6 @@ class _SettingsFormState extends State<SettingsForm> {
                               currentDistance = val.round();
                               _updateSettingsIcon = new Icon(Icons.refresh,
                                   color: Color(0xff207FC5));
-                            setState(() {
-                              distance = currentDistance;
-                            });
                             }),
 
                           ),
@@ -201,8 +197,6 @@ class _SettingsFormState extends State<SettingsForm> {
                                   setState(() {
                                     _updateSettingsIcon = new Icon(Icons.check_circle_outline,
                                         color: Color(0xff207FC5));
-                                    setPreference();
-
                                   });
                                   print(userData.parking);
                                 }
@@ -219,24 +213,13 @@ class _SettingsFormState extends State<SettingsForm> {
             );
           }else{
           preference = 'ptillaten';
-          distance = 300;
             return SettingsFormAnon();
           }
         }
     );
   }
 
-  void setPreference(){
-    if(_currentParking == 'HCP'){
-      preference = 'prorelsehindrad';
-    } else if(_currentParking == 'MC'){
-      preference = 'pmotorcykel';
-    } else if(_currentParking == 'No Preference'){
-      preference ='ptillaten';
-    } else{
-      preference ='ptillaten';
-    }
-  }
+
 
   Future<void> _neverSatisfied() async {
     return showDialog<void>(

@@ -14,6 +14,7 @@ import 'package:provider/provider.dart';
 
 
 //List<LatLng> latlngList = List();
+int distance = 100;
 
 class ParkingMap extends StatefulWidget {
   ParkingMap({ @required Key key}) : super(key:key);
@@ -326,10 +327,25 @@ class _ParkingMapState extends State<ParkingMap> {
     final user = Provider.of<User>(context);
 
 
+    void setPreference(UserData userData){
+      if(userData.parking == 'HCP'){
+        preference = 'prorelsehindrad';
+      } else if(userData.parking == 'MC'){
+        preference = 'pmotorcykel';
+      } else if(userData.parking == 'No Preference'){
+        preference ='ptillaten';
+      } else{
+        preference ='ptillaten';
+      }
+    }
+
     return StreamBuilder<UserData>(
       stream: DatabaseService(uid: user.uid).userData,
-      builder: (context, snapshot){
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
           UserData userData = snapshot.data;
+          distance = userData.radius;
+          setPreference(userData);
           return Scaffold(
             body: Container(
               child: GoogleMap(
@@ -354,14 +370,50 @@ class _ParkingMapState extends State<ParkingMap> {
                 await getCurrentLocation();
                 print(allMarkers.toString());
                 getMarkers();
-                if(allMarkers.isEmpty){
-                  showDialog(context: context, builder: (_) => _noParkingAlertDialogWidget());
+                if (allMarkers.isEmpty) {
+                  showDialog(context: context,
+                      builder: (_) => _noParkingAlertDialogWidget());
                 }
               },
             ),
           );
-      },
-    );
+        }else{
+          distance = 100;
+          preference = 'ptillaten';
+          return Scaffold(
+            body: Container(
+              child: GoogleMap(
+//          polygons: _polygons,
+//          polylines: _polyLines,
+                zoomControlsEnabled: false,
+                onMapCreated: _onMapCreated,
+                initialCameraPosition: CameraPosition(
+                  target: _center,
+                  zoom: 12.0,
+                ),
+                markers: Set<Marker>.of(allMarkers),
+              ),
+            ),
+            floatingActionButton:
+            FloatingActionButton(
+              elevation: 3.0,
+              child: Icon(Icons.my_location,
+              ),
+              backgroundColor: Color(0xff207FC5),
+              onPressed: () async {
+                await getCurrentLocation();
+                print(allMarkers.toString());
+                getMarkers();
+                if (allMarkers.isEmpty) {
+                  showDialog(context: context,
+                      builder: (_) => _noParkingAlertDialogWidget());
+                }
+              },
+            ),
+          );
+        }
+        }
+      );
   }
 }
 
