@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterparkinggit/gamla_appen/services/pages/database.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/homescreens/settings_form.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
@@ -7,6 +8,10 @@ import 'package:flutterparkinggit/gamla_appen/services/pages/map/location.dart';
 import 'dart:async';
 import 'package:http/http.dart';
 import 'dart:convert';
+import 'package:flutterparkinggit/gamla_appen/models/user.dart';
+
+import 'package:provider/provider.dart';
+
 
 //List<LatLng> latlngList = List();
 
@@ -293,7 +298,7 @@ class _ParkingMapState extends State<ParkingMap> {
 //    });
 //
 //    print(priceAreaList.toString());
-    
+
 
   }
 
@@ -317,36 +322,46 @@ class _ParkingMapState extends State<ParkingMap> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        child: GoogleMap(
+
+    final user = Provider.of<User>(context);
+
+
+    return StreamBuilder<UserData>(
+      stream: DatabaseService(uid: user.uid).userData,
+      builder: (context, snapshot){
+          UserData userData = snapshot.data;
+          return Scaffold(
+            body: Container(
+              child: GoogleMap(
 //          polygons: _polygons,
 //          polylines: _polyLines,
-          zoomControlsEnabled: false,
-          onMapCreated: _onMapCreated,
-          initialCameraPosition: CameraPosition(
-            target: _center,
-            zoom: 12.0,
-          ),
-          markers: Set<Marker>.of(allMarkers),
-        ),
-      ),
-      floatingActionButton:
-          FloatingActionButton(
-            elevation: 3.0,
-            child: Icon(Icons.my_location,
+                zoomControlsEnabled: false,
+                onMapCreated: _onMapCreated,
+                initialCameraPosition: CameraPosition(
+                  target: _center,
+                  zoom: 12.0,
+                ),
+                markers: Set<Marker>.of(allMarkers),
+              ),
             ),
-            backgroundColor: Color(0xff207FC5),
-            onPressed: () async {
-              await getCurrentLocation();
-              print(allMarkers.toString());
-              getMarkers();
-              if(allMarkers.isEmpty){
-                showDialog(context: context, builder: (_) => _noParkingAlertDialogWidget());
-              }
-            },
-          ),
-      );
+            floatingActionButton:
+            FloatingActionButton(
+              elevation: 3.0,
+              child: Icon(Icons.my_location,
+              ),
+              backgroundColor: Color(0xff207FC5),
+              onPressed: () async {
+                await getCurrentLocation();
+                print(allMarkers.toString());
+                getMarkers();
+                if(allMarkers.isEmpty){
+                  showDialog(context: context, builder: (_) => _noParkingAlertDialogWidget());
+                }
+              },
+            ),
+          );
+      },
+    );
   }
 }
 
