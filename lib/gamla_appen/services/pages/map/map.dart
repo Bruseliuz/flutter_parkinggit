@@ -14,7 +14,8 @@ import 'package:provider/provider.dart';
 
 
 //List<LatLng> latlngList = List();
-int distance = 100;
+int distance;
+String preference;
 
 class ParkingMap extends StatefulWidget {
   ParkingMap({ @required Key key}) : super(key:key);
@@ -327,6 +328,7 @@ class _ParkingMapState extends State<ParkingMap> {
 
 
     void setPreference(UserData userData){
+      distance = userData.radius;
       if(userData.parking == 'HCP'){
         preference = 'prorelsehindrad';
       } else if(userData.parking == 'MC'){
@@ -343,7 +345,6 @@ class _ParkingMapState extends State<ParkingMap> {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           UserData userData = snapshot.data;
-          distance = userData.radius;
           setPreference(userData);
           return Scaffold(
             body: Container(

@@ -211,7 +211,6 @@ class _SettingsFormState extends State<SettingsForm> {
               ],
             );
           }else{
-          preference = 'ptillaten';
             return SettingsFormAnon();
           }
         }
