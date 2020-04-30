@@ -1,3 +1,6 @@
+import 'dart:collection';
+import 'package:quiver/core.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/map/map.dart';
 import 'package:http/http.dart';
@@ -90,6 +93,9 @@ class ParkingAreas {
   @override
   toString() =>
       'Streetname: $streetName Coordinateslist: $coordinatesList Coordinates: ${coordinates.toString()}';
+
+  bool operator ==(o) => o is ParkingAreas && streetName == o.streetName && coordinates == o.coordinates;
+  int get hashCode => hash2(streetName.hashCode, coordinates.hashCode);
 }
 
 //Future<void> getData(LatLng location) async {
@@ -132,5 +138,6 @@ String getRandomAvailableParkingSpot(List<dynamic> coordinates) {
   return randomNumber.toString();
 }
 void checkParkingSpot() {
+  parkingSpotsList = LinkedHashSet<ParkingAreas>.from(parkingSpotsList).toList();
   parkingSpotsList.removeWhere((item) => item.availableParkingSpots == '0');
 }
