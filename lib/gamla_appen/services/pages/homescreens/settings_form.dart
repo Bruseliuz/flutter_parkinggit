@@ -7,7 +7,6 @@ import 'package:provider/provider.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/homescreens/setting_anon.dart';
 
 
-String preference = 'ptillaten';
 
 class SettingsForm extends StatefulWidget {
   @override
