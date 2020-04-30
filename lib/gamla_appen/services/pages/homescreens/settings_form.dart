@@ -61,7 +61,7 @@ class _SettingsFormState extends State<SettingsForm> {
                             height: 60,
                             alignment: Alignment.center,
                             child: TextFormField(
-                              initialValue: userData.name,
+                              initialValue: ('Name: ${userData.name}'),
                               decoration: InputDecoration(
                                   border: InputBorder.none,
                                   prefixIcon: Icon(
@@ -122,7 +122,7 @@ class _SettingsFormState extends State<SettingsForm> {
                                 fontSize: 18,
                               )
                           ),
-                          SizedBox(height: 40.0),
+                          SizedBox(height: 20.0),
                           Slider(
                             label: _currentMaxPrice.toString() ,
                             activeColor: Colors.black54,
@@ -137,7 +137,7 @@ class _SettingsFormState extends State<SettingsForm> {
                                   color: Color(0xff207FC5));
                             }),
                           ),
-                          SizedBox(height: 10.0),
+                          SizedBox(height: 40.0),
                           Text(
                               'Chosen radius: ${userData.radius} meters',
                               style: TextStyle(
@@ -145,7 +145,7 @@ class _SettingsFormState extends State<SettingsForm> {
                                 fontSize: 18,
                               )
                           ),
-                          SizedBox(height: 40.0),
+                          SizedBox(height: 20.0),
                           Slider(
                             label: currentDistance.toString(),
                             activeColor: Colors.black54,
