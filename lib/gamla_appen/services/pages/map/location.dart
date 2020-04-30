@@ -67,18 +67,24 @@ class ParkingAreas {
   LatLng coordinates;
   String numberOfParkingSpots;
   String availableParkingSpots;
+  String serviceDayInfo;
 
   ParkingAreas(
-      {this.streetName,
-      this.coordinatesList,
-      this.coordinates,
-      this.numberOfParkingSpots,
-      this.availableParkingSpots});
+      {
+        this.streetName,
+        this.coordinatesList,
+        this.coordinates,
+        this.numberOfParkingSpots,
+        this.availableParkingSpots,
+        this.serviceDayInfo
+      });
 
   factory ParkingAreas.fromJson(Map<String, dynamic> json) {
     return ParkingAreas(
         streetName: json['properties']['ADDRESS'],
-        coordinatesList: json['geometry']['coordinates']);
+        coordinatesList: json['geometry']['coordinates'],
+      serviceDayInfo: json['properties']['OTHER_INFO']
+    );
   }
 
   @override
@@ -110,8 +116,9 @@ void parseParkingCoordinates(List<dynamic> coordinates) {
           streetName: element.streetName,
           coordinates: coordinatesParsed,
           numberOfParkingSpots: element.coordinatesList.length.toString(),
+          serviceDayInfo: element.serviceDayInfo,
           availableParkingSpots:
-              getRandomAvailableParkingSpot(element.coordinatesList)));
+              getRandomAvailableParkingSpot(element.coordinatesList)),);
       checkParkingSpot();
     print('-------------------Lista på parkeringsplatser-------------------');
     print(parkingSpotsList);

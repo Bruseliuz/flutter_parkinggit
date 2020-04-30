@@ -20,7 +20,7 @@ class _FavoritesState extends State<Favorites> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Text('search'),
+      body: Text('Favorites'),
     );
   }
 }

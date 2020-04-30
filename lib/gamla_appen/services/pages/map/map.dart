@@ -112,6 +112,7 @@ class _ParkingMapState extends State<ParkingMap> {
                 ),
               ],
             ),
+            SizedBox(height: 5.0),
             Row(
               children: <Widget>[
                 Icon(
@@ -130,6 +131,7 @@ class _ParkingMapState extends State<ParkingMap> {
                 ),
               ],
             ),
+            SizedBox(height: 5.0),
             Row(
               children: <Widget>[
                 Icon(
@@ -146,6 +148,20 @@ class _ParkingMapState extends State<ParkingMap> {
                       color: Color(0xff207FC5)
                   ),
                 ),
+              ],
+            ),
+            SizedBox(height: 5.0),
+            Row(
+              children: <Widget>[
+                Icon(
+                  Icons.build,
+                  color: Colors.grey,
+                ),
+                Text(element.serviceDayInfo ?? ' No service info',
+                style: TextStyle(
+                    color: Color(0xff207FC5)
+                ),
+                )
               ],
             )
           ],
@@ -245,6 +261,7 @@ class _ParkingMapState extends State<ParkingMap> {
   }
 
   Future<void> getData(LatLng location) async {
+    print('https://openparking.stockholm.se/LTF-Tolken/v1/${preference.toString()}/within?radius=$distance&lat=${location.latitude.toString()}&lng=${location.longitude.toString()}&outputFormat=json&apiKey=e734eaa7-d9b5-422a-9521-844554d9965b');
     Response response = await get('https://openparking.stockholm.se/LTF-Tolken/v1/${preference.toString()}/within?radius=$distance&lat=${location.latitude.toString()}&lng=${location.longitude.toString()}&outputFormat=json&apiKey=e734eaa7-d9b5-422a-9521-844554d9965b');
     Map data = jsonDecode(response.body);
     var dataList = data['features'] as List;
