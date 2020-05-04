@@ -128,7 +128,7 @@ class _ParkingMapState extends State<ParkingMap> {
             ),
             FlatButton.icon(
               onPressed:(){},
-              icon: Icon(Icons.favorite_border),
+              icon: Icon(Icons.favorite_border), //TODO - Icon efter favorites eller inte. 
               label: Text(''))
           ],
         ),
