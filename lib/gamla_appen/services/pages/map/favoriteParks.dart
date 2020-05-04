@@ -11,7 +11,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 }*/
 
 class FavoriteParksList {
-  List<ParkingAreas> favoriteParks;
+  List<ParkingAreas> favoriteParks = [];
 
   FavoriteParksList() {
     updateFavoriteParks();
@@ -19,10 +19,7 @@ class FavoriteParksList {
 
   void updateFavoriteParks() {
     for (var item in parkingSpotsList) {
-      print(item);
-      if (item.favorite == true) {
-        favoriteParks.add(item);
-      }
+      if (item.favorite == true) favoriteParks.add(item);
     }
   }
 }
