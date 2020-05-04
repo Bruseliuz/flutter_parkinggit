@@ -22,15 +22,17 @@ class _ParkListState extends State<ParkList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xff207FC5),
       appBar: AppBar(
         backgroundColor: Color(0xff207FC5),
         title: const Text("Availabe parking areas nearby"),
       ),
+
       body:
-      _parkingAreasList == null ? _emptyList(context) :ListView.separated(
+      _parkingAreasList.parkingAreas.isEmpty ? _emptyList(context) : ListView.separated(
         separatorBuilder: (context, index) => Divider(
-            color: Color(0xff207FC5),
         ),
+
         padding: const EdgeInsets.all(8),
         itemCount: _parkingAreasList.parkingAreas.length,
         itemBuilder: _getParkingAreasList,
