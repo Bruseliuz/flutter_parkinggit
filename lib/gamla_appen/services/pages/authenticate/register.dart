@@ -57,7 +57,7 @@ class _RegisterState extends State<Register> {
             child: SingleChildScrollView(
               physics: AlwaysScrollableScrollPhysics(),
               padding: EdgeInsets.symmetric(
-                vertical: 120,
+                vertical: 60,
                 horizontal: 40,
               ),
               child: Column(
