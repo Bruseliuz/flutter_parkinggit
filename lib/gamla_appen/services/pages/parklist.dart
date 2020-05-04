@@ -50,7 +50,6 @@ class _ParkListState extends State<ParkList> {
   Widget _getParkingAreasList(BuildContext context, int index) {
     return GestureDetector(
       onTap: () {
-
         openPage(context);
       },
       child: Container(
