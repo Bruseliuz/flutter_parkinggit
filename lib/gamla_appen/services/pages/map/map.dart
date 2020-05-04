@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/database.dart';
-import 'package:flutterparkinggit/gamla_appen/services/pages/homescreens/settings_form.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/map/location.dart';
@@ -9,7 +8,6 @@ import 'dart:async';
 import 'package:http/http.dart';
 import 'dart:convert';
 import 'package:flutterparkinggit/gamla_appen/models/user.dart';
-
 import 'package:provider/provider.dart';
 
 
@@ -351,6 +349,7 @@ class _ParkingMapState extends State<ParkingMap> {
               child: GoogleMap(
 //          polygons: _polygons,
 //          polylines: _polyLines,
+                myLocationEnabled: true,
                 zoomControlsEnabled: false,
                 onMapCreated: _onMapCreated,
                 initialCameraPosition: CameraPosition(
@@ -385,6 +384,7 @@ class _ParkingMapState extends State<ParkingMap> {
               child: GoogleMap(
 //          polygons: _polygons,
 //          polylines: _polyLines,
+                myLocationEnabled: true,
                 zoomControlsEnabled: false,
                 onMapCreated: _onMapCreated,
                 initialCameraPosition: CameraPosition(
