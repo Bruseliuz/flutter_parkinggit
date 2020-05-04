@@ -47,7 +47,6 @@ class _ParkingMapState extends State<ParkingMap> {
   @override
   void initState() {
     super.initState();
-    latLngFromUTM(153048.92098,6579412.819818);
   }
 
   Widget _noParkingAlertDialogWidget(){
@@ -258,17 +257,6 @@ class _ParkingMapState extends State<ParkingMap> {
 //      ));
 //    });
 //  }
-
-  void latLngFromUTM(double easting, double northing) {
-    var latlong1 = UTM.fromUtm(
-      easting: easting,
-      northing: northing,
-      zoneNumber: 34,
-      zoneLetter: 'N',
-    );
-    print(latlong1.lat);
-    print(latlong1.lon);
-  }
 
   Completer<GoogleMapController> _controller = Completer();
   static LatLng _center = LatLng(59.334591, 18.063240);
