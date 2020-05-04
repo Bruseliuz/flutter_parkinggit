@@ -27,6 +27,7 @@ class ParkingAreas {
   String numberOfParkingSpots;
   String availableParkingSpots;
   String serviceDayInfo;
+  bool favorite;
 
   ParkingAreas(
       {
@@ -35,7 +36,8 @@ class ParkingAreas {
         this.coordinates,
         this.numberOfParkingSpots,
         this.availableParkingSpots,
-        this.serviceDayInfo
+        this.serviceDayInfo,
+        this.favorite
       });
 
   factory ParkingAreas.fromJson(Map<String, dynamic> json) {
@@ -80,7 +82,8 @@ void parseParkingCoordinates(List<dynamic> coordinates) {
           numberOfParkingSpots: element.coordinatesList.length.toString(),
           serviceDayInfo: element.serviceDayInfo,
           availableParkingSpots:
-              getRandomAvailableParkingSpot(element.coordinatesList)),);
+              getRandomAvailableParkingSpot(element.coordinatesList),
+      favorite: false),);
       checkParkingSpot();
     print('-------------------Lista på parkeringsplatser-------------------');
     print(parkingSpotsList);
