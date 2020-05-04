@@ -50,7 +50,7 @@ class _ParkListState extends State<ParkList> {
   Widget _getParkingAreasList(BuildContext context, int index) {
     return GestureDetector(
       onTap: () {
-        openPage(context);
+        openPage(context, _parkingAreasList.parkingAreas[index].coordinates);
       },
       child: Container(
         height: 70,
@@ -67,7 +67,7 @@ class _ParkListState extends State<ParkList> {
     );
   }
 
-  void openPage(BuildContext context) {
+  void openPage(BuildContext context, LatLng location) {
   //Gå till parkeringsarean i map
   }
 

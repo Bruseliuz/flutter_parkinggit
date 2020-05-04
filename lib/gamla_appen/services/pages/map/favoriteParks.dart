@@ -18,10 +18,17 @@ class FavoriteParksList {
   }
 
   void updateFavoriteParks() {
-    for(var item in parkingSpotsList){
-      if(item.favorite==true){
+    for (var item in parkingSpotsList) {
+      if (item.favorite == true) {
         favoriteParks.add(item);
       }
     }
+  }
+
+ bool isEmpty () {
+    if(favoriteParks.isEmpty)
+      return true;
+    else
+      return false;
   }
 }
