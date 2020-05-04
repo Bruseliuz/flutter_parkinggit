@@ -6,16 +6,12 @@ import 'package:flutterparkinggit/gamla_appen/services/pages/map/parkTimer.dart'
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/map/location.dart';
-import 'package:flutterparkinggit/gamla_appen/services/pages/map/price_polygons.dart';
 import 'dart:async';
 import 'package:http/http.dart';
 import 'dart:convert';
 import 'package:flutterparkinggit/gamla_appen/models/user.dart';
 import 'package:provider/provider.dart';
-import 'package:geojson/geojson.dart';
 
-
-//List<LatLng> latlngList = List();
 int distance;
 String preference;
 
@@ -26,14 +22,6 @@ class ParkingMap extends StatefulWidget {
 }
 
 class _ParkingMapState extends State<ParkingMap> {
-
-//  LatLng _lastCameraPosition;
-  final Set<Polyline> _polyLines = {};
-//  List<LatLng> _lines = [];
-  final Set<Polygon> _polygons = {};
-//
-//  LatLng _new = LatLng(59.287674, 18.091698000000008);
-//  LatLng _news = LatLng(58.287674, 17.091698000000008);
 
   TimeOfDay _time = TimeOfDay.now();
   TimeOfDay picked;
@@ -57,25 +45,6 @@ class _ParkingMapState extends State<ParkingMap> {
   @override
   void initState() {
     super.initState();
-  }
-
-  Future<void> parseAndDrawPolyAssetsOnMap() async {
-    print('-----------------POLYWRITING');
-    final geo = GeoJson();
-    geo.processedLines.listen((GeoJsonLine line) {
-      /// when a line is parsed add it to the map right away
-      setState(() {
-        _polyLines.add(Polyline(
-          polylineId: PolylineId(line.toString()),
-          color: Colors.blue,
-          points: getLatLngForPoints(line)));
-
-      });
-    });
-    geo.endSignal.listen((_) => geo.dispose());
-    final data = await get('http://openstreetgs.stockholm.se/geoservice/api/'
-        'e734eaa7-d9b5-422a-9521-844554d9965b/wfs/?version=1.0.0&request=GetFeature&typename=ltfr:LTFR_TAXA_VIEW&outputFormat=json');
-    await geo.parse(data.body, verbose: true);
   }
 
   Widget _noParkingAlertDialogWidget(){
@@ -397,8 +366,6 @@ class _ParkingMapState extends State<ParkingMap> {
             return Scaffold(
               body: Container(
                 child: GoogleMap(
-//                  polygons: _polygons,
-                polylines: _polyLines,
                 myLocationEnabled: true,
                 zoomControlsEnabled: false,
                 onMapCreated: _onMapCreated,
@@ -417,7 +384,6 @@ class _ParkingMapState extends State<ParkingMap> {
                 await getCurrentLocation();
                 print(allMarkers.toString());
                 getMarkers();
-                parseAndDrawPolyAssetsOnMap();
                 if (allMarkers.isEmpty) {
                   showDialog(context: context,
                       builder: (_) => _noParkingAlertDialogWidget());
@@ -434,8 +400,6 @@ class _ParkingMapState extends State<ParkingMap> {
           return Scaffold(
             body: Container(
               child: GoogleMap(
-//            polygons: _polygons,
-            polylines: _polyLines,
                 myLocationEnabled: true,
                 zoomControlsEnabled: false,
                 onMapCreated: _onMapCreated,
@@ -456,7 +420,6 @@ class _ParkingMapState extends State<ParkingMap> {
                 await getCurrentLocation();
                 print(allMarkers.toString());
                 getMarkers();
-                parseAndDrawPolyAssetsOnMap();
                 if (allMarkers.isEmpty) {
                   showDialog(context: context,
                       builder: (_) => _noParkingAlertDialogWidget());
