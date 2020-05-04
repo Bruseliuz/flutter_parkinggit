@@ -65,16 +65,14 @@ class _FavoritesState extends State<Favorites> {
     return Container(
       height: double.infinity,
       color: Color(0xff207FC5),
-      child: Column (
-        Text('You have no favorites'),
-      )
-   /*   child: ListTile(
+
+      child: ListTile(
         leading: new Icon(Icons.favorite),
         title: Text('You have no favorites'),
         subtitle: Text(
             'Tap a marker on the map to select a favorite'),
         trailing: Icon(Icons.directions_car),
-      ), */
+      ),
     );
   }
 
