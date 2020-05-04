@@ -1,10 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-<<<<<<< HEAD
 import 'package:flutter/services.dart';
 import 'package:utm/utm.dart';
-=======
->>>>>>> ca94a1dbfb9369fed96268957870ef40ab2dfb50
 import 'package:flutterparkinggit/gamla_appen/services/pages/database.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/map/parkTimer.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
