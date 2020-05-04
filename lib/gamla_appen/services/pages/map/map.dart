@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/database.dart';
+import 'package:flutterparkinggit/gamla_appen/services/pages/map/parkTimer.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/map/location.dart';
@@ -35,6 +36,7 @@ class _ParkingMapState extends State<ParkingMap> {
 //  LatLng _news = LatLng(58.287674, 17.091698000000008);
 
   TimeOfDay _time = TimeOfDay.now();
+  TimeOfDay picked;
   Future<Null> selectTime(BuildContext context) async {
     _time = await showTimePicker(context: context, initialTime: _time,
         builder: (BuildContext context, Widget child) {
@@ -43,6 +45,9 @@ class _ParkingMapState extends State<ParkingMap> {
             child: child,
           );
         });
+    setState(() {
+      picked = _time;
+    });
   }
 
   Location _locationTracker = Location();
@@ -345,7 +350,6 @@ class _ParkingMapState extends State<ParkingMap> {
 
     final user = Provider.of<User>(context);
 
-
     void setPreference(UserData userData){
       distance = userData.radius;
       if(userData.parking == 'HCP'){
@@ -365,10 +369,12 @@ class _ParkingMapState extends State<ParkingMap> {
         if (snapshot.hasData) {
           UserData userData = snapshot.data;
           setPreference(userData);
-          return Scaffold(
-            body: Container(
-              child: GoogleMap(
+          if(picked == null) {
+            return Scaffold(
+              body: Container(
+                child: GoogleMap(
 //          polygons: _polygons,
+<<<<<<< HEAD
                 polylines: _polyLines,
                 myLocationEnabled: true,
                 zoomControlsEnabled: false,
@@ -376,15 +382,36 @@ class _ParkingMapState extends State<ParkingMap> {
                 initialCameraPosition: CameraPosition(
                   target: _center,
                   zoom: 12.0,
+=======
+//          polylines: _polyLines,
+                  myLocationEnabled: true,
+                  zoomControlsEnabled: false,
+                  onMapCreated: _onMapCreated,
+                  initialCameraPosition: CameraPosition(
+                    target: _center,
+                    zoom: 12.0,
+                  ),
+                  markers: Set<Marker>.of(allMarkers),
+>>>>>>> 02492616e5cf925fdbc6b23da56197393199c9d0
                 ),
-                markers: Set<Marker>.of(allMarkers),
               ),
-            ),
-            floatingActionButton:
-            FloatingActionButton(
-              elevation: 3.0,
-              child: Icon(Icons.my_location,
+              floatingActionButton:
+              FloatingActionButton(
+                elevation: 3.0,
+                child: Icon(Icons.my_location,
+                ),
+                backgroundColor: Color(0xff207FC5),
+                onPressed: () async {
+                  await getCurrentLocation();
+                  print(allMarkers.toString());
+                  getMarkers();
+                  if (allMarkers.isEmpty) {
+                    showDialog(context: context,
+                        builder: (_) => _noParkingAlertDialogWidget());
+                  }
+                },
               ),
+<<<<<<< HEAD
               backgroundColor: Color(0xff207FC5),
               onPressed: () async {
                 await getCurrentLocation();
@@ -398,6 +425,12 @@ class _ParkingMapState extends State<ParkingMap> {
               },
             ),
           );
+=======
+            );
+          }else{
+            return ParkTimer();
+          }
+>>>>>>> 02492616e5cf925fdbc6b23da56197393199c9d0
         }else{
           distance = 100;
           preference = 'ptillaten';
