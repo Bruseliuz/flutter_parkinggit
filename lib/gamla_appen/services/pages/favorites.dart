@@ -20,12 +20,11 @@ class _FavoritesState extends State<Favorites> {
           title: const Text("Your favorites"),
         ),
     body:
-    _favParksList.isEmpty != null ? _emptyList(context) : ListView.separated(
+    _favParksList.favoriteParks.isEmpty ? _emptyList(context) : ListView.separated(
           separatorBuilder: (context, index) =>
               Divider(
                 color: Color(0xff207FC5),
               ),
-
           padding: const EdgeInsets.all(8),
           itemCount: _favParksList.favoriteParks.length,
           itemBuilder: _getFavoriteParksList,
@@ -34,7 +33,7 @@ class _FavoritesState extends State<Favorites> {
         FloatingActionButton(
           elevation: 3.0,
           onPressed: () async {},
-          child: Icon(Icons.refresh,
+          child: Icon(Icons.refresh, color: Color(0xff207FC5)
           ),
           backgroundColor: Colors.white,
         )
@@ -64,15 +63,21 @@ class _FavoritesState extends State<Favorites> {
   Widget _emptyList(BuildContext context) {
     return Container(
       height: double.infinity,
+      width: double.infinity,
       color: Color(0xff207FC5),
-
-      child: ListTile(
-        leading: new Icon(Icons.favorite),
-        title: Text('You have no favorites'),
-        subtitle: Text(
-            'Tap a marker on the map to select a favorite'),
-        trailing: Icon(Icons.directions_car),
-      ),
+      child: Column (
+        children: <Widget> [
+          SizedBox(height: 50.0),
+        Text('You have no favorites', style: TextStyle(
+          color: Colors.white,
+          fontSize: 18,
+        )),
+          SizedBox(height: 20.0),
+       Text('Tap a marker on the map to select a favorite', style: TextStyle(
+         color: Colors.white,
+         fontSize: 18,
+       ))
+      ],),
     );
   }
 

@@ -24,11 +24,4 @@ class FavoriteParksList {
       }
     }
   }
-
- bool isEmpty () {
-    if(favoriteParks.isEmpty)
-      return true;
-    else
-      return false;
-  }
 }

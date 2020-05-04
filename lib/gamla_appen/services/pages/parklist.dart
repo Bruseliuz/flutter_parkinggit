@@ -26,9 +26,10 @@ class _ParkListState extends State<ParkList> {
         backgroundColor: Color(0xff207FC5),
         title: const Text("Availabe parking areas nearby"),
       ),
-      body: ListView.separated(
+      body:
+      _parkingAreasList == null ? _emptyList(context) :ListView.separated(
         separatorBuilder: (context, index) => Divider(
-          color: Colors.white,
+            color: Color(0xff207FC5),
         ),
         padding: const EdgeInsets.all(8),
         itemCount: _parkingAreasList.parkingAreas.length,
@@ -40,9 +41,9 @@ class _ParkListState extends State<ParkList> {
         onPressed: () async {
          await getCurrentLocation();
         },
-        child: Icon(Icons.refresh,
+        child: Icon(Icons.refresh, color: Color(0xff207FC5),
         ),
-        backgroundColor:Color(0xff207FC5),
+        backgroundColor:Colors.white,
       )
     );
   }
@@ -64,6 +65,22 @@ class _ParkListState extends State<ParkList> {
           trailing: Icon(Icons.directions_car),
         ),
       ),
+    );
+  }
+
+  Widget _emptyList(BuildContext context) {
+    return Container(
+      height: double.infinity,
+      width: double.infinity,
+      color: Color(0xff207FC5),
+      child: Column (
+        children: <Widget> [
+          SizedBox(height: 50.0),
+          Text('There are no available parking areas nearby', style: TextStyle(
+            color: Colors.white,
+            fontSize: 18,
+          )),
+        ],),
     );
   }
 
