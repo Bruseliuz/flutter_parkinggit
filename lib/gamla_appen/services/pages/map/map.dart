@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/database.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/map/parkTimer.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -53,7 +52,7 @@ class _ParkingMapState extends State<ParkingMap> {
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20)
       ),
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.white70,
       title: Text('No parking available in your area.',
         style: TextStyle(
             color: Color(0xff207FC5),
@@ -77,6 +76,16 @@ class _ParkingMapState extends State<ParkingMap> {
     );
   }
 
+  Widget getFavoriteIcon(element){
+    if(element.favorite == true){
+      return Icon(Icons.favorite,
+      color: Color(0xff207FC5),);
+    } else {
+      return Icon(Icons.favorite_border,
+      color: Color(0xff207FC5),);
+    }
+  }
+
   Widget _alertDialogWidget(element) {
     return Container(
       child: AlertDialog(
@@ -96,10 +105,6 @@ class _ParkingMapState extends State<ParkingMap> {
                 ),
               ),
             ),
-            FlatButton.icon(
-              onPressed:(){},
-              icon: Icon(Icons.favorite_border), //TODO - Icon efter favorites eller inte. 
-              label: Text(''))
           ],
         ),
         content: Container(
@@ -140,7 +145,6 @@ class _ParkingMapState extends State<ParkingMap> {
                   ),
                   Flexible(
                     child: Text(element.numberOfParkingSpots,
-                    overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                           color: Color(0xff207FC5)
                       ),
@@ -192,19 +196,13 @@ class _ParkingMapState extends State<ParkingMap> {
         ),
         actions: <Widget>[
           Row(
-            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               FlatButton.icon(
-                color: Colors.white,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20)
-                ),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                icon: Icon(Icons.check_circle_outline, color: Color(0xff207FC5),),
-                label: Text('OK', style: TextStyle(color: Color(0xff207FC5)),
-                ),
+                  onPressed:(){
+                    print('Lägg till i favorites');
+                  },
+                  icon: getFavoriteIcon(element), //TODO - Icon efter favorites eller inte.
+                  label: Text('Add to Favorites')
               ),
               Theme(
                 data: Theme.of(context).copyWith(
@@ -378,6 +376,7 @@ class _ParkingMapState extends State<ParkingMap> {
               ),
               floatingActionButton:
               FloatingActionButton(
+                child: Icon(Icons.my_location),
                 elevation: 3.0,
               backgroundColor: Color(0xff207FC5),
               onPressed: () async {

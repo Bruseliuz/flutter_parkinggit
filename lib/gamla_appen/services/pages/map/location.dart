@@ -83,7 +83,9 @@ void parseParkingCoordinates(List<dynamic> coordinates) {
           serviceDayInfo: element.serviceDayInfo,
           availableParkingSpots:
               getRandomAvailableParkingSpot(element.coordinatesList),
-      favorite: false),);
+      favorite: false
+      ),
+      );
       checkParkingSpot();
     print('-------------------Lista på parkeringsplatser-------------------');
     print(parkingSpotsList);
