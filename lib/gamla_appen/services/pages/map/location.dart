@@ -30,29 +30,30 @@ class ParkingAreas {
   bool favorite;
 
   ParkingAreas(
-      {
-        this.streetName,
-        this.coordinatesList,
-        this.coordinates,
-        this.numberOfParkingSpots,
-        this.availableParkingSpots,
-        this.serviceDayInfo,
-        this.favorite
-      });
+      {this.streetName,
+      this.coordinatesList,
+      this.coordinates,
+      this.numberOfParkingSpots,
+      this.availableParkingSpots,
+      this.serviceDayInfo,
+      this.favorite});
 
   factory ParkingAreas.fromJson(Map<String, dynamic> json) {
     return ParkingAreas(
         streetName: json['properties']['ADDRESS'],
         coordinatesList: json['geometry']['coordinates'],
-      serviceDayInfo: json['properties']['OTHER_INFO']
-    );
+        serviceDayInfo: json['properties']['OTHER_INFO']);
   }
 
   @override
   toString() =>
       'Streetname: $streetName Coordinateslist: $coordinatesList Coordinates: ${coordinates.toString()}';
 
-  bool operator ==(o) => o is ParkingAreas && streetName == o.streetName && coordinates == o.coordinates;
+  bool operator ==(o) =>
+      o is ParkingAreas &&
+      streetName == o.streetName &&
+      coordinates == o.coordinates;
+
   int get hashCode => hash2(streetName.hashCode, coordinates.hashCode);
 }
 
@@ -76,17 +77,17 @@ void parseParkingCoordinates(List<dynamic> coordinates) {
     double longitude = temp[1];
     double latitude = temp[0];
     LatLng coordinatesParsed = new LatLng(longitude, latitude);
-      parkingSpotsList.add(ParkingAreas(
+    parkingSpotsList.add(
+      ParkingAreas(
           streetName: element.streetName,
           coordinates: coordinatesParsed,
           numberOfParkingSpots: element.coordinatesList.length.toString(),
           serviceDayInfo: element.serviceDayInfo,
           availableParkingSpots:
               getRandomAvailableParkingSpot(element.coordinatesList),
-      favorite: false
-      ),
-      );
-      checkParkingSpot();
+          favorite: false),
+    );
+    checkParkingSpot();
     print('-------------------Lista på parkeringsplatser-------------------');
     print(parkingSpotsList);
     print('Längden på listan: ${parkingSpotsList.length}');
@@ -98,7 +99,9 @@ String getRandomAvailableParkingSpot(List<dynamic> coordinates) {
   int randomNumber = random.nextInt(coordinates.length);
   return randomNumber.toString();
 }
+
 void checkParkingSpot() {
-  parkingSpotsList = LinkedHashSet<ParkingAreas>.from(parkingSpotsList).toList();
+  parkingSpotsList =
+      LinkedHashSet<ParkingAreas>.from(parkingSpotsList).toList();
   parkingSpotsList.removeWhere((item) => item.availableParkingSpots == '0');
 }
