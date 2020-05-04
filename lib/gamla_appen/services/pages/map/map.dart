@@ -1,14 +1,18 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/database.dart';
+import 'package:flutterparkinggit/gamla_appen/services/pages/map/parkTimer.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/map/location.dart';
+import 'package:flutterparkinggit/gamla_appen/services/pages/map/price_polygons.dart';
 import 'dart:async';
 import 'package:http/http.dart';
 import 'dart:convert';
 import 'package:flutterparkinggit/gamla_appen/models/user.dart';
 import 'package:provider/provider.dart';
+import 'package:geojson/geojson.dart';
 
 
 //List<LatLng> latlngList = List();
@@ -24,7 +28,7 @@ class ParkingMap extends StatefulWidget {
 class _ParkingMapState extends State<ParkingMap> {
 
 //  LatLng _lastCameraPosition;
-//  final Set<Polyline> _polyLines = {};
+  final Set<Polyline> _polyLines = {};
 //  List<LatLng> _lines = [];
 //  Set<Polygon> _polygons = {};
 //
@@ -32,6 +36,7 @@ class _ParkingMapState extends State<ParkingMap> {
 //  LatLng _news = LatLng(58.287674, 17.091698000000008);
 
   TimeOfDay _time = TimeOfDay.now();
+  TimeOfDay picked;
   Future<Null> selectTime(BuildContext context) async {
     _time = await showTimePicker(context: context, initialTime: _time,
         builder: (BuildContext context, Widget child) {
@@ -40,6 +45,9 @@ class _ParkingMapState extends State<ParkingMap> {
             child: child,
           );
         });
+    setState(() {
+      picked = _time;
+    });
   }
 
   Location _locationTracker = Location();
@@ -49,6 +57,24 @@ class _ParkingMapState extends State<ParkingMap> {
   @override
   void initState() {
     super.initState();
+  }
+
+  Future<void> parseAndDrawPolyAssetsOnMap() async {
+    print('-----------------POLYWRITING');
+    final geo = GeoJson();
+    geo.processedLines.listen((GeoJsonLine line) {
+      /// when a line is parsed add it to the map right away
+      setState(() => _polyLines.add(Polyline(
+          polylineId: PolylineId(line.toString()),
+          color: Colors.blue,
+          points: getLatLngForPoints(line))));
+    });
+
+    geo.endSignal.listen((_) => geo.dispose());
+    final data = await rootBundle
+        .loadString('http://openstreetgs.stockholm.se/geoservice/api/'
+        'e734eaa7-d9b5-422a-9521-844554d9965b/wfs/?version=1.0.0&request=GetFeature&typename=ltfr:LTFR_TAXA_VIEW&outputFormat=json');
+    await geo.parse(data, verbose: true);
   }
 
   Widget _noParkingAlertDialogWidget(){
@@ -324,7 +350,6 @@ class _ParkingMapState extends State<ParkingMap> {
 
     final user = Provider.of<User>(context);
 
-
     void setPreference(UserData userData){
       distance = userData.radius;
       if(userData.parking == 'HCP'){
@@ -344,31 +369,30 @@ class _ParkingMapState extends State<ParkingMap> {
         if (snapshot.hasData) {
           UserData userData = snapshot.data;
           setPreference(userData);
-          return Scaffold(
-            body: Container(
-              child: GoogleMap(
-//          polygons: _polygons,
-//          polylines: _polyLines,
+          if(picked == null) {
+            return Scaffold(
+              body: Container(
+                child: GoogleMap(
+                polylines: _polyLines,
                 myLocationEnabled: true,
                 zoomControlsEnabled: false,
                 onMapCreated: _onMapCreated,
+                    markers: Set<Marker>.of(allMarkers),
                 initialCameraPosition: CameraPosition(
                   target: _center,
                   zoom: 12.0,
                 ),
-                markers: Set<Marker>.of(allMarkers),
+                ),
               ),
-            ),
-            floatingActionButton:
-            FloatingActionButton(
-              elevation: 3.0,
-              child: Icon(Icons.my_location,
-              ),
+              floatingActionButton:
+              FloatingActionButton(
+                elevation: 3.0,
               backgroundColor: Color(0xff207FC5),
               onPressed: () async {
                 await getCurrentLocation();
                 print(allMarkers.toString());
                 getMarkers();
+                parseAndDrawPolyAssetsOnMap();
                 if (allMarkers.isEmpty) {
                   showDialog(context: context,
                       builder: (_) => _noParkingAlertDialogWidget());
@@ -376,6 +400,9 @@ class _ParkingMapState extends State<ParkingMap> {
               },
             ),
           );
+          }else{
+            return ParkTimer();
+          }
         }else{
           distance = 100;
           preference = 'ptillaten';
@@ -404,6 +431,7 @@ class _ParkingMapState extends State<ParkingMap> {
                 await getCurrentLocation();
                 print(allMarkers.toString());
                 getMarkers();
+                parseAndDrawPolyAssetsOnMap();
                 if (allMarkers.isEmpty) {
                   showDialog(context: context,
                       builder: (_) => _noParkingAlertDialogWidget());
