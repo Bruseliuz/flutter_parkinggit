@@ -354,6 +354,7 @@ class _ParkingMapState extends State<ParkingMap> {
               body: Container(
                 child: GoogleMap(
                 myLocationEnabled: true,
+                myLocationButtonEnabled: false,
                 zoomControlsEnabled: false,
                 onMapCreated: _onMapCreated,
                     markers: Set<Marker>.of(allMarkers),
@@ -389,6 +390,7 @@ class _ParkingMapState extends State<ParkingMap> {
             body: Container(
               child: GoogleMap(
                 myLocationEnabled: true,
+                myLocationButtonEnabled: false,
                 zoomControlsEnabled: false,
                 onMapCreated: _onMapCreated,
                 initialCameraPosition: CameraPosition(
