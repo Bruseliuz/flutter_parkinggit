@@ -373,45 +373,20 @@ class _ParkingMapState extends State<ParkingMap> {
             return Scaffold(
               body: Container(
                 child: GoogleMap(
-//          polygons: _polygons,
-<<<<<<< HEAD
                 polylines: _polyLines,
                 myLocationEnabled: true,
                 zoomControlsEnabled: false,
                 onMapCreated: _onMapCreated,
+                    markers: Set<Marker>.of(allMarkers),
                 initialCameraPosition: CameraPosition(
                   target: _center,
                   zoom: 12.0,
-=======
-//          polylines: _polyLines,
-                  myLocationEnabled: true,
-                  zoomControlsEnabled: false,
-                  onMapCreated: _onMapCreated,
-                  initialCameraPosition: CameraPosition(
-                    target: _center,
-                    zoom: 12.0,
-                  ),
-                  markers: Set<Marker>.of(allMarkers),
->>>>>>> 02492616e5cf925fdbc6b23da56197393199c9d0
+                ),
                 ),
               ),
               floatingActionButton:
               FloatingActionButton(
                 elevation: 3.0,
-                child: Icon(Icons.my_location,
-                ),
-                backgroundColor: Color(0xff207FC5),
-                onPressed: () async {
-                  await getCurrentLocation();
-                  print(allMarkers.toString());
-                  getMarkers();
-                  if (allMarkers.isEmpty) {
-                    showDialog(context: context,
-                        builder: (_) => _noParkingAlertDialogWidget());
-                  }
-                },
-              ),
-<<<<<<< HEAD
               backgroundColor: Color(0xff207FC5),
               onPressed: () async {
                 await getCurrentLocation();
@@ -425,12 +400,9 @@ class _ParkingMapState extends State<ParkingMap> {
               },
             ),
           );
-=======
-            );
           }else{
             return ParkTimer();
           }
->>>>>>> 02492616e5cf925fdbc6b23da56197393199c9d0
         }else{
           distance = 100;
           preference = 'ptillaten';
