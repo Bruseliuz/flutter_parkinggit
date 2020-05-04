@@ -87,137 +87,160 @@ class _ParkingMapState extends State<ParkingMap> {
   }
 
   Widget _alertDialogWidget(element) {
-    return AlertDialog(
-      elevation: 3.0,
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20)
-      ),
-      backgroundColor: Colors.white,
-      title: Text(element.streetName,
-        style: TextStyle(
-            color: Color(0xff207FC5),
-            fontWeight: FontWeight.bold
+    return Container(
+      child: AlertDialog(
+        elevation: 3.0,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20)
         ),
-      ),
-      content: Container(
-        height: 140,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        backgroundColor: Colors.white,
+        title: Row(
           children: <Widget>[
-            Row(
-              children: <Widget>[
-                Icon(
-                  Icons.attach_money,
-                  color: Color(0xff207FC5),
-                ),
-                Text('Price per hours: ',
-                  style: TextStyle(
-                      color: Color(0xff207FC5)
-                  ),
-                ),
-                Text('Price',
-                  style: TextStyle(
-                      color: Color(0xff207FC5)
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 5.0),
-            Row(
-              children: <Widget>[
-                Icon(
-                  Icons.directions_car,
-                  color: Color(0xff207FC5),
-                ),
-                Text('Number of parking spots: ',
-                  style: TextStyle(
-                      color: Color(0xff207FC5)
-                  ),
-                ),
-                Text(element.numberOfParkingSpots,
-                  style: TextStyle(
-                      color: Color(0xff207FC5)
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 5.0),
-            Row(
-              children: <Widget>[
-                Icon(
-                  Icons.local_car_wash,
-                  color: Colors.green,
-                ),
-                Text('Available parking spots: ',
-                  style: TextStyle(
-                      color: Color(0xff207FC5)
-                  ),
-                ),
-                Text(element.availableParkingSpots,
-                  style: TextStyle(
-                      color: Color(0xff207FC5)
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 5.0),
-            Row(
-              children: <Widget>[
-                Icon(
-                  Icons.build,
-                  color: Colors.grey,
-                ),
-                Text(element.serviceDayInfo ?? ' No service info',
+            Flexible(
+              child: Text(element.streetName,
+              overflow: TextOverflow.ellipsis,
                 style: TextStyle(
-                    color: Color(0xff207FC5)
+                    color: Color(0xff207FC5),
+                    fontWeight: FontWeight.bold
                 ),
-                )
-              ],
-            )
-          ],
-        ),
-      ),
-      actions: <Widget>[
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
+              ),
+            ),
             FlatButton.icon(
-              color: Colors.white,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20)
-              ),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              icon: Icon(Icons.check_circle_outline, color: Color(0xff207FC5),),
-              label: Text('OK', style: TextStyle(color: Color(0xff207FC5)),
-              ),
-            ),
-            Theme(
-              data: Theme.of(context).copyWith(
-                primaryColor:  Color(0xff207FC5),
-                highlightColor:  Colors.black,
-                accentColor: Color(0xff207FC5),
-              ),
-              child: Builder(
-                builder: (context)=> FlatButton.icon(
-                  color: Colors.white,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20)
+              onPressed:(){},
+              icon: Icon(Icons.favorite_border),
+              label: Text(''))
+          ],
+        ),
+        content: Container(
+          height: 120,
+          width: double.infinity,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Row(
+                children: <Widget>[
+                  Icon(
+                    Icons.attach_money,
+                    color: Color(0xff207FC5),
                   ),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                    selectTime(context);
-                  },
-                  icon: Icon(Icons.timer, color: Color(0xff207FC5),),
-                  label: Text('Start parking', style: TextStyle(color: Color(0xff207FC5)),
+                  Text('Price per hours: ',
+                    style: TextStyle(
+                        color: Color(0xff207FC5)
+                    ),
+                  ),
+                  Text('Price',
+                    style: TextStyle(
+                        color: Color(0xff207FC5)
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 5.0),
+              Row(
+                children: <Widget>[
+                  Icon(
+                    Icons.directions_car,
+                    color: Color(0xff207FC5),
+                  ),
+                  Text('Number of parking spots: ',
+                    style: TextStyle(
+                        color: Color(0xff207FC5)
+                    ),
+                  ),
+                  Flexible(
+                    child: Text(element.numberOfParkingSpots,
+                    overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                          color: Color(0xff207FC5)
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 5.0),
+              Row(
+                children: <Widget>[
+                  Icon(
+                    Icons.local_car_wash,
+                    color: Colors.green,
+                  ),
+                  Text('Available parking spots: ',
+                    style: TextStyle(
+                        color: Color(0xff207FC5)
+                    ),
+                  ),
+                  Flexible(
+                    child: Text(element.availableParkingSpots,
+                    overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                          color: Color(0xff207FC5)
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 5.0),
+              Row(
+                children: <Widget>[
+                  Icon(
+                    Icons.build,
+                    color: Colors.grey,
+                  ),
+                  Flexible(
+                    child: Text(element.serviceDayInfo ?? ' No service info',
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                        color: Color(0xff207FC5)
+                    ),
+                    ),
+                  )
+                ],
+              )
+            ],
+          ),
+        ),
+        actions: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              FlatButton.icon(
+                color: Colors.white,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20)
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                icon: Icon(Icons.check_circle_outline, color: Color(0xff207FC5),),
+                label: Text('OK', style: TextStyle(color: Color(0xff207FC5)),
+                ),
+              ),
+              Theme(
+                data: Theme.of(context).copyWith(
+                  primaryColor:  Color(0xff207FC5),
+                  highlightColor:  Colors.black,
+                  accentColor: Color(0xff207FC5),
+                ),
+                child: Builder(
+                  builder: (context)=> FlatButton.icon(
+                    color: Colors.white,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20)
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      selectTime(context);
+                    },
+                    icon: Icon(Icons.timer, color: Color(0xff207FC5),),
+                    label: Text('Start parking', style: TextStyle(color: Color(0xff207FC5)),
+                    ),
                   ),
                 ),
               ),
-            ),
-          ],
-        ),
-      ],
+            ],
+          ),
+        ],
+      ),
     );
   }
 
