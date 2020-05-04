@@ -30,7 +30,7 @@ class _ParkingMapState extends State<ParkingMap> {
 //  LatLng _lastCameraPosition;
   final Set<Polyline> _polyLines = {};
 //  List<LatLng> _lines = [];
-//  Set<Polygon> _polygons = {};
+  final Set<Polygon> _polygons = {};
 //
 //  LatLng _new = LatLng(59.287674, 18.091698000000008);
 //  LatLng _news = LatLng(58.287674, 17.091698000000008);
@@ -64,17 +64,18 @@ class _ParkingMapState extends State<ParkingMap> {
     final geo = GeoJson();
     geo.processedLines.listen((GeoJsonLine line) {
       /// when a line is parsed add it to the map right away
-      setState(() => _polyLines.add(Polyline(
+      setState(() {
+        _polyLines.add(Polyline(
           polylineId: PolylineId(line.toString()),
           color: Colors.blue,
-          points: getLatLngForPoints(line))));
-    });
+          points: getLatLngForPoints(line)));
 
+      });
+    });
     geo.endSignal.listen((_) => geo.dispose());
-    final data = await rootBundle
-        .loadString('http://openstreetgs.stockholm.se/geoservice/api/'
+    final data = await get('http://openstreetgs.stockholm.se/geoservice/api/'
         'e734eaa7-d9b5-422a-9521-844554d9965b/wfs/?version=1.0.0&request=GetFeature&typename=ltfr:LTFR_TAXA_VIEW&outputFormat=json');
-    await geo.parse(data, verbose: true);
+    await geo.parse(data.body, verbose: true);
   }
 
   Widget _noParkingAlertDialogWidget(){
@@ -396,6 +397,7 @@ class _ParkingMapState extends State<ParkingMap> {
             return Scaffold(
               body: Container(
                 child: GoogleMap(
+//                  polygons: _polygons,
                 polylines: _polyLines,
                 myLocationEnabled: true,
                 zoomControlsEnabled: false,
@@ -432,8 +434,8 @@ class _ParkingMapState extends State<ParkingMap> {
           return Scaffold(
             body: Container(
               child: GoogleMap(
-//          polygons: _polygons,
-//          polylines: _polyLines,
+//            polygons: _polygons,
+            polylines: _polyLines,
                 myLocationEnabled: true,
                 zoomControlsEnabled: false,
                 onMapCreated: _onMapCreated,
