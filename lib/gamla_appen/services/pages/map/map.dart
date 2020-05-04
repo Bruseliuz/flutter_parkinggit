@@ -78,6 +78,14 @@ class _ParkingMapState extends State<ParkingMap> {
     await geo.parse(data.body, verbose: true);
   }
 
+  Widget getFavoriteIcon(element){
+    if(element.favorite == true){
+      return Icon(Icons.favorite);
+    }else{
+      return Icon(Icons.favorite_border);
+    }
+  }
+
   Widget _noParkingAlertDialogWidget(){
     return AlertDialog(
       elevation: 3.0,
@@ -129,7 +137,7 @@ class _ParkingMapState extends State<ParkingMap> {
             ),
             FlatButton.icon(
               onPressed:(){},
-              icon: Icon(Icons.favorite_border), //TODO - Icon efter favorites eller inte. 
+              icon: getFavoriteIcon(element), //TODO - Icon efter favorites eller inte. 
               label: Text(''))
           ],
         ),
