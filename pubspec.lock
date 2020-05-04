@@ -15,6 +15,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.39.8"
+  angles:
+    dependency: transitive
+    description:
+      name: angles
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.2.1"
   ansicolor:
     dependency: transitive
     description:
@@ -710,6 +717,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.6"
+  utm:
+    dependency: "direct main"
+    description:
+      name: utm
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.2"
   validate:
     dependency: transitive
     description:

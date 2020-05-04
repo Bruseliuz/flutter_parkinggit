@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:utm/utm.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/database.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/map/parkTimer.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -38,6 +39,7 @@ class _ParkingMapState extends State<ParkingMap> {
     });
   }
 
+
   Location _locationTracker = Location();
   List <Marker> allMarkers = []; //TODO - 3 Lists
 
@@ -45,6 +47,7 @@ class _ParkingMapState extends State<ParkingMap> {
   @override
   void initState() {
     super.initState();
+    latLngFromUTM(153048.92098,6579412.819818);
   }
 
   Widget _noParkingAlertDialogWidget(){
@@ -255,6 +258,17 @@ class _ParkingMapState extends State<ParkingMap> {
 //    });
 //  }
 
+  void latLngFromUTM(double easting, double northing) {
+    var latlong1 = UTM.fromUtm(
+      easting: easting,
+      northing: northing,
+      zoneNumber: 34,
+      zoneLetter: 'N',
+    );
+    print(latlong1.lat);
+    print(latlong1.lon);
+  }
+
   Completer<GoogleMapController> _controller = Completer();
   static LatLng _center = LatLng(59.334591, 18.063240);
 
@@ -292,32 +306,6 @@ class _ParkingMapState extends State<ParkingMap> {
     parseParkingCoordinates(list);
     allMarkers.clear();
     getMarkers();
-//    Response priceResponse = await get('http://openstreetgs.stockholm.se/geoservice/api/e734eaa7-d9b5-422a-9521-844554d9965b/wfs/?version=1.0.0&request=GetFeature&typename=ltfr:LTFR_TAXA_VIEW&outputFormat=json');
-//    Map priceData = jsonDecode(priceResponse.body);
-//    var priceDataList = priceData['features'] as List;
-//    List priceList = priceDataList.map<PriceArea>((json) => PriceArea.fromJson(json)).toList();
-//    priceList.forEach((element) {
-//      priceAreaList.add(element);
-//      List tempList = element.coordinatesList;
-//      tempList.forEach((v) {
-//        v.forEach((n) {
-////          print(n[1]);
-//          print('innan double');
-//          double lat = n[1];
-//          double long = n[0];
-//          print('efter double');
-//          print(long);
-//
-//          LatLng latl = new LatLng(lat, long);
-//          _lines.add(latl);
-//          print(_lines.toString());
-//        });
-//      });
-//    });
-//
-//    print(priceAreaList.toString());
-
-
   }
 
   void getMarkers() {
