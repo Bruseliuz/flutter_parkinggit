@@ -79,6 +79,7 @@ class _ParkingMapState extends State<ParkingMap> {
     );
   }
 
+
   Widget getFavoriteIcon(element){
     if(element.favorite == true){
       return Icon(Icons.favorite,
@@ -203,6 +204,10 @@ class _ParkingMapState extends State<ParkingMap> {
               FlatButton.icon(
                   onPressed:(){
                     // ignore: unnecessary_statements
+                    setState(() {
+                      element.favorite==true?element.favorite==false:element.favorite==true;
+                      print(element.favorite);
+                    });
                     print('Lägg till i favorites');
                   },
                   icon: getFavoriteIcon(element), //TODO - Icon efter favorites eller inte.
