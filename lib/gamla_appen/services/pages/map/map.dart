@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -40,7 +41,7 @@ class _ParkingMapState extends State<ParkingMap> {
     });
   }
 
-
+  final CollectionReference parkCollection = Firestore.instance.collection("parkingPreference");
   Location _locationTracker = Location();
   List <Marker> allMarkers = []; //TODO - 3 Lists
 
@@ -205,17 +206,26 @@ class _ParkingMapState extends State<ParkingMap> {
                 icon: getFavoriteIcon(element),
                 //TODO - Icon efter favorites eller inte.
                 label: getFavoriteLabel(element),
-                onPressed: () {
+                onPressed: () async {
+                  if (element.favorite == false) {
+                    String latLon = element.coordinates.latitude.toString();
+                    latLon += ', ${element.coordinates.longitude}';
+                    await DatabaseService(uid: globalUser.uid)
+                        .updateUserFavorites(latLon, element.streetName,
+                        element.serviceDayInfo, element.favorite,
+                        element.availableParkingSpots);
+                  } else if (element.favorite == true) {
+                    await parkCollection.document(globalUser.uid).collection('favoriteParkings')
+                        .document(element.streetName).delete();
+                  }
                   // ignore: unnecessary_statements
-                  setState(() async {
+                  setState(() {
                     element.favorite == true
                         ? element.favorite = false
                         : element.favorite = true;
                     print(element.favorite);
-                    String latLon = element.coordinates.latitude.toString();
-                    latLon += ', ${element.coordinates.longitude}';
-                    await DatabaseService(uid: globalUser.uid).updateUserFavorites(latLon, element.streetName,
-                        element.serviceDayInfo, element.favorite, element.availableParkingSpots);
+
+
                   });
                   print('Lägg till i favorites');
                 },

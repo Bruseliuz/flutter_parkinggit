@@ -1,8 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterparkinggit/gamla_appen/models/user.dart';
-import 'package:flutterparkinggit/gamla_appen/services/pages/database.dart';
-import 'package:flutterparkinggit/gamla_appen/services/pages/map/favoriteParks.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/map/parking_area.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
@@ -24,10 +22,9 @@ class _FavoritesState extends State<Favorites> {
     return StreamBuilder<QuerySnapshot>(
         stream: Firestore.instance.collection('parkingPreference').document(globalUser.uid).collection('favoriteParkings').snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          print(snapshot.data);
           if (!snapshot.hasData) return new Text("There are no favorites");
             _favParksList = getParkingSpots(snapshot);
-            print(_favParksList.toString());
+            print(_favParksList[0].toString());
           return Scaffold(
               backgroundColor: Color(0xff207FC5),
               appBar: AppBar(
