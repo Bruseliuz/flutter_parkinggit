@@ -78,8 +78,15 @@ class ParkingArea {
 List<ParkingArea> parkingSpotsList = [];
 
 void parseParkingCoordinates(List<dynamic> coordinates) {
+  bool favorite = false;
+
   parkingSpotsList.clear();
   coordinates.forEach((element) {
+    if (favoriteDocumentsId.contains(element.streetName)) {
+      favorite = true;
+    } else {
+      favorite = false;
+    }
     print('${element.coordinatesList} HÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄR');
     List temp = element.coordinatesList[1];
     double longitude = temp[1];
@@ -93,7 +100,7 @@ void parseParkingCoordinates(List<dynamic> coordinates) {
           serviceDayInfo: element.serviceDayInfo,
           availableParkingSpots:
               getRandomAvailableParkingSpot(element.coordinatesList),
-          favorite: false),
+          favorite: favorite),
     );
     checkParkingSpot();
     print('-------------------Lista på parkeringsplatser-------------------');
