@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterparkinggit/gamla_appen/models/user.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/database.dart';
@@ -15,15 +16,17 @@ class Favorites extends StatefulWidget {
 
 class _FavoritesState extends State<Favorites> {
 
-  List<ParkingArea> _favParksList;
+  List<ParkingArea> _favParksList = [];
 
   Widget build(BuildContext context) {
     globalUser = Provider.of<User>(context);
 
-    return StreamBuilder<List<ParkingArea>>(
-        stream: DatabaseService(uid: globalUser.uid).parkingArea,
-        builder: (context, snapshot) {
-            _favParksList = snapshot.data;
+    return StreamBuilder<QuerySnapshot>(
+        stream: Firestore.instance.collection('parkingPreference').document(globalUser.uid).collection('favoriteParkings').snapshots(),
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          print(snapshot.data);
+          if (!snapshot.hasData) return new Text("There are no favorites");
+            _favParksList = getParkingSpots(snapshot);
             print(_favParksList.toString());
           return Scaffold(
               backgroundColor: Color(0xff207FC5),
@@ -50,6 +53,23 @@ class _FavoritesState extends State<Favorites> {
         }
 
     );
+  }
+
+  getParkingSpots(AsyncSnapshot<QuerySnapshot> snapshot) {
+    return snapshot.data.documents.map((doc) {
+      String latlong = doc.data['coordinates'];
+      List splitList = latlong.split(', ');
+      String lat = splitList[0];
+      String long = splitList[1];
+      LatLng latlng = new LatLng(double.tryParse(lat), double.tryParse(long));
+      return ParkingArea(
+          streetName: doc.data['streetName'],
+          coordinates: latlng,
+          favorite: doc.data['favorite'],
+          serviceDayInfo: doc.data['serviceDayInfo'],
+          availableParkingSpots: doc.data['availableParkingSpots']
+      );
+    }).toList();
   }
 
   Widget _getFavoriteParksList(BuildContext context, int index) {
