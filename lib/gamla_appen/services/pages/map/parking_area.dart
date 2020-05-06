@@ -1,4 +1,5 @@
 import 'dart:collection';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:quiver/core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -9,7 +10,7 @@ import 'dart:math';
 
 class ParkingAreasList {
   //denna som ska visas på kartan
-  List<ParkingAreas> parkingAreas;
+  List<ParkingArea> parkingAreas;
 
   ParkingAreasList() {
     updateParkingLots();
@@ -20,7 +21,7 @@ class ParkingAreasList {
   }
 }
 
-class ParkingAreas {
+class ParkingArea {
   String streetName;
   List<dynamic> coordinatesList;
   LatLng coordinates;
@@ -29,7 +30,7 @@ class ParkingAreas {
   String serviceDayInfo;
   bool favorite;
 
-  ParkingAreas(
+  ParkingArea(
       {this.streetName,
       this.coordinatesList,
       this.coordinates,
@@ -38,11 +39,18 @@ class ParkingAreas {
       this.serviceDayInfo,
       this.favorite});
 
-  factory ParkingAreas.fromJson(Map<String, dynamic> json) {
-    return ParkingAreas(
+  factory ParkingArea.fromJson(Map<String, dynamic> json) {
+    return ParkingArea(
         streetName: json['properties']['ADDRESS'],
         coordinatesList: json['geometry']['coordinates'],
         serviceDayInfo: json['properties']['OTHER_INFO']);
+  }
+
+  factory ParkingArea.fromSnapshot(DocumentSnapshot snapshot) {
+    return ParkingArea(
+      streetName: snapshot['streetName'],
+      coordinates: snapshot['coordinates']
+    );
   }
 
   @override
@@ -50,7 +58,7 @@ class ParkingAreas {
       'Streetname: $streetName Coordinateslist: $coordinatesList Coordinates: ${coordinates.toString()}';
 
   bool operator ==(o) =>
-      o is ParkingAreas &&
+      o is ParkingArea &&
       streetName == o.streetName &&
       coordinates == o.coordinates;
 
@@ -67,7 +75,7 @@ class ParkingAreas {
 //
 //}
 
-List<ParkingAreas> parkingSpotsList = [];
+List<ParkingArea> parkingSpotsList = [];
 
 void parseParkingCoordinates(List<dynamic> coordinates) {
   parkingSpotsList.clear();
@@ -78,7 +86,7 @@ void parseParkingCoordinates(List<dynamic> coordinates) {
     double latitude = temp[0];
     LatLng coordinatesParsed = new LatLng(longitude, latitude);
     parkingSpotsList.add(
-      ParkingAreas(
+      ParkingArea(
           streetName: element.streetName,
           coordinates: coordinatesParsed,
           numberOfParkingSpots: element.coordinatesList.length.toString(),
@@ -102,6 +110,6 @@ String getRandomAvailableParkingSpot(List<dynamic> coordinates) {
 
 void checkParkingSpot() {
   parkingSpotsList =
-      LinkedHashSet<ParkingAreas>.from(parkingSpotsList).toList();
+      LinkedHashSet<ParkingArea>.from(parkingSpotsList).toList();
   parkingSpotsList.removeWhere((item) => item.availableParkingSpots == '0');
 }

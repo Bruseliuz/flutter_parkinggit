@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutterparkinggit/gamla_appen/models/parking.dart';
 import 'package:flutterparkinggit/gamla_appen/models/user.dart';
+import 'package:flutterparkinggit/gamla_appen/services/pages/map/parking_area.dart';
 
 class DatabaseService {
 
@@ -9,6 +10,7 @@ class DatabaseService {
 
   // collection reference
   final CollectionReference parkCollection = Firestore.instance.collection("parkingPreference");
+  final CollectionReference favoriteCollection = Firestore.instance.collection('favorites');
 
   //create user data & update user data
   Future updateUserData(String parking, String name, int maxPrice, int radius) async {
@@ -17,6 +19,16 @@ class DatabaseService {
       'name': name,
       'maxPrice': maxPrice,
       'radius': radius,
+    });
+  }
+
+  Future updateUserFavorites(String latLong, String address, String serviceInfo, bool favorite, String availableSpots) async {
+    return await parkCollection.document(uid).collection('favoriteParkings').document(address).setData({
+      'streetName': address,
+      'coordinates': latLong,
+      'serviceDayInfo': serviceInfo,
+      'favorite': favorite,
+      'availableParkingSpots': availableSpots
     });
   }
 
@@ -59,6 +71,23 @@ class DatabaseService {
       maxPrice: snapshot.data['maxPrice'],
       radius: snapshot.data['radius']
     );
+  }
+
+  List<ParkingArea> _favoriteListFromSnapshot(QuerySnapshot snapshot) {
+    return snapshot.documents.map((doc) {
+      return ParkingArea(
+        streetName: doc.data['streetName'],
+        coordinates: doc.data['coordinates'],
+        favorite: doc.data['favorite'],
+        serviceDayInfo: doc.data['serviceDayInfo'],
+        availableParkingSpots: doc.data['availableParkingSpots']
+      );
+    }).toList();
+  }
+
+  Stream<List<ParkingArea>> get parkingArea{
+    return favoriteCollection.snapshots()
+        .map(_favoriteListFromSnapshot);
   }
 
   //get parkingPreference stream

@@ -1,3 +1,5 @@
+import 'package:flutterparkinggit/gamla_appen/services/pages/map/parking_area.dart';
+
 class User {
 
   final String uid;
@@ -13,7 +15,7 @@ class UserData{
   final String parking;
   final int maxPrice;
   final int radius;
-  final List favoritesList;
+  final List<ParkingArea> favoritesList;
 
   UserData({this.uid, this.name, this.parking, this.maxPrice, this.radius, this.favoritesList});
 

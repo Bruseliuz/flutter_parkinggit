@@ -15,22 +15,20 @@ import 'package:provider/provider.dart';
 
 int distance;
 String preference;
+User globalUser;
 
 class ParkingMap extends StatefulWidget {
-  ParkingMap({@required Key key}) : super(key: key);
-
+  ParkingMap({ @required Key key}) : super(key:key);
   @override
   _ParkingMapState createState() => _ParkingMapState();
 }
 
 class _ParkingMapState extends State<ParkingMap> {
+
   TimeOfDay _time = TimeOfDay.now();
   TimeOfDay picked;
-
   Future<Null> selectTime(BuildContext context) async {
-    _time = await showTimePicker(
-        context: context,
-        initialTime: _time,
+    _time = await showTimePicker(context: context, initialTime: _time,
         builder: (BuildContext context, Widget child) {
           return MediaQuery(
             data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
@@ -42,80 +40,73 @@ class _ParkingMapState extends State<ParkingMap> {
     });
   }
 
+
   Location _locationTracker = Location();
-  List<Marker> allMarkers = []; //TODO - 3 Lists
+  List <Marker> allMarkers = []; //TODO - 3 Lists
+
 
   @override
   void initState() {
     super.initState();
   }
 
-  Widget _noParkingAlertDialogWidget() {
+  Widget _noParkingAlertDialogWidget(){
     return AlertDialog(
       elevation: 3.0,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20)
+      ),
       backgroundColor: Colors.white70,
-      title: Text(
-        'No parking available in your area.',
-        style: TextStyle(color: Color(0xff207FC5), fontWeight: FontWeight.bold),
+      title: Text('No parking available in your area.',
+        style: TextStyle(
+            color: Color(0xff207FC5),
+            fontWeight: FontWeight.bold
+        ),
       ),
       content: Container(
         child: FlatButton.icon(
           color: Colors.white,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20)
+          ),
           onPressed: () {
             Navigator.of(context).pop();
           },
-          icon: Icon(
-            Icons.clear,
-            color: Color(0xff207FC5),
-            size: 25,
-          ),
-          label: Text(
-            'Close',
-            style: TextStyle(color: Color(0xff207FC5), fontSize: 20),
+          icon: Icon(Icons.clear, color: Color(0xff207FC5), size: 25,),
+          label: Text('Close', style: TextStyle(color: Color(0xff207FC5), fontSize: 20),
           ),
         ),
       ),
     );
   }
 
-  Widget getFavoriteIcon(element) {
-    if (element.favorite == true) {
-      return Icon(
-        Icons.favorite,
-        color: Color(0xff207FC5),
-      );
+  Widget getFavoriteIcon(element){
+    if(element.favorite == true){
+      return Icon(Icons.favorite,
+      color: Color(0xff207FC5),);
     } else {
-      return Icon(
-        Icons.favorite_border,
-        color: Color(0xff207FC5),
-      );
+      return Icon(Icons.favorite_border,
+      color: Color(0xff207FC5),);
     }
-  }
-
-  Widget getFavoriteLabel(element) {
-    if (element.favorite == false)
-      return Text('Add to Favorites');
-    else
-      return Text('Remove from Favorites');
   }
 
   Widget _alertDialogWidget(element) {
     return Container(
       child: AlertDialog(
         elevation: 3.0,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20)
+        ),
         backgroundColor: Colors.white,
         title: Row(
           children: <Widget>[
             Flexible(
-              child: Text(
-                element.streetName,
-                overflow: TextOverflow.ellipsis,
+              child: Text(element.streetName,
+              overflow: TextOverflow.ellipsis,
                 style: TextStyle(
-                    color: Color(0xff207FC5), fontWeight: FontWeight.bold),
+                    color: Color(0xff207FC5),
+                    fontWeight: FontWeight.bold
+                ),
               ),
             ),
           ],
@@ -132,13 +123,15 @@ class _ParkingMapState extends State<ParkingMap> {
                     Icons.attach_money,
                     color: Color(0xff207FC5),
                   ),
-                  Text(
-                    'Price per hours: ',
-                    style: TextStyle(color: Color(0xff207FC5)),
+                  Text('Price per hours: ',
+                    style: TextStyle(
+                        color: Color(0xff207FC5)
+                    ),
                   ),
-                  Text(
-                    'Price',
-                    style: TextStyle(color: Color(0xff207FC5)),
+                  Text('Price',
+                    style: TextStyle(
+                        color: Color(0xff207FC5)
+                    ),
                   ),
                 ],
               ),
@@ -149,14 +142,16 @@ class _ParkingMapState extends State<ParkingMap> {
                     Icons.directions_car,
                     color: Color(0xff207FC5),
                   ),
-                  Text(
-                    'Number of parking spots: ',
-                    style: TextStyle(color: Color(0xff207FC5)),
+                  Text('Number of parking spots: ',
+                    style: TextStyle(
+                        color: Color(0xff207FC5)
+                    ),
                   ),
                   Flexible(
-                    child: Text(
-                      element.numberOfParkingSpots,
-                      style: TextStyle(color: Color(0xff207FC5)),
+                    child: Text(element.numberOfParkingSpots,
+                      style: TextStyle(
+                          color: Color(0xff207FC5)
+                      ),
                     ),
                   ),
                 ],
@@ -168,15 +163,17 @@ class _ParkingMapState extends State<ParkingMap> {
                     Icons.local_car_wash,
                     color: Colors.green,
                   ),
-                  Text(
-                    'Available parking spots: ',
-                    style: TextStyle(color: Color(0xff207FC5)),
+                  Text('Available parking spots: ',
+                    style: TextStyle(
+                        color: Color(0xff207FC5)
+                    ),
                   ),
                   Flexible(
-                    child: Text(
-                      element.availableParkingSpots,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(color: Color(0xff207FC5)),
+                    child: Text(element.availableParkingSpots,
+                    overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                          color: Color(0xff207FC5)
+                      ),
                     ),
                   ),
                 ],
@@ -189,10 +186,11 @@ class _ParkingMapState extends State<ParkingMap> {
                     color: Colors.grey,
                   ),
                   Flexible(
-                    child: Text(
-                      element.serviceDayInfo ?? ' No service info',
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(color: Color(0xff207FC5)),
+                    child: Text(element.serviceDayInfo ?? ' No service info',
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                        color: Color(0xff207FC5)
+                    ),
                     ),
                   )
                 ],
@@ -209,38 +207,37 @@ class _ParkingMapState extends State<ParkingMap> {
                 label: getFavoriteLabel(element),
                 onPressed: () {
                   // ignore: unnecessary_statements
-                  setState(() {
+                  setState(() async {
                     element.favorite == true
                         ? element.favorite = false
                         : element.favorite = true;
                     print(element.favorite);
+                    String latLon = element.coordinates.latitude.toString();
+                    latLon += ', ${element.coordinates.longitude}';
+                    await DatabaseService(uid: globalUser.uid).updateUserFavorites(latLon, element.streetName,
+                        element.serviceDayInfo, element.favorite, element.availableParkingSpots);
                   });
                   print('Lägg till i favorites');
-                  //updateIconStatus();
                 },
               ),
               Theme(
                 data: Theme.of(context).copyWith(
-                  primaryColor: Color(0xff207FC5),
-                  highlightColor: Colors.black,
+                  primaryColor:  Color(0xff207FC5),
+                  highlightColor:  Colors.black,
                   accentColor: Color(0xff207FC5),
                 ),
                 child: Builder(
-                  builder: (context) => FlatButton.icon(
+                  builder: (context)=> FlatButton.icon(
                     color: Colors.white,
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20)),
+                        borderRadius: BorderRadius.circular(20)
+                    ),
                     onPressed: () {
                       Navigator.of(context).pop();
                       selectTime(context);
                     },
-                    icon: Icon(
-                      Icons.timer,
-                      color: Color(0xff207FC5),
-                    ),
-                    label: Text(
-                      'Start parking',
-                      style: TextStyle(color: Color(0xff207FC5)),
+                    icon: Icon(Icons.timer, color: Color(0xff207FC5),),
+                    label: Text('Start parking', style: TextStyle(color: Color(0xff207FC5)),
                     ),
                   ),
                 ),
@@ -285,6 +282,7 @@ class _ParkingMapState extends State<ParkingMap> {
     await setLocation(location);
   }
 
+
   Future<void> setLocation(LocationData location) async {
     LatLng newLocation = LatLng(location.latitude, location.longitude);
 //    _lastCameraPosition = newLocation;
@@ -296,15 +294,24 @@ class _ParkingMapState extends State<ParkingMap> {
     final GoogleMapController controller = await _controller.future;
     controller.animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
     await getData(newLocation);
+
+
+  }
+
+  Widget getFavoriteLabel(element) {
+    if (element.favorite == false) {
+      return Text('Add to favorites');
+    } else {
+      return Text('Remove from favorite');
+    }
   }
 
   Future<void> getData(LatLng location) async {
-    Response response = await get(
-        'https://openparking.stockholm.se/LTF-Tolken/v1/${preference.toString()}/within?radius=$distance&lat=${location.latitude.toString()}&lng=${location.longitude.toString()}&outputFormat=json&apiKey=e734eaa7-d9b5-422a-9521-844554d9965b');
+    Response response = await get('https://openparking.stockholm.se/LTF-Tolken/v1/${preference.toString()}/within?radius=$distance&lat=${location.latitude.toString()}&lng=${location.longitude.toString()}&outputFormat=json&apiKey=e734eaa7-d9b5-422a-9521-844554d9965b');
     Map data = jsonDecode(response.body);
     var dataList = data['features'] as List;
     List list = dataList
-        .map<ParkingAreas>((json) => ParkingAreas.fromJson(json))
+        .map<ParkingArea>((json) => ParkingArea.fromJson(json))
         .toList();
     parseParkingCoordinates(list);
     allMarkers.clear();
@@ -320,108 +327,112 @@ class _ParkingMapState extends State<ParkingMap> {
             visible: true,
             draggable: false,
             onTap: () {
-              showDialog(
-                  context: context,
-                  builder: (_) => _alertDialogWidget(element));
+              showDialog(context: context, builder: (_) => _alertDialogWidget(element)
+              );
             },
-            position: element.coordinates));
+            position: element.coordinates
+        ));
       });
-    });
+      });
   }
 
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<User>(context);
 
-    void setPreference(UserData userData) {
+    globalUser = Provider.of<User>(context);
+
+    void setPreference(UserData userData){
       distance = userData.radius;
-      if (userData.parking == 'HCP') {
+      if(userData.parking == 'HCP'){
         preference = 'prorelsehindrad';
-      } else if (userData.parking == 'MC') {
+      } else if(userData.parking == 'MC'){
         preference = 'pmotorcykel';
-      } else if (userData.parking == 'No Preference') {
-        preference = 'ptillaten';
-      } else {
-        preference = 'ptillaten';
+      } else if(userData.parking == 'No Preference'){
+        preference ='ptillaten';
+      } else{
+        preference ='ptillaten';
       }
     }
 
     return StreamBuilder<UserData>(
-        stream: DatabaseService(uid: user.uid).userData,
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            UserData userData = snapshot.data;
-            setPreference(userData);
-            if (picked == null) {
-              return Scaffold(
-                body: Container(
-                  child: GoogleMap(
-                    myLocationEnabled: true,
-                    myLocationButtonEnabled: false,
-                    zoomControlsEnabled: false,
-                    onMapCreated: _onMapCreated,
-                    markers: Set<Marker>.of(allMarkers),
-                    initialCameraPosition: CameraPosition(
-                      target: _center,
-                      zoom: 12.0,
-                    ),
-                  ),
-                ),
-                floatingActionButton: FloatingActionButton(
-                  child: Icon(Icons.my_location),
-                  elevation: 3.0,
-                  backgroundColor: Color(0xff207FC5),
-                  onPressed: () async {
-                    await getCurrentLocation();
-                    print(allMarkers.toString());
-                    getMarkers();
-                    if (allMarkers.isEmpty) {
-                      showDialog(
-                          context: context,
-                          builder: (_) => _noParkingAlertDialogWidget());
-                    }
-                  },
-                ),
-              );
-            } else {
-              return ParkTimer();
-            }
-          } else {
-            distance = 100;
-            preference = 'ptillaten';
+      stream: DatabaseService(uid: globalUser.uid).userData,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          UserData userData = snapshot.data;
+          setPreference(userData);
+          if(picked == null) {
             return Scaffold(
               body: Container(
                 child: GoogleMap(
-                  myLocationEnabled: true,
-                  myLocationButtonEnabled: false,
-                  zoomControlsEnabled: false,
-                  onMapCreated: _onMapCreated,
-                  initialCameraPosition: CameraPosition(
-                    target: _center,
-                    zoom: 12.0,
-                  ),
-                  markers: Set<Marker>.of(allMarkers),
+                myLocationEnabled: true,
+                myLocationButtonEnabled: false,
+                zoomControlsEnabled: false,
+                onMapCreated: _onMapCreated,
+                    markers: Set<Marker>.of(allMarkers),
+                initialCameraPosition: CameraPosition(
+                  target: _center,
+                  zoom: 12.0,
+                ),
                 ),
               ),
-              floatingActionButton: FloatingActionButton(
+              floatingActionButton:
+              FloatingActionButton(
+                child: Icon(Icons.my_location),
                 elevation: 3.0,
-                child: Icon(
-                  Icons.my_location,
-                ),
-                backgroundColor: Color(0xff207FC5),
-                onPressed: () async {
-                  await getCurrentLocation();
-                  print(allMarkers.toString());
-                  getMarkers();
-                  if (allMarkers.isEmpty) {
-                    showDialog(
-                        context: context,
-                        builder: (_) => _noParkingAlertDialogWidget());
-                  }
-                },
-              ),
-            );
+              backgroundColor: Color(0xff207FC5),
+              onPressed: () async {
+                await getCurrentLocation();
+                print(allMarkers.toString());
+                getMarkers();
+                if (allMarkers.isEmpty) {
+                  showDialog(context: context,
+                      builder: (_) => _noParkingAlertDialogWidget());
+                }
+              },
+            ),
+          );
+          }else{
+            return ParkTimer();
           }
-        });
+        }else{
+          distance = 100;
+          preference = 'ptillaten';
+          return Scaffold(
+            body: Container(
+              child: GoogleMap(
+                myLocationEnabled: true,
+                myLocationButtonEnabled: false,
+                zoomControlsEnabled: false,
+                onMapCreated: _onMapCreated,
+                initialCameraPosition: CameraPosition(
+                  target: _center,
+                  zoom: 12.0,
+                ),
+                markers: Set<Marker>.of(allMarkers),
+              ),
+            ),
+            floatingActionButton:
+            FloatingActionButton(
+              elevation: 3.0,
+              child: Icon(Icons.my_location,
+              ),
+              backgroundColor: Color(0xff207FC5),
+              onPressed: () async {
+                await getCurrentLocation();
+                print(allMarkers.toString());
+                getMarkers();
+                if (allMarkers.isEmpty) {
+                  showDialog(context: context,
+                      builder: (_) => _noParkingAlertDialogWidget());
+                }
+              },
+            ),
+          );
+        }
+        }
+      );
   }
+
 }
+
+
