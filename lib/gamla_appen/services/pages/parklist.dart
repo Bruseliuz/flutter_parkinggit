@@ -5,7 +5,7 @@ import 'package:flutterparkinggit/gamla_appen/services/pages/homescreens/setting
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart';
 import 'package:location/location.dart';
-import 'package:flutterparkinggit/gamla_appen/services/pages/map/location.dart';
+import 'package:flutterparkinggit/gamla_appen/services/pages/map/parking_area.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/map/map.dart';
 import 'dart:async';
 
