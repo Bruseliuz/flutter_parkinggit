@@ -32,7 +32,6 @@ class _ParkListState extends State<ParkList> {
       _parkingAreasList.parkingAreas.isEmpty ? _emptyList(context) : ListView.separated(
         separatorBuilder: (context, index) => Divider(
         ),
-
         padding: const EdgeInsets.all(8),
         itemCount: _parkingAreasList.parkingAreas.length,
         itemBuilder: _getParkingAreasList,
@@ -41,7 +40,7 @@ class _ParkListState extends State<ParkList> {
       FloatingActionButton(
         elevation: 3.0,
         onPressed: () async {
-         await getCurrentLocation();
+         await getCurrentLocation(); //TODO - Uppdatera platser
         },
         child: Icon(Icons.refresh, color: Color(0xff207FC5),
         ),

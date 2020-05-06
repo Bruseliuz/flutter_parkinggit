@@ -30,6 +30,7 @@ class _FavoritesState extends State<Favorites> {
               appBar: AppBar(
                 backgroundColor: Color(0xff207FC5),
                 title: const Text("Your favorites"),
+                centerTitle: true,
               ),
               body: _favParksList.isEmpty ? _emptyList(context) : ListView
                   .separated(

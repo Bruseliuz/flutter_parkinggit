@@ -44,7 +44,7 @@ class _HomeState extends State<Home> {
         child: Scaffold(
             appBar: AppBar(
               centerTitle: true,
-              elevation: 3.0,
+              elevation: 0.0,
               backgroundColor: Color(0xff207FC5),
               title: Text(
                 'PARK´N STOCKHOLM',
