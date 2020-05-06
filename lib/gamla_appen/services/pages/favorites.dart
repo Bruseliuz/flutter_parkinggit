@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutterparkinggit/gamla_appen/models/user.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/database.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/map/favoriteParks.dart';
-import 'package:flutterparkinggit/gamla_appen/services/pages/map/location.dart';
+import 'package:flutterparkinggit/gamla_appen/services/pages/map/parking_area.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 

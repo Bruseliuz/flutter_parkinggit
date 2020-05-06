@@ -6,7 +6,7 @@ import 'package:flutterparkinggit/gamla_appen/services/pages/database.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/map/parkTimer.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
-import 'package:flutterparkinggit/gamla_appen/services/pages/map/location.dart';
+import 'package:flutterparkinggit/gamla_appen/services/pages/map/parking_area.dart';
 import 'dart:async';
 import 'package:http/http.dart';
 import 'dart:convert';
@@ -15,6 +15,7 @@ import 'package:provider/provider.dart';
 
 int distance;
 String preference;
+User globalUser;
 
 class ParkingMap extends StatefulWidget {
   ParkingMap({ @required Key key}) : super(key:key);
@@ -297,12 +298,20 @@ class _ParkingMapState extends State<ParkingMap> {
 
   }
 
+  Widget getFavoriteLabel(element) {
+    if (element.favorite == false) {
+      return Text('Add to favorites');
+    } else {
+      return Text('Remove from favorite');
+    }
+  }
+
   Future<void> getData(LatLng location) async {
     Response response = await get('https://openparking.stockholm.se/LTF-Tolken/v1/${preference.toString()}/within?radius=$distance&lat=${location.latitude.toString()}&lng=${location.longitude.toString()}&outputFormat=json&apiKey=e734eaa7-d9b5-422a-9521-844554d9965b');
     Map data = jsonDecode(response.body);
     var dataList = data['features'] as List;
     List list = dataList
-        .map<ParkingAreas>((json) => ParkingAreas.fromJson(json))
+        .map<ParkingArea>((json) => ParkingArea.fromJson(json))
         .toList();
     parseParkingCoordinates(list);
     allMarkers.clear();
