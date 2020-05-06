@@ -15,8 +15,11 @@ import 'package:flutterparkinggit/gamla_appen/models/user.dart';
 import 'package:provider/provider.dart';
 
 int distance;
+TimeOfDay picked;
 String preference;
 User globalUser;
+List<String> favoriteDocumentsId = [];
+final CollectionReference parkCollection = Firestore.instance.collection("parkingPreference");
 
 class ParkingMap extends StatefulWidget {
   ParkingMap({ @required Key key}) : super(key:key);
@@ -26,30 +29,26 @@ class ParkingMap extends StatefulWidget {
 
 class _ParkingMapState extends State<ParkingMap> {
 
-  TimeOfDay _time = TimeOfDay.now();
-  TimeOfDay picked;
-  Future<Null> selectTime(BuildContext context) async {
-    _time = await showTimePicker(context: context, initialTime: _time,
-        builder: (BuildContext context, Widget child) {
-          return MediaQuery(
-            data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
-            child: child,
-          );
-        });
-    setState(() {
-      picked = _time;
-    });
-  }
 
-  final CollectionReference parkCollection = Firestore.instance.collection("parkingPreference");
+
+//  final CollectionReference docRef = Firestore.instance.collection('parkingPreference').document(globalUser.uid).collection('favoriteParkings');
+
+
+
+  List<DocumentSnapshot> favoriteDocuments = [];
   Location _locationTracker = Location();
   List <Marker> allMarkers = []; //TODO - 3 Lists
 
 
-  @override
-  void initState() {
-    super.initState();
+  void getFavorites() async {
+    final QuerySnapshot result =
+        await Firestore.instance.collection('parkingPreference').document(globalUser.uid).collection('favoriteParkings').getDocuments();
+    favoriteDocuments = result.documents;
+    favoriteDocuments.forEach((doc) => favoriteDocumentsId.add(doc.documentID));
+    print('HÄR ÄR FAVORITERNA!');
   }
+
+
 
   Widget _noParkingAlertDialogWidget(){
     return AlertDialog(
@@ -91,7 +90,16 @@ class _ParkingMapState extends State<ParkingMap> {
     }
   }
 
-  Widget _alertDialogWidget(element) {
+  /*Widget _alertDialogWidget(element) {
+    IconData favoriteIconData = Icons.favorite;
+    String favoriteString = 'Add to favorites';
+    if (element.favorite == false) {
+      favoriteString = 'Add to favorites';
+      favoriteIconData = Icons.favorite_border;
+    } else {
+      favoriteString = 'Remove from favorites';
+      favoriteIconData = Icons.favorite;
+    }
     return Container(
       child: AlertDialog(
         elevation: 3.0,
@@ -203,9 +211,9 @@ class _ParkingMapState extends State<ParkingMap> {
           Row(
             children: <Widget>[
               FlatButton.icon(
-                icon: getFavoriteIcon(element),
+                icon: Icon(favoriteIconData),
                 //TODO - Icon efter favorites eller inte.
-                label: getFavoriteLabel(element),
+                label: Text(favoriteString),
                 onPressed: () async {
                   if (element.favorite == false) {
                     String latLon = element.coordinates.latitude.toString();
@@ -224,6 +232,13 @@ class _ParkingMapState extends State<ParkingMap> {
                         ? element.favorite = false
                         : element.favorite = true;
                     print(element.favorite);
+                    if (element.favorite == false) {
+                      favoriteIconData = Icons.favorite_border;
+                      favoriteString = 'Add to favorites';
+                    } else {
+                      favoriteIconData = Icons.favorite;
+                      favoriteString = 'Remove from favorites';
+                    }
 
 
                   });
@@ -257,7 +272,7 @@ class _ParkingMapState extends State<ParkingMap> {
         ],
       ),
     );
-  }
+  }*/
 
 //  void addPolyLines() {
 //    _polygons.add(Polygon(
@@ -338,7 +353,7 @@ class _ParkingMapState extends State<ParkingMap> {
             visible: true,
             draggable: false,
             onTap: () {
-              showDialog(context: context, builder: (_) => _alertDialogWidget(element)
+              showDialog(context: context, builder: (_) => AlertDialogWidget(parkingArea: element)
               );
             },
             position: element.coordinates
@@ -350,6 +365,7 @@ class _ParkingMapState extends State<ParkingMap> {
   @override
   Widget build(BuildContext context) {
 
+    getFavorites();
     globalUser = Provider.of<User>(context);
 
     void setPreference(UserData userData){
@@ -444,6 +460,231 @@ class _ParkingMapState extends State<ParkingMap> {
       );
   }
 
+
 }
 
+class AlertDialogWidget extends StatefulWidget {
+  final ParkingArea parkingArea;
+
+  const AlertDialogWidget({Key key, this.parkingArea}): super(key: key);
+
+  @override
+  State<AlertDialogWidget> createState() => new AlertDialogState();
+}
+
+class AlertDialogState extends State<AlertDialogWidget> {
+
+  @override
+  Widget build(BuildContext context) {
+    return _alertDialogWidget(widget.parkingArea);
+  }
+
+  Widget _alertDialogWidget(element) {
+    IconData favoriteIconData = Icons.favorite;
+    String favoriteString = 'Add to favorites';
+    if (element.favorite == false) {
+      favoriteString = 'Add to favorites';
+      favoriteIconData = Icons.favorite_border;
+    } else {
+      favoriteString = 'Remove from favorites';
+      favoriteIconData = Icons.favorite;
+    }
+    return Container(
+      child: AlertDialog(
+        elevation: 3.0,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20)
+        ),
+        backgroundColor: Colors.white,
+        title: Row(
+          children: <Widget>[
+            Flexible(
+              child: Text(element.streetName,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                    color: Color(0xff207FC5),
+                    fontWeight: FontWeight.bold
+                ),
+              ),
+            ),
+          ],
+        ),
+        content: Container(
+          height: 120,
+          width: double.infinity,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Row(
+                children: <Widget>[
+                  Icon(
+                    Icons.attach_money,
+                    color: Color(0xff207FC5),
+                  ),
+                  Text('Price per hours: ',
+                    style: TextStyle(
+                        color: Color(0xff207FC5)
+                    ),
+                  ),
+                  Text('Price',
+                    style: TextStyle(
+                        color: Color(0xff207FC5)
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 5.0),
+              Row(
+                children: <Widget>[
+                  Icon(
+                    Icons.directions_car,
+                    color: Color(0xff207FC5),
+                  ),
+                  Text('Number of parking spots: ',
+                    style: TextStyle(
+                        color: Color(0xff207FC5)
+                    ),
+                  ),
+                  Flexible(
+                    child: Text(element.numberOfParkingSpots,
+                      style: TextStyle(
+                          color: Color(0xff207FC5)
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 5.0),
+              Row(
+                children: <Widget>[
+                  Icon(
+                    Icons.local_car_wash,
+                    color: Colors.green,
+                  ),
+                  Text('Available parking spots: ',
+                    style: TextStyle(
+                        color: Color(0xff207FC5)
+                    ),
+                  ),
+                  Flexible(
+                    child: Text(element.availableParkingSpots,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                          color: Color(0xff207FC5)
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 5.0),
+              Row(
+                children: <Widget>[
+                  Icon(
+                    Icons.build,
+                    color: Colors.grey,
+                  ),
+                  Flexible(
+                    child: Text(element.serviceDayInfo ?? ' No service info',
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                          color: Color(0xff207FC5)
+                      ),
+                    ),
+                  )
+                ],
+              )
+            ],
+          ),
+        ),
+        actions: <Widget>[
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Flexible(
+                fit: FlexFit.loose,
+                child: FlatButton.icon(
+                  icon: Icon(favoriteIconData),
+                  //TODO - Icon efter favorites eller inte.
+                  label: Text(favoriteString),
+                  onPressed: () async {
+                    if (element.favorite == false) {
+                      String latLon = element.coordinates.latitude.toString();
+                      latLon += ', ${element.coordinates.longitude}';
+                      await DatabaseService(uid: globalUser.uid)
+                          .updateUserFavorites(latLon, element.streetName,
+                          element.serviceDayInfo, element.favorite,
+                          element.availableParkingSpots);
+                    } else if (element.favorite == true) {
+                      await parkCollection.document(globalUser.uid).collection('favoriteParkings')
+                          .document(element.streetName).delete();
+                    }
+                    // ignore: unnecessary_statements
+                    setState(() {
+                      element.favorite == true
+                          ? element.favorite = false
+                          : element.favorite = true;
+                      print(element.favorite);
+                      if (element.favorite == false) {
+                        favoriteIconData = Icons.favorite_border;
+                        favoriteString = 'Add to favorites';
+                      } else {
+                        favoriteIconData = Icons.favorite;
+                        favoriteString = 'Remove from favorites';
+                      }
+
+
+                    });
+                    print('Lägg till i favorites');
+                  },
+                ),
+              ),
+              Flexible(
+                fit: FlexFit.loose,
+                child: Theme(
+                  data: Theme.of(context).copyWith(
+                    primaryColor:  Color(0xff207FC5),
+                    highlightColor:  Colors.black,
+                    accentColor: Color(0xff207FC5),
+                  ),
+                  child: Builder(
+                    builder: (context)=> FlatButton.icon(
+                      color: Colors.white,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20)
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                        selectTime(context);
+                      },
+                      icon: Icon(Icons.timer, color: Color(0xff207FC5),),
+                      label: Text('Start parking', style: TextStyle(color: Color(0xff207FC5)),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  TimeOfDay _time = TimeOfDay.now();
+
+  Future<Null> selectTime(BuildContext context) async {
+    _time = await showTimePicker(context: context, initialTime: _time,
+        builder: (BuildContext context, Widget child) {
+          return MediaQuery(
+            data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
+            child: child,
+          );
+        });
+    setState(() {
+      picked = _time;
+    });
+  }
+
+
+}
 
