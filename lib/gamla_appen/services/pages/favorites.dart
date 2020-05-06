@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutterparkinggit/gamla_appen/models/user.dart';
+import 'package:flutterparkinggit/gamla_appen/services/pages/database.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/map/favoriteParks.dart';
+import 'package:flutterparkinggit/gamla_appen/services/pages/map/location.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:provider/provider.dart';
+
+User globalUser;
 
 class Favorites extends StatefulWidget {
   @override
@@ -8,35 +14,48 @@ class Favorites extends StatefulWidget {
 }
 
 class _FavoritesState extends State<Favorites> {
-  FavoriteParksList _favParksList = new FavoriteParksList();
+
+  List<ParkingArea> _favParksList;
 
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Color(0xff207FC5),
-        appBar: AppBar(
-          backgroundColor: Color(0xff207FC5),
-          title: const Text("Your favorites"),
-        ),
-        body: _favParksList.favoriteParks.isEmpty ? _emptyList(context) : ListView.separated(
-                separatorBuilder: (context, index) => Divider(
-                  color: Color(0xff207FC5),
-                ),
+    globalUser = Provider.of<User>(context);
+
+    return StreamBuilder<List<ParkingArea>>(
+        stream: DatabaseService(uid: globalUser.uid).parkingArea,
+        builder: (context, snapshot) {
+            _favParksList = snapshot.data;
+            print(_favParksList.toString());
+          return Scaffold(
+              backgroundColor: Color(0xff207FC5),
+              appBar: AppBar(
+                backgroundColor: Color(0xff207FC5),
+                title: const Text("Your favorites"),
+              ),
+              body: _favParksList.isEmpty ? _emptyList(context) : ListView
+                  .separated(
+                separatorBuilder: (context, index) =>
+                    Divider(
+                      color: Color(0xff207FC5),
+                    ),
                 padding: const EdgeInsets.all(8),
-                itemCount: _favParksList.favoriteParks.length,
+                itemCount: _favParksList.length,
                 itemBuilder: _getFavoriteParksList,
               ),
-        floatingActionButton: FloatingActionButton(
-          elevation: 3.0,
-          onPressed: () async {},
-          child: Icon(Icons.refresh, color: Color(0xff207FC5)),
-          backgroundColor: Colors.white,
-        ));
+              floatingActionButton: FloatingActionButton(
+                elevation: 3.0,
+                onPressed: () async {},
+                child: Icon(Icons.refresh, color: Color(0xff207FC5)),
+                backgroundColor: Colors.white,
+              ));
+        }
+
+    );
   }
 
   Widget _getFavoriteParksList(BuildContext context, int index) {
     return GestureDetector(
       onTap: () {
-        openPage(context, _favParksList.favoriteParks[index].coordinates);
+        openPage(context, _favParksList[index].coordinates);
       },
       child: Container(
         height: 70,
@@ -44,7 +63,7 @@ class _FavoritesState extends State<Favorites> {
         child: ListTile(
           leading: new Icon(Icons.favorite),
           title:
-              Text('Adress: ${_favParksList.favoriteParks[index].streetName}'),
+              Text('Adress: ${_favParksList[index].streetName}'),
           subtitle: Text('Price: 12 kronor per hour'),
           trailing: Icon(Icons.directions_car),
         ),
@@ -75,6 +94,9 @@ class _FavoritesState extends State<Favorites> {
       ),
     );
   }
+
+
+
 
   void openPage(BuildContext context, LatLng location) {
     //Gå till parkeringsarean i map

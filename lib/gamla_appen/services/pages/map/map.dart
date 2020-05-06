@@ -1,7 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:utm/utm.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/database.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/map/parkTimer.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -15,6 +13,7 @@ import 'package:provider/provider.dart';
 
 int distance;
 String preference;
+User globalUser;
 
 class ParkingMap extends StatefulWidget {
   ParkingMap({ @required Key key}) : super(key:key);
@@ -201,7 +200,11 @@ class _ParkingMapState extends State<ParkingMap> {
           Row(
             children: <Widget>[
               FlatButton.icon(
-                  onPressed:(){
+                  onPressed:() async {
+                    String latLon = element.coordinates.latitude.toString();
+                    latLon += ', ${element.coordinates.longitude}';
+                    await DatabaseService(uid: globalUser.uid).updateUserFavorites(latLon, element.streetName,
+                        element.serviceDayInfo, element.favorite, element.availableParkingSpots);
                     // ignore: unnecessary_statements
                     element.favorite==true?element.favorite==false:element.favorite==true;
                     print('Lägg till i favorites');
@@ -238,25 +241,6 @@ class _ParkingMapState extends State<ParkingMap> {
     );
   }
 
-//  void addPolyLines() {
-//    _polygons.add(Polygon(
-//      polygonId: PolygonId(_lastCameraPosition.toString()),
-//      points: _lines,
-//      visible: true,
-//      strokeColor: Colors.blue,
-//      fillColor: Colors.lightBlueAccent
-//    ));
-//    setState(() {
-//      latlngList.add(_new);
-//      latlngList.add(_news);
-//      _polyLines.add(Polyline(
-//        polylineId: PolylineId(_lastCameraPosition.toString()),
-//        visible: true,
-//        points: latlngList,
-//        color: Colors.blue
-//      ));
-//    });
-//  }
 
   Completer<GoogleMapController> _controller = Completer();
   static LatLng _center = LatLng(59.334591, 18.063240);
@@ -291,7 +275,7 @@ class _ParkingMapState extends State<ParkingMap> {
     Response response = await get('https://openparking.stockholm.se/LTF-Tolken/v1/${preference.toString()}/within?radius=$distance&lat=${location.latitude.toString()}&lng=${location.longitude.toString()}&outputFormat=json&apiKey=e734eaa7-d9b5-422a-9521-844554d9965b');
     Map data = jsonDecode(response.body);
     var dataList = data['features'] as List;
-    List list = dataList.map<ParkingAreas>((json) => ParkingAreas.fromJson(json)).toList();
+    List list = dataList.map<ParkingArea>((json) => ParkingArea.fromJson(json)).toList();
     parseParkingCoordinates(list);
     allMarkers.clear();
     getMarkers();
@@ -318,7 +302,7 @@ class _ParkingMapState extends State<ParkingMap> {
   @override
   Widget build(BuildContext context) {
 
-    final user = Provider.of<User>(context);
+    globalUser = Provider.of<User>(context);
 
     void setPreference(UserData userData){
       distance = userData.radius;
@@ -334,7 +318,7 @@ class _ParkingMapState extends State<ParkingMap> {
     }
 
     return StreamBuilder<UserData>(
-      stream: DatabaseService(uid: user.uid).userData,
+      stream: DatabaseService(uid: globalUser.uid).userData,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           UserData userData = snapshot.data;
