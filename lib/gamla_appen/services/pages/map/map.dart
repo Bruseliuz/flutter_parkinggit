@@ -237,7 +237,7 @@ class _ParkingMapState extends State<ParkingMap> {
       setState(() {
         allMarkers.add(Marker(
             markerId: MarkerId(element.streetName),
-            icon: bitmapDescriptor,
+            icon: BitmapDescriptor.defaultMarker,
             visible: true,
             draggable: false,
             onTap: () {
@@ -274,6 +274,7 @@ class _ParkingMapState extends State<ParkingMap> {
 
     /* Do your painting of the custom icon here, including drawing text, shapes, etc. */
 
+
     Picture p = recorder.endRecording();
     ByteData pngBytes =
     await (await p.toImage(tp.width.toInt() + 40, tp.height.toInt() + 20))
@@ -283,9 +284,6 @@ class _ParkingMapState extends State<ParkingMap> {
 
     return BitmapDescriptor.fromBytes(data);
   }
-
-
-
 
 
   void getFavorites() async {
