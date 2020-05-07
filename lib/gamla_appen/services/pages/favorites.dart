@@ -24,7 +24,7 @@ class _FavoritesState extends State<Favorites> {
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (!snapshot.hasData) return new Text("There are no favorites");
             _favParksList = getParkingSpots(snapshot);
-            print(_favParksList[0].toString());
+
           return Scaffold(
               backgroundColor: Color(0xff207FC5),
               appBar: AppBar(

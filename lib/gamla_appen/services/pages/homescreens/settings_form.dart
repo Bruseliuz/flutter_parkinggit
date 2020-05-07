@@ -13,9 +13,7 @@ class SettingsForm extends StatefulWidget {
   _SettingsFormState createState() => _SettingsFormState();
 }
 
-
 class _SettingsFormState extends State<SettingsForm> {
-
 
   final _formKey = GlobalKey<FormState>();
   final List<String> parkingType = ['MC','HCP','No Preference'];
@@ -27,12 +25,10 @@ class _SettingsFormState extends State<SettingsForm> {
   Icon _updateSettingsIcon = new Icon(Icons.refresh,
   color: Color(0xff207FC5));
 
-
   @override
   Widget build(BuildContext context) {
 
     final user = Provider.of<User>(context);
-
 
     return StreamBuilder<UserData>(
       stream: DatabaseService(uid: user.uid).userData,
@@ -197,7 +193,6 @@ class _SettingsFormState extends State<SettingsForm> {
                                     _updateSettingsIcon = new Icon(Icons.check_circle_outline,
                                         color: Color(0xff207FC5));
                                   });
-                                  print(userData.parking);
                                 }
                               },
                               padding: EdgeInsets.all(15),

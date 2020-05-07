@@ -24,6 +24,7 @@ User globalUser;
 List<String> favoriteDocumentsId = [];
 final CollectionReference parkCollection =
     Firestore.instance.collection("parkingPreference");
+List<ParkingArea> parkingSpotsList = [];
 
 class ParkingMap extends StatefulWidget {
 //  ParkingMap({@required Key key}) : super(key: key);
@@ -52,6 +53,7 @@ class _ParkingMapState extends State<ParkingMap> {
 
     void setPreference(UserData userData) {
       distance = userData.radius;
+      print(distance);
       if (userData.parking == 'HCP') {
         preference = 'prorelsehindrad';
       } else if (userData.parking == 'MC') {
@@ -219,6 +221,7 @@ class _ParkingMapState extends State<ParkingMap> {
   }
 
   Future<void> getData(LatLng location) async {
+    print(distance);
     Response response = await get(
         'https://openparking.stockholm.se/LTF-Tolken/v1/${preference.toString()}/within?radius=$distance&lat=${location.latitude.toString()}&lng=${location.longitude.toString()}&outputFormat=json&apiKey=e734eaa7-d9b5-422a-9521-844554d9965b');
     Map data = jsonDecode(response.body);
@@ -226,7 +229,9 @@ class _ParkingMapState extends State<ParkingMap> {
     List list = dataList
         .map<ParkingArea>((json) => ParkingArea.fromJson(json))
         .toList();
-    parseParkingCoordinates(list);
+    setState(() {
+      parseParkingCoordinates(list);
+    });
     allMarkers.clear();
     getMarkers();
   }
@@ -296,7 +301,6 @@ class _ParkingMapState extends State<ParkingMap> {
         .getDocuments();
     favoriteDocuments = result.documents;
     favoriteDocuments.forEach((doc) => favoriteDocumentsId.add(doc.documentID));
-    print('HÄR ÄR FAVORITERNA!');
   }
 }
 
@@ -531,4 +535,37 @@ class ParkingDialogState extends State<ParkingDialogWidget> {
       picked = _time;
     });
   }
+}
+
+void parseParkingCoordinates(List<dynamic> coordinates) {
+  bool favorite = false;
+  List<ParkingArea> tempList = [];
+//  parkingSpotsList.clear();
+  coordinates.forEach((element) {
+    if (favoriteDocumentsId.contains(element.streetName)) {
+      favorite = true;
+    } else {
+      favorite = false;
+    }
+    print('${element.coordinatesList} HÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄR');
+    List temp = element.coordinatesList[1];
+    double longitude = temp[1];
+    double latitude = temp[0];
+    LatLng coordinatesParsed = new LatLng(longitude, latitude);
+    tempList.add(
+      ParkingArea(
+          streetName: element.streetName,
+          coordinates: coordinatesParsed,
+          numberOfParkingSpots: element.coordinatesList.length.toString(),
+          serviceDayInfo: element.serviceDayInfo,
+          availableParkingSpots:
+          getRandomAvailableParkingSpot(element.coordinatesList),
+          favorite: favorite),
+    );
+    parkingSpotsList = tempList;
+    checkParkingSpot();
+    print('-------------------Lista på parkeringsplatser-------------------');
+    print(parkingSpotsList);
+    print('Längden på listan: ${parkingSpotsList.length}');
+  });
 }
