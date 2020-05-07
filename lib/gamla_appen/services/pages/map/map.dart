@@ -148,7 +148,7 @@ class _ParkingMapState extends State<ParkingMap> {
     return AlertDialog(
       elevation: 3.0,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      backgroundColor: Colors.white70,
+      backgroundColor: Colors.white,
       title: Text(
         'No parking available in your area.',
         style: TextStyle(color: Color(0xff207FC5), fontWeight: FontWeight.bold),
@@ -242,7 +242,7 @@ class _ParkingMapState extends State<ParkingMap> {
       setState(() {
         allMarkers.add(Marker(
             markerId: MarkerId(element.streetName),
-            icon: BitmapDescriptor.defaultMarker,
+            icon: bitmapDescriptor,
             visible: true,
             draggable: false,
             onTap: () {
