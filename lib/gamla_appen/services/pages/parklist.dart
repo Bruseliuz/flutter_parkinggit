@@ -53,7 +53,10 @@ class _ParkListState extends State<ParkList> {
   Widget _getParkingAreasList(BuildContext context, int index) {
     return GestureDetector(
       onTap: () {
-        openPage(context, _parkingAreasList.parkingAreas[index].coordinates);
+        showDialog(
+            context: context,
+            builder: (_) => ParkingDialogWidget(parkingArea: _parkingAreasList.parkingAreas[index]));
+//        openPage(context, _parkingAreasList.parkingAreas[index].coordinates);
       },
       child: Container(
         height: 70,
@@ -65,6 +68,7 @@ class _ParkListState extends State<ParkList> {
           subtitle: Text(
               'Price: 12 kronor per hour'),
           trailing: Icon(Icons.directions_car),
+
         ),
       ),
     );

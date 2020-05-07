@@ -287,12 +287,16 @@ class ParkingDialogState extends State<ParkingDialogWidget> {
     }
     return Container(
       child: AlertDialog(
+
+        contentPadding: EdgeInsets.all(20),
         elevation: 3.0,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         backgroundColor: Colors.white,
         title: Row(
           children: <Widget>[
             Flexible(
+              flex: 3,
+              fit: FlexFit.tight,
               child: Text(
                 element.streetName,
                 overflow: TextOverflow.ellipsis,
@@ -300,6 +304,13 @@ class ParkingDialogState extends State<ParkingDialogWidget> {
                     color: Color(0xff207FC5), fontWeight: FontWeight.bold),
               ),
             ),
+            Flexible(
+              flex: 1,
+              fit: FlexFit.loose,
+                child: FlatButton.icon(
+                    onPressed: () => Navigator.of(context).pop(),
+                    icon: Icon(Icons.exit_to_app), label: Text(''),
+                    padding: EdgeInsets.fromLTRB(0, 0, 0, 0)))
           ],
         ),
         content: Container(
