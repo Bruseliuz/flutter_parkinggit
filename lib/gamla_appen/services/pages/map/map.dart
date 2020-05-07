@@ -23,7 +23,7 @@ final CollectionReference parkCollection =
     Firestore.instance.collection("parkingPreference");
 
 class ParkingMap extends StatefulWidget {
-  ParkingMap({@required Key key}) : super(key: key);
+//  ParkingMap({@required Key key}) : super(key: key);
 
   @override
   _ParkingMapState createState() => _ParkingMapState();
