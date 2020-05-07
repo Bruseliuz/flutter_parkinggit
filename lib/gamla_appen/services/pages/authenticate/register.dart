@@ -238,6 +238,7 @@ class _RegisterState extends State<Register> {
                                 });
                               }
                             }
+                            Navigator.pushReplacementNamed(context, '/onBoarding');
                           },
                           padding: EdgeInsets.all(15),
                           child: Row(
