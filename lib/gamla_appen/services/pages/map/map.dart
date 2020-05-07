@@ -93,7 +93,6 @@ class _ParkingMapState extends State<ParkingMap> {
                   onPressed: () async {
                     await getCurrentLocation();
                     print(allMarkers.toString());
-                    getMarkers();
                     if (allMarkers.isEmpty) {
                       showDialog(
                           context: context,
@@ -111,7 +110,7 @@ class _ParkingMapState extends State<ParkingMap> {
             return Scaffold(
               body: Container(
                 child: GoogleMap(
-                  myLocationEnabled: true,
+                  myLocationEnabled: false,
                   myLocationButtonEnabled: false,
                   zoomControlsEnabled: false,
                   onMapCreated: _onMapCreated,
@@ -130,8 +129,6 @@ class _ParkingMapState extends State<ParkingMap> {
                 backgroundColor: Color(0xff207FC5),
                 onPressed: () async {
                   await getCurrentLocation();
-                  print(allMarkers.toString());
-                  getMarkers();
                   if (allMarkers.isEmpty) {
                     showDialog(
                         context: context,
@@ -233,12 +230,12 @@ class _ParkingMapState extends State<ParkingMap> {
       parseParkingCoordinates(list);
     });
     allMarkers.clear();
-    getMarkers();
+    await getMarkers();
   }
 
-  void getMarkers() {
+  Future getMarkers() async {
     parkingSpotsList.forEach((element) async {
-      BitmapDescriptor bitmapDescriptor = await createCustomMarkerBitmap(element.availableParkingSpots);
+//      BitmapDescriptor bitmapDescriptor = await createCustomMarkerBitmap(element.availableParkingSpots);
       setState(() {
         allMarkers.add(Marker(
             markerId: MarkerId(element.streetName),
