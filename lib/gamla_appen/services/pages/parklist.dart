@@ -21,32 +21,32 @@ class _ParkListState extends State<ParkList> {
 
   @override
   Widget build(BuildContext context) {
+    print(parkingSpotsList.toString());
     return Scaffold(
-      backgroundColor: Color(0xff207FC5),
-      appBar: AppBar(
         backgroundColor: Color(0xff207FC5),
-        title: const Text("Availabe parking areas nearby"),
-      ),
-
-      body:
-      _parkingAreasList.parkingAreas.isEmpty ? _emptyList(context) : ListView.separated(
-        separatorBuilder: (context, index) => Divider(
+        appBar: AppBar(
+          backgroundColor: Color(0xff207FC5),
+          title: const Text("Availabe parking areas nearby"),
         ),
 
-        padding: const EdgeInsets.all(8),
-        itemCount: _parkingAreasList.parkingAreas.length,
-        itemBuilder: _getParkingAreasList,
-      ),
-      floatingActionButton:
-      FloatingActionButton(
-        elevation: 3.0,
-        onPressed: () async {
-         await getCurrentLocation();
-        },
-        child: Icon(Icons.refresh, color: Color(0xff207FC5),
+        body: parkingSpotsList.isEmpty ? _emptyList(context) : ListView.separated(
+          separatorBuilder: (context, index) => Divider(
+          ),
+
+          padding: const EdgeInsets.all(8),
+          itemCount: parkingSpotsList.length,
+          itemBuilder: _getParkingAreasList,
         ),
-        backgroundColor:Colors.white,
-      )
+        floatingActionButton:
+        FloatingActionButton(
+          elevation: 3.0,
+          onPressed: () async {
+            await getCurrentLocation();
+          },
+          child: Icon(Icons.refresh, color: Color(0xff207FC5),
+          ),
+          backgroundColor:Colors.white,
+        )
     );
   }
 
@@ -55,7 +55,7 @@ class _ParkListState extends State<ParkList> {
       onTap: () {
         showDialog(
             context: context,
-            builder: (_) => ParkingDialogWidget(parkingArea: _parkingAreasList.parkingAreas[index]));
+            builder: (_) => ParkingDialogWidget(parkingArea: parkingSpotsList[index]));
 //        openPage(context, _parkingAreasList.parkingAreas[index].coordinates);
       },
       child: Container(
@@ -63,8 +63,8 @@ class _ParkListState extends State<ParkList> {
         color: Color(0xffA5C9EA),
         child: ListTile(
           leading: Text(
-              '${_parkingAreasList.parkingAreas[index].availableParkingSpots}'),
-          title: Text('Adress: ${_parkingAreasList.parkingAreas[index].streetName}'),
+              '${parkingSpotsList[index].availableParkingSpots}'),
+          title: Text('Adress: ${parkingSpotsList[index].streetName}'),
           subtitle: Text(
               'Price: 12 kronor per hour'),
           trailing: Icon(Icons.directions_car),
@@ -91,7 +91,7 @@ class _ParkListState extends State<ParkList> {
   }
 
   void openPage(BuildContext context, LatLng location) {
-  //Gå till parkeringsarean i map
+    //Gå till parkeringsarean i map
   }
 
   Future getCurrentLocation() async {
@@ -106,12 +106,12 @@ class _ParkListState extends State<ParkList> {
     var dataList = data['features'] as List;
     List list = dataList.map<ParkingArea>((json) => ParkingArea.fromJson(json)).toList();
     parseParkingCoordinates(list);
-    }
+  }
 }
 
 
 
- /* void openPage(BuildContext context) {
+/* void openPage(BuildContext context) {
     Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
       return Scaffold(
         appBar: AppBar(
