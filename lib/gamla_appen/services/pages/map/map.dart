@@ -1,6 +1,7 @@
+import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui';
-
+import 'dart:ui' as ui;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -42,7 +43,6 @@ class _ParkingMapState extends State<ParkingMap> {
 
   @override
   void initState() {
-
     super.initState();
   }
 
@@ -238,11 +238,12 @@ class _ParkingMapState extends State<ParkingMap> {
 
   void getMarkers() {
     parkingSpotsList.forEach((element) async {
-    //  BitmapDescriptor bitmapDescriptor = await createCustomMarkerBitmap(element.availableParkingSpots);
+        //BitmapDescriptor bitmapDescriptor = await createCustomMarkerBitmap(element.availableParkingSpots);
       setState(() {
         allMarkers.add(Marker(
             markerId: MarkerId(element.streetName),
             icon: BitmapDescriptor.defaultMarker,
+          //  icon: bitmapDescriptor,
             visible: true,
             draggable: false,
             onTap: () {
@@ -256,6 +257,23 @@ class _ParkingMapState extends State<ParkingMap> {
   }
 
   Future<BitmapDescriptor> createCustomMarkerBitmap(String title) async {
+    final Size size = Size(150, 150);
+    final PictureRecorder recorder = new PictureRecorder();
+    final Canvas c = new Canvas(recorder);
+    final double imageOffset = 18.0;
+    final Paint paint = Paint()..color = Colors.black;
+    final Radius radius = Radius.circular(size.width/2);
+
+    c.drawRRect(
+        RRect.fromRectAndCorners(
+          Rect.fromLTWH(0.0, 0.0, size.width.toDouble(),  size.height.toDouble()),
+          topLeft: radius,
+          topRight: radius,
+          bottomLeft: radius,
+          bottomRight: radius,
+        ),
+        paint);
+
     TextSpan span = new TextSpan(
       style: new TextStyle(
         color: Colors.black,
@@ -265,31 +283,56 @@ class _ParkingMapState extends State<ParkingMap> {
       text: title,
     );
 
-    TextPainter tp = new TextPainter(
+    TextPainter tp = TextPainter(
       text: span,
       textAlign: TextAlign.center,
       textDirection: TextDirection.ltr,
     );
 
-    PictureRecorder recorder = new PictureRecorder();
-    Canvas c = new Canvas(recorder);
+    Rect oval = Rect.fromLTWH(
+        imageOffset,
+        imageOffset,
+        size.width - (imageOffset * 2),
+        size.height - (imageOffset * 2)
+    );
 
     tp.layout();
-    tp.paint(c, new Offset(20.0, 10.0));
+    tp.paint(c, Offset((size.width * 0.5) - tp.width * 0.5,
+        (size.height * .5) - tp.height * 0.5));
 
-    /* Do your painting of the custom icon here, including drawing text, shapes, etc. */
+    c.clipPath(Path()
+      ..addOval(oval));
 
+    ui.Image image = await getImageFromPath("C:/Users/threb/Desktop");
+    paintImage(canvas: c, image: image, rect: oval, fit: BoxFit.fitWidth);
 
-    Picture p = recorder.endRecording();
-    ByteData pngBytes =
-    await (await p.toImage(tp.width.toInt() + 40, tp.height.toInt() + 20))
-        .toByteData(format: ImageByteFormat.png);
+    // Convert canvas to image
 
-    Uint8List data = Uint8List.view(pngBytes.buffer);
+    final ui.Image markerAsImage = await recorder.endRecording().toImage(
+        size.width.toInt(),
+        size.height.toInt()
+    );
 
-    return BitmapDescriptor.fromBytes(data);
+    // Convert image to bytes
+    final ByteData byteData = await markerAsImage.toByteData(format: ui.ImageByteFormat.png);
+    final Uint8List uint8List = byteData.buffer.asUint8List();
+
+    return BitmapDescriptor.fromBytes(uint8List);
   }
 
+  Future<ui.Image> getImageFromPath(String imagePath) async {
+    File imageFile = File(imagePath);
+
+    Uint8List imageBytes = imageFile.readAsBytesSync();
+
+    final Completer<ui.Image> completer = new Completer();
+
+    ui.decodeImageFromList(imageBytes, (ui.Image img) {
+      return completer.complete(img);
+    });
+
+    return completer.future;
+  }
 
   void getFavorites() async {
     final QuerySnapshot result = await Firestore.instance
@@ -331,7 +374,6 @@ class ParkingDialogState extends State<ParkingDialogWidget> {
     }
     return Container(
       child: AlertDialog(
-
         contentPadding: EdgeInsets.all(20),
         elevation: 3.0,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
@@ -349,11 +391,12 @@ class ParkingDialogState extends State<ParkingDialogWidget> {
               ),
             ),
             Flexible(
-              flex: 1,
-              fit: FlexFit.loose,
+                flex: 1,
+                fit: FlexFit.loose,
                 child: FlatButton.icon(
                     onPressed: () => Navigator.of(context).pop(),
-                    icon: Icon(Icons.exit_to_app), label: Text(''),
+                    icon: Icon(Icons.exit_to_app),
+                    label: Text(''),
                     padding: EdgeInsets.fromLTRB(0, 0, 0, 0)))
           ],
         ),
@@ -557,7 +600,7 @@ void parseParkingCoordinates(List<dynamic> coordinates) {
           numberOfParkingSpots: element.coordinatesList.length.toString(),
           serviceDayInfo: element.serviceDayInfo,
           availableParkingSpots:
-          getRandomAvailableParkingSpot(element.coordinatesList),
+              getRandomAvailableParkingSpot(element.coordinatesList),
           favorite: favorite),
     );
     parkingSpotsList = tempList;
