@@ -75,39 +75,39 @@ class ParkingArea {
 //
 //}
 
-List<ParkingArea> parkingSpotsList = [];
 
-void parseParkingCoordinates(List<dynamic> coordinates) {
-  bool favorite = false;
 
-  parkingSpotsList.clear();
-  coordinates.forEach((element) {
-    if (favoriteDocumentsId.contains(element.streetName)) {
-      favorite = true;
-    } else {
-      favorite = false;
-    }
-    print('${element.coordinatesList} HÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄR');
-    List temp = element.coordinatesList[1];
-    double longitude = temp[1];
-    double latitude = temp[0];
-    LatLng coordinatesParsed = new LatLng(longitude, latitude);
-    parkingSpotsList.add(
-      ParkingArea(
-          streetName: element.streetName,
-          coordinates: coordinatesParsed,
-          numberOfParkingSpots: element.coordinatesList.length.toString(),
-          serviceDayInfo: element.serviceDayInfo,
-          availableParkingSpots:
-              getRandomAvailableParkingSpot(element.coordinatesList),
-          favorite: favorite),
-    );
-    checkParkingSpot();
-    print('-------------------Lista på parkeringsplatser-------------------');
-    print(parkingSpotsList);
-    print('Längden på listan: ${parkingSpotsList.length}');
-  });
-}
+//void parseParkingCoordinates(List<dynamic> coordinates) {
+//  bool favorite = false;
+//
+//  parkingSpotsList.clear();
+//  coordinates.forEach((element) {
+//    if (favoriteDocumentsId.contains(element.streetName)) {
+//      favorite = true;
+//    } else {
+//      favorite = false;
+//    }
+//    print('${element.coordinatesList} HÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄR');
+//    List temp = element.coordinatesList[1];
+//    double longitude = temp[1];
+//    double latitude = temp[0];
+//    LatLng coordinatesParsed = new LatLng(longitude, latitude);
+//    parkingSpotsList.add(
+//      ParkingArea(
+//          streetName: element.streetName,
+//          coordinates: coordinatesParsed,
+//          numberOfParkingSpots: element.coordinatesList.length.toString(),
+//          serviceDayInfo: element.serviceDayInfo,
+//          availableParkingSpots:
+//              getRandomAvailableParkingSpot(element.coordinatesList),
+//          favorite: favorite),
+//    );
+//    checkParkingSpot();
+//    print('-------------------Lista på parkeringsplatser-------------------');
+//    print(parkingSpotsList);
+//    print('Längden på listan: ${parkingSpotsList.length}');
+//  });
+//}
 
 String getRandomAvailableParkingSpot(List<dynamic> coordinates) {
   var random = new Random();

@@ -56,7 +56,7 @@ class AuthService{
       AuthResult result = await _auth.createUserWithEmailAndPassword(email: email, password: password);
       FirebaseUser user = result.user;
       //create a new document for the user with the uid
-      await DatabaseService(uid: user.uid).updateUserData('none', name, 50, 100);
+      await DatabaseService(uid: user.uid).updateUserData('No Preference', name, 50, 100);
       return _userFromFirebaseUser(user);
     }catch(e){
       print(e.toString());
@@ -144,7 +144,7 @@ class AuthService{
         'maxPrice': 50,
         'name': username,
         'parkingPreference': 'No Preference',
-        'radius': 200
+        'radius': 150
       });
       print('0');
       return 1;
