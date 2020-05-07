@@ -37,9 +37,15 @@ class _ParkingMapState extends State<ParkingMap> {
   static LatLng _center = LatLng(59.334591, 18.063240);
 
   @override
+  void initState() {
+
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    getFavorites();
     globalUser = Provider.of<User>(context);
+    getFavorites();
 
     void setPreference(UserData userData) {
       distance = userData.radius;
@@ -383,8 +389,8 @@ class ParkingDialogState extends State<ParkingDialogWidget> {
               Flexible(
                 fit: FlexFit.loose,
                 child: FlatButton.icon(
+                  padding: EdgeInsets.fromLTRB(1, 0, 0, 0),
                   icon: Icon(favoriteIconData),
-                  //TODO - Icon efter favorites eller inte.
                   label: Text(favoriteString),
                   onPressed: () async {
                     if (element.favorite == false) {
