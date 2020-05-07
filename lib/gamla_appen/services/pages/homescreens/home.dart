@@ -9,35 +9,22 @@ import 'package:flutterparkinggit/gamla_appen/services/pages/homescreens/setting
 import 'package:flutterparkinggit/gamla_appen/services/pages/parklist.dart';
 
 class Home extends StatefulWidget {
-  final Key _mapKey = UniqueKey();
+  Home({this.screens});
+
+  static const Tag = "Skärmar";
+  final List<Widget> screens;
+
   @override
   _HomeState createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
   final AuthService _auth = AuthService();
-
   int _currentIndex = 0;
-
+  Widget currentScreen;
 
   @override
   Widget build(BuildContext context) {
-    final tabs = [
-      ParkingMap(key: widget._mapKey),
-      Favorites(),
-      ParkList(),
-      SettingsForm(),
-    ];
-    /*void _showSettingsPanel(){
-      showModalBottomSheet(
-          context: context,
-          builder: (context){
-            return Container(
-              padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 60.0),
-              child: SettingsForm(),
-            );
-          });
-    }*/
 
     return StreamProvider.value(
         value: DatabaseService().parking,
@@ -65,7 +52,11 @@ class _HomeState extends State<Home> {
                     Text('Sign out', style: TextStyle(color: Colors.white))),
               ],
             ),
-            body: tabs[_currentIndex],
+            body:
+            IndexedStack(
+              index: _currentIndex,
+              children: widget.screens,
+            ),
             bottomNavigationBar: BottomNavigationBar(
               onTap: (index) {
                 setState(() {
