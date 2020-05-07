@@ -110,7 +110,7 @@ class _ParkingMapState extends State<ParkingMap> {
             return Scaffold(
               body: Container(
                 child: GoogleMap(
-                  myLocationEnabled: false,
+                  myLocationEnabled: true,
                   myLocationButtonEnabled: false,
                   zoomControlsEnabled: false,
                   onMapCreated: _onMapCreated,
@@ -129,6 +129,8 @@ class _ParkingMapState extends State<ParkingMap> {
                 backgroundColor: Color(0xff207FC5),
                 onPressed: () async {
                   await getCurrentLocation();
+                  print(allMarkers.toString());
+                  getMarkers();
                   if (allMarkers.isEmpty) {
                     showDialog(
                         context: context,
@@ -230,12 +232,12 @@ class _ParkingMapState extends State<ParkingMap> {
       parseParkingCoordinates(list);
     });
     allMarkers.clear();
-    await getMarkers();
+    getMarkers();
   }
 
-  Future getMarkers() async {
+  void getMarkers() {
     parkingSpotsList.forEach((element) async {
-//      BitmapDescriptor bitmapDescriptor = await createCustomMarkerBitmap(element.availableParkingSpots);
+        //BitmapDescriptor bitmapDescriptor = await createCustomMarkerBitmap(element.availableParkingSpots);
       setState(() {
         allMarkers.add(Marker(
             markerId: MarkerId(element.streetName),
@@ -253,6 +255,23 @@ class _ParkingMapState extends State<ParkingMap> {
   }
 
   Future<BitmapDescriptor> createCustomMarkerBitmap(String title) async {
+    final Size size = Size(150, 150);
+    final PictureRecorder recorder = new PictureRecorder();
+    final Canvas c = new Canvas(recorder);
+    final double imageOffset = 18.0;
+    final Paint paint = Paint()..color = Colors.black;
+    final Radius radius = Radius.circular(size.width/2);
+
+    c.drawRRect(
+        RRect.fromRectAndCorners(
+          Rect.fromLTWH(0.0, 0.0, size.width.toDouble(),  size.height.toDouble()),
+          topLeft: radius,
+          topRight: radius,
+          bottomLeft: radius,
+          bottomRight: radius,
+        ),
+        paint);
+
     TextSpan span = new TextSpan(
       style: new TextStyle(
         color: Colors.black,
@@ -262,31 +281,55 @@ class _ParkingMapState extends State<ParkingMap> {
       text: title,
     );
 
-    TextPainter tp = new TextPainter(
+    TextPainter tp = TextPainter(
       text: span,
       textAlign: TextAlign.center,
       textDirection: TextDirection.ltr,
     );
 
-    PictureRecorder recorder = new PictureRecorder();
-    Canvas c = new Canvas(recorder);
+    Rect oval = Rect.fromLTWH(
+        imageOffset,
+        imageOffset,
+        size.width - (imageOffset * 2),
+        size.height - (imageOffset * 2)
+    );
 
     tp.layout();
-    tp.paint(c, new Offset(20.0, 10.0));
+    tp.paint(c, Offset((size.width * 0.5) - tp.width * 0.5,
+        (size.height * .5) - tp.height * 0.5));
 
-    /* Do your painting of the custom icon here, including drawing text, shapes, etc. */
+    c.clipPath(Path()
+      ..addOval(oval));
+
+    ui.Image image = await getImageFromPath("C:/Users/threb/Desktop");
+    paintImage(canvas: c, image: image, rect: oval, fit: BoxFit.fitWidth);
 
 
-    Picture p = recorder.endRecording();
-    ByteData pngBytes =
-    await (await p.toImage(tp.width.toInt() + 40, tp.height.toInt() + 20))
-        .toByteData(format: ImageByteFormat.png);
+    final ui.Image markerAsImage = await recorder.endRecording().toImage(
+        size.width.toInt(),
+        size.height.toInt()
+    );
 
-    Uint8List data = Uint8List.view(pngBytes.buffer);
+    // Convert image to bytes
+    final ByteData byteData = await markerAsImage.toByteData(format: ui.ImageByteFormat.png);
+    final Uint8List uint8List = byteData.buffer.asUint8List();
 
-    return BitmapDescriptor.fromBytes(data);
+    return BitmapDescriptor.fromBytes(uint8List);
   }
 
+  Future<ui.Image> getImageFromPath(String imagePath) async {
+    File imageFile = File(imagePath);
+
+    Uint8List imageBytes = imageFile.readAsBytesSync();
+
+    final Completer<ui.Image> completer = new Completer();
+
+    ui.decodeImageFromList(imageBytes, (ui.Image img) {
+      return completer.complete(img);
+    });
+
+    return completer.future;
+  }
 
   void getFavorites() async {
     final QuerySnapshot result = await Firestore.instance
@@ -346,11 +389,12 @@ class ParkingDialogState extends State<ParkingDialogWidget> {
               ),
             ),
             Flexible(
-              flex: 1,
-              fit: FlexFit.loose,
+                flex: 1,
+                fit: FlexFit.loose,
                 child: FlatButton.icon(
                     onPressed: () => Navigator.of(context).pop(),
-                    icon: Icon(Icons.exit_to_app), label: Text(''),
+                    icon: Icon(Icons.exit_to_app),
+                    label: Text(''),
                     padding: EdgeInsets.fromLTRB(0, 0, 0, 0)))
           ],
         ),
