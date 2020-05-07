@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:utm/utm.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/database.dart';
-import 'package:flutterparkinggit/gamla_appen/services/pages/map/parkTimer.dart';
+import 'package:flutterparkinggit/gamla_appen/services/pages/map/park_timer.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/map/parking_area.dart';
@@ -245,6 +245,7 @@ class _ParkingMapState extends State<ParkingMap> {
       });
     });
   }
+
 
   void getFavorites() async {
     final QuerySnapshot result = await Firestore.instance
