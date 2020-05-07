@@ -684,7 +684,5 @@ class AlertDialogState extends State<AlertDialogWidget> {
       picked = _time;
     });
   }
-
-
 }
 
