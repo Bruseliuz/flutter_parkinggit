@@ -122,6 +122,9 @@ class _RegisterState extends State<Register> {
                               onChanged: (val) {
                                 setState(() => password = val);
                               },
+                              keyboardType: TextInputType.text,
+                              style: TextStyle(
+                                color: Colors.white,),
                               decoration: InputDecoration(
                                 border: InputBorder.none,
                                 contentPadding: EdgeInsets.only(top: 15.0),
@@ -147,6 +150,9 @@ class _RegisterState extends State<Register> {
                             child: TextFormField(
                               validator: (val) => val != password ? 'Passwords does not match': null,
                               obscureText: true,
+                              keyboardType: TextInputType.text,
+                              style: TextStyle(
+                                color: Colors.white,),
                               decoration: InputDecoration(
                                 border: InputBorder.none,
                                 contentPadding: EdgeInsets.only(top:15.0),
@@ -170,13 +176,14 @@ class _RegisterState extends State<Register> {
                             alignment: Alignment.centerLeft,
                             height: 50.0,
                             child: TextFormField(
+
                               validator: (val) => val.length < 1 ? 'Your have to enter a name': null,
                               onChanged: (val){
                                 setState(() => name = val);
                               },
+                              keyboardType: TextInputType.text,
                               style: TextStyle(
-                                color: Colors.white
-                              ),
+                                color: Colors.white,),
                               decoration: InputDecoration(
                                 border: InputBorder.none,
                                 contentPadding: EdgeInsets.only(top: 15.0),
@@ -273,7 +280,6 @@ class _RegisterState extends State<Register> {
                     style: TextStyle(color: Colors.red, fontSize: 16.0, fontWeight: FontWeight.bold),
                   ),
                   Container(
-                    padding: EdgeInsets.symmetric(vertical: 25),
                     width: double.infinity,
                     child: MaterialButton(
                       color: Colors.transparent,
@@ -281,7 +287,6 @@ class _RegisterState extends State<Register> {
                       onPressed: (){
                         Navigator.of(context).push(_createRoute());
                       },
-                      padding: EdgeInsets.all(15),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
@@ -289,7 +294,7 @@ class _RegisterState extends State<Register> {
                             style: TextStyle(
                                 color: Colors.white,
                                 letterSpacing: 1.5,
-                                fontSize: 16.0,
+                                fontSize: 12.0,
                                 fontWeight: FontWeight.w400
                             ),
                           ),
@@ -298,7 +303,7 @@ class _RegisterState extends State<Register> {
                                 color: Colors.white,
                                 decoration: TextDecoration.underline,
                                 letterSpacing: 1.5,
-                                fontSize: 16.0,
+                                fontSize: 12.0,
                                 fontWeight: FontWeight.bold
                             ),
                           ),

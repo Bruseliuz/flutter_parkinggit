@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterparkinggit/gamla_appen/models/user.dart';
+import 'package:flutterparkinggit/gamla_appen/services/pages/map/map.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/map/parking_area.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
@@ -24,7 +25,6 @@ class _FavoritesState extends State<Favorites> {
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (!snapshot.hasData) return new Text("There are no favorites");
             _favParksList = getParkingSpots(snapshot);
-
           return Scaffold(
               backgroundColor: Color(0xff207FC5),
               appBar: AppBar(
@@ -72,16 +72,22 @@ class _FavoritesState extends State<Favorites> {
 
   Widget _getFavoriteParksList(BuildContext context, int index) {
     return GestureDetector(
-      onTap: () {
-        openPage(context, _favParksList[index].coordinates);
+      onLongPress: () {
+        setState((){
+          parkCollection
+              .document(globalUser.uid)
+              .collection('favoriteParkings')
+              .document(_favParksList[index].streetName)//streetName
+              .delete();
+        });
+        print('test');
       },
       child: Container(
         height: 70,
         color: Color(0xffA5C9EA),
         child: ListTile(
           leading: new Icon(Icons.favorite),
-          title:
-              Text('Adress: ${_favParksList[index].streetName}'),
+          title: Text('Adress: ${_favParksList[index].streetName}'),
           subtitle: Text('Price: 12 kronor per hour'),
           trailing: Icon(Icons.directions_car),
         ),

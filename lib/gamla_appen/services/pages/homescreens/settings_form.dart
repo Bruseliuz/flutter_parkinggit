@@ -156,7 +156,6 @@ class _SettingsFormState extends State<SettingsForm> {
 
                           ),
                           Container(
-                            margin: EdgeInsets.symmetric(horizontal: 50),
                             padding: EdgeInsets.symmetric(vertical: 25),
                             width: double.infinity,
                             child: MaterialButton(

@@ -94,7 +94,9 @@ class _ParkingMapState extends State<ParkingMap> {
                 floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
                 floatingActionButton: FloatingActionButton.extended(
                   elevation: 3.0,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16.0))),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15)
+                  ),
                   icon: Icon(
                     Icons.local_parking,
                   ),
@@ -269,7 +271,7 @@ class _ParkingMapState extends State<ParkingMap> {
     });
   }
 
-/*  Future<BitmapDescriptor> createCustomMarkerBitmap(String title) async {
+  Future<BitmapDescriptor> createCustomMarkerBitmap(String title) async {
     final Size size = Size(150, 150);
     final PictureRecorder recorder = new PictureRecorder();
     final Canvas c = new Canvas(recorder);
@@ -344,7 +346,7 @@ class _ParkingMapState extends State<ParkingMap> {
     });
 
     return completer.future;
-  }*/
+  }
 
   void getFavorites() async {
     final QuerySnapshot result = await Firestore.instance
@@ -381,15 +383,15 @@ class ParkingDialogState extends State<ParkingDialogWidget> {
       favoriteString = 'Add to favorites';
       favoriteIconData = Icons.favorite_border;
     } else {
-      favoriteString = 'Remove from favorites';
+      favoriteString = 'Remove';
       favoriteIconData = Icons.favorite;
     }
     return Container(
       child: AlertDialog(
 
-        contentPadding: EdgeInsets.all(20),
+        contentPadding: EdgeInsets.fromLTRB(10, 5, 10, 10),
         elevation: 3.0,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
         backgroundColor: Colors.white,
         title: Row(
           children: <Widget>[
@@ -501,8 +503,12 @@ class ParkingDialogState extends State<ParkingDialogWidget> {
                 fit: FlexFit.loose,
                 child: FlatButton.icon(
                   padding: EdgeInsets.fromLTRB(1, 0, 0, 0),
-                  icon: Icon(favoriteIconData),
-                  label: Text(favoriteString),
+                  icon: Icon(favoriteIconData,
+                  color: Color(0xff207FC5),),
+                  label: Text(favoriteString,
+                  style: TextStyle(
+                    color: Color(0xff207FC5)
+                  ),),
                   onPressed: () async {
                     if (element.favorite == false) {
                       String latLon = element.coordinates.latitude.toString();
@@ -532,7 +538,7 @@ class ParkingDialogState extends State<ParkingDialogWidget> {
                         favoriteString = 'Add to favorites';
                       } else {
                         favoriteIconData = Icons.favorite;
-                        favoriteString = 'Remove from favorites';
+                        favoriteString = 'Remove';
                       }
                     });
 //                    print('Lägg till i favorites');
@@ -562,7 +568,10 @@ class ParkingDialogState extends State<ParkingDialogWidget> {
                       ),
                       label: Text(
                         'Start parking',
-                        style: TextStyle(color: Color(0xff207FC5)),
+                        style: TextStyle(
+                            color: Color(0xff207FC5),
+                          fontSize: 12,
+                        ),
                       ),
                     ),
                   ),
@@ -634,7 +643,7 @@ void parsePriceAreas(double x, double y) {
 
   var pointForward = projection.transform(projSrc, pointSrc);
   priceAreas.add(new LatLng(pointForward.y, pointForward.x));
-  
+
 }
 
 Set<Polygon> myPolygon(List<dynamic> coordinates) {
