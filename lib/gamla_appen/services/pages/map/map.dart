@@ -1,7 +1,6 @@
-import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui';
-import 'dart:ui' as ui;
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -43,6 +42,7 @@ class _ParkingMapState extends State<ParkingMap> {
 
   @override
   void initState() {
+
     super.initState();
   }
 
@@ -93,7 +93,6 @@ class _ParkingMapState extends State<ParkingMap> {
                   onPressed: () async {
                     await getCurrentLocation();
                     print(allMarkers.toString());
-                    getMarkers();
                     if (allMarkers.isEmpty) {
                       showDialog(
                           context: context,
@@ -238,12 +237,11 @@ class _ParkingMapState extends State<ParkingMap> {
 
   void getMarkers() {
     parkingSpotsList.forEach((element) async {
-        BitmapDescriptor bitmapDescriptor = await createCustomMarkerBitmap(element.availableParkingSpots);
+        //BitmapDescriptor bitmapDescriptor = await createCustomMarkerBitmap(element.availableParkingSpots);
       setState(() {
         allMarkers.add(Marker(
             markerId: MarkerId(element.streetName),
-            icon: bitmapDescriptor,
-          //  icon: bitmapDescriptor,
+            icon: BitmapDescriptor.defaultMarker,
             visible: true,
             draggable: false,
             onTap: () {
@@ -306,7 +304,6 @@ class _ParkingMapState extends State<ParkingMap> {
     ui.Image image = await getImageFromPath("C:/Users/threb/Desktop");
     paintImage(canvas: c, image: image, rect: oval, fit: BoxFit.fitWidth);
 
-    // Convert canvas to image
 
     final ui.Image markerAsImage = await recorder.endRecording().toImage(
         size.width.toInt(),
@@ -374,6 +371,7 @@ class ParkingDialogState extends State<ParkingDialogWidget> {
     }
     return Container(
       child: AlertDialog(
+
         contentPadding: EdgeInsets.all(20),
         elevation: 3.0,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
@@ -600,7 +598,7 @@ void parseParkingCoordinates(List<dynamic> coordinates) {
           numberOfParkingSpots: element.coordinatesList.length.toString(),
           serviceDayInfo: element.serviceDayInfo,
           availableParkingSpots:
-              getRandomAvailableParkingSpot(element.coordinatesList),
+          getRandomAvailableParkingSpot(element.coordinatesList),
           favorite: favorite),
     );
     parkingSpotsList = tempList;
