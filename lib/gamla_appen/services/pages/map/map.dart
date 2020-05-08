@@ -18,6 +18,7 @@ import 'package:http/http.dart';
 import 'dart:convert';
 import 'package:flutterparkinggit/gamla_appen/models/user.dart';
 import 'package:provider/provider.dart';
+import 'package:proj4dart/proj4dart.dart';
 
 int distance;
 TimeOfDay picked;
@@ -55,7 +56,7 @@ class _ParkingMapState extends State<ParkingMap> {
 
     void setPreference(UserData userData) {
       distance = userData.radius;
-      print(distance);
+//      print(distance);
       if (userData.parking == 'HCP') {
         preference = 'prorelsehindrad';
       } else if (userData.parking == 'MC') {
@@ -88,13 +89,18 @@ class _ParkingMapState extends State<ParkingMap> {
                     ),
                   ),
                 ),
-                floatingActionButton: FloatingActionButton(
-                  child: Icon(Icons.my_location),
+                floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+                floatingActionButton: FloatingActionButton.extended(
                   elevation: 3.0,
+                  shape: RoundedRectangleBorder(),
+                  icon: Icon(
+                    Icons.local_parking,
+                  ),
+                  label: Text('Find Nearby\n   Parking'),
                   backgroundColor: Color(0xff207FC5),
                   onPressed: () async {
                     await getCurrentLocation();
-                    print(allMarkers.toString());
+//                    print(allMarkers.toString());
                     if (allMarkers.isEmpty) {
                       showDialog(
                           context: context,
@@ -123,15 +129,17 @@ class _ParkingMapState extends State<ParkingMap> {
                   markers: Set<Marker>.of(allMarkers),
                 ),
               ),
-              floatingActionButton: FloatingActionButton(
+              floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+              floatingActionButton: FloatingActionButton.extended(
                 elevation: 3.0,
-                child: Icon(
-                  Icons.my_location,
+                icon: Icon(
+                  Icons.local_parking,
                 ),
+                label: Text('Find Nearby Parking'),
                 backgroundColor: Color(0xff207FC5),
                 onPressed: () async {
                   await getCurrentLocation();
-                  print(allMarkers.toString());
+//                  print(allMarkers.toString());
                   getMarkers();
                   if (allMarkers.isEmpty) {
                     showDialog(
@@ -222,7 +230,7 @@ class _ParkingMapState extends State<ParkingMap> {
   }
 
   Future<void> getData(LatLng location) async {
-    print(distance);
+//    print(distance);
     Response response = await get(
         'https://openparking.stockholm.se/LTF-Tolken/v1/${preference.toString()}/within?radius=$distance&lat=${location.latitude.toString()}&lng=${location.longitude.toString()}&outputFormat=json&apiKey=e734eaa7-d9b5-422a-9521-844554d9965b');
     Map data = jsonDecode(response.body);
@@ -513,7 +521,7 @@ class ParkingDialogState extends State<ParkingDialogWidget> {
                       element.favorite == true
                           ? element.favorite = false
                           : element.favorite = true;
-                      print(element.favorite);
+//                      print(element.favorite);
                       if (element.favorite == false) {
                         favoriteIconData = Icons.favorite_border;
                         favoriteString = 'Add to favorites';
@@ -522,7 +530,7 @@ class ParkingDialogState extends State<ParkingDialogWidget> {
                         favoriteString = 'Remove from favorites';
                       }
                     });
-                    print('Lägg till i favorites');
+//                    print('Lägg till i favorites');
                   },
                 ),
               ),
@@ -578,6 +586,14 @@ class ParkingDialogState extends State<ParkingDialogWidget> {
   }
 }
 
+void seeParsePrices(double x, double y) {
+  var pointSrc = Point(x: x, y: y);
+  var def = 'PROJCRS["SWEREF99 18 00",BASEGEODCRS["SWEREF99",DATUM["SWEREF99",ELLIPSOID["GRS 1980",6378137,298.257222101,LENGTHUNIT["metre",1.0]]]],CONVERSION["SWEREF99 18 00",METHOD["Transverse Mercator",ID["EPSG",9807]],PARAMETER["Latitude of natural origin",0,ANGLEUNIT["degree",0.01745329252]],PARAMETER["Longitude of natural origin",18,ANGLEUNIT["degree",0.01745329252]],PARAMETER["Scale factor at natural origin",1,SCALEUNIT["unity",1.0]],PARAMETER["False easting",150000,LENGTHUNIT["metre",1.0]],PARAMETER["False northing",0,LENGTHUNIT["metre",1.0]]],CS[cartesian,2],AXIS["northing (N)",north,ORDER[1]],AXIS["easting (E)",east,ORDER[2]],LENGTHUNIT["metre",1.0],ID["EPSG",3011]]';
+  var namedProjection = Projection.add('EPSG:3001', def);
+// Projection without name signature
+  var projection = Projection.parse(def);
+}
+
 void parseParkingCoordinates(List<dynamic> coordinates) {
   bool favorite = false;
   List<ParkingArea> tempList = [];
@@ -588,7 +604,6 @@ void parseParkingCoordinates(List<dynamic> coordinates) {
     } else {
       favorite = false;
     }
-    print('${element.coordinatesList} HÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄR');
     List temp = element.coordinatesList[1];
     double longitude = temp[1];
     double latitude = temp[0];
@@ -605,8 +620,5 @@ void parseParkingCoordinates(List<dynamic> coordinates) {
     );
     parkingSpotsList = tempList;
     checkParkingSpot();
-    print('-------------------Lista på parkeringsplatser-------------------');
-    print(parkingSpotsList);
-    print('Längden på listan: ${parkingSpotsList.length}');
   });
 }
