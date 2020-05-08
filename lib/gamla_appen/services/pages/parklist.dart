@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutterparkinggit/gamla_appen/services/pages/homescreens/settings_form.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart';
 import 'package:location/location.dart';
@@ -21,15 +20,17 @@ class _ParkListState extends State<ParkList> {
 
   @override
   Widget build(BuildContext context) {
+    print('LÄÄÄÄÄÄÄNGD');
+    print(parkingSpotsList.length);
     print(parkingSpotsList.toString());
     return Scaffold(
         backgroundColor: Color(0xff207FC5),
         appBar: AppBar(
           backgroundColor: Color(0xff207FC5),
-          title: const Text("Availabe parking areas nearby"),
+          title: Text("Availabe parking areas nearby: ${parkingSpotsList.length.toString()}"),
+          centerTitle: true,
         ),
-
-        body: parkingSpotsList.isEmpty ? _emptyList(context) : ListView.separated(
+        body: ListView.separated(
           separatorBuilder: (context, index) => Divider(
           ),
 
@@ -98,10 +99,12 @@ class _ParkListState extends State<ParkList> {
     var location = await _locationTracker.getLocation();
     LatLng newLocation = LatLng(location.latitude, location.longitude);
     await getData(newLocation);
+    setState(() {
+    });
   }
 
   Future<void> getData(LatLng location) async {
-    Response response = await get('https://openparking.stockholm.se/LTF-Tolken/v1/${preference.toString()}/within?radius=100&lat=${location.latitude.toString()}&lng=${location.longitude.toString()}&outputFormat=json&apiKey=e734eaa7-d9b5-422a-9521-844554d9965b');
+    Response response = await get('https://openparking.stockholm.se/LTF-Tolken/v1/${preference.toString()}/within?radius=$distance&lat=${location.latitude.toString()}&lng=${location.longitude.toString()}&outputFormat=json&apiKey=e734eaa7-d9b5-422a-9521-844554d9965b');
     Map data = jsonDecode(response.body);
     var dataList = data['features'] as List;
     List list = dataList.map<ParkingArea>((json) => ParkingArea.fromJson(json)).toList();

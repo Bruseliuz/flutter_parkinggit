@@ -264,7 +264,7 @@ class _ParkingMapState extends State<ParkingMap> {
     });
   }
 
-  Future<BitmapDescriptor> createCustomMarkerBitmap(String title) async {
+/*  Future<BitmapDescriptor> createCustomMarkerBitmap(String title) async {
     final Size size = Size(150, 150);
     final PictureRecorder recorder = new PictureRecorder();
     final Canvas c = new Canvas(recorder);
@@ -339,7 +339,7 @@ class _ParkingMapState extends State<ParkingMap> {
     });
 
     return completer.future;
-  }
+  }*/
 
   void getFavorites() async {
     final QuerySnapshot result = await Firestore.instance
