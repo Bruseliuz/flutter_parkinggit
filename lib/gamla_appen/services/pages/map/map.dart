@@ -7,6 +7,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutterparkinggit/gamla_appen/services/pages/map/price_area.dart';
 import 'package:utm/utm.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/database.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/map/park_timer.dart';
@@ -28,6 +29,7 @@ List<String> favoriteDocumentsId = [];
 final CollectionReference parkCollection =
     Firestore.instance.collection("parkingPreference");
 List<ParkingArea> parkingSpotsList = [];
+List<LatLng> priceAreas = [];
 
 class ParkingMap extends StatefulWidget {
 //  ParkingMap({@required Key key}) : super(key: key);
@@ -92,13 +94,15 @@ class _ParkingMapState extends State<ParkingMap> {
                 floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
                 floatingActionButton: FloatingActionButton.extended(
                   elevation: 3.0,
-                  shape: RoundedRectangleBorder(),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16.0))),
                   icon: Icon(
                     Icons.local_parking,
                   ),
                   label: Text('Find Nearby\n   Parking'),
                   backgroundColor: Color(0xff207FC5),
                   onPressed: () async {
+                    parsePriceAreas(153030.66098, 6579399.669818);
+                    getPriceAreas();
                     await getCurrentLocation();
 //                    print(allMarkers.toString());
                     if (allMarkers.isEmpty) {
@@ -131,6 +135,7 @@ class _ParkingMapState extends State<ParkingMap> {
               ),
               floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
               floatingActionButton: FloatingActionButton.extended(
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16.0))),
                 elevation: 3.0,
                 icon: Icon(
                   Icons.local_parking,
@@ -586,12 +591,66 @@ class ParkingDialogState extends State<ParkingDialogWidget> {
   }
 }
 
-void seeParsePrices(double x, double y) {
+Future getPriceAreas() async {
+  Response response = await get(
+      'http://openstreetgs.stockholm.se/geoservice/api/e734eaa7-d9b5-422a-9521-844554d9965b/wfs/?version=1.0.0&request=GetFeature&typename=ltfr:LTFR_TAXA_VIEW&outputFormat=json');
+  Map data = jsonDecode(response.body);
+  var dataList = data['features'] as List;
+  List list = dataList
+      .map<PriceArea>((json) => PriceArea.fromJson(json))
+      .toList();
+  list.forEach((area) {
+    List coordinates = area.coordinates;
+    coordinates.forEach((coordinate) {
+      coordinate.forEach((coord) {
+//        print(coord);
+        String c = coord.toString();
+        print(c);
+        String d = c.replaceAll(new RegExp(r"[[\]]"),'');
+        List coordList = d.split(', ');
+        print(coordList[0]);
+        double x = double.parse(coordList[0]);
+        print(x);
+        print('--------------------------');
+        double y = double.parse(coordList[1]);
+        parsePriceAreas(x, y);
+      });
+
+
+    });
+  });
+  print(priceAreas.toString());
+//  print(area.coordinates);
+
+
+}
+
+void parsePriceAreas(double x, double y) {
   var pointSrc = Point(x: x, y: y);
-  var def = 'PROJCRS["SWEREF99 18 00",BASEGEODCRS["SWEREF99",DATUM["SWEREF99",ELLIPSOID["GRS 1980",6378137,298.257222101,LENGTHUNIT["metre",1.0]]]],CONVERSION["SWEREF99 18 00",METHOD["Transverse Mercator",ID["EPSG",9807]],PARAMETER["Latitude of natural origin",0,ANGLEUNIT["degree",0.01745329252]],PARAMETER["Longitude of natural origin",18,ANGLEUNIT["degree",0.01745329252]],PARAMETER["Scale factor at natural origin",1,SCALEUNIT["unity",1.0]],PARAMETER["False easting",150000,LENGTHUNIT["metre",1.0]],PARAMETER["False northing",0,LENGTHUNIT["metre",1.0]]],CS[cartesian,2],AXIS["northing (N)",north,ORDER[1]],AXIS["easting (E)",east,ORDER[2]],LENGTHUNIT["metre",1.0],ID["EPSG",3011]]';
-  var namedProjection = Projection.add('EPSG:3001', def);
-// Projection without name signature
+  var def = 'PROJCS["SWEREF99 18 00",GEOGCS["SWEREF99",DATUM["SWEREF99",SPHEROID["GRS 1980",6378137,298.257222101,AUTHORITY["EPSG","7019"]],TOWGS84[0,0,0,0,0,0,0],AUTHORITY["EPSG","6619"]],PRIMEM["Greenwich",0,AUTHORITY["EPSG","8901"]],UNIT["degree",0.01745329251994328,AUTHORITY["EPSG","9122"]],AUTHORITY["EPSG","4619"]],UNIT["metre",1,AUTHORITY["EPSG","9001"]],PROJECTION["Transverse_Mercator"],PARAMETER["latitude_of_origin",0],PARAMETER["central_meridian",18],PARAMETER["scale_factor",1],PARAMETER["false_easting",150000],PARAMETER["false_northing",0],AUTHORITY["EPSG","3011"],AXIS["y",EAST],AXIS["x",NORTH]]';
   var projection = Projection.parse(def);
+  var projSrc = Projection('EPSG:4326');
+// Projection without name signature
+
+  var pointForward = projection.transform(projSrc, pointSrc);
+  priceAreas.add(new LatLng(pointForward.y, pointForward.x));
+  
+}
+
+Set<Polygon> myPolygon(List<dynamic> coordinates) {
+  List<LatLng> polygonCoords = new List();
+  polygonCoords.add(LatLng(37.43296265331129, -122.08832357078792));
+  polygonCoords.add(LatLng(37.43006265331129, -122.08832357078792));
+  polygonCoords.add(LatLng(37.43006265331129, -122.08332357078792));
+  polygonCoords.add(LatLng(37.43296265331129, -122.08832357078792));
+
+  Set<Polygon> polygonSet = new Set();
+  polygonSet.add(Polygon(
+      polygonId: PolygonId('test'),
+      points: polygonCoords,
+      strokeColor: Colors.red));
+
+  return polygonSet;
 }
 
 void parseParkingCoordinates(List<dynamic> coordinates) {
