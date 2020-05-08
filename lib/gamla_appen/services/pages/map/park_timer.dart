@@ -50,7 +50,7 @@ class _ParkTimerState extends State<ParkTimer> {
                     color: Colors.redAccent[700],
                     elevation: 4.0,
                     onPressed: (){
-
+                      Navigator.pop(context);
                     },
                     padding: EdgeInsets.all(15),
                     child: Row(
