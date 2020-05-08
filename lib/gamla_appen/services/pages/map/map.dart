@@ -92,7 +92,9 @@ class _ParkingMapState extends State<ParkingMap> {
                 floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
                 floatingActionButton: FloatingActionButton.extended(
                   elevation: 3.0,
-                  shape: RoundedRectangleBorder(),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15)
+                  ),
                   icon: Icon(
                     Icons.local_parking,
                   ),
