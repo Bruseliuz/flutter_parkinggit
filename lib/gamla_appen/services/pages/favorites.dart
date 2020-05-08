@@ -79,7 +79,6 @@ class _FavoritesState extends State<Favorites> {
               .collection('favoriteParkings')
               .document(_favParksList[index].streetName)//streetName
               .delete();
-          //TODO - removeFavorite();
         });
         print('test');
       },
