@@ -1,4 +1,4 @@
-
+import 'package:google_map_polyutil/google_map_polyutil.dart';
 import 'dart:typed_data';
 import 'dart:io';
 import 'dart:ui' as ui;
@@ -30,6 +30,7 @@ final CollectionReference parkCollection =
     Firestore.instance.collection("parkingPreference");
 List<ParkingArea> parkingSpotsList = [];
 List<LatLng> priceAreas = [];
+Set<Polygon> polygons = {};
 
 class ParkingMap extends StatefulWidget {
 //  ParkingMap({@required Key key}) : super(key: key);
@@ -39,6 +40,7 @@ class ParkingMap extends StatefulWidget {
 }
 
 class _ParkingMapState extends State<ParkingMap> {
+
   List<DocumentSnapshot> favoriteDocuments = [];
   Location _locationTracker = Location();
   List<Marker> allMarkers = []; //TODO - 3 Lists
@@ -55,6 +57,7 @@ class _ParkingMapState extends State<ParkingMap> {
   Widget build(BuildContext context) {
     globalUser = Provider.of<User>(context);
     getFavorites();
+
 
     void setPreference(UserData userData) {
       distance = userData.radius;
@@ -80,6 +83,7 @@ class _ParkingMapState extends State<ParkingMap> {
               return Scaffold(
                 body: Container(
                   child: GoogleMap(
+//                    polygons: polygons,
                     myLocationEnabled: true,
                     myLocationButtonEnabled: false,
                     zoomControlsEnabled: false,
@@ -103,10 +107,12 @@ class _ParkingMapState extends State<ParkingMap> {
                   label: Text('Find Nearby\n   Parking'),
                   backgroundColor: Color(0xff207FC5),
                   onPressed: () async {
-                    parsePriceAreas(153030.66098, 6579399.669818);
                     getPriceAreas();
                     await getCurrentLocation();
 //                    print(allMarkers.toString());
+                    setState(() {
+//                      polygons = myPolygon();
+                    });
                     if (allMarkers.isEmpty) {
                       showDialog(
                           context: context,
@@ -148,6 +154,7 @@ class _ParkingMapState extends State<ParkingMap> {
                   await getCurrentLocation();
 //                  print(allMarkers.toString());
                   getMarkers();
+
                   if (allMarkers.isEmpty) {
                     showDialog(
                         context: context,
@@ -623,11 +630,11 @@ Future getPriceAreas() async {
         double y = double.parse(coordList[1]);
         parsePriceAreas(x, y);
       });
-
-
     });
   });
   print(priceAreas.toString());
+
+
 //  print(area.coordinates);
 
 
@@ -641,22 +648,24 @@ void parsePriceAreas(double x, double y) {
 // Projection without name signature
 
   var pointForward = projection.transform(projSrc, pointSrc);
+  LatLng point = new LatLng(pointForward.y, pointForward.x);
   priceAreas.add(new LatLng(pointForward.y, pointForward.x));
-
+  GoogleMapPolyUtil.containsLocation(point: parkingSpotsList[0].coordinates, polygon: priceAreas).then((result) => print(result));
 }
 
-Set<Polygon> myPolygon(List<dynamic> coordinates) {
-  List<LatLng> polygonCoords = new List();
-  polygonCoords.add(LatLng(37.43296265331129, -122.08832357078792));
-  polygonCoords.add(LatLng(37.43006265331129, -122.08832357078792));
-  polygonCoords.add(LatLng(37.43006265331129, -122.08332357078792));
-  polygonCoords.add(LatLng(37.43296265331129, -122.08832357078792));
+Set<Polygon> myPolygon() {
+//  List<LatLng> polygonCoords = new List();
+//  polygonCoords.add(LatLng(37.43296265331129, -122.08832357078792));
+//  polygonCoords.add(LatLng(37.43006265331129, -122.08832357078792));
+//  polygonCoords.add(LatLng(37.43006265331129, -122.08332357078792));
+//  polygonCoords.add(LatLng(37.43296265331129, -122.08832357078792));
 
   Set<Polygon> polygonSet = new Set();
   polygonSet.add(Polygon(
       polygonId: PolygonId('test'),
-      points: polygonCoords,
-      strokeColor: Colors.red));
+      points: priceAreas,
+      strokeColor: Colors.red,
+  fillColor: Colors.lightBlueAccent.withOpacity(0.5)));
 
   return polygonSet;
 }

@@ -146,7 +146,7 @@ class _SettingsFormState extends State<SettingsForm> {
                             inactiveColor: Colors.white,
                             value: (currentDistance ?? userData.radius).toDouble(),
                             min: 100,
-                            max: 300,
+                            max: 500,
                             divisions: 4,
                             onChanged: (val) => setState(() {
                               currentDistance = val.round();

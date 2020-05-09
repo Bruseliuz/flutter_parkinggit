@@ -38,6 +38,7 @@ dependencies:
   rxdart:
   utm: ^0.1.2
   proj4dart: any
+  google_map_polyutil: ^1.0.0
 
 
   # The following adds the Cupertino Icons font to your application.
