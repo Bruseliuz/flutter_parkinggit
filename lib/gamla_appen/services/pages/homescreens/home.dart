@@ -40,17 +40,18 @@ class _HomeState extends State<Home> {
                 ),
               ),
               actions: <Widget>[
-                FlatButton.icon(
-                    onPressed: () {
-                      _auth.signOut();
-                    },
-                    icon: Icon(
-                      Icons.input,
-                      color: Colors.white,
-                    ),
-                    label:
-                    Text('Sign out', style: TextStyle(color: Colors.white))),
-              ],
+                FlatButton(
+                  onPressed:(){
+                    _auth.signOut();
+                  },
+                  child: Text('SIGN OUT',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 10,
+                    fontWeight: FontWeight.bold
+                  ),),
+                )
+                ],
             ),
             body:
             IndexedStack(

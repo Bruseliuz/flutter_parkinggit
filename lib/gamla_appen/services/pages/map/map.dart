@@ -237,7 +237,6 @@ class _ParkingMapState extends State<ParkingMap> {
   }
 
   Future<void> getData(LatLng location) async {
-//    print(distance);
     Response response = await get(
         'https://openparking.stockholm.se/LTF-Tolken/v1/${preference.toString()}/within?radius=$distance&lat=${location.latitude.toString()}&lng=${location.longitude.toString()}&outputFormat=json&apiKey=e734eaa7-d9b5-422a-9521-844554d9965b');
     Map data = jsonDecode(response.body);
@@ -318,7 +317,7 @@ class _ParkingMapState extends State<ParkingMap> {
     c.clipPath(Path()
       ..addOval(oval));
 
-    ui.Image image = await getImageFromPath("C:/Users/threb/Desktop");
+    ui.Image image = await getImageFromPath("C:/Users/threb/Desktop"); // TODO - Lägga bilden i "assets"
     paintImage(canvas: c, image: image, rect: oval, fit: BoxFit.fitWidth);
 
 
