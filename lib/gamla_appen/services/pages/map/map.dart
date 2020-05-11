@@ -380,11 +380,12 @@ class _ParkingMapState extends State<ParkingMap> {
 
   void getMarkers() {
     parkingSpotsList.forEach((element) async {
-        //BitmapDescriptor bitmapDescriptor = await createCustomMarkerBitmap(element.availableParkingSpots);
+        BitmapDescriptor bitmapDescriptor = await createCustomMarkerBitmap(element.availableParkingSpots);
       setState(() {
         allMarkers.add(Marker(
             markerId: MarkerId(element.streetName),
-            icon: BitmapDescriptor.defaultMarker,
+            //icon: BitmapDescriptor.defaultMarker,
+            icon: bitmapDescriptor,
             visible: true,
             draggable: false,
             onTap: () {
@@ -444,7 +445,7 @@ class _ParkingMapState extends State<ParkingMap> {
     c.clipPath(Path()
       ..addOval(oval));
 
-    ui.Image image = await getImageFromPath("C:/Users/threb/Desktop");
+    ui.Image image = await getImageFromPath("C:/Users/threb/Desktop/location-512.png");
     paintImage(canvas: c, image: image, rect: oval, fit: BoxFit.fitWidth);
 
 
