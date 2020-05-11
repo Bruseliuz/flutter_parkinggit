@@ -75,7 +75,7 @@ class _FavoritesState extends State<Favorites> {
       child: Container(
         height: 70,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.circular(10),
           color: Color(0xffA5C9EA),
         ),
         child: Dismissible(
@@ -95,7 +95,8 @@ class _FavoritesState extends State<Favorites> {
                 ),)
               ],
             ),
-            title: Text('Adress: ${_favParksList[index].streetName}'),
+            title: Text('Adress: ${_favParksList[index].streetName}',
+            maxLines: 2,),
             subtitle: Text('Price: 12 kronor per hour'),
             trailing: GestureDetector(
               onTap: (){

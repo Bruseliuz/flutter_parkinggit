@@ -8,7 +8,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/map/price_area.dart';
-import 'package:utm/utm.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/database.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/map/park_timer.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -600,9 +599,6 @@ class ParkingDialogState extends State<ParkingDialogWidget> {
             child: child,
           );
         });
-    setState(() {
-      picked = _time;
-    });
   }
 }
 
