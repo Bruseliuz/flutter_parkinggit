@@ -1,3 +1,4 @@
+import 'package:geojson/geojson.dart';
 import 'package:google_map_polyutil/google_map_polyutil.dart';
 import 'dart:typed_data';
 import 'dart:io';
@@ -29,8 +30,10 @@ List<String> favoriteDocumentsId = [];
 final CollectionReference parkCollection =
     Firestore.instance.collection("parkingPreference");
 List<ParkingArea> parkingSpotsList = [];
-List<LatLng> priceAreas = [];
+Set<List<LatLng>> polygonPoints = {};
+Set<LatLng> priceAreaPoints = {};
 Set<Polygon> polygons = {};
+List<PriceArea> priceAreas = [];
 
 class ParkingMap extends StatefulWidget {
 //  ParkingMap({@required Key key}) : super(key: key);
@@ -83,7 +86,7 @@ class _ParkingMapState extends State<ParkingMap> {
               return Scaffold(
                 body: Container(
                   child: GoogleMap(
-//                    polygons: polygons,
+                    polygons: polygons,
                     myLocationEnabled: true,
                     myLocationButtonEnabled: false,
                     zoomControlsEnabled: false,
@@ -107,17 +110,17 @@ class _ParkingMapState extends State<ParkingMap> {
                   label: Text('Find Nearby\n   Parking'),
                   backgroundColor: Color(0xff207FC5),
                   onPressed: () async {
-                    getPriceAreas();
+
                     await getCurrentLocation();
 //                    print(allMarkers.toString());
-                    setState(() {
-//                      polygons = myPolygon();
-                    });
                     if (allMarkers.isEmpty) {
                       showDialog(
                           context: context,
                           builder: (_) => _noParkingAlertDialogWidget());
                     }
+                    setState(() {
+                      getPriceAreas();
+                    });
                   },
                 ),
               );
@@ -196,6 +199,122 @@ class _ParkingMapState extends State<ParkingMap> {
         ),
       ),
     );
+  }
+
+  Future getPriceAreas() async {
+//    int counter = 0;
+    Response response = await get(
+        'http://openstreetgs.stockholm.se/geoservice/api/e734eaa7-d9b5-422a-9521-844554d9965b/wfs/?version=1.0.0&request=GetFeature&typename=ltfr:LTFR_TAXA_VIEW&outputFormat=json');
+    Map data = jsonDecode(response.body);
+    var dataList = data['features'] as List;
+    priceAreas = dataList
+        .map<PriceArea>((json) => PriceArea.fromJson(json))
+        .toList();
+    priceAreas.forEach((area) {
+
+      if (area.polygonType == 'Polygon') {
+        List<LatLng> tempList = [];
+        List coordinates = area.coordinates;
+        coordinates.forEach((coordinates) {
+          coordinates.forEach((coordinate) {
+            print('-------------$coordinate---------------');
+            String c = coordinate.toString();
+            String d = c.replaceAll(new RegExp(r"[[\]]"), '');
+            List coordList = d.split(', ');
+            double x = double.parse(coordList[0]);
+            double y = double.parse(coordList[1]);
+            if (!tempList.contains(parsePriceArea(x, y))) {
+              tempList.add(parsePriceArea(x, y));
+            }
+          });
+        });
+        polygonPoints.add(tempList);
+        polygonPoints.forEach((element) {
+          createPolygon(element, area.priceGroup);
+        });
+      } else if (area.polygonType == 'MultiPolygon'){
+
+        List coordinates = area.multiCoordinates;
+        coordinates.forEach((coordinates) {
+          List<LatLng> tempList = [];
+          coordinates.forEach((coordinate) {
+            coordinate.forEach((coord) {
+              String c = coord.toString();
+              String d = c.replaceAll(new RegExp(r"[[\]]"), '');
+              List coordList = d.split(', ');
+              double x = double.parse(coordList[0]);
+              double y = double.parse(coordList[1]);
+              if (!tempList.contains(parsePriceArea(x, y))) {
+                tempList.add(parsePriceArea(x, y));
+              }
+            });
+
+          });
+          polygonPoints.add(tempList);
+          polygonPoints.forEach((element) {
+            createMultiPolygon(element, area.priceGroup);
+          });
+        });
+
+      }
+    });
+  }
+
+  Map<int, String> getPriceGroup(PriceArea priceArea) {
+    switch (priceArea.priceGroup) {
+      case 'Taxa 1':
+        return [50, '50 kronor per timme, dygnet runt alla dagar.'].asMap();
+      case 'Taxa 11':
+        return [10, '10 kronor per timme, dygnet runt alla dagar.'].asMap();
+      case 'Taxa 2':
+        return [26, ''].asMap();
+    }
+  }
+
+  void checkLocationPrice(Marker marker) {
+    polygons.forEach((poly) {
+      GoogleMapPolyUtil.containsLocation(point: marker.position, polygon: poly.points).then((result) => print(result));
+    });
+
+  }
+
+  LatLng parsePriceArea(double x, double y) {
+    var pointSrc = Point(x: x, y: y);
+    var def = 'PROJCS["SWEREF99 18 00",GEOGCS["SWEREF99",DATUM["SWEREF99",SPHEROID["GRS 1980",6378137,298.257222101,AUTHORITY["EPSG","7019"]],TOWGS84[0,0,0,0,0,0,0],AUTHORITY["EPSG","6619"]],PRIMEM["Greenwich",0,AUTHORITY["EPSG","8901"]],UNIT["degree",0.01745329251994328,AUTHORITY["EPSG","9122"]],AUTHORITY["EPSG","4619"]],UNIT["metre",1,AUTHORITY["EPSG","9001"]],PROJECTION["Transverse_Mercator"],PARAMETER["latitude_of_origin",0],PARAMETER["central_meridian",18],PARAMETER["scale_factor",1],PARAMETER["false_easting",150000],PARAMETER["false_northing",0],AUTHORITY["EPSG","3011"],AXIS["y",EAST],AXIS["x",NORTH]]';
+    var projection = Projection.parse(def);
+    var projSrc = Projection('EPSG:4326');
+// Projection without name signature
+    var pointForward = projection.transform(projSrc, pointSrc);
+
+    return new LatLng(pointForward.y, pointForward.x);
+
+
+
+  }
+
+  void createPolygon(List list, String id) {
+    setState(() {
+      polygons.add(Polygon(
+          polygonId: PolygonId(id),
+          points: list,
+          strokeColor: Colors.red,
+          strokeWidth: 1,
+          fillColor: Colors.lightBlueAccent.withOpacity(0.3)
+      ));
+    });
+
+  }
+
+  void createMultiPolygon(List list, String id) {
+    setState(() {
+      polygons.add(Polygon(
+          polygonId: PolygonId(id),
+          points: list,
+          strokeWidth: 1,
+          strokeColor: Colors.red,
+          fillColor: Colors.lightBlueAccent.withOpacity(0.3)
+      ));
+    });
   }
 
   Widget getFavoriteIcon(element) {
@@ -608,69 +727,7 @@ class ParkingDialogState extends State<ParkingDialogWidget> {
   }
 }
 
-Future getPriceAreas() async {
-  Response response = await get(
-      'http://openstreetgs.stockholm.se/geoservice/api/e734eaa7-d9b5-422a-9521-844554d9965b/wfs/?version=1.0.0&request=GetFeature&typename=ltfr:LTFR_TAXA_VIEW&outputFormat=json');
-  Map data = jsonDecode(response.body);
-  var dataList = data['features'] as List;
-  List list = dataList
-      .map<PriceArea>((json) => PriceArea.fromJson(json))
-      .toList();
-  list.forEach((area) {
-    List coordinates = area.coordinates;
-    coordinates.forEach((coordinate) {
-      coordinate.forEach((coord) {
-//        print(coord);
-        String c = coord.toString();
-        print(c);
-        String d = c.replaceAll(new RegExp(r"[[\]]"),'');
-        List coordList = d.split(', ');
-        print(coordList[0]);
-        double x = double.parse(coordList[0]);
-        print(x);
-        print('--------------------------');
-        double y = double.parse(coordList[1]);
-        parsePriceAreas(x, y);
-      });
-    });
-  });
-  print(priceAreas.toString());
 
-
-//  print(area.coordinates);
-
-
-}
-
-void parsePriceAreas(double x, double y) {
-  var pointSrc = Point(x: x, y: y);
-  var def = 'PROJCS["SWEREF99 18 00",GEOGCS["SWEREF99",DATUM["SWEREF99",SPHEROID["GRS 1980",6378137,298.257222101,AUTHORITY["EPSG","7019"]],TOWGS84[0,0,0,0,0,0,0],AUTHORITY["EPSG","6619"]],PRIMEM["Greenwich",0,AUTHORITY["EPSG","8901"]],UNIT["degree",0.01745329251994328,AUTHORITY["EPSG","9122"]],AUTHORITY["EPSG","4619"]],UNIT["metre",1,AUTHORITY["EPSG","9001"]],PROJECTION["Transverse_Mercator"],PARAMETER["latitude_of_origin",0],PARAMETER["central_meridian",18],PARAMETER["scale_factor",1],PARAMETER["false_easting",150000],PARAMETER["false_northing",0],AUTHORITY["EPSG","3011"],AXIS["y",EAST],AXIS["x",NORTH]]';
-  var projection = Projection.parse(def);
-  var projSrc = Projection('EPSG:4326');
-// Projection without name signature
-
-  var pointForward = projection.transform(projSrc, pointSrc);
-  LatLng point = new LatLng(pointForward.y, pointForward.x);
-  priceAreas.add(new LatLng(pointForward.y, pointForward.x));
-  GoogleMapPolyUtil.containsLocation(point: parkingSpotsList[0].coordinates, polygon: priceAreas).then((result) => print(result));
-}
-
-Set<Polygon> myPolygon() {
-//  List<LatLng> polygonCoords = new List();
-//  polygonCoords.add(LatLng(37.43296265331129, -122.08832357078792));
-//  polygonCoords.add(LatLng(37.43006265331129, -122.08832357078792));
-//  polygonCoords.add(LatLng(37.43006265331129, -122.08332357078792));
-//  polygonCoords.add(LatLng(37.43296265331129, -122.08832357078792));
-
-  Set<Polygon> polygonSet = new Set();
-  polygonSet.add(Polygon(
-      polygonId: PolygonId('test'),
-      points: priceAreas,
-      strokeColor: Colors.red,
-  fillColor: Colors.lightBlueAccent.withOpacity(0.5)));
-
-  return polygonSet;
-}
 
 void parseParkingCoordinates(List<dynamic> coordinates) {
   bool favorite = false;
