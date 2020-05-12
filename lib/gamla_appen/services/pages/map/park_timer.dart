@@ -188,7 +188,7 @@ class _ParkTimerState extends State<ParkTimer> {
                         padding: EdgeInsets.fromLTRB(0, 20, 0, 50),
                         child: Column(
                           children: <Widget>[
-                            Container(
+                            Container(// TODO - Dela upp till två formfields
                               decoration: settingsDecoration.copyWith(color: Colors.white),
                               child: TextFormField(
                                 keyboardType: TextInputType.text,
