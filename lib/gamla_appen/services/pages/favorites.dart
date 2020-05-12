@@ -72,24 +72,48 @@ class _FavoritesState extends State<Favorites> {
 
   Widget _getFavoriteParksList(BuildContext context, int index) {
     return GestureDetector(
-      onLongPress: () {
-        setState((){
-          parkCollection
-              .document(globalUser.uid)
-              .collection('favoriteParkings')
-              .document(_favParksList[index].streetName)//streetName
-              .delete();
-        });
-        print('test');
-      },
       child: Container(
         height: 70,
-        color: Color(0xffA5C9EA),
-        child: ListTile(
-          leading: new Icon(Icons.favorite),
-          title: Text('Adress: ${_favParksList[index].streetName}'),
-          subtitle: Text('Price: 12 kronor per hour'),
-          trailing: Icon(Icons.directions_car),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: Color(0xffA5C9EA),
+        ),
+        child: Dismissible(
+          key: UniqueKey(),
+          onDismissed: (direction) {
+          },
+          child: ListTile(
+            leading: Column(
+              children: <Widget>[
+                Text('${_favParksList[index].availableParkingSpots.toString()}',
+                  style: TextStyle(
+                    fontSize: 25,
+                  ),),
+                Text('     Available \n parking spots',
+                style: TextStyle(
+                  fontSize: 7
+                ),)
+              ],
+            ),
+            title: Text('Adress: ${_favParksList[index].streetName}',
+            maxLines: 2,),
+            subtitle: Text('Price: 12 kronor per hour'),
+            trailing: GestureDetector(
+              onTap: (){
+                setState((){
+                  parkCollection
+                      .document(globalUser.uid)
+                      .collection('favoriteParkings')
+                      .document(_favParksList[index].streetName)//streetName
+                      .delete();
+                });
+              },
+                child: Icon(
+                    Icons.delete_forever,
+                  size: 35,
+                )
+            ),
+          ),
         ),
       ),
     );

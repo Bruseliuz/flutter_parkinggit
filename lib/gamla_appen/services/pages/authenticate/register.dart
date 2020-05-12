@@ -214,11 +214,18 @@ class _RegisterState extends State<Register> {
                                     });
                                   },
                                 ),
-                                Text(
-                                  'I accept the tems and conditions',
-                                  style: TextStyle(
-                                    color: Colors.white70,
-                                    fontSize: 15.0
+                                GestureDetector(
+                                  onTap: (){
+                                    setState(() {
+                                      checkBox = !checkBox;
+                                    });
+                                  },
+                                  child: Text(
+                                    'I accept the tems and conditions',
+                                    style: TextStyle(
+                                      color: Colors.white70,
+                                      fontSize: 15.0
+                                    ),
                                   ),
                                 )
                               ],

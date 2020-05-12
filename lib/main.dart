@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/authenticate/onboarding_screen.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/authenticate/register.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/authenticate/sign_in.dart';
+import 'package:flutterparkinggit/gamla_appen/services/pages/map/park_timer.dart';
 import 'package:provider/provider.dart';
 import 'gamla_appen/services/auth.dart';
 import 'gamla_appen/services/pages/authenticate/register.dart';
@@ -24,7 +25,8 @@ class MyApp extends StatelessWidget{
         routes: {
       '/register':(context) => Register(),
           '/onBoarding': (context) => Onboarding(),
-          '/signIn': (context) => SignIn()
+          '/signIn': (context) => SignIn(),
+          '/timer': (context) => ParkTimer()
       }),
     );
   }

@@ -61,11 +61,24 @@ class _ParkListState extends State<ParkList> {
       },
       child: Container(
         height: 70,
-        color: Color(0xffA5C9EA),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: Color(0xffA5C9EA),
+        ),
         child: ListTile(
-          leading: Text(
-              '${parkingSpotsList[index].availableParkingSpots}'),
-          title: Text('Adress: ${parkingSpotsList[index].streetName}'),
+          leading: Column(
+            children: <Widget>[
+              Text(
+                  '${parkingSpotsList[index].availableParkingSpots}'),
+              Text('    Available \n parking spots',
+              style: TextStyle(
+                fontSize: 10,
+              ),
+              ),
+            ],
+          ),
+          title: Text('Adress: ${parkingSpotsList[index].streetName}',
+          maxLines: 2,),
           subtitle: Text(
               'Price: 12 kronor per hour'),
           trailing: Icon(Icons.directions_car),
