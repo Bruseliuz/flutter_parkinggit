@@ -32,7 +32,7 @@ String preference;
 User globalUser;
 List<String> favoriteDocumentsId = [];
 final CollectionReference parkCollection =
-    Firestore.instance.collection("parkingPreference");
+Firestore.instance.collection("parkingPreference");
 List<ParkingArea> parkingSpotsList = [];
 Set<List<LatLng>> polygonPoints = {};
 Set<LatLng> priceAreaPoints = {};
@@ -111,15 +111,16 @@ class _ParkingMapState extends State<ParkingMap> {
                 backgroundColor: Color(0xff207FC5),
                 onPressed: () async {
                   await getCurrentLocation();
+                  await fakeMarkers();
 //                    print(allMarkers.toString());
                   if (allMarkers.isEmpty) {
                     showDialog(
                         context: context,
                         builder: (_) => _noParkingAlertDialogWidget());
                   }
-                  setState(() {
-                    getPriceAreas();
-                  });
+//                  setState(() {
+//                    getPriceAreas();
+//                  });
                 },
               ),
 
@@ -142,7 +143,7 @@ class _ParkingMapState extends State<ParkingMap> {
                 ),
               ),
               floatingActionButtonLocation:
-                  FloatingActionButtonLocation.centerFloat,
+              FloatingActionButtonLocation.centerFloat,
               floatingActionButton: FloatingActionButton.extended(
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(16.0))),
@@ -154,8 +155,9 @@ class _ParkingMapState extends State<ParkingMap> {
                 backgroundColor: Color(0xff207FC5),
                 onPressed: () async {
                   await getCurrentLocation();
+
 //                  print(allMarkers.toString());
-                  getMarkers();
+//                  getMarkers();
 
                   if (allMarkers.isEmpty) {
                     showDialog(
@@ -182,7 +184,7 @@ class _ParkingMapState extends State<ParkingMap> {
         child: FlatButton.icon(
           color: Colors.white,
           shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           onPressed: () {
             Navigator.of(context).pop();
           },
@@ -268,7 +270,7 @@ class _ParkingMapState extends State<ParkingMap> {
   void checkLocationPrice(Marker marker) {
     polygons.forEach((poly) {
       GoogleMapPolyUtil.containsLocation(
-              point: marker.position, polygon: poly.points)
+          point: marker.position, polygon: poly.points)
           .then((result) => print(result));
     });
   }
@@ -341,7 +343,8 @@ class _ParkingMapState extends State<ParkingMap> {
 
     final GoogleMapController controller = await _controller.future;
     controller.animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
-    await getData(newLocation);
+//    await getData(newLocation);
+    fakeMarkers();
   }
 
   Widget getFavoriteLabel(element) {
@@ -375,15 +378,94 @@ class _ParkingMapState extends State<ParkingMap> {
     }
   }
 
+  Future fakeMarkers() async {
+    LocationData location = await _locationTracker.getLocation();
+    LatLng loc = new LatLng(
+        (location.latitude + 0.01), (location.longitude + 0.01));
+//    BitmapDescriptor bitmapDescriptor = await createCustomMarkerBitmap(
+//        '5');
+    setState(() {
+      allMarkers.add(Marker(
+          markerId: MarkerId('test'),
+          icon: BitmapDescriptor.defaultMarker,
+          visible: true,
+          draggable: false,
+          onTap: () {
+            showDialog(
+                context: context,
+                builder: (_) => fakeParkingAlert(loc));
+          },
+          position: loc));
+    });
+  }
+
+  Widget fakeParkingAlert(LatLng latLng) {
+    return Container(
+        child: AlertDialog(
+            contentPadding: EdgeInsets.fromLTRB(10, 5, 10, 10),
+            elevation: 3.0,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(15)),
+            backgroundColor: Colors.white,
+            title: Row(
+                children: <Widget>[
+                  Flexible(
+                    fit: FlexFit.loose,
+                    child: Theme(
+                      data: Theme.of(context).copyWith(
+                        primaryColor: Color(0xff207FC5),
+                        highlightColor: Colors.black,
+                        accentColor: Color(0xff207FC5),
+                      ),
+                      child: Builder(
+                        builder: (context) =>
+                            FlatButton.icon(
+                              color: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(20)),
+                              onPressed: () {
+                                Navigator.pushNamed(context, '/timer');
+                                List<dynamic> list = new List();
+                                selectedParking = new ParkingArea(
+                                    streetName: 'gatunamn',
+                                    coordinates: latLng,
+                                    availableParkingSpots: '3',
+                                    numberOfParkingSpots: '5',
+                                    favorite: false,
+                                    coordinatesList: list,
+                                    serviceDayInfo: 'no info'
+                                );
+                              },
+                              icon: Icon(
+                                Icons.timer,
+                                color: Color(0xff207FC5),
+                              ),
+                              label: Text(
+                                'Start parking',
+                                style: TextStyle(
+                                  color: Color(0xff207FC5),
+                                  fontSize: 12,
+                                ),
+                              ),
+                            ),
+                      ),
+                    ),
+                  ),
+                ]
+            )
+        )
+    );
+  }
+
   void getMarkers() {
     parkingSpotsList.forEach((element) async {
-      BitmapDescriptor bitmapDescriptor = await createCustomMarkerBitmap(
-          element.availableParkingSpots);
+//      BitmapDescriptor bitmapDescriptor = await createCustomMarkerBitmap(
+//          element.availableParkingSpots);
       setState(() {
         allMarkers.add(Marker(
             markerId: MarkerId(element.streetName),
-//            icon: BitmapDescriptor.defaultMarker,
-            icon: bitmapDescriptor,
+            icon: BitmapDescriptor.defaultMarker,
+//            icon: bitmapDescriptor,
             visible: true,
             draggable: false,
             onTap: () {
@@ -442,7 +524,7 @@ class _ParkingMapState extends State<ParkingMap> {
     c.clipPath(Path()..addOval(oval));
 
 
-    ui.Image image = await getImageFromPath("assets/location-512");
+    ui.Image image = await getImageFromPath('assets/location-512.png');
     paintImage(canvas: c, image: image, rect: oval, fit: BoxFit.fitWidth);
 
     final ui.Image markerAsImage = await recorder
@@ -451,7 +533,7 @@ class _ParkingMapState extends State<ParkingMap> {
 
     // Convert image to bytes
     final ByteData byteData =
-        await markerAsImage.toByteData(format: ui.ImageByteFormat.png);
+    await markerAsImage.toByteData(format: ui.ImageByteFormat.png);
     final Uint8List uint8List = byteData.buffer.asUint8List();
 
     return BitmapDescriptor.fromBytes(uint8List);
@@ -639,11 +721,11 @@ class ParkingDialogState extends State<ParkingDialogWidget> {
                       latLon += ', ${element.coordinates.longitude}';
                       await DatabaseService(uid: globalUser.uid)
                           .updateUserFavorites(
-                              latLon,
-                              element.streetName,
-                              element.serviceDayInfo,
-                              element.favorite,
-                              element.availableParkingSpots);
+                          latLon,
+                          element.streetName,
+                          element.serviceDayInfo,
+                          element.favorite,
+                          element.availableParkingSpots);
                     } else if (element.favorite == true) {
                       await parkCollection
                           .document(globalUser.uid)
@@ -727,9 +809,9 @@ Widget timerAlertDialog() {
     height: double.infinity,
     width: double.infinity,
     child: AlertDialog(
-      title: Text(
-        'Start parking'
-      )
+        title: Text(
+            'Start parking'
+        )
 
     ),
   );
@@ -756,7 +838,7 @@ void parseParkingCoordinates(List<dynamic> coordinates) {
           numberOfParkingSpots: element.coordinatesList.length.toString(),
           serviceDayInfo: element.serviceDayInfo,
           availableParkingSpots:
-              getRandomAvailableParkingSpot(element.coordinatesList),
+          getRandomAvailableParkingSpot(element.coordinatesList),
           favorite: favorite),
     );
     parkingSpotsList = tempList;
