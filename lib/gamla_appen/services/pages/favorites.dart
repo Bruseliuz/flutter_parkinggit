@@ -81,6 +81,13 @@ class _FavoritesState extends State<Favorites> {
         child: Dismissible(
           key: UniqueKey(),
           onDismissed: (direction) {
+            setState((){
+              parkCollection
+                  .document(globalUser.uid)
+                  .collection('favoriteParkings')
+                  .document(_favParksList[index].streetName)//streetName
+                  .delete();
+            });
           },
           child: ListTile(
             leading: Column(
