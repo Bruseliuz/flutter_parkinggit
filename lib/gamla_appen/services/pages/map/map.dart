@@ -425,16 +425,7 @@ class _ParkingMapState extends State<ParkingMap> {
                                   borderRadius: BorderRadius.circular(20)),
                               onPressed: () {
                                 Navigator.pushNamed(context, '/timer');
-                                List<dynamic> list = new List();
-                                selectedParking = new ParkingArea(
-                                    streetName: 'gatunamn',
-                                    coordinates: latLng,
-                                    availableParkingSpots: '3',
-                                    numberOfParkingSpots: '5',
-                                    favorite: false,
-                                    coordinatesList: list,
-                                    serviceDayInfo: 'no info'
-                                );
+
                               },
                               icon: Icon(
                                 Icons.timer,

@@ -38,7 +38,7 @@ class _ParkTimerState extends State<ParkTimer> {
               ),
               child: Column(
                 children: <Widget>[
-                  Text(selectedParking.streetName,
+                  Text('Adress',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 20,
@@ -76,7 +76,7 @@ class _ParkTimerState extends State<ParkTimer> {
                   ),
                   SizedBox(height: 20),
                   MaterialButton(
-                    key: Key('SignIn'),
+                    key: Key('START PARKING'),
                     color: Colors.red[300],
                     elevation: 4.0,
                     onPressed: (){
