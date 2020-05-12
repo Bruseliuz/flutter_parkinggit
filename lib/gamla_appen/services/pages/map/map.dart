@@ -118,9 +118,9 @@ class _ParkingMapState extends State<ParkingMap> {
                           context: context,
                           builder: (_) => _noParkingAlertDialogWidget());
                     }
-                    setState(() {
-                      getPriceAreas();
-                    });
+//                    setState(() {
+//                      getPriceAreas();
+//                    });
                   },
                 ),
               );
@@ -287,9 +287,6 @@ class _ParkingMapState extends State<ParkingMap> {
     var pointForward = projection.transform(projSrc, pointSrc);
 
     return new LatLng(pointForward.y, pointForward.x);
-
-
-
   }
 
   void createPolygon(List list, String id) {
@@ -384,7 +381,7 @@ class _ParkingMapState extends State<ParkingMap> {
       setState(() {
         allMarkers.add(Marker(
             markerId: MarkerId(element.streetName),
-            //icon: BitmapDescriptor.defaultMarker,
+//            icon: BitmapDescriptor.defaultMarker,
             icon: bitmapDescriptor,
             visible: true,
             draggable: false,
@@ -445,7 +442,7 @@ class _ParkingMapState extends State<ParkingMap> {
     c.clipPath(Path()
       ..addOval(oval));
 
-    ui.Image image = await getImageFromPath("C:/Users/threb/Desktop/location-512.png");
+    ui.Image image = await getImageFromPath("assets/location-512");
     paintImage(canvas: c, image: image, rect: oval, fit: BoxFit.fitWidth);
 
 
