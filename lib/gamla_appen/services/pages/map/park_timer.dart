@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/map/map.dart';
+import 'package:flutterparkinggit/gamla_appen/shared/constants.dart';
 
 
 class ParkTimer extends StatefulWidget {
@@ -22,6 +23,7 @@ class _ParkTimerState extends State<ParkTimer> {
     }
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         backgroundColor: Color(0xff207FC5),
         leading: Icon(Icons.local_parking,
         color: Colors.white,),
@@ -48,7 +50,7 @@ class _ParkTimerState extends State<ParkTimer> {
               child: Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
-                  color: Color(0xff4896cf),
+                  color: Color(0xff207FCA),
                 ),
                 child: SingleChildScrollView(
                   physics: AlwaysScrollableScrollPhysics(),
@@ -59,68 +61,115 @@ class _ParkTimerState extends State<ParkTimer> {
                   child: Column(
                     children: <Widget>[
                       Row(
-                        children: <Widget>[
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: <Widget>[
-                              Text('Engatavägen 99',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold
+                          children: <Widget>[
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Text('Engatavägen 99',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold
+                                  ),
                                 ),
-                              ),
-                              SizedBox(height: 15),
-                              RichText(
-                                text: TextSpan(
-                                  children: <TextSpan>[
-                                    TextSpan(
-                                      text: 'Price per hour: ',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w400
-                                      )
-                                    ),
-                                    TextSpan(
-                                        text: '26kr/h',
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w700
-                                        )
-                                    ),
-                                  ]
-                                )
-                              ),
-                              SizedBox(height: 5.0),
-                              RichText(
+                                SizedBox(height: 15),
+                                RichText(
                                   text: TextSpan(
-                                      children: <TextSpan>[
-                                        TextSpan(
-                                            text: 'Service info: ',
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 12,
-                                                fontWeight: FontWeight.w400
-                                            )
-                                        ),
-                                        TextSpan(
-                                            text: 'Onsdagar 06 - 12',
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 12,
-                                                fontWeight: FontWeight.w700
-                                            )
-                                        ),
-                                      ]
+                                    children: <TextSpan>[
+                                      TextSpan(
+                                        text: 'Price per hour: ',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w400
+                                        )
+                                      ),
+                                      TextSpan(
+                                          text: '26kr/h',
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w700
+                                          )
+                                      ),
+                                    ]
                                   )
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 30),
+                                ),
+                                SizedBox(height: 5.0),
+                                RichText(
+                                    text: TextSpan(
+                                        children: <TextSpan>[
+                                          TextSpan(
+                                              text: 'Service info: ',
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.w400
+                                              )
+                                          ),
+                                          TextSpan(
+                                              text: 'Onsdagar 06 - 12',
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.w700
+                                              )
+                                          ),
+                                        ]
+                                    )
+                                ),
+                                SizedBox(height: 5.0),
+                                RichText(
+                                    text: TextSpan(
+                                        children: <TextSpan>[
+                                          TextSpan(
+                                              text: 'Number of parkingspots: ',
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.w400
+                                              )
+                                          ),
+                                          TextSpan(
+                                              text: '10',
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.w700
+                                              )
+                                          ),
+                                        ]
+                                    )
+                                ),
+                                SizedBox(height: 5.0),
+                                RichText(
+                                    text: TextSpan(
+                                        children: <TextSpan>[
+                                          TextSpan(
+                                              text: 'Available parkingspots: ',
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.w400
+                                              )
+                                          ),
+                                          TextSpan(
+                                              text: '5',
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 15,
+                                                  fontWeight: FontWeight.w700
+                                              )
+                                          ),
+                                        ]
+                                    )
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+
+                      SizedBox(height: 80),
                       Text('$setParkingText',
                       style: TextStyle(
                         color: Colors.white,
@@ -135,65 +184,88 @@ class _ParkTimerState extends State<ParkTimer> {
                         fontSize: 25,
                         fontWeight: FontWeight.w600
                       ),),
-                      SizedBox(height: 250),
-                      MaterialButton(
-                        key: Key('START PARKING'),
-                        color: Colors.green[300],
-                        elevation: 4.0,
-                        onPressed: (){
-                          selectTime(context);
-                        },
-                        padding: EdgeInsets.all(15),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                      Container(
+                        padding: EdgeInsets.fromLTRB(0, 20, 0, 50),
+                        child: Column(
                           children: <Widget>[
-                            Text('START PARKING',
-                              style: TextStyle(
-                                color: Colors.white,
-                                letterSpacing: 1.5,
-                                fontSize: 18.0,
+                            Container(
+                              decoration: settingsDecoration.copyWith(color: Colors.white),
+                              child: TextFormField(
+                                keyboardType: TextInputType.text,
+                                decoration: InputDecoration(
+                                  contentPadding: EdgeInsets.only(top: 14,bottom: 13),
+                                  border: InputBorder.none,
+                                  prefixIcon: Icon(Icons.directions_car,
+                                  color: Color(0xff207FCA),),
+                                  hintText: 'ABC 123',
+                                  hintStyle: TextStyle(
+                                    color: Color(0xff207FCA),
+                                    fontWeight: FontWeight.w600
+                                  )
+                                ),
                               ),
                             ),
-                            Icon(Icons.timer_off, color: Colors.white)
-                          ],
-                        ),
-                        shape: RoundedRectangleBorder(
-                            side: BorderSide(
+                            SizedBox(height: 30),
+                            MaterialButton(
+                              key: Key('START PARKING'),
                               color: Colors.green[300],
-                              width: 2.0,
-                            ),
-                            borderRadius: BorderRadius.circular(30)
-                        ),
-                      ),
-                      SizedBox(height: 20),
-                      MaterialButton(
-                        key: Key('END PARKING'),
-                        color: Colors.red[300],
-                        elevation: 4.0,
-                        onPressed: (){
-                          Navigator.pop(context);
-                        },
-                        padding: EdgeInsets.all(15),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Text('END PARKING',
-                              style: TextStyle(
-                                color: Colors.white,
-                                letterSpacing: 1.5,
-                                fontSize: 18.0,
+                              elevation: 4.0,
+                              onPressed: (){
+                                selectTime(context);
+                              },
+                              padding: EdgeInsets.all(15),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Text('START PARKING',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      letterSpacing: 1.5,
+                                      fontSize: 18.0,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              shape: RoundedRectangleBorder(
+                                  side: BorderSide(
+                                    color: Colors.green[300],
+                                    width: 2.0,
+                                  ),
+                                  borderRadius: BorderRadius.circular(30)
                               ),
                             ),
-                            Icon(Icons.timer_off, color: Colors.white)
-                          ],
-                        ),
-                        shape: RoundedRectangleBorder(
-                            side: BorderSide(
-                                color: Colors.red[300],
-                              width: 2.0,
+                            SizedBox(height: 20),
+                            MaterialButton(
+                              key: Key('END PARKING'),
+                              color: Colors.red[300],
+                              elevation: 4.0,
+                              onPressed: (){
+                                Navigator.pop(context);
+                              },
+                              padding: EdgeInsets.all(15),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Text('END PARKING',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      letterSpacing: 1.5,
+                                      fontSize: 18.0,
+                                    ),
+                                  ),
+                                  Icon(Icons.timer_off, color: Colors.white)
+                                ],
+                              ),
+                              shape: RoundedRectangleBorder(
+                                  side: BorderSide(
+                                    color: Colors.red[300],
+                                    width: 2.0,
+                                  ),
+                                  borderRadius: BorderRadius.circular(30)
+                              ),
                             ),
-                            borderRadius: BorderRadius.circular(30)
-                        ),
+                          ],
+                ),
                       ),
                     ],
                   ),
