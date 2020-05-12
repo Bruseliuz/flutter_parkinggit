@@ -42,7 +42,7 @@ class _ParkTimerState extends State<ParkTimer> {
               ),
               child: Column(
                 children: <Widget>[
-                  Text('Adress',
+                  Text(selectedParking.streetName,
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 20,

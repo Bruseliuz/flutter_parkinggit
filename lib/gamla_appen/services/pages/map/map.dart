@@ -426,8 +426,10 @@ class _ParkingMapState extends State<ParkingMap> {
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(20)),
                               onPressed: () {
+                                selectedParking = new ParkingArea(
+                                    streetName: 'Randomvägen 1'
+                                );
                                 Navigator.pushNamed(context, '/timer');
-
                               },
                               icon: Icon(
                                 Icons.timer,
