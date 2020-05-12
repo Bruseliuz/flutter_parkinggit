@@ -95,42 +95,15 @@ class _ParkingMapState extends State<ParkingMap> {
                     zoom: 12.0,
                   ),
                 ),
-<<<<<<< HEAD
-                floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-                floatingActionButton: FloatingActionButton.extended(
-                  elevation: 3.0,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15)
-                  ),
-                  icon: Icon(
-                    Icons.local_parking,
-                  ),
-                  label: Text('Find Nearby\n   Parking'),
-                  backgroundColor: Color(0xff207FC5),
-                  onPressed: () async {
-
-                    await getCurrentLocation();
-//                    print(allMarkers.toString());
-                    if (allMarkers.isEmpty) {
-                      showDialog(
-                          context: context,
-                          builder: (_) => _noParkingAlertDialogWidget());
-                    }
-//                    setState(() {
-//                      getPriceAreas();
-//                    });
-                  },
-=======
               ),
-              floatingActionButtonLocation:
-                  FloatingActionButtonLocation.centerFloat,
+              floatingActionButtonLocation: FloatingActionButtonLocation
+                  .centerFloat,
               floatingActionButton: FloatingActionButton.extended(
                 elevation: 3.0,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15)),
                 icon: Icon(
                   Icons.local_parking,
->>>>>>> 87afd974dbb7e2096a48a8e350cbf4ea6aa2967e
                 ),
                 label: Text('Find Nearby\n   Parking'),
                 backgroundColor: Color(0xff207FC5),
@@ -147,6 +120,7 @@ class _ParkingMapState extends State<ParkingMap> {
                   });
                 },
               ),
+
             );
           } else {
             distance = 100;
@@ -394,17 +368,13 @@ class _ParkingMapState extends State<ParkingMap> {
 
   void getMarkers() {
     parkingSpotsList.forEach((element) async {
-      //BitmapDescriptor bitmapDescriptor = await createCustomMarkerBitmap(element.availableParkingSpots);
+      BitmapDescriptor bitmapDescriptor = await createCustomMarkerBitmap(
+          element.availableParkingSpots);
       setState(() {
         allMarkers.add(Marker(
             markerId: MarkerId(element.streetName),
-<<<<<<< HEAD
 //            icon: BitmapDescriptor.defaultMarker,
             icon: bitmapDescriptor,
-=======
-            //icon: BitmapDescriptor.defaultMarker,
-            icon: BitmapDescriptor.defaultMarker,
->>>>>>> 87afd974dbb7e2096a48a8e350cbf4ea6aa2967e
             visible: true,
             draggable: false,
             onTap: () {
@@ -462,12 +432,8 @@ class _ParkingMapState extends State<ParkingMap> {
 
     c.clipPath(Path()..addOval(oval));
 
-<<<<<<< HEAD
+
     ui.Image image = await getImageFromPath("assets/location-512");
-=======
-    ui.Image image =
-        await getImageFromPath("C:/Users/threb/Desktop/location-512.png");
->>>>>>> 87afd974dbb7e2096a48a8e350cbf4ea6aa2967e
     paintImage(canvas: c, image: image, rect: oval, fit: BoxFit.fitWidth);
 
     final ui.Image markerAsImage = await recorder
