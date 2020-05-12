@@ -27,7 +27,6 @@ import 'package:proj4dart/proj4dart.dart';
 
 ParkingArea selectedParking;
 int distance;
-TimeOfDay picked;
 String preference;
 User globalUser;
 List<String> favoriteDocumentsId = [];
@@ -565,8 +564,6 @@ class ParkingDialogWidget extends StatefulWidget {
 }
 
 class ParkingDialogState extends State<ParkingDialogWidget> {
-  TimeOfDay _time = TimeOfDay.now();
-
   @override
   Widget build(BuildContext context) {
     return _parkingDialogWidget(widget.parkingArea);
@@ -780,33 +777,9 @@ class ParkingDialogState extends State<ParkingDialogWidget> {
       ),
     );
   }
-
-  Future<Null> selectTime(BuildContext context) async {
-    _time = await showTimePicker(
-        context: context,
-        initialTime: _time,
-        builder: (BuildContext context, Widget child) {
-          return MediaQuery(
-            data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
-            child: child,
-          );
-        });
-  }
 }
 
 
-Widget timerAlertDialog() {
-  return Container(
-    height: double.infinity,
-    width: double.infinity,
-    child: AlertDialog(
-        title: Text(
-            'Start parking'
-        )
-
-    ),
-  );
-}
 
 void parseParkingCoordinates(List<dynamic> coordinates) {
   bool favorite = false;
