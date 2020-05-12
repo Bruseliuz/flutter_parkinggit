@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:geojson/geojson.dart';
 import 'package:google_map_polyutil/google_map_polyutil.dart';
 import 'dart:typed_data';
@@ -353,17 +355,24 @@ class _ParkingMapState extends State<ParkingMap> {
   Future<void> getData(LatLng location) async {
 //    print(distance);
     Response response = await get(
-        'https://openparking.stockholm.se/LTF-Tolken/v1/${preference.toString()}/within?radius=$distance&lat=${location.latitude.toString()}&lng=${location.longitude.toString()}&outputFormat=json&apiKey=e734eaa7-d9b5-422a-9521-844554d9965b');
-    Map data = jsonDecode(response.body);
-    var dataList = data['features'] as List;
-    List list = dataList
-        .map<ParkingArea>((json) => ParkingArea.fromJson(json))
-        .toList();
-    setState(() {
-      parseParkingCoordinates(list);
-    });
-    allMarkers.clear();
-    getMarkers();
+        'https://openparking.stockholm.se/LTF-Tolken/v1/${preference
+            .toString()}/within?radius=$distance&lat=${location.latitude
+            .toString()}&lng=${location.longitude
+            .toString()}&outputFormat=json&apiKey=e734eaa7-d9b5-422a-9521-844554d9965b');
+    try {
+      Map data = jsonDecode(response.body);
+      var dataList = data['features'] as List;
+      List list = dataList
+          .map<ParkingArea>((json) => ParkingArea.fromJson(json))
+          .toList();
+      setState(() {
+        parseParkingCoordinates(list);
+      });
+      allMarkers.clear();
+      getMarkers();
+    } catch  (e){
+      //TODO - Felmeddelande vid fel i APIet
+    }
   }
 
   void getMarkers() {
