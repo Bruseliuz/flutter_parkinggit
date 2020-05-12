@@ -9,6 +9,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/map/price_area.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:utm/utm.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/database.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/map/park_timer.dart';
@@ -373,12 +374,13 @@ class _ParkingMapState extends State<ParkingMap> {
     LocationData location = await _locationTracker.getLocation();
     LatLng loc = new LatLng(
         (location.latitude + 0.01), (location.longitude + 0.01));
-//    BitmapDescriptor bitmapDescriptor = await createCustomMarkerBitmap(
-//        '5');
+    BitmapDescriptor bitmapDescriptor = await createCustomMarkerBitmap(
+        '5');
     setState(() {
       allMarkers.add(Marker(
           markerId: MarkerId('test'),
-          icon: BitmapDescriptor.defaultMarker,
+//          icon: BitmapDescriptor.defaultMarker,
+          icon: bitmapDescriptor,
           visible: true,
           draggable: false,
           onTap: () {
@@ -388,6 +390,7 @@ class _ParkingMapState extends State<ParkingMap> {
           },
           position: loc));
     });
+
   }
 
   Widget fakeParkingAlert(LatLng latLng) {
@@ -515,7 +518,7 @@ class _ParkingMapState extends State<ParkingMap> {
     c.clipPath(Path()..addOval(oval));
 
 
-    ui.Image image = await getImageFromPath('assets/location-512.png');
+    ui.Image image = await getImageFromPath('location-512.png');
     paintImage(canvas: c, image: image, rect: oval, fit: BoxFit.fitWidth);
 
     final ui.Image markerAsImage = await recorder
@@ -531,7 +534,7 @@ class _ParkingMapState extends State<ParkingMap> {
   }
 
   Future<ui.Image> getImageFromPath(String imagePath) async {
-    File imageFile = File(imagePath);
+    File imageFile = await getImageFileFromAssets(imagePath);
 
     Uint8List imageBytes = imageFile.readAsBytesSync();
 
@@ -542,6 +545,16 @@ class _ParkingMapState extends State<ParkingMap> {
     });
 
     return completer.future;
+  }
+
+  Future<File> getImageFileFromAssets(String path) async {
+    final byteData = await rootBundle.load('assets/$path');
+
+    final file = File('${(await getTemporaryDirectory()).path}/$path');
+    await file.writeAsBytes(byteData.buffer.asUint8List(
+        byteData.offsetInBytes, byteData.lengthInBytes));
+
+    return file;
   }
 
   void getFavorites() async {

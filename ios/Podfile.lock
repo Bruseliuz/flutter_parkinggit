@@ -423,6 +423,10 @@ PODS:
     - nanopb/encode (= 1.30905.0)
   - nanopb/decode (1.30905.0)
   - nanopb/encode (1.30905.0)
+  - path_provider (0.0.1):
+    - Flutter
+  - path_provider_macos (0.0.1):
+    - Flutter
   - PromisesObjC (1.2.8)
   - streams_channel (0.0.1):
     - Flutter
@@ -449,6 +453,8 @@ DEPENDENCIES:
   - location (from `.symlinks/plugins/location/ios`)
   - location_permissions (from `.symlinks/plugins/location_permissions/ios`)
   - location_web (from `.symlinks/plugins/location_web/ios`)
+  - path_provider (from `.symlinks/plugins/path_provider/ios`)
+  - path_provider_macos (from `.symlinks/plugins/path_provider_macos/ios`)
   - streams_channel (from `.symlinks/plugins/streams_channel/ios`)
 
 SPEC REPOS:
@@ -520,6 +526,10 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/location_permissions/ios"
   location_web:
     :path: ".symlinks/plugins/location_web/ios"
+  path_provider:
+    :path: ".symlinks/plugins/path_provider/ios"
+  path_provider_macos:
+    :path: ".symlinks/plugins/path_provider_macos/ios"
   streams_channel:
     :path: ".symlinks/plugins/streams_channel/ios"
 
@@ -570,6 +580,8 @@ SPEC CHECKSUMS:
   location_permissions: 4a49d4e5bec5b653643e551ab77963cc99bb0e4a
   location_web: b94e7433cfe28c0f7c8923c2ee482824b32e55a7
   nanopb: c43f40fadfe79e8b8db116583945847910cbabc9
+  path_provider: abfe2b5c733d04e238b0d8691db0cfd63a27a93c
+  path_provider_macos: f760a3c5b04357c380e2fddb6f9db6f3015897e0
   PromisesObjC: c119f3cd559f50b7ae681fa59dc1acd19173b7e6
   streams_channel: 16855ffd0568eded9563b2fec6a1bfa94420b353
 
