@@ -9,6 +9,10 @@ class ParkTimer extends StatefulWidget {
 }
 
 class _ParkTimerState extends State<ParkTimer> {
+
+  TimeOfDay _time = TimeOfDay.now();
+  TimeOfDay picked;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,15 +42,16 @@ class _ParkTimerState extends State<ParkTimer> {
               ),
               child: Column(
                 children: <Widget>[
-                  Text(selectedParking.streetName,
+                  Text('Adress',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 20,
                     fontWeight: FontWeight.bold
-                  ),),
+                  ),
+                  ),
                   SizedBox(height: 100.0),
                   MaterialButton(
-                    key: Key('SignIn'),
+                    key: Key('START PARKING'),
                     color: Colors.green[300],
                     elevation: 4.0,
                     onPressed: (){
@@ -76,7 +81,7 @@ class _ParkTimerState extends State<ParkTimer> {
                   ),
                   SizedBox(height: 20),
                   MaterialButton(
-                    key: Key('SignIn'),
+                    key: Key('END PARKING'),
                     color: Colors.red[300],
                     elevation: 4.0,
                     onPressed: (){
@@ -111,5 +116,16 @@ class _ParkTimerState extends State<ParkTimer> {
         ],
       )
     );
+  }
+  Future<Null> selectTime(BuildContext context) async {
+    _time = await showTimePicker(
+        context: context,
+        initialTime: _time,
+        builder: (BuildContext context, Widget child) {
+          return MediaQuery(
+            data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
+            child: child,
+          );
+        });
   }
 }

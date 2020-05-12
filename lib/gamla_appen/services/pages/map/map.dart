@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:geojson/geojson.dart';
 import 'package:google_map_polyutil/google_map_polyutil.dart';
 import 'dart:typed_data';
@@ -26,7 +28,6 @@ import 'package:proj4dart/proj4dart.dart';
 
 ParkingArea selectedParking;
 int distance;
-TimeOfDay picked;
 String preference;
 User globalUser;
 List<String> favoriteDocumentsId = [];
@@ -357,17 +358,24 @@ class _ParkingMapState extends State<ParkingMap> {
   Future<void> getData(LatLng location) async {
 //    print(distance);
     Response response = await get(
-        'https://openparking.stockholm.se/LTF-Tolken/v1/${preference.toString()}/within?radius=$distance&lat=${location.latitude.toString()}&lng=${location.longitude.toString()}&outputFormat=json&apiKey=e734eaa7-d9b5-422a-9521-844554d9965b');
-    Map data = jsonDecode(response.body);
-    var dataList = data['features'] as List;
-    List list = dataList
-        .map<ParkingArea>((json) => ParkingArea.fromJson(json))
-        .toList();
-    setState(() {
-      parseParkingCoordinates(list);
-    });
-    allMarkers.clear();
-    getMarkers();
+        'https://openparking.stockholm.se/LTF-Tolken/v1/${preference
+            .toString()}/within?radius=$distance&lat=${location.latitude
+            .toString()}&lng=${location.longitude
+            .toString()}&outputFormat=json&apiKey=e734eaa7-d9b5-422a-9521-844554d9965b');
+    try {
+      Map data = jsonDecode(response.body);
+      var dataList = data['features'] as List;
+      List list = dataList
+          .map<ParkingArea>((json) => ParkingArea.fromJson(json))
+          .toList();
+      setState(() {
+        parseParkingCoordinates(list);
+      });
+      allMarkers.clear();
+      getMarkers();
+    } catch  (e){
+      //TODO - Felmeddelande vid fel i APIet
+    }
   }
 
   Future fakeMarkers() async {
@@ -419,16 +427,7 @@ class _ParkingMapState extends State<ParkingMap> {
                                   borderRadius: BorderRadius.circular(20)),
                               onPressed: () {
                                 Navigator.pushNamed(context, '/timer');
-                                List<dynamic> list = new List();
-                                selectedParking = new ParkingArea(
-                                    streetName: 'gatunamn',
-                                    coordinates: latLng,
-                                    availableParkingSpots: '3',
-                                    numberOfParkingSpots: '5',
-                                    favorite: false,
-                                    coordinatesList: list,
-                                    serviceDayInfo: 'no info'
-                                );
+
                               },
                               icon: Icon(
                                 Icons.timer,
@@ -578,8 +577,6 @@ class ParkingDialogWidget extends StatefulWidget {
 }
 
 class ParkingDialogState extends State<ParkingDialogWidget> {
-  TimeOfDay _time = TimeOfDay.now();
-
   @override
   Widget build(BuildContext context) {
     return _parkingDialogWidget(widget.parkingArea);
@@ -793,33 +790,9 @@ class ParkingDialogState extends State<ParkingDialogWidget> {
       ),
     );
   }
-
-  Future<Null> selectTime(BuildContext context) async {
-    _time = await showTimePicker(
-        context: context,
-        initialTime: _time,
-        builder: (BuildContext context, Widget child) {
-          return MediaQuery(
-            data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
-            child: child,
-          );
-        });
-  }
 }
 
 
-Widget timerAlertDialog() {
-  return Container(
-    height: double.infinity,
-    width: double.infinity,
-    child: AlertDialog(
-        title: Text(
-            'Start parking'
-        )
-
-    ),
-  );
-}
 
 void parseParkingCoordinates(List<dynamic> coordinates) {
   bool favorite = false;

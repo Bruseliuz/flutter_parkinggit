@@ -1,11 +1,8 @@
 import 'dart:collection';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:quiver/core.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/map/map.dart';
-import 'package:http/http.dart';
-import 'dart:convert';
 import 'dart:math';
 
 class ParkingAreasList {
