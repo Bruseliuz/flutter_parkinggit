@@ -458,6 +458,11 @@ class _ParkingMapState extends State<ParkingMap> {
       setState(() {
         allMarkers.add(Marker(
             markerId: MarkerId(element.streetName),
+<<<<<<< HEAD
+//            icon: BitmapDescriptor.defaultMarker,
+=======
+           // icon: BitmapDescriptor.defaultMarker,
+>>>>>>> 0df0db1d4978497dc26a8d260bb77833c9ab2d3b
             icon: bitmapDescriptor,
             visible: true,
             draggable: false,
