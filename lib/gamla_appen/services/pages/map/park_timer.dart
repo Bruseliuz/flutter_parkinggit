@@ -17,10 +17,11 @@ class _ParkTimerState extends State<ParkTimer> {
   String setParkingText = '';
   Color startTimerColor = Colors.green[300];
   Color endTimerColor = Colors.red[100];
+  bool timerStarted;
 
   @override
   Widget build(BuildContext context) {
-    if(picked == null){
+    if (picked == null) {
       picked = TimeOfDay.now();
     }
     return Scaffold(
@@ -121,16 +122,16 @@ class _ParkTimerState extends State<ParkTimer> {
                               fontWeight: FontWeight.w600
                           ),),
                         FloatingActionButton.extended(
-                          onPressed: (){
+                          onPressed: () {
                             selectTime(context);
                           },
                           icon: Icon(Icons.watch_later,
-                          color: Color(0xff207FC5),),
+                            color: Color(0xff207FC5),),
                           backgroundColor: Colors.white,
                           label: Text('SET TIMER',
-                          style: TextStyle(
-                            color: Color(0xff207FC5)
-                          ),),
+                            style: TextStyle(
+                                color: Color(0xff207FC5)
+                            ),),
                         )
                       ],
                     ),
@@ -163,40 +164,42 @@ class _ParkTimerState extends State<ParkTimer> {
                       padding: EdgeInsets.fromLTRB(0, 20, 0, 50),
                       child: Column(
                         children: <Widget>[
-                             SizedBox(width: 10),
-                             Text( 'REGISTRATION NUMBER',
-                               style: TextStyle(
-                                 color: Colors.white,
-                                 fontWeight: FontWeight.bold,
-                                 fontSize: 12,
-                               ),
-                             ),
+                          SizedBox(width: 10),
+                          Text('REGISTRATION NUMBER',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 12,
+                            ),
+                          ),
                           SizedBox(height: 5.0),
                           Row(
                             children: <Widget>[
                               Container(
-                                  child: TextFormField(
-                                    inputFormatters: [
-                                      LengthLimitingTextInputFormatter(3),
-                                    ],
-                                    decoration: InputDecoration(
-                                        hintText: 'ABC',
-                                        hintStyle: TextStyle(
+                                child: TextFormField(
+                                  inputFormatters: [
+                                    LengthLimitingTextInputFormatter(3),
+                                  ],
+                                  decoration: InputDecoration(
+                                      hintText: 'ABC',
+                                      hintStyle: TextStyle(
                                           color: Color(0xff207FC5)
-                                        ),
-                                        border: InputBorder.none
-                                    ),
-                                    keyboardType: TextInputType.text,
+                                      ),
+                                      border: InputBorder.none
                                   ),
+                                  keyboardType: TextInputType.text,
+                                ),
                                 width: 70,
                                 decoration: BoxDecoration(
                                     color: Colors.white,
-                                    borderRadius: BorderRadius.only(topLeft: Radius.circular(10),bottomLeft: Radius.circular(10)),
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(10),
+                                        bottomLeft: Radius.circular(10)),
                                     boxShadow: [
                                       BoxShadow(
                                           color: Colors.black26,
                                           blurRadius: 5.0,
-                                          offset: Offset(0,2)
+                                          offset: Offset(0, 2)
                                       )
                                     ]
                                 ),
@@ -204,28 +207,30 @@ class _ParkTimerState extends State<ParkTimer> {
                               ),
                               SizedBox(width: 0.5),
                               Container(
-                                  child: TextFormField(
-                                    inputFormatters: [
-                                      LengthLimitingTextInputFormatter(3),
-                                    ],
-                                    decoration: InputDecoration(
-                                        hintText: '123',
-                                        hintStyle: TextStyle(
-                                            color: Color(0xff207FC5)
-                                        ),
-                                        border: InputBorder.none
-                                    ),
-                                    keyboardType: TextInputType.number,
+                                child: TextFormField(
+                                  inputFormatters: [
+                                    LengthLimitingTextInputFormatter(3),
+                                  ],
+                                  decoration: InputDecoration(
+                                      hintText: '123',
+                                      hintStyle: TextStyle(
+                                          color: Color(0xff207FC5)
+                                      ),
+                                      border: InputBorder.none
                                   ),
+                                  keyboardType: TextInputType.number,
+                                ),
                                 width: 70,
                                 decoration: BoxDecoration(
                                     color: Colors.white,
-                                    borderRadius: BorderRadius.only(topRight: Radius.circular(10),bottomRight: Radius.circular(10)),
+                                    borderRadius: BorderRadius.only(
+                                        topRight: Radius.circular(10),
+                                        bottomRight: Radius.circular(10)),
                                     boxShadow: [
                                       BoxShadow(
                                           color: Colors.black26,
                                           blurRadius: 5.0,
-                                          offset: Offset(3,2)
+                                          offset: Offset(3, 2)
                                       )
                                     ]
                                 ),
@@ -244,8 +249,9 @@ class _ParkTimerState extends State<ParkTimer> {
                               setState(() {
                                 startTimerColor = Colors.green[100];
                                 endTimerColor = Colors.red[300];
+                                timerStarted = true;
                               });
-                              },
+                            },
                             padding: EdgeInsets.all(15),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -273,7 +279,7 @@ class _ParkTimerState extends State<ParkTimer> {
                             color: endTimerColor,
                             elevation: 4.0,
                             onPressed: () {
-                              Navigator.pop(context);
+                              cancelAlertDialog(context);
                             },
                             padding: EdgeInsets.all(15),
                             child: Row(
@@ -307,6 +313,27 @@ class _ParkTimerState extends State<ParkTimer> {
           ]),
     );
   }
+
+
+  Future<void> cancelAlertDialog(BuildContext context) {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Sure?'),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('Ok'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   Future<Null> selectTime(BuildContext context) async {
     _time = await showTimePicker(
         context: context,
