@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/map/map.dart';
 import 'package:flutterparkinggit/gamla_appen/shared/constants.dart';
 
@@ -13,7 +14,7 @@ class _ParkTimerState extends State<ParkTimer> {
 
   TimeOfDay _time = TimeOfDay.now();
   TimeOfDay picked;
-  String setParkingText = 'Parking is set for:';
+  String setParkingText = '';
 
   @override
   Widget build(BuildContext context) {
@@ -157,20 +158,40 @@ class _ParkTimerState extends State<ParkTimer> {
                       ],
                     ),
                     SizedBox(height: 40),
-                    Text('PARKING IS SET FOR',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18.0,
-                          fontWeight: FontWeight.bold
-                      ),
+                    Row(
+                      children: <Widget>[
+                        SizedBox(width: 10),
+                        Text('$setParkingText',
+                          style: TextStyle(
+                              color: Colors.white70,
+                              fontSize: 12.0,
+                              fontWeight: FontWeight.bold
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        Text('${picked.format(context)}',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 50,
+                              fontWeight: FontWeight.w600
+                          ),),
+                        FloatingActionButton.extended(
+                          onPressed: (){},
+                          icon: Icon(Icons.watch_later,
+                          color: Color(0xff207FC5),),
+                          backgroundColor: Colors.white,
+                          label: Text('SET TIMER',
+                          style: TextStyle(
+                            color: Color(0xff207FC5)
+                          ),),
+                        )
+                      ],
                     ),
                     SizedBox(height: 10.0),
-                    Text('${picked.format(context)}',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 35,
-                          fontWeight: FontWeight.w600
-                      ),),
                     Container( //TODO - Dela upp i två text fields
                       padding: EdgeInsets.fromLTRB(0, 20, 0, 50),
                       child: Column(
@@ -200,6 +221,9 @@ class _ParkTimerState extends State<ParkTimer> {
                             children: <Widget>[
                               Container(
                                   child: TextFormField(
+                                    inputFormatters: [
+                                      LengthLimitingTextInputFormatter(3),
+                                    ],
                                     decoration: InputDecoration(
                                         hintText: 'ABC',
                                         hintStyle: TextStyle(
@@ -216,6 +240,9 @@ class _ParkTimerState extends State<ParkTimer> {
                               SizedBox(width: 0.5),
                               Container(
                                   child: TextFormField(
+                                    inputFormatters: [
+                                      LengthLimitingTextInputFormatter(3),
+                                    ],
                                     decoration: InputDecoration(
                                         hintText: '123',
                                         hintStyle: TextStyle(
@@ -327,7 +354,7 @@ class _ParkTimerState extends State<ParkTimer> {
         });
     setState(() {
       picked = _time;
-
+      setParkingText = 'PARKING IS SET FOR';
     });
   }
 }
