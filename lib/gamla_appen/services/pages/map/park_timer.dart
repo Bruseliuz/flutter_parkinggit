@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/map/map.dart';
 import 'package:flutterparkinggit/gamla_appen/shared/constants.dart';
 
@@ -13,7 +14,9 @@ class _ParkTimerState extends State<ParkTimer> {
 
   TimeOfDay _time = TimeOfDay.now();
   TimeOfDay picked;
-  String setParkingText = 'Parking is set for:';
+  String setParkingText = '';
+  Color startTimerColor = Colors.green[300];
+  Color endTimerColor = Colors.red[100];
 
   @override
   Widget build(BuildContext context) {
@@ -54,6 +57,7 @@ class _ParkTimerState extends State<ParkTimer> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Text(selectedParking.streetName,
+                              overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 20,
@@ -84,99 +88,81 @@ class _ParkTimerState extends State<ParkTimer> {
                                 )
                             ),
                             SizedBox(height: 5.0),
-                            RichText(
-                                text: TextSpan(
-                                    children: <TextSpan>[
-                                      TextSpan(
-                                          text: 'Service info: ',
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w400
-                                          )
-                                      ),
-                                      TextSpan(
-                                          text: 'Onsdagar 06 - 12',
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w700
-                                          )
-                                      ),
-                                    ]
-                                )
+                            Text('${selectedParking.serviceDayInfo}',
+                              style: TextStyle(
+                                  color: Colors.white
+                              ),
                             ),
                             SizedBox(height: 5.0),
-                            RichText(
-                                text: TextSpan(
-                                    children: <TextSpan>[
-                                      TextSpan(
-                                          text: 'Number of parkingspots: ',
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w400
-                                          )
-                                      ),
-                                      TextSpan(
-                                          text: '10',
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w700
-                                          )
-                                      ),
-                                    ]
-                                )
-                            ),
-                            SizedBox(height: 5.0),
-                            RichText(
-                                text: TextSpan(
-                                    children: <TextSpan>[
-                                      TextSpan(
-                                          text: 'Available parkingspots: ',
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w400
-                                          )
-                                      ),
-                                      TextSpan(
-                                          text: '5',
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w700
-                                          )
-                                      ),
-                                    ]
-                                )
-                            ),
                           ],
                         ),
                       ],
                     ),
                     SizedBox(height: 40),
-                    Text('PARKING IS SET FOR',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18.0,
-                          fontWeight: FontWeight.bold
-                      ),
+                    Row(
+                      children: <Widget>[
+                        SizedBox(width: 10),
+                        Text('$setParkingText',
+                          style: TextStyle(
+                              color: Colors.white70,
+                              fontSize: 12.0,
+                              fontWeight: FontWeight.bold
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        Text('${picked.format(context)}',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 50,
+                              fontWeight: FontWeight.w600
+                          ),),
+                        FloatingActionButton.extended(
+                          onPressed: (){
+                            selectTime(context);
+                          },
+                          icon: Icon(Icons.watch_later,
+                          color: Color(0xff207FC5),),
+                          backgroundColor: Colors.white,
+                          label: Text('SET TIMER',
+                          style: TextStyle(
+                            color: Color(0xff207FC5)
+                          ),),
+                        )
+                      ],
                     ),
                     SizedBox(height: 10.0),
-                    Text('${picked.format(context)}',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 35,
-                          fontWeight: FontWeight.w600
-                      ),),
+                    Row(
+                      children: <Widget>[
+                        SizedBox(width: 10),
+                        Text('PRICE',
+                          style: TextStyle(
+                              color: Colors.white70,
+                              fontSize: 12.0,
+                              fontWeight: FontWeight.bold
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: <Widget>[
+                        SizedBox(width: 10),
+                        Text('45 kr',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 50,
+                              fontWeight: FontWeight.w600
+                          ),
+                        ),
+                      ],
+                    ),
                     Container( //TODO - Dela upp i två text fields
                       padding: EdgeInsets.fromLTRB(0, 20, 0, 50),
                       child: Column(
                         children: <Widget>[
-                         Row(
-                           children: <Widget>[
                              SizedBox(width: 10),
                              Text( 'REGISTRATION NUMBER',
                                style: TextStyle(
@@ -185,21 +171,14 @@ class _ParkTimerState extends State<ParkTimer> {
                                  fontSize: 12,
                                ),
                              ),
-                             SizedBox(width: 27),
-                             Text( 'CURRENT TIME',
-                               style: TextStyle(
-                                 color: Colors.white,
-                                 fontWeight: FontWeight.bold,
-                                 fontSize: 12,
-                               ),
-                             ),
-                           ],
-                         ),
                           SizedBox(height: 5.0),
                           Row(
                             children: <Widget>[
                               Container(
                                   child: TextFormField(
+                                    inputFormatters: [
+                                      LengthLimitingTextInputFormatter(3),
+                                    ],
                                     decoration: InputDecoration(
                                         hintText: 'ABC',
                                         hintStyle: TextStyle(
@@ -210,12 +189,25 @@ class _ParkTimerState extends State<ParkTimer> {
                                     keyboardType: TextInputType.text,
                                   ),
                                 width: 70,
-                                decoration: settingsDecoration.copyWith(borderRadius: BorderRadius.only(topLeft: Radius.circular(10),bottomLeft: Radius.circular(10))),
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.only(topLeft: Radius.circular(10),bottomLeft: Radius.circular(10)),
+                                    boxShadow: [
+                                      BoxShadow(
+                                          color: Colors.black26,
+                                          blurRadius: 5.0,
+                                          offset: Offset(0,2)
+                                      )
+                                    ]
+                                ),
                                 padding: EdgeInsets.only(left: 18.5),
                               ),
                               SizedBox(width: 0.5),
                               Container(
                                   child: TextFormField(
+                                    inputFormatters: [
+                                      LengthLimitingTextInputFormatter(3),
+                                    ],
                                     decoration: InputDecoration(
                                         hintText: '123',
                                         hintStyle: TextStyle(
@@ -226,34 +218,34 @@ class _ParkTimerState extends State<ParkTimer> {
                                     keyboardType: TextInputType.number,
                                   ),
                                 width: 70,
-                                decoration: settingsDecoration.copyWith(borderRadius: BorderRadius.only(topRight: Radius.circular(10),bottomRight: Radius.circular(10))),
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.only(topRight: Radius.circular(10),bottomRight: Radius.circular(10)),
+                                    boxShadow: [
+                                      BoxShadow(
+                                          color: Colors.black26,
+                                          blurRadius: 5.0,
+                                          offset: Offset(3,2)
+                                      )
+                                    ]
+                                ),
                                 padding: EdgeInsets.only(left: 18.5),
                               ),
                               SizedBox(width: 5),
-                              Container(
-                                width: 140,
-                                padding: EdgeInsets.only(top: 13,left: 42),
-                                height: 48,
-                                decoration: settingsDecoration.copyWith(borderRadius: BorderRadius.circular(10)),
-                                child: Text(
-                                  '${TimeOfDay.now().format(context)}',
-                                  style: TextStyle(
-                                    color: Color(0xff207FC5),
-                                    fontSize: 18
-                                  ),
-                                ),
-                              )
                             ],
                             mainAxisAlignment: MainAxisAlignment.center,
                           ),
                           SizedBox(height: 30),
                           MaterialButton(
                             key: Key('START PARKING'),
-                            color: Colors.green[300],
+                            color: startTimerColor,
                             elevation: 4.0,
                             onPressed: () {
-                              selectTime(context);
-                            },
+                              setState(() {
+                                startTimerColor = Colors.green[100];
+                                endTimerColor = Colors.red[300];
+                              });
+                              },
                             padding: EdgeInsets.all(15),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -269,7 +261,7 @@ class _ParkTimerState extends State<ParkTimer> {
                             ),
                             shape: RoundedRectangleBorder(
                                 side: BorderSide(
-                                  color: Colors.green[300],
+                                  color: startTimerColor,
                                   width: 2.0,
                                 ),
                                 borderRadius: BorderRadius.circular(30)
@@ -278,7 +270,7 @@ class _ParkTimerState extends State<ParkTimer> {
                           SizedBox(height: 20),
                           MaterialButton(
                             key: Key('END PARKING'),
-                            color: Colors.red[300],
+                            color: endTimerColor,
                             elevation: 4.0,
                             onPressed: () {
                               Navigator.pop(context);
@@ -299,7 +291,7 @@ class _ParkTimerState extends State<ParkTimer> {
                             ),
                             shape: RoundedRectangleBorder(
                                 side: BorderSide(
-                                  color: Colors.red[300],
+                                  color: endTimerColor,
                                   width: 2.0,
                                 ),
                                 borderRadius: BorderRadius.circular(30)
@@ -327,7 +319,7 @@ class _ParkTimerState extends State<ParkTimer> {
         });
     setState(() {
       picked = _time;
-
+      setParkingText = 'PARKING IS SET FOR';
     });
   }
 }

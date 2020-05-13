@@ -112,17 +112,14 @@ class _ParkingMapState extends State<ParkingMap> {
                 onPressed: () async {
                   await getCurrentLocation();
 //                    print(allMarkers.toString());
+                  await getPriceAreas();
                   if (allMarkers.isEmpty) {
                     showDialog(
                         context: context,
                         builder: (_) => _noParkingAlertDialogWidget());
                   }
-
-                  await getPriceAreas();
-
                 },
               ),
-
             );
           } else {
             distance = 100;
@@ -384,13 +381,13 @@ class _ParkingMapState extends State<ParkingMap> {
     LocationData location = await _locationTracker.getLocation();
     LatLng loc = new LatLng(
         (location.latitude + 0.01), (location.longitude + 0.01));
-    BitmapDescriptor bitmapDescriptor = await createCustomMarkerBitmap(
-        '5');
+  //  BitmapDescriptor bitmapDescriptor = await createCustomMarkerBitmap(
+ //       '5');
     setState(() {
       allMarkers.add(Marker(
           markerId: MarkerId('test'),
 //          icon: BitmapDescriptor.defaultMarker,
-          icon: bitmapDescriptor,
+          icon: BitmapDescriptor.defaultMarker,
           visible: true,
           draggable: false,
           onTap: () {
@@ -461,7 +458,11 @@ class _ParkingMapState extends State<ParkingMap> {
       setState(() {
         allMarkers.add(Marker(
             markerId: MarkerId(element.streetName),
+<<<<<<< HEAD
 //            icon: BitmapDescriptor.defaultMarker,
+=======
+           // icon: BitmapDescriptor.defaultMarker,
+>>>>>>> 0df0db1d4978497dc26a8d260bb77833c9ab2d3b
             icon: bitmapDescriptor,
             visible: true,
             draggable: false,
@@ -480,7 +481,7 @@ class _ParkingMapState extends State<ParkingMap> {
     final PictureRecorder recorder = new PictureRecorder();
     final Canvas c = new Canvas(recorder);
     final double imageOffset = 18.0;
-    final Paint paint = Paint()..color = Colors.black;
+    final Paint paint = Paint()..color = Colors.transparent;
     final Radius radius = Radius.circular(size.width / 2);
 
     c.drawRRect(
@@ -521,7 +522,7 @@ class _ParkingMapState extends State<ParkingMap> {
     c.clipPath(Path()..addOval(oval));
 
 
-    ui.Image image = await getImageFromPath('location-512.png');
+    ui.Image image = await getImageFromPath('locmarker5.png');
     paintImage(canvas: c, image: image, rect: oval, fit: BoxFit.fitWidth);
 
     final ui.Image markerAsImage = await recorder
