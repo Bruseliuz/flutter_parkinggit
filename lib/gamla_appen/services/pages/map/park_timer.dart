@@ -15,6 +15,8 @@ class _ParkTimerState extends State<ParkTimer> {
   TimeOfDay _time = TimeOfDay.now();
   TimeOfDay picked;
   String setParkingText = '';
+  Color startTimerColor = Colors.green[300];
+  Color endTimerColor = Colors.red[100];
 
   @override
   Widget build(BuildContext context) {
@@ -55,6 +57,7 @@ class _ParkTimerState extends State<ParkTimer> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Text(selectedParking.streetName,
+                              overflow: TextOverflow.ellipsis,
                               style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 20,
@@ -86,6 +89,7 @@ class _ParkTimerState extends State<ParkTimer> {
                             ),
                             SizedBox(height: 5.0),
                             RichText(
+                              overflow: TextOverflow.ellipsis,
                                 text: TextSpan(
                                     children: <TextSpan>[
                                       TextSpan(
@@ -97,7 +101,7 @@ class _ParkTimerState extends State<ParkTimer> {
                                           )
                                       ),
                                       TextSpan(
-                                          text: 'Onsdagar 06 - 12',
+                                          text: '${selectedParking.serviceDayInfo}',
                                           style: TextStyle(
                                               color: Colors.white,
                                               fontSize: 15,
@@ -120,7 +124,7 @@ class _ParkTimerState extends State<ParkTimer> {
                                           )
                                       ),
                                       TextSpan(
-                                          text: '10',
+                                          text: '${selectedParking.numberOfParkingSpots}',
                                           style: TextStyle(
                                               color: Colors.white,
                                               fontSize: 15,
@@ -143,7 +147,7 @@ class _ParkTimerState extends State<ParkTimer> {
                                           )
                                       ),
                                       TextSpan(
-                                          text: '5',
+                                          text: '${selectedParking.availableParkingSpots}',
                                           style: TextStyle(
                                               color: Colors.white,
                                               fontSize: 15,
@@ -180,7 +184,9 @@ class _ParkTimerState extends State<ParkTimer> {
                               fontWeight: FontWeight.w600
                           ),),
                         FloatingActionButton.extended(
-                          onPressed: (){},
+                          onPressed: (){
+                            selectTime(context);
+                          },
                           icon: Icon(Icons.watch_later,
                           color: Color(0xff207FC5),),
                           backgroundColor: Colors.white,
@@ -276,11 +282,14 @@ class _ParkTimerState extends State<ParkTimer> {
                           SizedBox(height: 30),
                           MaterialButton(
                             key: Key('START PARKING'),
-                            color: Colors.green[300],
+                            color: startTimerColor,
                             elevation: 4.0,
                             onPressed: () {
-                              selectTime(context);
-                            },
+                              setState(() {
+                                startTimerColor = Colors.green[100];
+                                endTimerColor = Colors.red[300];
+                              });
+                              },
                             padding: EdgeInsets.all(15),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -296,7 +305,7 @@ class _ParkTimerState extends State<ParkTimer> {
                             ),
                             shape: RoundedRectangleBorder(
                                 side: BorderSide(
-                                  color: Colors.green[300],
+                                  color: startTimerColor,
                                   width: 2.0,
                                 ),
                                 borderRadius: BorderRadius.circular(30)
@@ -305,7 +314,7 @@ class _ParkTimerState extends State<ParkTimer> {
                           SizedBox(height: 20),
                           MaterialButton(
                             key: Key('END PARKING'),
-                            color: Colors.red[300],
+                            color: endTimerColor,
                             elevation: 4.0,
                             onPressed: () {
                               Navigator.pop(context);
@@ -326,7 +335,7 @@ class _ParkTimerState extends State<ParkTimer> {
                             ),
                             shape: RoundedRectangleBorder(
                                 side: BorderSide(
-                                  color: Colors.red[300],
+                                  color: endTimerColor,
                                   width: 2.0,
                                 ),
                                 borderRadius: BorderRadius.circular(30)
