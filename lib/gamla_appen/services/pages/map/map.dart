@@ -472,7 +472,7 @@ class _ParkingMapState extends State<ParkingMap> {
   }
 
   Future<BitmapDescriptor> createCustomMarkerBitmap(String title) async {
-    final Size size = Size(150, 150);
+    final Size size = Size(170, 170);
     final PictureRecorder recorder = new PictureRecorder();
     final Canvas c = new Canvas(recorder);
     final double imageOffset = 18.0;
@@ -490,10 +490,13 @@ class _ParkingMapState extends State<ParkingMap> {
         ),
         paint);
 
+
+
     TextSpan span = new TextSpan(
       style: new TextStyle(
+        backgroundColor: Colors.white,
         color: Colors.black,
-        fontSize: 35.0,
+        fontSize: 33.0,
         fontWeight: FontWeight.bold,
       ),
       text: title,
@@ -517,7 +520,7 @@ class _ParkingMapState extends State<ParkingMap> {
     c.clipPath(Path()..addOval(oval));
 
 
-    ui.Image image = await getImageFromPath('locmarker5.png');
+    ui.Image image = await getImageFromPath('locmarker35.png');
     paintImage(canvas: c, image: image, rect: oval, fit: BoxFit.fitWidth);
 
     final ui.Image markerAsImage = await recorder
