@@ -449,13 +449,13 @@ class _ParkingMapState extends State<ParkingMap> {
 
   void getMarkers() {
     parkingSpotsList.forEach((element) async {
-//      BitmapDescriptor bitmapDescriptor = await createCustomMarkerBitmap(
-//          element.availableParkingSpots);
+      BitmapDescriptor bitmapDescriptor = await createCustomMarkerBitmap(
+          element.availableParkingSpots);
       setState(() {
         allMarkers.add(Marker(
             markerId: MarkerId(element.streetName),
-            icon: BitmapDescriptor.defaultMarker,
-//            icon: bitmapDescriptor,
+         //   icon: BitmapDescriptor.defaultMarker,
+            icon: bitmapDescriptor,
             visible: true,
             draggable: false,
             onTap: () {
@@ -473,7 +473,7 @@ class _ParkingMapState extends State<ParkingMap> {
     final PictureRecorder recorder = new PictureRecorder();
     final Canvas c = new Canvas(recorder);
     final double imageOffset = 18.0;
-    final Paint paint = Paint()..color = Colors.black;
+    final Paint paint = Paint()..color = Colors.transparent;
     final Radius radius = Radius.circular(size.width / 2);
 
     c.drawRRect(
@@ -525,7 +525,6 @@ class _ParkingMapState extends State<ParkingMap> {
     final ByteData byteData =
     await markerAsImage.toByteData(format: ui.ImageByteFormat.png);
     final Uint8List uint8List = byteData.buffer.asUint8List();
-
     return BitmapDescriptor.fromBytes(uint8List);
   }
 

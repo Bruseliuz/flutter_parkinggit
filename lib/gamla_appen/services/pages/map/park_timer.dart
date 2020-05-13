@@ -135,12 +135,34 @@ class _ParkTimerState extends State<ParkTimer> {
                       ],
                     ),
                     SizedBox(height: 10.0),
+                    Row(
+                      children: <Widget>[
+                        SizedBox(width: 10),
+                        Text('PRICE',
+                          style: TextStyle(
+                              color: Colors.white70,
+                              fontSize: 12.0,
+                              fontWeight: FontWeight.bold
+                          ),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: <Widget>[
+                        SizedBox(width: 10),
+                        Text('45 kr',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 50,
+                              fontWeight: FontWeight.w600
+                          ),
+                        ),
+                      ],
+                    ),
                     Container( //TODO - Dela upp i två text fields
                       padding: EdgeInsets.fromLTRB(0, 20, 0, 50),
                       child: Column(
                         children: <Widget>[
-                         Row(
-                           children: <Widget>[
                              SizedBox(width: 10),
                              Text( 'REGISTRATION NUMBER',
                                style: TextStyle(
@@ -149,16 +171,6 @@ class _ParkTimerState extends State<ParkTimer> {
                                  fontSize: 12,
                                ),
                              ),
-                             SizedBox(width: 27),
-                             Text( 'CURRENT TIME',
-                               style: TextStyle(
-                                 color: Colors.white,
-                                 fontWeight: FontWeight.bold,
-                                 fontSize: 12,
-                               ),
-                             ),
-                           ],
-                         ),
                           SizedBox(height: 5.0),
                           Row(
                             children: <Widget>[
@@ -177,7 +189,17 @@ class _ParkTimerState extends State<ParkTimer> {
                                     keyboardType: TextInputType.text,
                                   ),
                                 width: 70,
-                                decoration: settingsDecoration.copyWith(borderRadius: BorderRadius.only(topLeft: Radius.circular(10),bottomLeft: Radius.circular(10))),
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.only(topLeft: Radius.circular(10),bottomLeft: Radius.circular(10)),
+                                    boxShadow: [
+                                      BoxShadow(
+                                          color: Colors.black26,
+                                          blurRadius: 5.0,
+                                          offset: Offset(0,2)
+                                      )
+                                    ]
+                                ),
                                 padding: EdgeInsets.only(left: 18.5),
                               ),
                               SizedBox(width: 0.5),
@@ -196,23 +218,20 @@ class _ParkTimerState extends State<ParkTimer> {
                                     keyboardType: TextInputType.number,
                                   ),
                                 width: 70,
-                                decoration: settingsDecoration.copyWith(borderRadius: BorderRadius.only(topRight: Radius.circular(10),bottomRight: Radius.circular(10))),
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.only(topRight: Radius.circular(10),bottomRight: Radius.circular(10)),
+                                    boxShadow: [
+                                      BoxShadow(
+                                          color: Colors.black26,
+                                          blurRadius: 5.0,
+                                          offset: Offset(3,2)
+                                      )
+                                    ]
+                                ),
                                 padding: EdgeInsets.only(left: 18.5),
                               ),
                               SizedBox(width: 5),
-                              Container(
-                                width: 140,
-                                padding: EdgeInsets.only(top: 13,left: 42),
-                                height: 48,
-                                decoration: settingsDecoration.copyWith(borderRadius: BorderRadius.circular(10)),
-                                child: Text(
-                                  '${TimeOfDay.now().format(context)}',
-                                  style: TextStyle(
-                                    color: Color(0xff207FC5),
-                                    fontSize: 18
-                                  ),
-                                ),
-                              )
                             ],
                             mainAxisAlignment: MainAxisAlignment.center,
                           ),
