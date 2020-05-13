@@ -331,20 +331,37 @@ class _ParkTimerState extends State<ParkTimer> {
             title: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
-              Icon(Icons.timer_off,
-              color: Color(0xff207FC5),),
-              Text('No time selected',
-              style: TextStyle(
-                color: Color(0xff207FC5)
-              ),)
+                  Icon(Icons.error_outline,
+                  color: Color(0xff207FC5)),
             ]),
+            content: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                Text('Please enter the end-time\n       for your parking.',
+                  style: TextStyle(
+                      color: Color(0xff207FC5)
+                  ),),
+              ],
+            ),
             actions: <Widget>[
-              FlatButton(
-                child: Text('Ok'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
+                    Container(
+                      padding: EdgeInsets.only(left: 100, right: 100),
+                      child: MaterialButton(
+                        onPressed: (){
+                          Navigator.pop(context);
+                        },
+                        color: Colors.white,
+                        elevation: 0.0,
+                        child: Row(
+                          children: <Widget>[
+                            Text('OK',
+                            style: TextStyle(
+                              color: Color(0xff207FC5)
+                            ),)
+                          ],
+                        ),
+                      ),
+                    )
             ],
           ),
         );
