@@ -511,7 +511,7 @@ class _ParkingMapState extends State<ParkingMap> {
     c.clipPath(Path()..addOval(oval));
 
 
-    ui.Image image = await getImageFromPath('locmarker.png');
+    ui.Image image = await getImageFromPath('locmarker5.png');
     paintImage(canvas: c, image: image, rect: oval, fit: BoxFit.fitWidth);
 
     final ui.Image markerAsImage = await recorder
