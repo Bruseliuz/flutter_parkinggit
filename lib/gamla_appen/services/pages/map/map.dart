@@ -111,17 +111,14 @@ class _ParkingMapState extends State<ParkingMap> {
                 onPressed: () async {
                   await getCurrentLocation();
 //                    print(allMarkers.toString());
+                  await getPriceAreas();
                   if (allMarkers.isEmpty) {
                     showDialog(
                         context: context,
                         builder: (_) => _noParkingAlertDialogWidget());
                   }
-
-                  await getPriceAreas();
-
                 },
               ),
-
             );
           } else {
             distance = 100;
@@ -377,13 +374,13 @@ class _ParkingMapState extends State<ParkingMap> {
     LocationData location = await _locationTracker.getLocation();
     LatLng loc = new LatLng(
         (location.latitude + 0.01), (location.longitude + 0.01));
-    BitmapDescriptor bitmapDescriptor = await createCustomMarkerBitmap(
-        '5');
+  //  BitmapDescriptor bitmapDescriptor = await createCustomMarkerBitmap(
+ //       '5');
     setState(() {
       allMarkers.add(Marker(
           markerId: MarkerId('test'),
 //          icon: BitmapDescriptor.defaultMarker,
-          icon: bitmapDescriptor,
+          icon: BitmapDescriptor.defaultMarker,
           visible: true,
           draggable: false,
           onTap: () {
