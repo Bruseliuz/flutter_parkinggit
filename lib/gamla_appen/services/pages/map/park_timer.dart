@@ -88,75 +88,12 @@ class _ParkTimerState extends State<ParkTimer> {
                                 )
                             ),
                             SizedBox(height: 5.0),
-                            RichText(
-                              overflow: TextOverflow.ellipsis,
-                                text: TextSpan(
-                                    children: <TextSpan>[
-                                      TextSpan(
-                                          text: 'Service info: ',
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w400
-                                          )
-                                      ),
-                                      TextSpan(
-                                          text: '${selectedParking.serviceDayInfo}',
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w700
-                                          )
-                                      ),
-                                    ]
-                                )
+                            Text('${selectedParking.serviceDayInfo}',
+                              style: TextStyle(
+                                  color: Colors.white
+                              ),
                             ),
                             SizedBox(height: 5.0),
-                            RichText(
-                                text: TextSpan(
-                                    children: <TextSpan>[
-                                      TextSpan(
-                                          text: 'Number of parkingspots: ',
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w400
-                                          )
-                                      ),
-                                      TextSpan(
-                                          text: '${selectedParking.numberOfParkingSpots}',
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w700
-                                          )
-                                      ),
-                                    ]
-                                )
-                            ),
-                            SizedBox(height: 5.0),
-                            RichText(
-                                text: TextSpan(
-                                    children: <TextSpan>[
-                                      TextSpan(
-                                          text: 'Available parkingspots: ',
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w400
-                                          )
-                                      ),
-                                      TextSpan(
-                                          text: '${selectedParking.availableParkingSpots}',
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w700
-                                          )
-                                      ),
-                                    ]
-                                )
-                            ),
                           ],
                         ),
                       ],
