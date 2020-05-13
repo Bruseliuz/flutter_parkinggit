@@ -586,7 +586,8 @@ class ParkingDialogState extends State<ParkingDialogWidget> {
   }
 
   Widget _parkingDialogWidget(element) {
-    checkLocationPrice(element.coordinates);
+    String priceInfo = checkLocationPrice(element.coordinates);
+    print(priceInfo);
     IconData favoriteIconData = Icons.favorite;
     String favoriteString = 'Add to favorites';
     if (element.favorite == false) {
@@ -795,11 +796,19 @@ class ParkingDialogState extends State<ParkingDialogWidget> {
     );
   }
 
-  void checkLocationPrice(LatLng latlng) {
-    polygons.forEach((poly) {
-      GoogleMapPolyUtil.containsLocation(
+  String checkLocationPrice(LatLng latlng) {
+    String priceInfo = 'none';
+    polygons.forEach((poly) async {
+      priceInfo = await GoogleMapPolyUtil.containsLocation(
           point: latlng, polygon: poly.points)
-          .then((result) => print(result));
+          .then((result) {
+        if (result == true) {
+          return poly.polygonId.value;
+        } else {
+          return 'none';
+        }
+      });
+      return priceInfo;
     });
   }
 
