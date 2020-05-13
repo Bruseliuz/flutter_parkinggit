@@ -454,7 +454,7 @@ class _ParkingMapState extends State<ParkingMap> {
       setState(() {
         allMarkers.add(Marker(
             markerId: MarkerId(element.streetName),
-         //   icon: BitmapDescriptor.defaultMarker,
+           // icon: BitmapDescriptor.defaultMarker,
             icon: bitmapDescriptor,
             visible: true,
             draggable: false,
@@ -469,7 +469,7 @@ class _ParkingMapState extends State<ParkingMap> {
   }
 
   Future<BitmapDescriptor> createCustomMarkerBitmap(String title) async {
-    final Size size = Size(150, 150);
+    final Size size = Size(140, 140);
     final PictureRecorder recorder = new PictureRecorder();
     final Canvas c = new Canvas(recorder);
     final double imageOffset = 18.0;
@@ -525,6 +525,7 @@ class _ParkingMapState extends State<ParkingMap> {
     final ByteData byteData =
     await markerAsImage.toByteData(format: ui.ImageByteFormat.png);
     final Uint8List uint8List = byteData.buffer.asUint8List();
+
     return BitmapDescriptor.fromBytes(uint8List);
   }
 
