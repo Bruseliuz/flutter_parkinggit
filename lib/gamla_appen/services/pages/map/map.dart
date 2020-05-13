@@ -37,7 +37,7 @@ List<ParkingArea> parkingSpotsList = [];
 Set<List<LatLng>> polygonPoints = {};
 Set<LatLng> priceAreaPoints = {};
 Set<Polygon> polygons = {};
-List<PriceArea> priceAreas = [];
+Set<PriceArea> priceAreas = {};
 
 class ParkingMap extends StatefulWidget {
 //  ParkingMap({@required Key key}) : super(key: key);
@@ -65,7 +65,6 @@ class _ParkingMapState extends State<ParkingMap> {
 
     void setPreference(UserData userData) {
       distance = userData.radius;
-//      print(distance);
       if (userData.parking == 'HCP') {
         preference = 'prorelsehindrad';
       } else if (userData.parking == 'MC') {
@@ -111,16 +110,15 @@ class _ParkingMapState extends State<ParkingMap> {
                 backgroundColor: Color(0xff207FC5),
                 onPressed: () async {
                   await getCurrentLocation();
-                  await fakeMarkers();
 //                    print(allMarkers.toString());
                   if (allMarkers.isEmpty) {
                     showDialog(
                         context: context,
                         builder: (_) => _noParkingAlertDialogWidget());
                   }
-//                  setState(() {
-//                    getPriceAreas();
-//                  });
+
+                  await getPriceAreas();
+
                 },
               ),
 
@@ -155,15 +153,14 @@ class _ParkingMapState extends State<ParkingMap> {
                 backgroundColor: Color(0xff207FC5),
                 onPressed: () async {
                   await getCurrentLocation();
-
 //                  print(allMarkers.toString());
 //                  getMarkers();
-
                   if (allMarkers.isEmpty) {
                     showDialog(
                         context: context,
                         builder: (_) => _noParkingAlertDialogWidget());
                   }
+                  getPriceAreas();
                 },
               ),
             );
@@ -203,56 +200,53 @@ class _ParkingMapState extends State<ParkingMap> {
   }
 
   Future getPriceAreas() async {
-//    int counter = 0;
-    Response response = await get(
+    var response = await get(
         'http://openstreetgs.stockholm.se/geoservice/api/e734eaa7-d9b5-422a-9521-844554d9965b/wfs/?version=1.0.0&request=GetFeature&typename=ltfr:LTFR_TAXA_VIEW&outputFormat=json');
     Map data = jsonDecode(response.body);
     var dataList = data['features'] as List;
-    priceAreas =
-        dataList.map<PriceArea>((json) => PriceArea.fromJson(json)).toList();
+    priceAreas = dataList
+        .map<PriceArea>((json) => PriceArea.fromJson(json))
+        .toSet();
     priceAreas.forEach((area) {
+//      print(area.coordinates);
       if (area.polygonType == 'Polygon') {
-        List<LatLng> tempList = [];
-        List coordinates = area.coordinates;
-        coordinates.forEach((coordinates) {
-          coordinates.forEach((coordinate) {
-            print('-------------$coordinate---------------');
-            String c = coordinate.toString();
-            String d = c.replaceAll(new RegExp(r"[[\]]"), '');
-            List coordList = d.split(', ');
-            double x = double.parse(coordList[0]);
-            double y = double.parse(coordList[1]);
-            if (!tempList.contains(parsePriceArea(x, y))) {
-              tempList.add(parsePriceArea(x, y));
-            }
-          });
-        });
-        polygonPoints.add(tempList);
-        polygonPoints.forEach((element) {
-          createPolygon(element, area.priceGroup);
-        });
-      } else if (area.polygonType == 'MultiPolygon') {
-        List coordinates = area.multiCoordinates;
-        coordinates.forEach((coordinates) {
+        area.coordinates.forEach((coordinates) {
           List<LatLng> tempList = [];
           coordinates.forEach((coordinate) {
+            String c = coordinate.toString();
+            String coords = c.replaceAll(RegExp(r"[[\]]"), '');
+            List coordList = coords.split(',');
+            double x = double.parse(coordList[0]);
+            double y = double.parse(coordList[1]);
+            tempList.add(parsePriceArea(x, y));
+          });
+          createPolygon(tempList, area.priceGroup);
+        });
+      } else if (area.polygonType == 'MultiPolygon') {
+        List<LatLng> tempList = new List();
+        area.multiCoordinates.forEach((coordinates) {
+//          tempList.clear();
+          coordinates.forEach((coordinate) {
             coordinate.forEach((coord) {
+//              print(coord);
               String c = coord.toString();
-              String d = c.replaceAll(new RegExp(r"[[\]]"), '');
-              List coordList = d.split(', ');
+              String coords = c.replaceAll(RegExp(r"[[\]]"), '');
+              List coordList = coords.split(',');
               double x = double.parse(coordList[0]);
               double y = double.parse(coordList[1]);
               if (!tempList.contains(parsePriceArea(x, y))) {
                 tempList.add(parsePriceArea(x, y));
               }
             });
+            polygonPoints.add(tempList);
+//            print(tempList.length);
           });
-          polygonPoints.add(tempList);
-          polygonPoints.forEach((element) {
-            createMultiPolygon(element, area.priceGroup);
-          });
+          createPolygon(tempList, area.priceGroup);
         });
       }
+//      polygonPoints.forEach((list) {
+//        createPolygon(list, area.priceGroup);
+//      });
     });
   }
 
@@ -294,7 +288,8 @@ class _ParkingMapState extends State<ParkingMap> {
           points: list,
           strokeColor: Colors.red,
           strokeWidth: 1,
-          fillColor: Colors.lightBlueAccent.withOpacity(0.3)));
+          fillColor: Colors.lightBlueAccent.withOpacity(0.3)
+      ));
     });
   }
 
@@ -343,8 +338,8 @@ class _ParkingMapState extends State<ParkingMap> {
 
     final GoogleMapController controller = await _controller.future;
     controller.animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
-//    await getData(newLocation);
-    fakeMarkers();
+    await getData(newLocation);
+//    fakeMarkers();
   }
 
   Widget getFavoriteLabel(element) {
