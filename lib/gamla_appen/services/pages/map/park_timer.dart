@@ -19,7 +19,6 @@ class _ParkTimerState extends State<ParkTimer> {
   Widget build(BuildContext context) {
     if(picked == null){
       picked = TimeOfDay.now();
-      setParkingText = 'The time is:';
     }
     return Scaffold(
       appBar: AppBar(
@@ -157,12 +156,11 @@ class _ParkTimerState extends State<ParkTimer> {
                         ),
                       ],
                     ),
-
-                    SizedBox(height: 80),
-                    Text('$setParkingText',
+                    SizedBox(height: 40),
+                    Text('PARKING IS SET FOR',
                       style: TextStyle(
                           color: Colors.white,
-                          fontSize: 25.0,
+                          fontSize: 18.0,
                           fontWeight: FontWeight.bold
                       ),
                     ),
@@ -170,30 +168,83 @@ class _ParkTimerState extends State<ParkTimer> {
                     Text('${picked.format(context)}',
                       style: TextStyle(
                           color: Colors.white,
-                          fontSize: 25,
+                          fontSize: 35,
                           fontWeight: FontWeight.w600
                       ),),
-                    Container(
+                    Container( //TODO - Dela upp i två text fields
                       padding: EdgeInsets.fromLTRB(0, 20, 0, 50),
                       child: Column(
                         children: <Widget>[
-                          Container(
-                            decoration: settingsDecoration.copyWith(
-                                color: Colors.white),
-                            child: TextFormField(
-                              keyboardType: TextInputType.text,
-                              decoration: InputDecoration(
-                                  contentPadding: EdgeInsets.only(top: 14,bottom: 13),
-                                  border: InputBorder.none,
-                                  prefixIcon: Icon(Icons.directions_car,
-                                    color: Color(0xff207FCA),),
-                                  hintText: 'ABC 123',
-                                  hintStyle: TextStyle(
-                                      color: Color(0xff207FCA),
-                                      fontWeight: FontWeight.w600
-                                  )
+                         Row(
+                           children: <Widget>[
+                             SizedBox(width: 10),
+                             Text( 'REGISTRATION NUMBER',
+                               style: TextStyle(
+                                 color: Colors.white,
+                                 fontWeight: FontWeight.bold,
+                                 fontSize: 12,
+                               ),
+                             ),
+                             SizedBox(width: 27),
+                             Text( 'CURRENT TIME',
+                               style: TextStyle(
+                                 color: Colors.white,
+                                 fontWeight: FontWeight.bold,
+                                 fontSize: 12,
+                               ),
+                             ),
+                           ],
+                         ),
+                          SizedBox(height: 5.0),
+                          Row(
+                            children: <Widget>[
+                              Container(
+                                  child: TextFormField(
+                                    decoration: InputDecoration(
+                                        hintText: 'ABC',
+                                        hintStyle: TextStyle(
+                                          color: Color(0xff207FC5)
+                                        ),
+                                        border: InputBorder.none
+                                    ),
+                                    keyboardType: TextInputType.text,
+                                  ),
+                                width: 70,
+                                decoration: settingsDecoration.copyWith(borderRadius: BorderRadius.only(topLeft: Radius.circular(10),bottomLeft: Radius.circular(10))),
+                                padding: EdgeInsets.only(left: 18.5),
                               ),
-                            ),
+                              SizedBox(width: 0.5),
+                              Container(
+                                  child: TextFormField(
+                                    decoration: InputDecoration(
+                                        hintText: '123',
+                                        hintStyle: TextStyle(
+                                            color: Color(0xff207FC5)
+                                        ),
+                                        border: InputBorder.none
+                                    ),
+                                    keyboardType: TextInputType.number,
+                                  ),
+                                width: 70,
+                                decoration: settingsDecoration.copyWith(borderRadius: BorderRadius.only(topRight: Radius.circular(10),bottomRight: Radius.circular(10))),
+                                padding: EdgeInsets.only(left: 18.5),
+                              ),
+                              SizedBox(width: 5),
+                              Container(
+                                width: 140,
+                                padding: EdgeInsets.only(top: 13,left: 42),
+                                height: 48,
+                                decoration: settingsDecoration.copyWith(borderRadius: BorderRadius.circular(10)),
+                                child: Text(
+                                  '${TimeOfDay.now().format(context)}',
+                                  style: TextStyle(
+                                    color: Color(0xff207FC5),
+                                    fontSize: 18
+                                  ),
+                                ),
+                              )
+                            ],
+                            mainAxisAlignment: MainAxisAlignment.center,
                           ),
                           SizedBox(height: 30),
                           MaterialButton(
@@ -276,7 +327,7 @@ class _ParkTimerState extends State<ParkTimer> {
         });
     setState(() {
       picked = _time;
-      setParkingText = 'Parking is set for:';
+
     });
   }
 }
