@@ -35,6 +35,7 @@ final CollectionReference parkCollection =
 Firestore.instance.collection("parkingPreference");
 List<ParkingArea> parkingSpotsList = [];
 Set<List<LatLng>> polygonPoints = {};
+Map<List<LatLng>, String> polygonPointsExtended = {};
 Set<LatLng> priceAreaPoints = {};
 Set<Polygon> polygons = {};
 Set<PriceArea> priceAreas = {};
@@ -207,6 +208,7 @@ class _ParkingMapState extends State<ParkingMap> {
     priceAreas = dataList
         .map<PriceArea>((json) => PriceArea.fromJson(json))
         .toSet();
+    int counter = 0;
     priceAreas.forEach((area) {
 //      print(area.coordinates);
       if (area.polygonType == 'Polygon') {
@@ -220,13 +222,16 @@ class _ParkingMapState extends State<ParkingMap> {
             double y = double.parse(coordList[1]);
             tempList.add(parsePriceArea(x, y));
           });
-          createPolygon(tempList, area.priceGroup);
+          polygonPointsExtended.putIfAbsent(tempList
+              , () => '${area.areaId.toString()}, ${area.priceGroup}');
+//          polygonPoints.add(tempList);
+//          createPolygon(tempList, area.priceGroup);
         });
       } else if (area.polygonType == 'MultiPolygon') {
-        List<LatLng> tempList = new List();
+        List<List<LatLng>> tempMultiList = [];
         area.multiCoordinates.forEach((coordinates) {
-//          tempList.clear();
           coordinates.forEach((coordinate) {
+            List<LatLng> tempList = [];
             coordinate.forEach((coord) {
 //              print(coord);
               String c = coord.toString();
@@ -238,16 +243,24 @@ class _ParkingMapState extends State<ParkingMap> {
                 tempList.add(parsePriceArea(x, y));
               }
             });
-            polygonPoints.add(tempList);
-//            print(tempList.length);
+            polygonPointsExtended.putIfAbsent(tempList
+                , () => '${area.areaId.toString()}, ${area
+                    .priceGroup}, $counter');
+            counter++;
+//            polygonPoints.add(tempList);
           });
-          createPolygon(tempList, area.priceGroup);
         });
       }
-//      polygonPoints.forEach((list) {
-//        createPolygon(list, area.priceGroup);
-//      });
     });
+    print(polygonPointsExtended.length);
+    polygonPointsExtended.forEach((key, value) {
+      createPolygon(key, value);
+    });
+//    int counter = 0;
+//    polygonPoints.forEach((list) {
+//      createPolygon(list, 'test$counter');
+//      counter++;
+//    });
   }
 
   Map<int, String> getPriceGroup(PriceArea priceArea) {
@@ -261,13 +274,7 @@ class _ParkingMapState extends State<ParkingMap> {
     }
   }
 
-  void checkLocationPrice(Marker marker) {
-    polygons.forEach((poly) {
-      GoogleMapPolyUtil.containsLocation(
-          point: marker.position, polygon: poly.points)
-          .then((result) => print(result));
-    });
-  }
+
 
   LatLng parsePriceArea(double x, double y) {
     var pointSrc = Point(x: x, y: y);
@@ -288,7 +295,7 @@ class _ParkingMapState extends State<ParkingMap> {
           points: list,
           strokeColor: Colors.red,
           strokeWidth: 1,
-          fillColor: Colors.lightBlueAccent.withOpacity(0.3)
+          fillColor: Colors.lightBlueAccent.withOpacity(0.1)
       ));
     });
   }
@@ -449,13 +456,13 @@ class _ParkingMapState extends State<ParkingMap> {
 
   void getMarkers() {
     parkingSpotsList.forEach((element) async {
-//      BitmapDescriptor bitmapDescriptor = await createCustomMarkerBitmap(
-//          element.availableParkingSpots);
+      BitmapDescriptor bitmapDescriptor = await createCustomMarkerBitmap(
+          element.availableParkingSpots);
       setState(() {
         allMarkers.add(Marker(
             markerId: MarkerId(element.streetName),
-            icon: BitmapDescriptor.defaultMarker,
-//            icon: bitmapDescriptor,
+//            icon: BitmapDescriptor.defaultMarker,
+            icon: bitmapDescriptor,
             visible: true,
             draggable: false,
             onTap: () {
@@ -580,6 +587,7 @@ class ParkingDialogState extends State<ParkingDialogWidget> {
   }
 
   Widget _parkingDialogWidget(element) {
+    checkLocationPrice(element.coordinates);
     IconData favoriteIconData = Icons.favorite;
     String favoriteString = 'Add to favorites';
     if (element.favorite == false) {
@@ -787,9 +795,16 @@ class ParkingDialogState extends State<ParkingDialogWidget> {
       ),
     );
   }
+
+  void checkLocationPrice(LatLng latlng) {
+    polygons.forEach((poly) {
+      GoogleMapPolyUtil.containsLocation(
+          point: latlng, polygon: poly.points)
+          .then((result) => print(result));
+    });
+  }
+
 }
-
-
 
 void parseParkingCoordinates(List<dynamic> coordinates) {
   bool favorite = false;
