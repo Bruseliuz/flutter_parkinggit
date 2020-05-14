@@ -1,3 +1,4 @@
+//import 'dart:html';
 import 'dart:math';
 
 import 'package:geojson/geojson.dart';
@@ -29,6 +30,7 @@ import 'package:proj4dart/proj4dart.dart';
 ParkingArea selectedParking;
 int distance;
 String preference;
+String parkingPrice;
 User globalUser;
 List<String> favoriteDocumentsId = [];
 final CollectionReference parkCollection =
@@ -39,6 +41,7 @@ Map<List<LatLng>, String> polygonPointsExtended = {};
 Set<LatLng> priceAreaPoints = {};
 Set<Polygon> polygons = {};
 Set<PriceArea> priceAreas = {};
+Map<String, String> markerPrice = {};
 
 class ParkingMap extends StatefulWidget {
 //  ParkingMap({@required Key key}) : super(key: key);
@@ -110,9 +113,20 @@ class _ParkingMapState extends State<ParkingMap> {
                 label: Text('Find Nearby\n   Parking'),
                 backgroundColor: Color(0xff207FC5),
                 onPressed: () async {
+                  await getPriceAreas();
                   await getCurrentLocation();
 //                    print(allMarkers.toString());
-                  await getPriceAreas();
+                  print(allMarkers);
+                  allMarkers.forEach((marker) {
+                    polygons.forEach((poly) async {
+                      bool result = await GoogleMapPolyUtil.containsLocation(
+                          point: marker.position, polygon: poly.points);
+                      if (result == true) {
+                        markerPrice.putIfAbsent(
+                            marker.markerId.value, () => poly.polygonId.value);
+                      }
+                    });
+                  });
                   if (allMarkers.isEmpty) {
                     showDialog(
                         context: context,
@@ -241,8 +255,7 @@ class _ParkingMapState extends State<ParkingMap> {
               }
             });
             polygonPointsExtended.putIfAbsent(tempList
-                , () => '${area.areaId.toString()}, ${area
-                    .priceGroup}, $counter');
+                , () => '${area.priceGroupInfo}');
             counter++;
 //            polygonPoints.add(tempList);
           });
@@ -270,7 +283,6 @@ class _ParkingMapState extends State<ParkingMap> {
         return [26, ''].asMap();
     }
   }
-
 
 
   LatLng parsePriceArea(double x, double y) {
@@ -371,7 +383,7 @@ class _ParkingMapState extends State<ParkingMap> {
         parseParkingCoordinates(list);
       });
       allMarkers.clear();
-      getMarkers();
+      await getMarkers();
     } catch  (e){
       //TODO - Felmeddelande vid fel i APIet
     }
@@ -381,8 +393,8 @@ class _ParkingMapState extends State<ParkingMap> {
     LocationData location = await _locationTracker.getLocation();
     LatLng loc = new LatLng(
         (location.latitude + 0.01), (location.longitude + 0.01));
-  //  BitmapDescriptor bitmapDescriptor = await createCustomMarkerBitmap(
- //       '5');
+    //  BitmapDescriptor bitmapDescriptor = await createCustomMarkerBitmap(
+    //       '5');
     setState(() {
       allMarkers.add(Marker(
           markerId: MarkerId('test'),
@@ -397,7 +409,6 @@ class _ParkingMapState extends State<ParkingMap> {
           },
           position: loc));
     });
-
   }
 
   Widget fakeParkingAlert(LatLng latLng) {
@@ -451,14 +462,15 @@ class _ParkingMapState extends State<ParkingMap> {
     );
   }
 
-  void getMarkers() {
+  Future getMarkers() async {
     parkingSpotsList.forEach((element) async {
-      BitmapDescriptor bitmapDescriptor = await createCustomMarkerBitmap(
-          element.availableParkingSpots);
+//      BitmapDescriptor bitmapDescriptor = await createCustomMarkerBitmap(
+//          element.availableParkingSpots);
       setState(() {
         allMarkers.add(Marker(
             markerId: MarkerId(element.streetName),
-            icon: bitmapDescriptor,
+//            icon: bitmapDescriptor,
+            icon: BitmapDescriptor.defaultMarker,
             visible: true,
             draggable: false,
             onTap: () {
@@ -489,7 +501,6 @@ class _ParkingMapState extends State<ParkingMap> {
           bottomRight: radius,
         ),
         paint);
-
 
 
     TextSpan span = new TextSpan(
@@ -586,8 +597,9 @@ class ParkingDialogState extends State<ParkingDialogWidget> {
   }
 
   Widget _parkingDialogWidget(element) {
-    String priceInfo = checkLocationPrice(element.coordinates);
-    print(priceInfo);
+    String priceInfo = markerPrice[element.streetName];
+    List<String> infoList = priceInfo.split(', ');
+    String price = infoList[0];
     IconData favoriteIconData = Icons.favorite;
     String favoriteString = 'Add to favorites';
     if (element.favorite == false) {
@@ -626,7 +638,7 @@ class ParkingDialogState extends State<ParkingDialogWidget> {
           ],
         ),
         content: Container(
-          height: 120,
+          height: 150,
           width: double.infinity,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -642,7 +654,7 @@ class ParkingDialogState extends State<ParkingDialogWidget> {
                     style: TextStyle(color: Color(0xff207FC5)),
                   ),
                   Text(
-                    'Price',
+                    price,
                     style: TextStyle(color: Color(0xff207FC5)),
                   ),
                 ],
@@ -723,8 +735,9 @@ class ParkingDialogState extends State<ParkingDialogWidget> {
                   ),
                   onPressed: () async {
                     if (element.favorite == false) {
-                      String latLon = element.coordinates.latitude.toString();
-                      latLon += ', ${element.coordinates.longitude}';
+                      String latLon = '${element.coordinates.latitude
+                          .toString()}, '
+                          '${element.coordinates.longitude}';
                       await DatabaseService(uid: globalUser.uid)
                           .updateUserFavorites(
                           latLon,
@@ -771,8 +784,10 @@ class ParkingDialogState extends State<ParkingDialogWidget> {
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20)),
                       onPressed: () {
-                        Navigator.pushNamed(context, '/timer');
+                        List list = price.split(' ');
                         selectedParking = element;
+                        parkingPrice = list[0];
+                        Navigator.pushNamed(context, '/timer');
                       },
                       icon: Icon(
                         Icons.timer,
@@ -796,21 +811,6 @@ class ParkingDialogState extends State<ParkingDialogWidget> {
     );
   }
 
-  String checkLocationPrice(LatLng latlng) {
-    String priceInfo = 'none';
-    polygons.forEach((poly) async {
-      priceInfo = await GoogleMapPolyUtil.containsLocation(
-          point: latlng, polygon: poly.points)
-          .then((result) {
-        if (result == true) {
-          return poly.polygonId.value;
-        } else {
-          return 'none';
-        }
-      });
-      return priceInfo;
-    });
-  }
 
 }
 
