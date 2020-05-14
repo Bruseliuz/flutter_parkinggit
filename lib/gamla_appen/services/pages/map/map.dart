@@ -1,6 +1,4 @@
 import 'dart:math';
-
-import 'package:geojson/geojson.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_map_polyutil/google_map_polyutil.dart';
 import 'dart:typed_data';
@@ -13,9 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/map/price_area.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:utm/utm.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/database.dart';
-import 'package:flutterparkinggit/gamla_appen/services/pages/map/park_timer.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/map/parking_area.dart';
@@ -205,9 +201,10 @@ class _ParkingMapState extends State<ParkingMap> {
       controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
         target:
           LatLng(result[0].position.latitude, result[0].position.longitude), zoom: 15.0)));
+      //TODO - Print Parking Markers
     });
-
   }
+
 
   Widget _noParkingAlertDialogWidget() {
     return AlertDialog(
