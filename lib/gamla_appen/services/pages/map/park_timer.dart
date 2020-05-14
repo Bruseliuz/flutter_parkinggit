@@ -80,7 +80,7 @@ class _ParkTimerState extends State<ParkTimer> {
                                           )
                                       ),
                                       TextSpan(
-                                          text: '26kr/h',
+                                          text: '$parkingPrice kr/tim',
                                           style: TextStyle(
                                               color: Colors.white,
                                               fontSize: 15,
@@ -153,7 +153,7 @@ class _ParkTimerState extends State<ParkTimer> {
                     Row(
                       children: <Widget>[
                         SizedBox(width: 10),
-                        Text('45 kr',
+                        Text('$parkingPrice kr/tim',
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 50,
