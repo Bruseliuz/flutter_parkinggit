@@ -11,10 +11,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/map/price_area.dart';
+import 'package:location/location.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/database.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:location/location.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/map/parking_area.dart';
 import 'dart:async';
 import 'package:http/http.dart';
@@ -496,12 +496,12 @@ class _ParkingMapState extends State<ParkingMap> {
 
   Future getMarkers() async {
     parkingSpotsList.forEach((element) async {
-//      BitmapDescriptor bitmapDescriptor = await createCustomMarkerBitmap(
-//          element.availableParkingSpots);
+  //    BitmapDescriptor bitmapDescriptor = await createCustomMarkerBitmap(
+    //      element.availableParkingSpots);
       setState(() {
         allMarkers.add(Marker(
             markerId: MarkerId(element.streetName),
-//            icon: bitmapDescriptor,
+   //         icon: bitmapDescriptor,
             icon: BitmapDescriptor.defaultMarker,
             visible: true,
             draggable: false,
@@ -538,7 +538,7 @@ class _ParkingMapState extends State<ParkingMap> {
       style: new TextStyle(
         backgroundColor: Colors.white,
         color: Colors.black,
-        fontSize: 33.0,
+        fontSize: 34.0,
         fontWeight: FontWeight.bold,
       ),
       text: title,
@@ -561,7 +561,7 @@ class _ParkingMapState extends State<ParkingMap> {
 
     c.clipPath(Path()..addOval(oval));
 
-    ui.Image image = await getImageFromPath('locmarker35.png');
+    ui.Image image = await getImageFromPath('locmarker777.png');
     paintImage(canvas: c, image: image, rect: oval, fit: BoxFit.fitWidth);
 
     final ui.Image markerAsImage = await recorder
