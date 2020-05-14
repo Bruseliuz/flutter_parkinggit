@@ -219,6 +219,7 @@ class _ParkingMapState extends State<ParkingMap> {
       controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
         target:
           LatLng(result[0].position.latitude, result[0].position.longitude), zoom: 15.0)));
+      await getData(LatLng(result[0].position.latitude, result[0].position.longitude));
     });
 
   }
@@ -499,13 +500,13 @@ class _ParkingMapState extends State<ParkingMap> {
 
   Future getMarkers() async {
     parkingSpotsList.forEach((element) async {
-  //    BitmapDescriptor bitmapDescriptor = await createCustomMarkerBitmap(
-    //      element.availableParkingSpots);
+      BitmapDescriptor bitmapDescriptor = await createCustomMarkerBitmap(
+          element.availableParkingSpots);
       setState(() {
         allMarkers.add(Marker(
             markerId: MarkerId(element.streetName),
-   //         icon: bitmapDescriptor,
-            icon: BitmapDescriptor.defaultMarker,
+            icon: bitmapDescriptor,
+   //         icon: BitmapDescriptor.defaultMarker,
             visible: true,
             draggable: false,
             onTap: () {
