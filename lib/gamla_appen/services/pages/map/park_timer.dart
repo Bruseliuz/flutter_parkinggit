@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -17,6 +19,7 @@ class _ParkTimerState extends State<ParkTimer> {
   String setParkingText = '';
   Color startTimerColor = Colors.green[300];
   Color endTimerColor = Colors.red[100];
+  bool timerStarted = false;
 
   @override
   Widget build(BuildContext context) {
@@ -242,8 +245,13 @@ class _ParkTimerState extends State<ParkTimer> {
                             elevation: 4.0,
                             onPressed: () {
                               setState(() {
-                                startTimerColor = Colors.green[100];
-                                endTimerColor = Colors.red[300];
+                                if(picked == TimeOfDay.now()){
+                                  noTimeSelectedDialog(context);
+                                }else{
+                                  startTimerColor = Colors.lightGreen[100];
+                                  endTimerColor = Colors.red[300];
+                                  timerStarted = true;
+                                }
                               });
                               },
                             padding: EdgeInsets.all(15),
@@ -273,7 +281,9 @@ class _ParkTimerState extends State<ParkTimer> {
                             color: endTimerColor,
                             elevation: 4.0,
                             onPressed: () {
-                              Navigator.pop(context);
+                              if(timerStarted == true){
+                                Navigator.pop(context);
+                              }
                             },
                             padding: EdgeInsets.all(15),
                             child: Row(
@@ -307,6 +317,59 @@ class _ParkTimerState extends State<ParkTimer> {
           ]),
     );
   }
+
+
+  Future<void> noTimeSelectedDialog(BuildContext context) {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          child: AlertDialog(
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+            contentPadding: EdgeInsets.fromLTRB(10, 5, 10, 10),
+            elevation: 3.0,
+            title: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Icon(Icons.error_outline,
+                  color: Color(0xff207FC5)),
+            ]),
+            content: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                Text('Please enter the end-time\n       for your parking.',
+                  style: TextStyle(
+                      color: Color(0xff207FC5)
+                  ),),
+              ],
+            ),
+            actions: <Widget>[
+                    Container(
+                      padding: EdgeInsets.only(left: 100, right: 100),
+                      child: MaterialButton(
+                        onPressed: (){
+                          Navigator.pop(context);
+                        },
+                        color: Colors.white,
+                        elevation: 0.0,
+                        child: Row(
+                          children: <Widget>[
+                            Text('OK',
+                            style: TextStyle(
+                              color: Color(0xff207FC5)
+                            ),)
+                          ],
+                        ),
+                      ),
+                    )
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+
   Future<Null> selectTime(BuildContext context) async {
     _time = await showTimePicker(
         context: context,
