@@ -14,7 +14,7 @@ class Favorites extends StatefulWidget {
 }
 
 class _FavoritesState extends State<Favorites> {
-  )
+
   List<ParkingArea> _favParksList = [];
 
   Widget build(BuildContext context) {
