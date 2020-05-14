@@ -84,19 +84,21 @@ class _ParkingMapState extends State<ParkingMap> {
             UserData userData = snapshot.data;
             setPreference(userData);
             return Scaffold(
-              body: Container(
-                child: GoogleMap(
-                  polygons: polygons,
-                  myLocationEnabled: true,
-                  myLocationButtonEnabled: false,
-                  zoomControlsEnabled: false,
-                  onMapCreated: _onMapCreated,
-                  markers: Set<Marker>.of(allMarkers),
-                  initialCameraPosition: CameraPosition(
-                    target: _center,
-                    zoom: 12.0,
+              body: Stack(
+                children: <Widget>[
+                  GoogleMap(
+                    polygons: polygons,
+                    myLocationEnabled: true,
+                    myLocationButtonEnabled: false,
+                    zoomControlsEnabled: false,
+                    onMapCreated: _onMapCreated,
+                    markers: Set<Marker>.of(allMarkers),
+                    initialCameraPosition: CameraPosition(
+                      target: _center,
+                      zoom: 12.0,
+                    ),
                   ),
-                ),
+                ],
               ),
               floatingActionButtonLocation: FloatingActionButtonLocation
                   .centerFloat,
@@ -125,18 +127,20 @@ class _ParkingMapState extends State<ParkingMap> {
             distance = 100;
             preference = 'ptillaten';
             return Scaffold(
-              body: Container(
-                child: GoogleMap(
-                  myLocationEnabled: true,
-                  myLocationButtonEnabled: false,
-                  zoomControlsEnabled: false,
-                  onMapCreated: _onMapCreated,
-                  initialCameraPosition: CameraPosition(
-                    target: _center,
-                    zoom: 12.0,
+              body: Stack(
+                children: <Widget>[
+                  GoogleMap(
+                    myLocationEnabled: true,
+                    myLocationButtonEnabled: false,
+                    zoomControlsEnabled: false,
+                    onMapCreated: _onMapCreated,
+                    initialCameraPosition: CameraPosition(
+                      target: _center,
+                      zoom: 12.0,
+                    ),
+                    markers: Set<Marker>.of(allMarkers),
                   ),
-                  markers: Set<Marker>.of(allMarkers),
-                ),
+                ],
               ),
               floatingActionButtonLocation:
               FloatingActionButtonLocation.centerFloat,

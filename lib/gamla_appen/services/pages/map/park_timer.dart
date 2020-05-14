@@ -318,7 +318,6 @@ class _ParkTimerState extends State<ParkTimer> {
     );
   }
 
-
   Future<void> noTimeSelectedDialog(BuildContext context) {
     return showDialog<void>(
       context: context,
