@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:geojson/geojson.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_map_polyutil/google_map_polyutil.dart';
 import 'dart:typed_data';
 import 'dart:io';
@@ -25,14 +26,13 @@ import 'package:flutterparkinggit/gamla_appen/models/user.dart';
 import 'package:provider/provider.dart';
 import 'package:proj4dart/proj4dart.dart';
 
-
 ParkingArea selectedParking;
 int distance;
 String preference;
 User globalUser;
 List<String> favoriteDocumentsId = [];
 final CollectionReference parkCollection =
-Firestore.instance.collection("parkingPreference");
+    Firestore.instance.collection("parkingPreference");
 List<ParkingArea> parkingSpotsList = [];
 Set<List<LatLng>> polygonPoints = {};
 Map<List<LatLng>, String> polygonPointsExtended = {};
@@ -53,6 +53,7 @@ class _ParkingMapState extends State<ParkingMap> {
   List<Marker> allMarkers = []; //TODO - 3 Lists
   Completer<GoogleMapController> _controller = Completer();
   static LatLng _center = LatLng(59.334591, 18.063240);
+  String searchAddress;
 
   @override
   void initState() {
@@ -98,10 +99,40 @@ class _ParkingMapState extends State<ParkingMap> {
                       zoom: 12.0,
                     ),
                   ),
+                  Positioned(
+                    top: 30.0,
+                    right: 15.0,
+                    left: 15.0,
+                    child: Container(
+                      height: 50.0,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10.0),
+                        color: Colors.white
+                      ),
+                      child: TextField(
+                        decoration: InputDecoration(
+                          hintText: 'Search for address',
+                          border: InputBorder.none,
+                          contentPadding: EdgeInsets.only(left: 15.0, top: 15.0),
+                          suffixIcon: IconButton(
+                              icon: Icon(Icons.search),
+                          onPressed: searchAndNavigate,
+                          iconSize: 30.0
+                          )
+                        ),
+                        onChanged: (val) {
+                          setState(() {
+                            searchAddress = val;
+                          });
+                        },
+                      ),
+                    ),
+                  )
                 ],
               ),
-              floatingActionButtonLocation: FloatingActionButtonLocation
-                  .centerFloat,
+              floatingActionButtonLocation:
+                  FloatingActionButtonLocation.centerFloat,
               floatingActionButton: FloatingActionButton.extended(
                 elevation: 3.0,
                 shape: RoundedRectangleBorder(
@@ -127,23 +158,21 @@ class _ParkingMapState extends State<ParkingMap> {
             distance = 100;
             preference = 'ptillaten';
             return Scaffold(
-              body: Stack(
-                children: <Widget>[
-                  GoogleMap(
-                    myLocationEnabled: true,
-                    myLocationButtonEnabled: false,
-                    zoomControlsEnabled: false,
-                    onMapCreated: _onMapCreated,
-                    initialCameraPosition: CameraPosition(
-                      target: _center,
-                      zoom: 12.0,
-                    ),
-                    markers: Set<Marker>.of(allMarkers),
+              body: Container(
+                child: GoogleMap(
+                  myLocationEnabled: true,
+                  myLocationButtonEnabled: false,
+                  zoomControlsEnabled: false,
+                  onMapCreated: _onMapCreated,
+                  initialCameraPosition: CameraPosition(
+                    target: _center,
+                    zoom: 12.0,
                   ),
-                ],
+                  markers: Set<Marker>.of(allMarkers),
+                ),
               ),
               floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerFloat,
+                  FloatingActionButtonLocation.centerFloat,
               floatingActionButton: FloatingActionButton.extended(
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(16.0))),
@@ -170,6 +199,16 @@ class _ParkingMapState extends State<ParkingMap> {
         });
   }
 
+  searchAndNavigate() {
+    Geolocator().placemarkFromAddress(searchAddress).then((result) async {
+      final GoogleMapController controller = await _controller.future;
+      controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
+        target:
+          LatLng(result[0].position.latitude, result[0].position.longitude), zoom: 15.0)));
+    });
+
+  }
+
   Widget _noParkingAlertDialogWidget() {
     return AlertDialog(
       elevation: 3.0,
@@ -183,7 +222,7 @@ class _ParkingMapState extends State<ParkingMap> {
         child: FlatButton.icon(
           color: Colors.white,
           shape:
-          RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           onPressed: () {
             Navigator.of(context).pop();
           },
@@ -206,9 +245,8 @@ class _ParkingMapState extends State<ParkingMap> {
         'http://openstreetgs.stockholm.se/geoservice/api/e734eaa7-d9b5-422a-9521-844554d9965b/wfs/?version=1.0.0&request=GetFeature&typename=ltfr:LTFR_TAXA_VIEW&outputFormat=json');
     Map data = jsonDecode(response.body);
     var dataList = data['features'] as List;
-    priceAreas = dataList
-        .map<PriceArea>((json) => PriceArea.fromJson(json))
-        .toSet();
+    priceAreas =
+        dataList.map<PriceArea>((json) => PriceArea.fromJson(json)).toSet();
     int counter = 0;
     priceAreas.forEach((area) {
 //      print(area.coordinates);
@@ -223,8 +261,8 @@ class _ParkingMapState extends State<ParkingMap> {
             double y = double.parse(coordList[1]);
             tempList.add(parsePriceArea(x, y));
           });
-          polygonPointsExtended.putIfAbsent(tempList
-              , () => '${area.areaId.toString()}, ${area.priceGroup}');
+          polygonPointsExtended.putIfAbsent(
+              tempList, () => '${area.areaId.toString()}, ${area.priceGroup}');
 //          polygonPoints.add(tempList);
 //          createPolygon(tempList, area.priceGroup);
         });
@@ -244,9 +282,10 @@ class _ParkingMapState extends State<ParkingMap> {
                 tempList.add(parsePriceArea(x, y));
               }
             });
-            polygonPointsExtended.putIfAbsent(tempList
-                , () => '${area.areaId.toString()}, ${area
-                    .priceGroup}, $counter');
+            polygonPointsExtended.putIfAbsent(
+                tempList,
+                () =>
+                    '${area.areaId.toString()}, ${area.priceGroup}, $counter');
             counter++;
 //            polygonPoints.add(tempList);
           });
@@ -275,8 +314,6 @@ class _ParkingMapState extends State<ParkingMap> {
     }
   }
 
-
-
   LatLng parsePriceArea(double x, double y) {
     var pointSrc = Point(x: x, y: y);
     var def =
@@ -296,8 +333,7 @@ class _ParkingMapState extends State<ParkingMap> {
           points: list,
           strokeColor: Colors.red,
           strokeWidth: 1,
-          fillColor: Colors.lightBlueAccent.withOpacity(0.1)
-      ));
+          fillColor: Colors.lightBlueAccent.withOpacity(0.1)));
     });
   }
 
@@ -326,6 +362,7 @@ class _ParkingMapState extends State<ParkingMap> {
     }
   }
 
+  
   void _onMapCreated(GoogleMapController controller) {
     _controller.complete(controller);
   }
@@ -361,10 +398,7 @@ class _ParkingMapState extends State<ParkingMap> {
   Future<void> getData(LatLng location) async {
 //    print(distance);
     Response response = await get(
-        'https://openparking.stockholm.se/LTF-Tolken/v1/${preference
-            .toString()}/within?radius=$distance&lat=${location.latitude
-            .toString()}&lng=${location.longitude
-            .toString()}&outputFormat=json&apiKey=e734eaa7-d9b5-422a-9521-844554d9965b');
+        'https://openparking.stockholm.se/LTF-Tolken/v1/${preference.toString()}/within?radius=$distance&lat=${location.latitude.toString()}&lng=${location.longitude.toString()}&outputFormat=json&apiKey=e734eaa7-d9b5-422a-9521-844554d9965b');
     try {
       Map data = jsonDecode(response.body);
       var dataList = data['features'] as List;
@@ -376,17 +410,17 @@ class _ParkingMapState extends State<ParkingMap> {
       });
       allMarkers.clear();
       getMarkers();
-    } catch  (e){
+    } catch (e) {
       //TODO - Felmeddelande vid fel i APIet
     }
   }
 
   Future fakeMarkers() async {
     LocationData location = await _locationTracker.getLocation();
-    LatLng loc = new LatLng(
-        (location.latitude + 0.01), (location.longitude + 0.01));
-  //  BitmapDescriptor bitmapDescriptor = await createCustomMarkerBitmap(
- //       '5');
+    LatLng loc =
+        new LatLng((location.latitude + 0.01), (location.longitude + 0.01));
+    //  BitmapDescriptor bitmapDescriptor = await createCustomMarkerBitmap(
+    //       '5');
     setState(() {
       allMarkers.add(Marker(
           markerId: MarkerId('test'),
@@ -395,13 +429,10 @@ class _ParkingMapState extends State<ParkingMap> {
           visible: true,
           draggable: false,
           onTap: () {
-            showDialog(
-                context: context,
-                builder: (_) => fakeParkingAlert(loc));
+            showDialog(context: context, builder: (_) => fakeParkingAlert(loc));
           },
           position: loc));
     });
-
   }
 
   Widget fakeParkingAlert(LatLng latLng) {
@@ -409,56 +440,50 @@ class _ParkingMapState extends State<ParkingMap> {
         child: AlertDialog(
             contentPadding: EdgeInsets.fromLTRB(10, 5, 10, 10),
             elevation: 3.0,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15)),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
             backgroundColor: Colors.white,
-            title: Row(
-                children: <Widget>[
-                  Flexible(
-                    fit: FlexFit.loose,
-                    child: Theme(
-                      data: Theme.of(context).copyWith(
-                        primaryColor: Color(0xff207FC5),
-                        highlightColor: Colors.black,
-                        accentColor: Color(0xff207FC5),
+            title: Row(children: <Widget>[
+              Flexible(
+                fit: FlexFit.loose,
+                child: Theme(
+                  data: Theme.of(context).copyWith(
+                    primaryColor: Color(0xff207FC5),
+                    highlightColor: Colors.black,
+                    accentColor: Color(0xff207FC5),
+                  ),
+                  child: Builder(
+                    builder: (context) => FlatButton.icon(
+                      color: Colors.white,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20)),
+                      onPressed: () {
+                        selectedParking =
+                            new ParkingArea(streetName: 'Randomvägen 1');
+                        Navigator.pushNamed(context, '/timer');
+                      },
+                      icon: Icon(
+                        Icons.timer,
+                        color: Color(0xff207FC5),
                       ),
-                      child: Builder(
-                        builder: (context) =>
-                            FlatButton.icon(
-                              color: Colors.white,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20)),
-                              onPressed: () {
-                                selectedParking = new ParkingArea(
-                                    streetName: 'Randomvägen 1'
-                                );
-                                Navigator.pushNamed(context, '/timer');
-                              },
-                              icon: Icon(
-                                Icons.timer,
-                                color: Color(0xff207FC5),
-                              ),
-                              label: Text(
-                                'Start parking',
-                                style: TextStyle(
-                                  color: Color(0xff207FC5),
-                                  fontSize: 12,
-                                ),
-                              ),
-                            ),
+                      label: Text(
+                        'Start parking',
+                        style: TextStyle(
+                          color: Color(0xff207FC5),
+                          fontSize: 12,
+                        ),
                       ),
                     ),
                   ),
-                ]
-            )
-        )
-    );
+                ),
+              ),
+            ])));
   }
 
   void getMarkers() {
     parkingSpotsList.forEach((element) async {
-      BitmapDescriptor bitmapDescriptor = await createCustomMarkerBitmap(
-          element.availableParkingSpots);
+      BitmapDescriptor bitmapDescriptor =
+          await createCustomMarkerBitmap(element.availableParkingSpots);
       setState(() {
         allMarkers.add(Marker(
             markerId: MarkerId(element.streetName),
@@ -494,8 +519,6 @@ class _ParkingMapState extends State<ParkingMap> {
         ),
         paint);
 
-
-
     TextSpan span = new TextSpan(
       style: new TextStyle(
         backgroundColor: Colors.white,
@@ -523,7 +546,6 @@ class _ParkingMapState extends State<ParkingMap> {
 
     c.clipPath(Path()..addOval(oval));
 
-
     ui.Image image = await getImageFromPath('locmarker35.png');
     paintImage(canvas: c, image: image, rect: oval, fit: BoxFit.fitWidth);
 
@@ -533,7 +555,7 @@ class _ParkingMapState extends State<ParkingMap> {
 
     // Convert image to bytes
     final ByteData byteData =
-    await markerAsImage.toByteData(format: ui.ImageByteFormat.png);
+        await markerAsImage.toByteData(format: ui.ImageByteFormat.png);
     final Uint8List uint8List = byteData.buffer.asUint8List();
 
     return BitmapDescriptor.fromBytes(uint8List);
@@ -557,8 +579,8 @@ class _ParkingMapState extends State<ParkingMap> {
     final byteData = await rootBundle.load('assets/$path');
 
     final file = File('${(await getTemporaryDirectory()).path}/$path');
-    await file.writeAsBytes(byteData.buffer.asUint8List(
-        byteData.offsetInBytes, byteData.lengthInBytes));
+    await file.writeAsBytes(byteData.buffer
+        .asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
 
     return file;
   }
@@ -590,8 +612,7 @@ class ParkingDialogState extends State<ParkingDialogWidget> {
   }
 
   Widget _parkingDialogWidget(element) {
-    String priceInfo = checkLocationPrice(element.coordinates);
-    print(priceInfo);
+    checkLocationPrice(element.coordinates);
     IconData favoriteIconData = Icons.favorite;
     String favoriteString = 'Add to favorites';
     if (element.favorite == false) {
@@ -731,11 +752,11 @@ class ParkingDialogState extends State<ParkingDialogWidget> {
                       latLon += ', ${element.coordinates.longitude}';
                       await DatabaseService(uid: globalUser.uid)
                           .updateUserFavorites(
-                          latLon,
-                          element.streetName,
-                          element.serviceDayInfo,
-                          element.favorite,
-                          element.availableParkingSpots);
+                              latLon,
+                              element.streetName,
+                              element.serviceDayInfo,
+                              element.favorite,
+                              element.availableParkingSpots);
                     } else if (element.favorite == true) {
                       await parkCollection
                           .document(globalUser.uid)
@@ -800,22 +821,12 @@ class ParkingDialogState extends State<ParkingDialogWidget> {
     );
   }
 
-  String checkLocationPrice(LatLng latlng) {
-    String priceInfo = 'none';
-    polygons.forEach((poly) async {
-      priceInfo = await GoogleMapPolyUtil.containsLocation(
-          point: latlng, polygon: poly.points)
-          .then((result) {
-        if (result == true) {
-          return poly.polygonId.value;
-        } else {
-          return 'none';
-        }
-      });
-      return priceInfo;
+  void checkLocationPrice(LatLng latlng) {
+    polygons.forEach((poly) {
+      GoogleMapPolyUtil.containsLocation(point: latlng, polygon: poly.points)
+          .then((result) => print(result));
     });
   }
-
 }
 
 void parseParkingCoordinates(List<dynamic> coordinates) {
@@ -839,7 +850,7 @@ void parseParkingCoordinates(List<dynamic> coordinates) {
           numberOfParkingSpots: element.coordinatesList.length.toString(),
           serviceDayInfo: element.serviceDayInfo,
           availableParkingSpots:
-          getRandomAvailableParkingSpot(element.coordinatesList),
+              getRandomAvailableParkingSpot(element.coordinatesList),
           favorite: favorite),
     );
     parkingSpotsList = tempList;
