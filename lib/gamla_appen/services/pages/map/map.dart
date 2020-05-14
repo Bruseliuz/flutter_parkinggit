@@ -60,12 +60,17 @@ class _ParkingMapState extends State<ParkingMap> {
   String searchAddress;
   final Set<Polyline> polyline = {};
   List<LatLng> routeCoords;
-  GoogleMapPolyline googleMapPolyline = new GoogleMapPolyline(apiKey: "AIzaSyDCKuA95vaqlu92GXWkgpc2vSrgYmCVabI");
+  GoogleMapPolyline googleMapPolyline =
+      new GoogleMapPolyline(apiKey: "AIzaSyDCKuA95vaqlu92GXWkgpc2vSrgYmCVabI");
 
-  getPoints(ParkingArea p)  async {
+  getPoints(ParkingArea p) async {
     var location = await _locationTracker.getLocation();
-    routeCoords = await googleMapPolyline.getCoordinatesWithLocation(origin: LatLng(location.latitude, location.longitude), destination: p.coordinates, mode: RouteMode.driving);
-}
+    routeCoords = await googleMapPolyline.getCoordinatesWithLocation(
+        origin: LatLng(location.latitude, location.longitude),
+        destination: p.coordinates,
+        mode: RouteMode.driving);
+  }
+
   @override
   void initState() {
     super.initState();
@@ -103,7 +108,7 @@ class _ParkingMapState extends State<ParkingMap> {
                     myLocationButtonEnabled: false,
                     zoomControlsEnabled: false,
                     onMapCreated: _onMapCreated,
-                    polylines: polyline,
+                    //polylines: polyline,
                     markers: Set<Marker>.of(allMarkers),
                     initialCameraPosition: CameraPosition(
                       target: _center,
@@ -373,14 +378,13 @@ class _ParkingMapState extends State<ParkingMap> {
   void _onMapCreated(GoogleMapController controller) {
     _controller.complete(controller);
     polyline.add(Polyline(
-      polylineId: PolylineId('route1'),
-      visible: true,
-      points: routeCoords,
-      width: 4,
-      color: Color(0xff207FC5),
-      startCap: Cap.roundCap,
-      endCap: Cap.buttCap
-    ));
+        polylineId: PolylineId('route1'),
+        visible: true,
+        points: routeCoords,
+        width: 4,
+        color: Color(0xff207FC5),
+        startCap: Cap.roundCap,
+        endCap: Cap.buttCap));
   }
 
   Future getCurrentLocation() async {
@@ -397,8 +401,8 @@ class _ParkingMapState extends State<ParkingMap> {
       target: newLocation,
     );
 
-    await controller.animateCamera(
-        CameraUpdate.newCameraPosition(cameraPosition));
+    await controller
+        .animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
     await getData(newLocation);
   }
 
