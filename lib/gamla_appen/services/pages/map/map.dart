@@ -91,7 +91,6 @@ class _ParkingMapState extends State<ParkingMap> {
               body: Stack(
                 children: <Widget>[
                   GoogleMap(
-                    polygons: polygons,
                     myLocationEnabled: true,
                     myLocationButtonEnabled: false,
                     zoomControlsEnabled: false,
@@ -173,6 +172,11 @@ class _ParkingMapState extends State<ParkingMap> {
             preference = 'ptillaten';
             return Scaffold(
               body: Container(
+                child: Text('no map'),
+              ),
+            );
+            /*return Scaffold(
+              body: Container(
                 child: GoogleMap(
                   myLocationEnabled: true,
                   myLocationButtonEnabled: false,
@@ -208,7 +212,7 @@ class _ParkingMapState extends State<ParkingMap> {
                   getPriceAreas();
                 },
               ),
-            );
+            );*/
           }
         });
   }
@@ -281,12 +285,10 @@ class _ParkingMapState extends State<ParkingMap> {
 //          createPolygon(tempList, area.priceGroup);
         });
       } else if (area.polygonType == 'MultiPolygon') {
-        List<List<LatLng>> tempMultiList = [];
         area.multiCoordinates.forEach((coordinates) {
           coordinates.forEach((coordinate) {
             List<LatLng> tempList = [];
             coordinate.forEach((coord) {
-//              print(coord);
               String c = coord.toString();
               String coords = c.replaceAll(RegExp(r"[[\]]"), '');
               List coordList = coords.split(',');
@@ -299,7 +301,6 @@ class _ParkingMapState extends State<ParkingMap> {
             polygonPointsExtended.putIfAbsent(tempList
                 , () => '${area.priceGroupInfo}, $counter');
             counter++;
-//            polygonPoints.add(tempList);
           });
         });
       }
@@ -308,11 +309,6 @@ class _ParkingMapState extends State<ParkingMap> {
     polygonPointsExtended.forEach((key, value) {
       createPolygon(key, value);
     });
-//    int counter = 0;
-//    polygonPoints.forEach((list) {
-//      createPolygon(list, 'test$counter');
-//      counter++;
-//    });
   }
 
   Map<int, String> getPriceGroup(PriceArea priceArea) {
@@ -342,21 +338,11 @@ class _ParkingMapState extends State<ParkingMap> {
     setState(() {
       polygons.add(Polygon(
           polygonId: PolygonId(id),
+          visible: false,
           points: list,
           strokeColor: Colors.red,
           strokeWidth: 1,
           fillColor: Colors.lightBlueAccent.withOpacity(0.1)));
-    });
-  }
-
-  void createMultiPolygon(List list, String id) {
-    setState(() {
-      polygons.add(Polygon(
-          polygonId: PolygonId(id),
-          points: list,
-          strokeWidth: 1,
-          strokeColor: Colors.red,
-          fillColor: Colors.lightBlueAccent.withOpacity(0.3)));
     });
   }
 
@@ -386,17 +372,16 @@ class _ParkingMapState extends State<ParkingMap> {
   }
 
   Future<void> setLocation(LocationData location) async {
+    final GoogleMapController controller = await _controller.future;
     LatLng newLocation = LatLng(location.latitude, location.longitude);
-//    _lastCameraPosition = newLocation;
     CameraPosition cameraPosition = CameraPosition(
       zoom: 15.0,
       target: newLocation,
     );
 
-    final GoogleMapController controller = await _controller.future;
-    controller.animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
+    await controller.animateCamera(
+        CameraUpdate.newCameraPosition(cameraPosition));
     await getData(newLocation);
-//    fakeMarkers();
   }
 
   Widget getFavoriteLabel(element) {
