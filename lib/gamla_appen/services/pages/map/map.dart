@@ -499,12 +499,12 @@ class _ParkingMapState extends State<ParkingMap> {
 
   Future getMarkers() async {
     parkingSpotsList.forEach((element) async {
-//      BitmapDescriptor bitmapDescriptor = await createCustomMarkerBitmap(
-//          element.availableParkingSpots);
+  //    BitmapDescriptor bitmapDescriptor = await createCustomMarkerBitmap(
+    //      element.availableParkingSpots);
       setState(() {
         allMarkers.add(Marker(
             markerId: MarkerId(element.streetName),
-//            icon: bitmapDescriptor,
+   //         icon: bitmapDescriptor,
             icon: BitmapDescriptor.defaultMarker,
             visible: true,
             draggable: false,
@@ -541,7 +541,7 @@ class _ParkingMapState extends State<ParkingMap> {
       style: new TextStyle(
         backgroundColor: Colors.white,
         color: Colors.black,
-        fontSize: 33.0,
+        fontSize: 34.0,
         fontWeight: FontWeight.bold,
       ),
       text: title,
@@ -564,7 +564,7 @@ class _ParkingMapState extends State<ParkingMap> {
 
     c.clipPath(Path()..addOval(oval));
 
-    ui.Image image = await getImageFromPath('locmarker77.png');
+    ui.Image image = await getImageFromPath('locmarker777.png');
     paintImage(canvas: c, image: image, rect: oval, fit: BoxFit.fitWidth);
 
     final ui.Image markerAsImage = await recorder
