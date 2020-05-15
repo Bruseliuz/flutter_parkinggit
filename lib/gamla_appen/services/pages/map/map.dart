@@ -54,18 +54,23 @@ class ParkingMap extends StatefulWidget {
 class _ParkingMapState extends State<ParkingMap> {
   List<DocumentSnapshot> favoriteDocuments = [];
   Location _locationTracker = Location();
-  List<Marker> allMarkers = []; //TODO - 3 Lists
+  List<Marker> allMarkers = [];
   Completer<GoogleMapController> _controller = Completer();
   static LatLng _center = LatLng(59.334591, 18.063240);
   String searchAddress;
   final Set<Polyline> polyline = {};
   List<LatLng> routeCoords;
-  GoogleMapPolyline googleMapPolyline = new GoogleMapPolyline(apiKey: "AIzaSyDCKuA95vaqlu92GXWkgpc2vSrgYmCVabI");
+  GoogleMapPolyline googleMapPolyline =
+      new GoogleMapPolyline(apiKey: "AIzaSyDCKuA95vaqlu92GXWkgpc2vSrgYmCVabI");
 
-  getPoints(ParkingArea p)  async {
+  getPoints(ParkingArea p) async {
     var location = await _locationTracker.getLocation();
-    routeCoords = await googleMapPolyline.getCoordinatesWithLocation(origin: LatLng(location.latitude, location.longitude), destination: p.coordinates, mode: RouteMode.driving);
-}
+    routeCoords = await googleMapPolyline.getCoordinatesWithLocation(
+        origin: LatLng(location.latitude, location.longitude),
+        destination: p.coordinates,
+        mode: RouteMode.driving);
+  }
+
   @override
   void initState() {
     super.initState();
@@ -156,21 +161,7 @@ class _ParkingMapState extends State<ParkingMap> {
                   await getCurrentLocation();
 //                    print(allMarkers.toString());
                   print(allMarkers);
-                  allMarkers.forEach((marker) {
-                    polygons.forEach((poly) async {
-                      bool result = await GoogleMapPolyUtil.containsLocation(
-                          point: marker.position, polygon: poly.points);
-                      if (result == true) {
-                        markerPrice.putIfAbsent(
-                            marker.markerId.value, () => poly.polygonId.value);
-                      }
-                    });
-                  });
-                  if (allMarkers.isEmpty) {
-                    showDialog(
-                        context: context,
-                        builder: (_) => _noParkingAlertDialogWidget());
-                  }
+                  await setMarkers();
                 },
               ),
             );
@@ -223,6 +214,24 @@ class _ParkingMapState extends State<ParkingMap> {
             );*/
           }
         });
+  }
+
+  setMarkers(){
+    allMarkers.forEach((marker) {
+      polygons.forEach((poly) async {
+        bool result = await GoogleMapPolyUtil.containsLocation(
+            point: marker.position, polygon: poly.points);
+        if (result == true) {
+          markerPrice.putIfAbsent(
+              marker.markerId.value, () => poly.polygonId.value);
+        }
+      });
+      if (allMarkers.isEmpty) {
+        showDialog(
+            context: context,
+            builder: (_) => _noParkingAlertDialogWidget());
+      }
+    });
   }
 
   searchAndNavigate() {
@@ -291,8 +300,8 @@ class _ParkingMapState extends State<ParkingMap> {
           });
           polygonPointsExtended.putIfAbsent(
               tempList, () => '${area.areaId.toString()}, ${area.priceGroup}');
-//          polygonPoints.add(tempList);
-//          createPolygon(tempList, area.priceGroup);
+         polygonPoints.add(tempList);
+          createPolygon(tempList, area.priceGroup);
         });
       } else if (area.polygonType == 'MultiPolygon') {
         area.multiCoordinates.forEach((coordinates) {
@@ -373,14 +382,13 @@ class _ParkingMapState extends State<ParkingMap> {
   void _onMapCreated(GoogleMapController controller) {
     _controller.complete(controller);
     polyline.add(Polyline(
-      polylineId: PolylineId('route1'),
-      visible: true,
-      points: routeCoords,
-      width: 4,
-      color: Color(0xff207FC5),
-      startCap: Cap.roundCap,
-      endCap: Cap.buttCap
-    ));
+        polylineId: PolylineId('route1'),
+        visible: true,
+        points: routeCoords,
+        width: 4,
+        color: Color(0xff207FC5),
+        startCap: Cap.roundCap,
+        endCap: Cap.buttCap));
   }
 
   Future getCurrentLocation() async {
@@ -397,8 +405,8 @@ class _ParkingMapState extends State<ParkingMap> {
       target: newLocation,
     );
 
-    await controller.animateCamera(
-        CameraUpdate.newCameraPosition(cameraPosition));
+    await controller
+        .animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
     await getData(newLocation);
   }
 
@@ -633,6 +641,7 @@ class ParkingDialogState extends State<ParkingDialogWidget> {
   }
 
   Widget _parkingDialogWidget(element) {
+    print(markerPrice[element.streetName]);
     String priceInfo = markerPrice[element.streetName];
     List<String> infoList = priceInfo.split(', ');
     String price = infoList[0];
@@ -802,7 +811,6 @@ class ParkingDialogState extends State<ParkingDialogWidget> {
                         favoriteString = 'Remove';
                       }
                     });
-//                    print('Lägg till i favorites');
                   },
                 ),
               ),

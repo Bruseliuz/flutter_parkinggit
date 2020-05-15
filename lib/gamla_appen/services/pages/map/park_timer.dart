@@ -1,10 +1,7 @@
-import 'dart:math';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/map/map.dart';
-import 'package:flutterparkinggit/gamla_appen/shared/constants.dart';
 
 
 class ParkTimer extends StatefulWidget {
@@ -317,7 +314,6 @@ class _ParkTimerState extends State<ParkTimer> {
           ]),
     );
   }
-
 
   Future<void> noTimeSelectedDialog(BuildContext context) {
     return showDialog<void>(
