@@ -52,6 +52,7 @@ class ParkingMap extends StatefulWidget {
 }
 
 class _ParkingMapState extends State<ParkingMap> {
+
   List<DocumentSnapshot> favoriteDocuments = [];
   Location _locationTracker = Location();
   List<Marker> allMarkers = [];
@@ -64,11 +65,21 @@ class _ParkingMapState extends State<ParkingMap> {
       new GoogleMapPolyline(apiKey: "AIzaSyDCKuA95vaqlu92GXWkgpc2vSrgYmCVabI");
 
   getPoints(ParkingArea p) async {
-    var location = await _locationTracker.getLocation();
-    routeCoords = await googleMapPolyline.getCoordinatesWithLocation(
-        origin: LatLng(location.latitude, location.longitude),
-        destination: p.coordinates,
-        mode: RouteMode.driving);
+    polyline.clear();
+     var currentLocation = await Geolocator().getCurrentPosition();
+      routeCoords = await googleMapPolyline.getCoordinatesWithLocation(
+          origin: LatLng(currentLocation.latitude, currentLocation.longitude),
+          destination: p.coordinates, mode: RouteMode.walking);
+      setState(() {
+        polyline.add(Polyline(
+            polylineId: PolylineId('route1'),
+            visible: true,
+            points: routeCoords,
+            width: 4,
+            color: Color(0xff207FC5),
+            startCap: Cap.roundCap,
+            endCap: Cap.buttCap));
+      });
   }
 
   @override
@@ -104,13 +115,12 @@ class _ParkingMapState extends State<ParkingMap> {
               body: Stack(
                 children: <Widget>[
                   GoogleMap(
-                    compassEnabled: false,
                     myLocationEnabled: true,
                     myLocationButtonEnabled: false,
                     zoomControlsEnabled: false,
                     onMapCreated: _onMapCreated,
-//                  polylines: polyline,
                     markers: Set<Marker>.of(allMarkers),
+                    polylines: polyline,
                     initialCameraPosition: CameraPosition(
                       target: _center,
                       zoom: 12.0,
@@ -146,11 +156,9 @@ class _ParkingMapState extends State<ParkingMap> {
                   )
                 ],
               ),
-
               floatingActionButtonLocation:
                   FloatingActionButtonLocation.centerFloat,
               floatingActionButton: FloatingActionButton.extended(
-
                 elevation: 3.0,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15)),
@@ -219,7 +227,7 @@ class _ParkingMapState extends State<ParkingMap> {
         });
   }
 
-  setMarkers() async {
+  setMarkers() {
     allMarkers.forEach((marker) {
       polygons.forEach((poly) async {
         bool result = await GoogleMapPolyUtil.containsLocation(
@@ -231,8 +239,7 @@ class _ParkingMapState extends State<ParkingMap> {
       });
       if (allMarkers.isEmpty) {
         showDialog(
-            context: context,
-            builder: (_) => _noParkingAlertDialogWidget());
+            context: context, builder: (_) => _noParkingAlertDialogWidget());
       }
     });
   }
@@ -303,7 +310,7 @@ class _ParkingMapState extends State<ParkingMap> {
           });
           polygonPointsExtended.putIfAbsent(
               tempList, () => '${area.areaId.toString()}, ${area.priceGroup}');
-         polygonPoints.add(tempList);
+          polygonPoints.add(tempList);
           createPolygon(tempList, area.priceGroup);
         });
       } else if (area.polygonType == 'MultiPolygon') {
@@ -364,7 +371,7 @@ class _ParkingMapState extends State<ParkingMap> {
           points: list,
           strokeColor: Colors.red,
           strokeWidth: 1,
-          fillColor: Colors.lightBlueAccent));
+          fillColor: Colors.lightBlueAccent.withOpacity(0.1)));
     });
   }
 
@@ -384,14 +391,6 @@ class _ParkingMapState extends State<ParkingMap> {
 
   void _onMapCreated(GoogleMapController controller) {
     _controller.complete(controller);
-    polyline.add(Polyline(
-        polylineId: PolylineId('route1'),
-        visible: true,
-        points: routeCoords,
-        width: 4,
-        color: Color(0xff207FC5),
-        startCap: Cap.roundCap,
-        endCap: Cap.buttCap));
   }
 
   Future getCurrentLocation() async {
@@ -512,20 +511,21 @@ class _ParkingMapState extends State<ParkingMap> {
 
   Future getMarkers() async {
     parkingSpotsList.forEach((element) async {
-//      BitmapDescriptor bitmapDescriptor =
-//          await createCustomMarkerBitmap(element.availableParkingSpots);
+      //     BitmapDescriptor bitmapDescriptor =
+      //         await createCustomMarkerBitmap(element.availableParkingSpots);
       setState(() {
         allMarkers.add(Marker(
             markerId: MarkerId(element.streetName),
-//            icon: bitmapDescriptor,
+            //          icon: bitmapDescriptor,
             icon: BitmapDescriptor.defaultMarker,
             visible: true,
             draggable: false,
             onTap: () {
+              getPoints(element);
               showDialog(
                   context: context,
                   builder: (_) => ParkingDialogWidget(parkingArea: element));
-              getPoints(element);
+
             },
             position: element.coordinates));
       });
@@ -696,6 +696,10 @@ class ParkingDialogState extends State<ParkingDialogWidget> {
                   Icon(
                     Icons.attach_money,
                     color: Color(0xff207FC5),
+                  ),
+                  Text(
+                    'Price per hours: ',
+                    style: TextStyle(color: Color(0xff207FC5)),
                   ),
                   Text(
                     price,
