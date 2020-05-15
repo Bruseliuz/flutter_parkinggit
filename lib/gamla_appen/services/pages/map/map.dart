@@ -54,7 +54,7 @@ class ParkingMap extends StatefulWidget {
 class _ParkingMapState extends State<ParkingMap> {
   List<DocumentSnapshot> favoriteDocuments = [];
   Location _locationTracker = Location();
-  List<Marker> allMarkers = []; //TODO - 3 Lists
+  List<Marker> allMarkers = [];
   Completer<GoogleMapController> _controller = Completer();
   static LatLng _center = LatLng(59.334591, 18.063240);
   String searchAddress;
@@ -108,7 +108,7 @@ class _ParkingMapState extends State<ParkingMap> {
                     myLocationButtonEnabled: false,
                     zoomControlsEnabled: false,
                     onMapCreated: _onMapCreated,
-                    //polylines: polyline,
+                    polylines: polyline,
                     markers: Set<Marker>.of(allMarkers),
                     initialCameraPosition: CameraPosition(
                       target: _center,
@@ -296,8 +296,8 @@ class _ParkingMapState extends State<ParkingMap> {
           });
           polygonPointsExtended.putIfAbsent(
               tempList, () => '${area.areaId.toString()}, ${area.priceGroup}');
-//          polygonPoints.add(tempList);
-//          createPolygon(tempList, area.priceGroup);
+         polygonPoints.add(tempList);
+          createPolygon(tempList, area.priceGroup);
         });
       } else if (area.polygonType == 'MultiPolygon') {
         area.multiCoordinates.forEach((coordinates) {
@@ -806,7 +806,6 @@ class ParkingDialogState extends State<ParkingDialogWidget> {
                         favoriteString = 'Remove';
                       }
                     });
-//                    print('Lägg till i favorites');
                   },
                 ),
               ),

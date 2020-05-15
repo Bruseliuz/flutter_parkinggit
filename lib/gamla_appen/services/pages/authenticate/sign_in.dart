@@ -197,7 +197,7 @@ class _SignInState extends State<SignIn> {
                             ),
                             Container(
                               padding: EdgeInsets.only(
-                                  top: 15, bottom: 5, left: 57, right: 57),
+                                  top: 15, bottom: 5, left: 20, right: 20),
                               width: double.infinity,
                               child:FacebookSignInButton(
                                 textStyle: TextStyle(fontSize: 16, color: Colors.white),
@@ -223,7 +223,7 @@ class _SignInState extends State<SignIn> {
                             ),
                             Container(
                               padding: EdgeInsets.only(
-                                  top: 5, bottom: 5, left: 57, right: 57),
+                                  top: 5, bottom: 5, left: 20, right: 20),
                               width: double.infinity,
                               child: GoogleSignInButton(
                                 onPressed: () async {
