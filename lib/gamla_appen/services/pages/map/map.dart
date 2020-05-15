@@ -126,6 +126,9 @@ class _ParkingMapState extends State<ParkingMap> {
                           borderRadius: BorderRadius.circular(10.0),
                           color: Colors.white),
                       child: TextField(
+                        onEditingComplete: (){
+                          searchAndNavigate();
+                        },
                         decoration: InputDecoration(
                             hintText: 'Search for address',
                             border: InputBorder.none,
@@ -148,6 +151,7 @@ class _ParkingMapState extends State<ParkingMap> {
               floatingActionButtonLocation:
                   FloatingActionButtonLocation.centerFloat,
               floatingActionButton: FloatingActionButton.extended(
+
                 elevation: 3.0,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15)),
@@ -361,7 +365,7 @@ class _ParkingMapState extends State<ParkingMap> {
           points: list,
           strokeColor: Colors.red,
           strokeWidth: 1,
-          fillColor: Colors.lightBlueAccent.withOpacity(0.1)));
+          fillColor: Colors.lightBlueAccent));
     });
   }
 
