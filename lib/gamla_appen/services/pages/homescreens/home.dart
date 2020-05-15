@@ -88,22 +88,31 @@ class _HomeState extends State<Home> {
                         ),),
                       ),
                       Divider(color: Color(0xff207FC5),),
-                      ListTile(
-                        leading: Icon(Icons.exit_to_app,
-                            color: Color(0xff207FC5)),
-                        title: Text('SIGN OUT',
-                          style: TextStyle(
-                            color: Color(0xff207FC5),
-                            fontSize: 23,
-                            letterSpacing: 1.0,
-                          ),),
-                        onTap: (){
-                          _auth.signOut();
-                        },
-                      ),
-                      Divider(color: Color(0xff207FC5),),
+                      SizedBox(height: 170),
                       Container(
-                        padding: EdgeInsets.only(top: 210,left: 70),
+                        padding: EdgeInsets.only(left:68,top: 20),
+                        child: ListTile(
+                          title: Container(
+                            child: Row(
+                              children: <Widget>[
+                                Icon(Icons.exit_to_app,
+                                color: Color(0xff207FC5),),
+                                Text('SIGN OUT',
+                                  style: TextStyle(
+                                    color: Color(0xff207FC5),
+                                    fontSize: 17,
+                                    letterSpacing: 1.0,
+                                  ),),
+                              ],
+                            ),
+                          ),
+                          onTap: (){
+                            _auth.signOut();
+                          },
+                        ),
+                      ),
+                      Container(
+                        padding: EdgeInsets.only(left: 70),
                         child: Text('   An app by students \nat Stockholm University',
                         style: TextStyle(
                           color: Colors.black54
