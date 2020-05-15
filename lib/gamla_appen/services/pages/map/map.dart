@@ -103,7 +103,7 @@ class _ParkingMapState extends State<ParkingMap> {
                     myLocationButtonEnabled: false,
                     zoomControlsEnabled: false,
                     onMapCreated: _onMapCreated,
-                    polylines: polyline,
+//                    polylines: polyline,
                     markers: Set<Marker>.of(allMarkers),
                     initialCameraPosition: CameraPosition(
                       target: _center,
@@ -501,13 +501,13 @@ class _ParkingMapState extends State<ParkingMap> {
 
   Future getMarkers() async {
     parkingSpotsList.forEach((element) async {
-      BitmapDescriptor bitmapDescriptor =
-          await createCustomMarkerBitmap(element.availableParkingSpots);
+//      BitmapDescriptor bitmapDescriptor =
+//          await createCustomMarkerBitmap(element.availableParkingSpots);
       setState(() {
         allMarkers.add(Marker(
             markerId: MarkerId(element.streetName),
-            icon: bitmapDescriptor,
-            //         icon: BitmapDescriptor.defaultMarker,
+//            icon: bitmapDescriptor,
+            icon: BitmapDescriptor.defaultMarker,
             visible: true,
             draggable: false,
             onTap: () {
