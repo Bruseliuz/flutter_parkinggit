@@ -113,6 +113,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.16.1"
+  csv:
+    dependency: transitive
+    description:
+      name: csv
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.0.3"
   cupertino_icons:
     dependency: "direct main"
     description:
@@ -327,6 +334,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.2"
+  google_maps_utils:
+    dependency: "direct main"
+    description:
+      name: google_maps_utils
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.2.0+3"
   google_sign_in:
     dependency: "direct main"
     description:
@@ -607,6 +621,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.2"
+  poly:
+    dependency: transitive
+    description:
+      name: poly
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.7+2"
   pool:
     dependency: transitive
     description:
@@ -717,6 +738,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.7.0"
+  stack:
+    dependency: transitive
+    description:
+      name: stack
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.0"
   stack_trace:
     dependency: transitive
     description:

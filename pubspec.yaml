@@ -20,6 +20,7 @@ dependencies:
   flutter:
     sdk: flutter
   http: ^0.12.0+4
+  google_maps_utils: ^1.2.0+3
   google_maps_flutter: 0.5.27+1
   location: ^3.0.1
   geolocator: ^5.3.1
@@ -41,6 +42,7 @@ dependencies:
   proj4dart: any
   google_map_polyutil: ^1.0.0
   path_provider: ^1.6.8
+
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
