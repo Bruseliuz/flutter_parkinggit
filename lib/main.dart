@@ -5,6 +5,7 @@ import 'package:flutterparkinggit/gamla_appen/services/pages/authenticate/regist
 import 'package:flutterparkinggit/gamla_appen/services/pages/authenticate/sign_in.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/map/park_timer.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/parking_history.dart';
+import 'package:flutterparkinggit/gamla_appen/services/pages/homescreens/settings_drawer.dart';
 import 'package:provider/provider.dart';
 import 'gamla_appen/services/auth.dart';
 import 'gamla_appen/services/pages/authenticate/register.dart';
@@ -28,7 +29,8 @@ class MyApp extends StatelessWidget{
           '/onBoarding': (context) => Onboarding(),
           '/signIn': (context) => SignIn(),
           '/timer': (context) => ParkTimer(),
-          '/history': (context) => ParkingHistory()
+          '/history': (context) => ParkingHistory(),
+          '/settings': (context) => SettingsFormDrawer()
       }),
     );
   }

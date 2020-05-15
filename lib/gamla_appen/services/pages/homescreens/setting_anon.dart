@@ -74,6 +74,7 @@ class _SettingsFormAnonState extends State<SettingsFormAnon> {
                           color: Colors.white,
                           elevation: 4.0,
                           onPressed: (){
+                            Navigator.pushNamed(context, '/register');
                           },
                           padding: EdgeInsets.all(15),
                           child: Row(

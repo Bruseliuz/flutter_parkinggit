@@ -28,126 +28,140 @@ class _HomeState extends State<Home> {
 
     return StreamProvider.value(
         value: DatabaseService().parking,
-        child: Scaffold(
-            endDrawer: Drawer(
-              elevation: 3.0,
-              child: Container(
-                decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [
-                        Color(0xff207FC5),
-                        Color(0xff348aca),
-                        Color(0xff348aca),
-                        Color(0xff5ca1d4)
-                      ],
-                      stops: [0.1,0.4,0.7,0.9],
-                    )
-                ),
-                child: ListView(
-                  children: <Widget>[
-                    Container(
-                      padding: EdgeInsets.all(25),
-                      child: Text('PARK´N STOCKHOLM',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 35
-                      ),),
-                    ),
-                    SizedBox(height: 20),
-                    ListTile(
-                      leading: Icon(Icons.tune,
-                          color: Colors.white),
-                      title: Text('SETTINGS',
+        child: SafeArea(
+          child: Scaffold(
+              endDrawer: Drawer(
+                elevation: 3.0,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white
+                  ),
+                  child: ListView(
+                    children: <Widget>[
+                      Container(
+                        padding: EdgeInsets.all(25),
+                        child: Text('PARK´N STOCKHOLM',
                         style: TextStyle(
-                            color: Colors.white
+                          color: Color(0xff207FC5),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 35
                         ),),
-                      onTap: (){},
-                    ),
-                    ListTile(
-                      leading: Icon(Icons.exit_to_app,
-                          color: Colors.white),
-                      title: Text('SIGN OUT',
+                      ),
+                      SizedBox(height: 20),
+                      Divider(color: Color(0xff207FC5),),
+                      ListTile(
+                        leading: Icon(Icons.tune,
+                            color: Color(0xff207FC5)),
+                        title: Text('SETTINGS',
+                          style: TextStyle(
+                              color: Color(0xff207FC5),
+                            fontSize: 23,
+                            letterSpacing: 1.0,
+                          ),),
+                        onTap: (){
+                          Navigator.pushNamed(context, '/settings');
+                        },
+                      ),
+                      Divider(color: Color(0xff207FC5),),
+                      ListTile(
+                        leading: Icon(Icons.history,
+                        color: Color(0xff207FC5),),
+                        title: Text('PARKING HISTORY',
                         style: TextStyle(
-                            color: Colors.white
+                          color: Color(0xff207FC5),
+                          fontSize: 23,
+                          letterSpacing: 1.0,
                         ),),
-                      onTap: (){
-                        _auth.signOut();
-                      },
-                    ),
-                    ListTile(
-                      leading: Icon(Icons.history,
-                      color: Colors.white,),
-                      title: Text('PARKING HISTORY',
-                      style: TextStyle(
-                        color: Colors.white
-                      ),),
-                      onTap: (){
-                        Navigator.pushNamed(context, '/history');
-                      },
-                    ),
-                    ListTile(
-                      leading: Icon(Icons.help_outline,
-                      color: Colors.white,),
-                      title: Text('HELP',
-                      style: TextStyle(
-                        color: Colors.white
-                      ),),
-                    )
-                  ],
+                        onTap: (){
+                          Navigator.pushNamed(context, '/history');
+                        },
+                      ),
+                      Divider(color: Color(0xff207FC5),),
+                      ListTile(
+                        leading: Icon(Icons.help_outline,
+                        color: Color(0xff207FC5),),
+                        title: Text('HELP',
+                        style: TextStyle(
+                          color: Color(0xff207FC5),
+                          fontSize: 23,
+                          letterSpacing: 1.0,
+                        ),),
+                      ),
+                      Divider(color: Color(0xff207FC5),),
+                      ListTile(
+                        leading: Icon(Icons.exit_to_app,
+                            color: Color(0xff207FC5)),
+                        title: Text('SIGN OUT',
+                          style: TextStyle(
+                            color: Color(0xff207FC5),
+                            fontSize: 23,
+                            letterSpacing: 1.0,
+                          ),),
+                        onTap: (){
+                          _auth.signOut();
+                        },
+                      ),
+                      Divider(color: Color(0xff207FC5),),
+                      Container(
+                        padding: EdgeInsets.only(top: 210,left: 70),
+                        child: Text('   An app by students \nat Stockholm University',
+                        style: TextStyle(
+                          color: Colors.black54
+                        ),),
+                      )
+                    ],
+                  ),
                 ),
               ),
-            ),
-            appBar: AppBar(
-              automaticallyImplyLeading: false,
-              centerTitle: true,
-              elevation: 0.0,
-              backgroundColor: Color(0xff207FC5),
-              title: Text(
-                'PARK´N STOCKHOLM',
-                style: TextStyle(
-                  fontSize: 18.0,
+              appBar: AppBar(
+                automaticallyImplyLeading: false,
+                centerTitle: true,
+                elevation: 0.0,
+                backgroundColor: Color(0xff207FC5),
+                title: Text(
+                  'PARK´N STOCKHOLM',
+                  style: TextStyle(
+                    fontSize: 18.0,
+                  ),
                 ),
               ),
-            ),
-            body:
-            IndexedStack(
-              index: _currentIndex,
-              children: widget.screens,
-            ),
-            bottomNavigationBar: BottomNavigationBar(
-              onTap: (index) {
-                setState(() {
-                  _currentIndex = index;
-                });
-              },
-              elevation: 3.0,
-              currentIndex: _currentIndex,
-              items: [
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.map),
-                  title: Text('Map'),
-                  backgroundColor: Color(0xff207FC5),
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.favorite_border),
-                  title: Text('Favorites'),
-                  backgroundColor: Color(0xff207FC5),
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.list),
-                  title: Text('Parkings'),
-                  backgroundColor: Color(0xff207FC5),
-                ),BottomNavigationBarItem(
-                  icon: Icon(Icons.settings),
-                  title: Text('Settings'),
-                  backgroundColor: Color(0xff207FC5),
-                )
-              ],
+              body:
+              IndexedStack(
+                index: _currentIndex,
+                children: widget.screens,
+              ),
+              bottomNavigationBar: BottomNavigationBar(
+                onTap: (index) {
+                  setState(() {
+                    _currentIndex = index;
+                  });
+                },
+                elevation: 3.0,
+                currentIndex: _currentIndex,
+                items: [
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.map),
+                    title: Text('Map'),
+                    backgroundColor: Color(0xff207FC5),
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.favorite_border),
+                    title: Text('Favorites'),
+                    backgroundColor: Color(0xff207FC5),
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.list),
+                    title: Text('Parkings'),
+                    backgroundColor: Color(0xff207FC5),
+                  ),BottomNavigationBarItem(
+                    icon: Icon(Icons.settings),
+                    title: Text('Settings'),
+                    backgroundColor: Color(0xff207FC5),
+                  )
+                ],
+          )
+    ),
         )
-    )
     );
   }
 }
