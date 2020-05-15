@@ -104,11 +104,12 @@ class _ParkingMapState extends State<ParkingMap> {
               body: Stack(
                 children: <Widget>[
                   GoogleMap(
+                    compassEnabled: false,
                     myLocationEnabled: true,
                     myLocationButtonEnabled: false,
                     zoomControlsEnabled: false,
                     onMapCreated: _onMapCreated,
-//                    polylines: polyline,
+//                  polylines: polyline,
                     markers: Set<Marker>.of(allMarkers),
                     initialCameraPosition: CameraPosition(
                       target: _center,
@@ -126,9 +127,6 @@ class _ParkingMapState extends State<ParkingMap> {
                           borderRadius: BorderRadius.circular(10.0),
                           color: Colors.white),
                       child: TextField(
-                        onEditingComplete: (){
-                          searchAndNavigate();
-                        },
                         decoration: InputDecoration(
                             hintText: 'Search for address',
                             border: InputBorder.none,
@@ -148,6 +146,7 @@ class _ParkingMapState extends State<ParkingMap> {
                   )
                 ],
               ),
+
               floatingActionButtonLocation:
                   FloatingActionButtonLocation.centerFloat,
               floatingActionButton: FloatingActionButton.extended(
@@ -220,7 +219,7 @@ class _ParkingMapState extends State<ParkingMap> {
         });
   }
 
-  setMarkers(){
+  setMarkers() async {
     allMarkers.forEach((marker) {
       polygons.forEach((poly) async {
         bool result = await GoogleMapPolyUtil.containsLocation(
@@ -697,10 +696,6 @@ class ParkingDialogState extends State<ParkingDialogWidget> {
                   Icon(
                     Icons.attach_money,
                     color: Color(0xff207FC5),
-                  ),
-                  Text(
-                    'Price per hours: ',
-                    style: TextStyle(color: Color(0xff207FC5)),
                   ),
                   Text(
                     price,

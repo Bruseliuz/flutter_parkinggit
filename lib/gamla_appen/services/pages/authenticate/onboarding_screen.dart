@@ -44,7 +44,7 @@ class _OnboardingState extends State<Onboarding> {
         bodyWidget: Container(
           child: Column(
             children: <Widget>[
-              Placeholder(),
+              Image.asset(('assets/Favorite.png')),
               SizedBox(height: 20.0),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
