@@ -29,6 +29,67 @@ class _HomeState extends State<Home> {
     return StreamProvider.value(
         value: DatabaseService().parking,
         child: Scaffold(
+            drawer: Drawer(
+              child: Container(
+                decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        Color(0xff207FC5),
+                        Color(0xff348aca),
+                        Color(0xff4896cf),
+                        Color(0xff5ca1d4)
+                      ],
+                      stops: [0.1,0.4,0.7,0.9],
+                    )
+                ),
+                child: ListView(
+                  children: <Widget>[
+                    Container(
+                      padding: EdgeInsets.all(25),
+                      child: Text('PARK´N STOCKHOLM',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 35
+                      ),),
+                    ),
+                    SizedBox(height: 20),
+                    ListTile(
+                      leading: Icon(Icons.history,
+                      color: Colors.white,),
+                      title: Text('PARKING HISTORY',
+                      style: TextStyle(
+                        color: Colors.white
+                      ),),
+                      onTap: (){
+                      },
+                    ),
+                    ListTile(
+                      leading: Icon(Icons.settings,
+                          color: Colors.white),
+                      title: Text('SETTINGS',
+                        style: TextStyle(
+                            color: Colors.white
+                        ),),
+                      onTap: (){},
+                    ),
+                    ListTile(
+                      leading: Icon(Icons.close,
+                          color: Colors.white),
+                      title: Text('SIGN OUT',
+                        style: TextStyle(
+                            color: Colors.white
+                        ),),
+                      onTap: (){
+                        _auth.signOut();
+                      },
+                    )
+                  ],
+                ),
+              ),
+            ),
             appBar: AppBar(
               centerTitle: true,
               elevation: 0.0,
@@ -39,19 +100,6 @@ class _HomeState extends State<Home> {
                   fontSize: 18.0,
                 ),
               ),
-              actions: <Widget>[
-                FlatButton(
-                  onPressed:(){
-                    _auth.signOut();
-                  },
-                  child: Text('SIGN OUT',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 10,
-                    fontWeight: FontWeight.bold
-                  ),),
-                )
-                ],
             ),
             body:
             IndexedStack(

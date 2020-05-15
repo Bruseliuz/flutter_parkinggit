@@ -53,6 +53,7 @@ class ParkingMap extends StatefulWidget {
 }
 
 class _ParkingMapState extends State<ParkingMap> {
+
   List<DocumentSnapshot> favoriteDocuments = [];
   Location _locationTracker = Location();
   List<Marker> allMarkers = [];
@@ -65,11 +66,21 @@ class _ParkingMapState extends State<ParkingMap> {
   new GoogleMapPolyline(apiKey: "AIzaSyDCKuA95vaqlu92GXWkgpc2vSrgYmCVabI");
 
   getPoints(ParkingArea p) async {
-    var location = await _locationTracker.getLocation();
-    routeCoords = await googleMapPolyline.getCoordinatesWithLocation(
-        origin: LatLng(location.latitude, location.longitude),
-        destination: p.coordinates,
-        mode: RouteMode.driving);
+    polyline.clear();
+     var currentLocation = await Geolocator().getCurrentPosition();
+      routeCoords = await googleMapPolyline.getCoordinatesWithLocation(
+          origin: LatLng(currentLocation.latitude, currentLocation.longitude),
+          destination: p.coordinates, mode: RouteMode.walking);
+      setState(() {
+        polyline.add(Polyline(
+            polylineId: PolylineId('route1'),
+            visible: true,
+            points: routeCoords,
+            width: 4,
+            color: Color(0xff207FC5),
+            startCap: Cap.roundCap,
+            endCap: Cap.buttCap));
+      });
   }
 
   @override
@@ -101,6 +112,74 @@ class _ParkingMapState extends State<ParkingMap> {
           if (snapshot.hasData) {
             UserData userData = snapshot.data;
             setPreference(userData);
+<<<<<<< HEAD
+=======
+            return Scaffold(
+              body: Stack(
+                children: <Widget>[
+                  GoogleMap(
+                    myLocationEnabled: true,
+                    myLocationButtonEnabled: false,
+                    zoomControlsEnabled: false,
+                    onMapCreated: _onMapCreated,
+                    markers: Set<Marker>.of(allMarkers),
+                    polylines: polyline,
+                    initialCameraPosition: CameraPosition(
+                      target: _center,
+                      zoom: 12.0,
+                    ),
+                  ),
+                  Positioned(
+                    top: 30.0,
+                    right: 15.0,
+                    left: 15.0,
+                    child: Container(
+                      height: 50.0,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10.0),
+                          color: Colors.white),
+                      child: TextField(
+                        decoration: InputDecoration(
+                            hintText: 'Search for address',
+                            border: InputBorder.none,
+                            contentPadding:
+                                EdgeInsets.only(left: 15.0, top: 15.0),
+                            suffixIcon: IconButton(
+                                icon: Icon(Icons.search),
+                                onPressed: searchAndNavigate,
+                                iconSize: 30.0)),
+                        onChanged: (val) {
+                          setState(() {
+                            searchAddress = val;
+                          });
+                        },
+                      ),
+                    ),
+                  )
+                ],
+              ),
+              floatingActionButtonLocation:
+                  FloatingActionButtonLocation.centerFloat,
+              floatingActionButton: FloatingActionButton.extended(
+                elevation: 3.0,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15)),
+                icon: Icon(
+                  Icons.local_parking,
+                ),
+                label: Text('Find Nearby\n   Parking'),
+                backgroundColor: Color(0xff207FC5),
+                onPressed: () async {
+                  await getPriceAreas();
+                  await getCurrentLocation();
+//                    print(allMarkers.toString());
+                  print(allMarkers);
+                  await setMarkers();
+                },
+              ),
+            );
+>>>>>>> 4c675073f808171bbccd0c531460eda09228194f
           } else {
             distance = 100;
             preference = 'ptillaten';
@@ -174,7 +253,26 @@ class _ParkingMapState extends State<ParkingMap> {
         });
   }
 
+<<<<<<< HEAD
 
+=======
+  setMarkers() {
+    allMarkers.forEach((marker) {
+      polygons.forEach((poly) async {
+        bool result = await GoogleMapPolyUtil.containsLocation(
+            point: marker.position, polygon: poly.points);
+        if (result == true) {
+          markerPrice.putIfAbsent(
+              marker.markerId.value, () => poly.polygonId.value);
+        }
+      });
+      if (allMarkers.isEmpty) {
+        showDialog(
+            context: context, builder: (_) => _noParkingAlertDialogWidget());
+      }
+    });
+  }
+>>>>>>> 4c675073f808171bbccd0c531460eda09228194f
 
   searchAndNavigate() {
     Geolocator().placemarkFromAddress(searchAddress).then((result) async {
@@ -230,8 +328,30 @@ class _ParkingMapState extends State<ParkingMap> {
       int counter = 0;
       priceAreas.forEach((area) {
 //      print(area.coordinates);
+<<<<<<< HEAD
         if (area.polygonType == 'Polygon') {
           area.coordinates.forEach((coordinates) {
+=======
+      if (area.polygonType == 'Polygon') {
+        area.coordinates.forEach((coordinates) {
+          List<LatLng> tempList = [];
+          coordinates.forEach((coordinate) {
+            String c = coordinate.toString();
+            String coords = c.replaceAll(RegExp(r"[[\]]"), '');
+            List coordList = coords.split(',');
+            double x = double.parse(coordList[0]);
+            double y = double.parse(coordList[1]);
+            tempList.add(parsePriceArea(x, y));
+          });
+          polygonPointsExtended.putIfAbsent(
+              tempList, () => '${area.areaId.toString()}, ${area.priceGroup}');
+          polygonPoints.add(tempList);
+          createPolygon(tempList, area.priceGroup);
+        });
+      } else if (area.polygonType == 'MultiPolygon') {
+        area.multiCoordinates.forEach((coordinates) {
+          coordinates.forEach((coordinate) {
+>>>>>>> 4c675073f808171bbccd0c531460eda09228194f
             List<LatLng> tempList = [];
             coordinates.forEach((coordinate) {
               List xy = parsePriceCoordinates(coordinate.toString());
@@ -323,14 +443,6 @@ class _ParkingMapState extends State<ParkingMap> {
 
   void _onMapCreated(GoogleMapController controller) {
     _controller.complete(controller);
-    polyline.add(Polyline(
-        polylineId: PolylineId('route1'),
-        visible: true,
-        points: routeCoords,
-        width: 4,
-        color: Color(0xff207FC5),
-        startCap: Cap.roundCap,
-        endCap: Cap.buttCap));
   }
 
   Future getCurrentLocation() async {
@@ -447,6 +559,7 @@ class _ParkingMapState extends State<ParkingMap> {
             ])));
   }
 
+<<<<<<< HEAD
   setMarkersPrice() {
     if (allMarkers.isEmpty) {
       showDialog(
@@ -461,6 +574,27 @@ class _ParkingMapState extends State<ParkingMap> {
           markerPrice.putIfAbsent(
               marker.markerId.value, () => poly.polygonId.value);
         }
+=======
+  Future getMarkers() async {
+    parkingSpotsList.forEach((element) async {
+      //     BitmapDescriptor bitmapDescriptor =
+      //         await createCustomMarkerBitmap(element.availableParkingSpots);
+      setState(() {
+        allMarkers.add(Marker(
+            markerId: MarkerId(element.streetName),
+            //          icon: bitmapDescriptor,
+            icon: BitmapDescriptor.defaultMarker,
+            visible: true,
+            draggable: false,
+            onTap: () {
+              getPoints(element);
+              showDialog(
+                  context: context,
+                  builder: (_) => ParkingDialogWidget(parkingArea: element));
+
+            },
+            position: element.coordinates));
+>>>>>>> 4c675073f808171bbccd0c531460eda09228194f
       });
     });
   }
