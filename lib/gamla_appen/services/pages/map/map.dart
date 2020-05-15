@@ -70,7 +70,6 @@ class _ParkingMapState extends State<ParkingMap> {
       routeCoords = await googleMapPolyline.getCoordinatesWithLocation(
           origin: LatLng(currentLocation.latitude, currentLocation.longitude),
           destination: p.coordinates, mode: RouteMode.walking);
-
       setState(() {
         polyline.add(Polyline(
             polylineId: PolylineId('route1'),
@@ -80,9 +79,7 @@ class _ParkingMapState extends State<ParkingMap> {
             color: Color(0xff207FC5),
             startCap: Cap.roundCap,
             endCap: Cap.buttCap));
-
       });
-
   }
 
   @override
