@@ -30,51 +30,64 @@ class _HomeState extends State<Home> {
         value: DatabaseService().parking,
         child: Scaffold(
             drawer: Drawer(
-              child: ListView(
-                children: <Widget>[
-                  DrawerHeader(
-                    padding: EdgeInsets.all(45),
-                    decoration: BoxDecoration(
-                      color: Color(0xff207FC5)
+              child: Container(
+                decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        Color(0xff207FC5),
+                        Color(0xff348aca),
+                        Color(0xff4896cf),
+                        Color(0xff5ca1d4)
+                      ],
+                      stops: [0.1,0.4,0.7,0.9],
+                    )
+                ),
+                child: ListView(
+                  children: <Widget>[
+                    Container(
+                      padding: EdgeInsets.all(25),
+                      child: Text('PARK´N STOCKHOLM',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 35
+                      ),),
                     ),
-                    child: Text('PARK´N STOCKHOLM',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold
-                    ),),
-                  ),
-                  ListTile(
-                    leading: Icon(Icons.history,
-                    color: Color(0xff207FC5),),
-                    title: Text('PARKING HISTORY',
-                    style: TextStyle(
-                      color: Color(0xff207FC5)
-                    ),),
-                    onTap: (){
-                    },
-                  ),
-                  ListTile(
-                    leading: Icon(Icons.settings,
-                        color: Color(0xff207FC5)),
-                    title: Text('SETTINGS',
+                    SizedBox(height: 20),
+                    ListTile(
+                      leading: Icon(Icons.history,
+                      color: Colors.white,),
+                      title: Text('PARKING HISTORY',
                       style: TextStyle(
-                          color: Color(0xff207FC5)
+                        color: Colors.white
                       ),),
-                    onTap: (){},
-                  ),
-                  ListTile(
-                    leading: Icon(Icons.close,
-                        color: Color(0xff207FC5)),
-                    title: Text('SIGN OUT',
-                      style: TextStyle(
-                          color: Color(0xff207FC5)
-                      ),),
-                    onTap: (){
-                      _auth.signOut();
-                    },
-                  )
-                ],
+                      onTap: (){
+                      },
+                    ),
+                    ListTile(
+                      leading: Icon(Icons.settings,
+                          color: Colors.white),
+                      title: Text('SETTINGS',
+                        style: TextStyle(
+                            color: Colors.white
+                        ),),
+                      onTap: (){},
+                    ),
+                    ListTile(
+                      leading: Icon(Icons.close,
+                          color: Colors.white),
+                      title: Text('SIGN OUT',
+                        style: TextStyle(
+                            color: Colors.white
+                        ),),
+                      onTap: (){
+                        _auth.signOut();
+                      },
+                    )
+                  ],
+                ),
               ),
             ),
             appBar: AppBar(
