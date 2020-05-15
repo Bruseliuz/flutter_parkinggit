@@ -30,6 +30,7 @@ class _HomeState extends State<Home> {
         value: DatabaseService().parking,
         child: Scaffold(
             drawer: Drawer(
+              elevation: 3.0,
               child: Container(
                 decoration: BoxDecoration(
                     gradient: LinearGradient(
@@ -38,7 +39,7 @@ class _HomeState extends State<Home> {
                       colors: [
                         Color(0xff207FC5),
                         Color(0xff348aca),
-                        Color(0xff4896cf),
+                        Color(0xff348aca),
                         Color(0xff5ca1d4)
                       ],
                       stops: [0.1,0.4,0.7,0.9],
@@ -67,7 +68,7 @@ class _HomeState extends State<Home> {
                       },
                     ),
                     ListTile(
-                      leading: Icon(Icons.settings,
+                      leading: Icon(Icons.tune,
                           color: Colors.white),
                       title: Text('SETTINGS',
                         style: TextStyle(
@@ -76,7 +77,7 @@ class _HomeState extends State<Home> {
                       onTap: (){},
                     ),
                     ListTile(
-                      leading: Icon(Icons.close,
+                      leading: Icon(Icons.exit_to_app,
                           color: Colors.white),
                       title: Text('SIGN OUT',
                         style: TextStyle(
@@ -85,6 +86,14 @@ class _HomeState extends State<Home> {
                       onTap: (){
                         _auth.signOut();
                       },
+                    ),
+                    ListTile(
+                      leading: Icon(Icons.help_outline,
+                      color: Colors.white,),
+                      title: Text('HELP',
+                      style: TextStyle(
+                        color: Colors.white
+                      ),),
                     )
                   ],
                 ),
