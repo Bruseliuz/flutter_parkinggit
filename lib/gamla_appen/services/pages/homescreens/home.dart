@@ -29,6 +29,54 @@ class _HomeState extends State<Home> {
     return StreamProvider.value(
         value: DatabaseService().parking,
         child: Scaffold(
+            drawer: Drawer(
+              child: ListView(
+                children: <Widget>[
+                  DrawerHeader(
+                    padding: EdgeInsets.all(45),
+                    decoration: BoxDecoration(
+                      color: Color(0xff207FC5)
+                    ),
+                    child: Text('PARK´N STOCKHOLM',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold
+                    ),),
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.history,
+                    color: Color(0xff207FC5),),
+                    title: Text('PARKING HISTORY',
+                    style: TextStyle(
+                      color: Color(0xff207FC5)
+                    ),),
+                    onTap: (){
+                    },
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.settings,
+                        color: Color(0xff207FC5)),
+                    title: Text('SETTINGS',
+                      style: TextStyle(
+                          color: Color(0xff207FC5)
+                      ),),
+                    onTap: (){},
+                  ),
+                  ListTile(
+                    leading: Icon(Icons.close,
+                        color: Color(0xff207FC5)),
+                    title: Text('SIGN OUT',
+                      style: TextStyle(
+                          color: Color(0xff207FC5)
+                      ),),
+                    onTap: (){
+                      _auth.signOut();
+                    },
+                  )
+                ],
+              ),
+            ),
             appBar: AppBar(
               centerTitle: true,
               elevation: 0.0,
@@ -39,19 +87,6 @@ class _HomeState extends State<Home> {
                   fontSize: 18.0,
                 ),
               ),
-              actions: <Widget>[
-                FlatButton(
-                  onPressed:(){
-                    _auth.signOut();
-                  },
-                  child: Text('SIGN OUT',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 10,
-                    fontWeight: FontWeight.bold
-                  ),),
-                )
-                ],
             ),
             body:
             IndexedStack(
