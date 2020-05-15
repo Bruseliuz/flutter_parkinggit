@@ -161,21 +161,7 @@ class _ParkingMapState extends State<ParkingMap> {
                   await getCurrentLocation();
 //                    print(allMarkers.toString());
                   print(allMarkers);
-                  allMarkers.forEach((marker) {
-                    polygons.forEach((poly) async {
-                      bool result = await GoogleMapPolyUtil.containsLocation(
-                          point: marker.position, polygon: poly.points);
-                      if (result == true) {
-                        markerPrice.putIfAbsent(
-                            marker.markerId.value, () => poly.polygonId.value);
-                      }
-                    });
-                  });
-                  if (allMarkers.isEmpty) {
-                    showDialog(
-                        context: context,
-                        builder: (_) => _noParkingAlertDialogWidget());
-                  }
+                  await setMarkers();
                 },
               ),
             );
@@ -228,6 +214,24 @@ class _ParkingMapState extends State<ParkingMap> {
             );*/
           }
         });
+  }
+
+  setMarkers(){
+    allMarkers.forEach((marker) {
+      polygons.forEach((poly) async {
+        bool result = await GoogleMapPolyUtil.containsLocation(
+            point: marker.position, polygon: poly.points);
+        if (result == true) {
+          markerPrice.putIfAbsent(
+              marker.markerId.value, () => poly.polygonId.value);
+        }
+      });
+      if (allMarkers.isEmpty) {
+        showDialog(
+            context: context,
+            builder: (_) => _noParkingAlertDialogWidget());
+      }
+    });
   }
 
   searchAndNavigate() {
@@ -637,6 +641,7 @@ class ParkingDialogState extends State<ParkingDialogWidget> {
   }
 
   Widget _parkingDialogWidget(element) {
+    print(markerPrice[element.streetName]);
     String priceInfo = markerPrice[element.streetName];
     List<String> infoList = priceInfo.split(', ');
     String price = infoList[0];
