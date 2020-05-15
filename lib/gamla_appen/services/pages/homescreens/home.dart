@@ -29,7 +29,7 @@ class _HomeState extends State<Home> {
     return StreamProvider.value(
         value: DatabaseService().parking,
         child: Scaffold(
-            drawer: Drawer(
+            endDrawer: Drawer(
               elevation: 3.0,
               child: Container(
                 decoration: BoxDecoration(
@@ -58,16 +58,6 @@ class _HomeState extends State<Home> {
                     ),
                     SizedBox(height: 20),
                     ListTile(
-                      leading: Icon(Icons.history,
-                      color: Colors.white,),
-                      title: Text('PARKING HISTORY',
-                      style: TextStyle(
-                        color: Colors.white
-                      ),),
-                      onTap: (){
-                      },
-                    ),
-                    ListTile(
                       leading: Icon(Icons.tune,
                           color: Colors.white),
                       title: Text('SETTINGS',
@@ -88,6 +78,17 @@ class _HomeState extends State<Home> {
                       },
                     ),
                     ListTile(
+                      leading: Icon(Icons.history,
+                      color: Colors.white,),
+                      title: Text('PARKING HISTORY',
+                      style: TextStyle(
+                        color: Colors.white
+                      ),),
+                      onTap: (){
+                        Navigator.pushNamed(context, '/history');
+                      },
+                    ),
+                    ListTile(
                       leading: Icon(Icons.help_outline,
                       color: Colors.white,),
                       title: Text('HELP',
@@ -100,6 +101,7 @@ class _HomeState extends State<Home> {
               ),
             ),
             appBar: AppBar(
+              automaticallyImplyLeading: false,
               centerTitle: true,
               elevation: 0.0,
               backgroundColor: Color(0xff207FC5),

@@ -43,6 +43,7 @@ class _FavoritesState extends State<Favorites> {
                 itemBuilder: _getFavoriteParksList,
               ),
               floatingActionButton: FloatingActionButton(
+                heroTag: 'button3',
                 elevation: 3.0,
                 onPressed: () async {},
                 child: Icon(Icons.refresh, color: Color(0xff207FC5)),
