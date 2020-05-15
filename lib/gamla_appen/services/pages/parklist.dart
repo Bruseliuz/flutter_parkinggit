@@ -40,6 +40,7 @@ class _ParkListState extends State<ParkList> {
         ),
         floatingActionButton:
         FloatingActionButton(
+          heroTag: 'button2',
           elevation: 3.0,
           onPressed: () async {
             await getCurrentLocation();
