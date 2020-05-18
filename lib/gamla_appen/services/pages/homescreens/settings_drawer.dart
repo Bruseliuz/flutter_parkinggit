@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterparkinggit/gamla_appen/models/user.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/database.dart';
@@ -17,7 +18,7 @@ class _SettingsFormDrawerState extends State<SettingsFormDrawer> {
   final _formKey = GlobalKey<FormState>();
   final List<String> parkingType = ['MC','HCP','No Preference'];
 
-  int currentDistance;
+  int currentNotMinutes = 1;
   String _currentName;
   String _currentParking;
   int _currentMaxPrice;
@@ -27,7 +28,10 @@ class _SettingsFormDrawerState extends State<SettingsFormDrawer> {
   @override
   Widget build(BuildContext context) {
 
+    bool isSwitched = false;
     final user = Provider.of<User>(context);
+
+
 
     return StreamBuilder<UserData>(
         stream: DatabaseService(uid: user.uid).userData,
@@ -48,165 +52,139 @@ class _SettingsFormDrawerState extends State<SettingsFormDrawer> {
               body: Stack(
                 children: <Widget>[
                   Container(
-                    color: Color(0xff207FC5),
+                    color: Colors.white,
                     height: double.infinity,
                     child: SingleChildScrollView(
                       physics: AlwaysScrollableScrollPhysics(),
                       padding: EdgeInsets.symmetric(
-                          vertical: 70,
-                          horizontal: 40
+                          vertical: 40,
+                          horizontal: 20
                       ),
                       child: Form(
                         key: _formKey,
                         child: Column(
                           children: <Widget>[
-                            Container(
-                              decoration: settingsDecoration,
-                              height: 60,
-                              alignment: Alignment.center,
-                              child: TextFormField(
-                                initialValue: ('Name: ${userData.name}'),
-                                decoration: InputDecoration(
-                                    border: InputBorder.none,
-                                    prefixIcon: Icon(
-                                      Icons.perm_identity,
-                                      color: Color(0xff207FC5),
-                                    )
-                                ),
-                                validator: (val) => val.isEmpty ? 'Please enter a name' : null,
-                                onChanged: (val) => setState(() {
-                                  _currentName = val;
-                                  _updateSettingsIcon = new Icon(Icons.refresh,
-                                      color: Color(0xff207FC5));
-                                }),
-                                style: TextStyle(
-                                    color: Color(0xff207FC5)
-                                ),
-                              ),
-                            ),
-
-                            SizedBox(height: 20.0),
-                            Container(
-                              decoration: settingsDecoration,
-                              child: DropdownButtonFormField(
-                                  iconEnabledColor: Color(0xff207FC5),
-                                  decoration: InputDecoration(
-                                      contentPadding: EdgeInsets.all(5),
-                                      border: InputBorder.none,
-                                      hintText: userData.parking,
-                                      hintStyle: TextStyle(color: Color(0xff207FC5)),
-                                      prefixIcon: Icon(
-                                        Icons.directions_car, color: Color(0xff207FC5),
-
-                                      )
-                                  ),
-                                  value: (_currentParking ?? userData.parking),
-                                  items: parkingType.map((parking){
-                                    return DropdownMenuItem(
-                                      value: parking,
-                                      child: Text('$parking',
-                                        style: TextStyle(color: Color(0xff207FC5)),),
-                                    );
-                                  }).toList(),
-                                  onChanged: (val) {
-                                    setState(() {
-                                      _currentParking = val;
-                                      print(_currentParking);
-                                      _updateSettingsIcon = new Icon(Icons.refresh,
-                                          color: Color(0xff207FC5));
-                                    });
-                                  }
-                              ),
-                            ),
-                            SizedBox(height: 30.0),
-                            Text(
-                                'Chosen max price: ${userData.maxPrice} kr / hour',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 18,
-                                )
-                            ),
-                            SizedBox(height: 20.0),
-                            Slider(
-                              label: _currentMaxPrice.toString() ,
-                              activeColor: Colors.black54,
-                              inactiveColor: Colors.white,
-                              value: (_currentMaxPrice ?? userData.maxPrice).toDouble(),
-                              min: 10,
-                              max: 90,
-                              divisions: 8,
-                              onChanged: (val) => setState(() {
-                                _currentMaxPrice = val.round();
-                                _updateSettingsIcon = new Icon(Icons.refresh,
-                                    color: Color(0xff207FC5));
-                              }),
-                            ),
-                            SizedBox(height: 40.0),
-                            Text(
-                                'Chosen radius: ${userData.radius} meters',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 18,
-                                )
-                            ),
-                            SizedBox(height: 20.0),
-                            Slider(
-                              label: currentDistance.toString(),
-                              activeColor: Colors.black54,
-                              inactiveColor: Colors.white,
-                              value: (currentDistance ?? userData.radius).toDouble(),
-                              min: 100,
-                              max: 500,
-                              divisions: 4,
-                              onChanged: (val) => setState(() {
-                                currentDistance = val.round();
-                                _updateSettingsIcon = new Icon(Icons.refresh,
-                                    color: Color(0xff207FC5));
-                              }),
-
-                            ),
-                            Container(
-                              padding: EdgeInsets.symmetric(vertical: 25),
-                              width: double.infinity,
-                              child: MaterialButton(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(30),
-                                    side: BorderSide(
-                                        color: Colors.white
-                                    )
-                                ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    Text('Update settings ',
-                                      style: TextStyle(
-                                          color: Color(0xff207FC5),
-                                          fontSize: 18.0
+                            Column(
+                              children: <Widget>[
+                                Padding(
+                                  padding: EdgeInsets.only(left: 5),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    children: <Widget>[
+                                      Text('Get a reminder that\nyour parking is about to end.\n(Push notification)',
+                                        style: TextStyle(
+                                            color: Color(0xff207FC5),
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 13
+                                        ),
                                       ),
+                                      Padding(
+                                        padding: EdgeInsets.only(left: 60),
+                                        child: Switch(
+                                          value: isSwitched,
+                                          onChanged: (value) {
+                                            setState(() {
+                                              value = isSwitched;
+                                            });
+                                          },
+                                          activeTrackColor: Color(0xff207FC5),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(height: 20),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  children: <Widget>[
+                                    Text('Minutes from \nparking ending',
+                                        style: TextStyle(
+                                            color: Color(0xff207FC5),
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w400
+                                        )
                                     ),
-                                    _updateSettingsIcon
+                                    Slider(
+                                        activeColor: Color(0xff207FC5),
+                                        inactiveColor: Color(0xff5ca1d1),
+                                        value: currentNotMinutes.toDouble() ?? 50,
+                                        min: 1,
+                                        max: 60,
+                                        divisions: 59,
+                                        onChanged: (val) => setState(() {
+                                          currentNotMinutes = val.round();
+                                        })
+                                    ),
                                   ],
                                 ),
-                                color: Colors.white,
-                                elevation: 4.0,
-                                onPressed: () async {
-                                  if(_formKey.currentState.validate()) {
-                                    await DatabaseService(uid: user.uid).updateUserData(
-                                        _currentParking ?? userData.parking,
-                                        _currentName ?? userData.name,
-                                        _currentMaxPrice ?? userData.maxPrice,
-                                        currentDistance ?? userData.radius
-                                    );
-                                    _neverSatisfied();
-                                    setState(() {
-                                      _updateSettingsIcon = new Icon(Icons.check_circle_outline,
+                                Padding(
+                                  padding: EdgeInsets.only(left: 150, right: 40),
+                                  child: Text('${currentNotMinutes.toString()} minutes',
+                                  style: TextStyle(
+                                    color:  Color(0xff207FC5),
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 11,
+                                  ),),
+                                ),
+                                Divider(
+                                  color: Color(0xff207FC5),
+                                  thickness: 1.0,
+                                ),
+                                SizedBox(height: 20),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  children: <Widget>[
+                                    Text('Get a reminder when your \nparking has ended.',
+                                      style: TextStyle(
+                                          color: Color(0xff207FC5),
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 13
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(left: 60),
+                                      child: Switch(
+                                        value: isSwitched,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            value = isSwitched;
+                                          });
+                                        },
+                                        activeTrackColor: Color(0xff207FC5),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: 20),
+                                Divider(
+                                  color: Color(0xff207FC5),
+                                  thickness: 1.0,
+                                ),
+                                SizedBox(height: 20),
+                                Text('Account settings'),
+                                Container(
+                                  child: TextFormField(
+                                    initialValue: ('${userData.name}'),
+                                    decoration: InputDecoration(
+                                      contentPadding: EdgeInsets.only(top: 15),
+                                        prefixIcon: Icon(
+                                          Icons.perm_identity,
+                                          color: Color(0xff207FC5),
+                                        )
+                                    ),
+                                    validator: (val) => val.isEmpty ? 'Please enter a name' : null,
+                                    onChanged: (val) => setState(() {
+                                      _currentName = val;
+                                      _updateSettingsIcon = new Icon(Icons.refresh,
                                           color: Color(0xff207FC5));
-                                    });
-                                  }
-                                },
-                                padding: EdgeInsets.all(15),
-                              ),
-                            ),
+                                    }),
+                                    style: TextStyle(
+                                        color: Color(0xff207FC5)
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            )
                           ],
                         ),
                       ),
