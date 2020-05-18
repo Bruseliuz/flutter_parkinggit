@@ -55,7 +55,7 @@ class ParkingMap extends StatefulWidget {
 
 class _ParkingMapState extends State<ParkingMap> {
   List<DocumentSnapshot> favoriteDocuments = [];
-  Location _locationTracker = Location();
+  //Location _locationTracker = Location();
   List<Marker> allMarkers = [];
   Completer<GoogleMapController> _controller = Completer();
   static LatLng _center = LatLng(59.334591, 18.063240);
@@ -366,11 +366,12 @@ class _ParkingMapState extends State<ParkingMap> {
   }
 
   Future getCurrentLocation() async {
-    var location = await _locationTracker.getLocation();
-    String response = await setLocation(location);
+    var currentLocation = await Geolocator().getCurrentPosition();
+    //var location = await _locationTracker.getLocation();
+    String response = await setLocation(currentLocation);
   }
 
-  Future setLocation(LocationData location) async {
+  Future setLocation(Position location) async {
     final GoogleMapController controller = await _controller.future;
     LatLng newLocation = LatLng(location.latitude, location.longitude);
     CameraPosition cameraPosition = CameraPosition(
@@ -414,10 +415,11 @@ class _ParkingMapState extends State<ParkingMap> {
   }
 
   Future fakeMarkers() async {
-    LocationData location = await _locationTracker.getLocation();
+    var currentLocation = await Geolocator().getCurrentPosition();
+    //LocationData location = await _locationTracker.getLocation();
 
     LatLng loc =
-    new LatLng((location.latitude + 0.01), (location.longitude + 0.01));
+    new LatLng((currentLocation.latitude + 0.01), (currentLocation.longitude + 0.01));
     //  BitmapDescriptor bitmapDescriptor = await createCustomMarkerBitmap(
     //       '5');
     setState(() {
