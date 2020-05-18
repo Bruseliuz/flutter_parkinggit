@@ -184,7 +184,8 @@ class _SettingsFormState extends State<SettingsForm> {
                                       _currentParking ?? userData.parking,
                                       _currentName ?? userData.name,
                                       _currentMaxPrice ?? userData.maxPrice,
-                                    currentDistance ?? userData.radius
+                                    currentDistance ?? userData.radius,
+                                    userData.regNumber
                                   );
                                   _neverSatisfied();
                                   setState(() {

@@ -15,8 +15,9 @@ class UserData{
   final String parking;
   final int maxPrice;
   final int radius;
+  final String regNumber;
   final List<ParkingArea> favoritesList;
 
-  UserData({this.uid, this.name, this.parking, this.maxPrice, this.radius, this.favoritesList});
+  UserData({this.uid, this.name, this.parking, this.maxPrice, this.radius, this.favoritesList, this.regNumber});
 
 }

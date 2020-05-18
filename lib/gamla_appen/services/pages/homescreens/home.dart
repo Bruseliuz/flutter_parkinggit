@@ -192,8 +192,8 @@ class _HomeState extends State<Home> {
                   backgroundColor: Color(0xff207FC5),
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.settings),
-                  title: Text('Settings'),
+                  icon: Icon(Icons.filter_list),
+                  title: Text('Filter'),
                   backgroundColor: Color(0xff207FC5),
                 )
               ],
