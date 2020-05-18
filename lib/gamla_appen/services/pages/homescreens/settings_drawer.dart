@@ -89,9 +89,9 @@ class _SettingsFormDrawerState extends State<SettingsFormDrawer> {
                                         padding: EdgeInsets.only(left: 60),
                                         child: Switch(
                                           value: isSwitched,
-                                          onChanged: (value) {
+                                          onChanged:(value){
                                             setState(() {
-                                              value = isSwitched;
+                                              isSwitched = value;
                                             });
                                           },
                                           activeTrackColor: Color(0xff207FC5),

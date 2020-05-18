@@ -19,6 +19,7 @@ class _ParkTimerState extends State<ParkTimer> {
   Color startTimerColor = Colors.green[300];
   Color endTimerColor = Colors.red[100];
   bool timerStarted = false;
+  String regNumber;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +32,13 @@ class _ParkTimerState extends State<ParkTimer> {
     return StreamBuilder<UserData>(
       stream: DatabaseService(uid: user.uid).userData,
       builder: (context, snapshot) {
+        if(snapshot.hasData){
           UserData userData = snapshot.data;
+          regNumber = userData.regNumber;
+        }else{
+          regNumber = 'ABC123';
+        }
+
         return Scaffold(
           appBar: AppBar(
             centerTitle: true,
@@ -187,7 +194,7 @@ class _ParkTimerState extends State<ParkTimer> {
                               SizedBox(height: 5.0),
                               Row(
                                 children: <Widget>[
-                                  Text('${userData.regNumber.toUpperCase()}',
+                                  Text('${regNumber.toUpperCase()}',
                                     style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 50,

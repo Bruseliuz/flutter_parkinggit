@@ -25,6 +25,10 @@ class _SettingsFormAnonState extends State<SettingsFormAnon> {
   @override
   Widget build(BuildContext context) {
       return Scaffold(
+        appBar: AppBar(
+          backgroundColor: Color(0xff207FC5),
+          elevation: 0.0,
+        ),
         body: Stack(
           children: <Widget>[
             Container(
