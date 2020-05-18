@@ -68,7 +68,7 @@ class _ParkingMapState extends State<ParkingMap> {
     routeCoords = await googleMapPolyline.getCoordinatesWithLocation(
         origin: LatLng(currentLocation.latitude, currentLocation.longitude),
         destination: p.coordinates,
-        mode: RouteMode.walking);
+        mode: RouteMode.driving);
     setState(() {
       polyline.add(Polyline(
           polylineId: PolylineId('route1'),
