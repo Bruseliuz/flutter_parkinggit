@@ -19,6 +19,7 @@ class _SettingsFormDrawerState extends State<SettingsFormDrawer> {
   final List<String> parkingType = ['MC','HCP','No Preference'];
 
   int currentNotMinutes = 1;
+  String _currentRegNumber;
   String _currentName;
   String _currentParking;
   int _currentMaxPrice;
@@ -57,7 +58,7 @@ class _SettingsFormDrawerState extends State<SettingsFormDrawer> {
                     child: SingleChildScrollView(
                       physics: AlwaysScrollableScrollPhysics(),
                       padding: EdgeInsets.symmetric(
-                          vertical: 40,
+                          vertical: 20,
                           horizontal: 20
                       ),
                       child: Form(
@@ -66,6 +67,14 @@ class _SettingsFormDrawerState extends State<SettingsFormDrawer> {
                           children: <Widget>[
                             Column(
                               children: <Widget>[
+                                Text('NOTIFICATIONS',
+                                  style: TextStyle(
+                                      color:  Color(0xff207FC5),
+                                      fontWeight: FontWeight.bold,
+                                    fontSize: 20
+                                  ),
+                                ),
+                                SizedBox(height: 20),
                                 Padding(
                                   padding: EdgeInsets.only(left: 5),
                                   child: Row(
@@ -126,10 +135,6 @@ class _SettingsFormDrawerState extends State<SettingsFormDrawer> {
                                     fontSize: 11,
                                   ),),
                                 ),
-                                Divider(
-                                  color: Color(0xff207FC5),
-                                  thickness: 1.0,
-                                ),
                                 SizedBox(height: 20),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -161,27 +166,106 @@ class _SettingsFormDrawerState extends State<SettingsFormDrawer> {
                                   thickness: 1.0,
                                 ),
                                 SizedBox(height: 20),
-                                Text('Account settings'),
+                                Text('ACCOUNT',
+                                style: TextStyle(
+                                  color:  Color(0xff207FC5),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20
+                                ),),
+                                SizedBox(height: 20),
                                 Container(
-                                  child: TextFormField(
-                                    initialValue: ('${userData.name}'),
-                                    decoration: InputDecoration(
-                                      contentPadding: EdgeInsets.only(top: 15),
-                                        prefixIcon: Icon(
-                                          Icons.perm_identity,
-                                          color: Color(0xff207FC5),
-                                        )
-                                    ),
-                                    validator: (val) => val.isEmpty ? 'Please enter a name' : null,
-                                    onChanged: (val) => setState(() {
-                                      _currentName = val;
-                                      _updateSettingsIcon = new Icon(Icons.refresh,
-                                          color: Color(0xff207FC5));
-                                    }),
-                                    style: TextStyle(
+                                  padding: EdgeInsets.only(left: 5,right: 5),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: <Widget>[
+                                      Text('NAME',
+                                      style: TextStyle(
+                                        color: Color(0xff207FC5),
+                                        fontSize: 12,
+                                      ),),
+                                      TextFormField(
+                                        initialValue: ('${userData.name}'),
+                                        decoration: InputDecoration(
+                                            contentPadding: EdgeInsets.only(top: 15),
+                                            prefixIcon: Icon(
+                                              Icons.perm_identity,
+                                              color: Color(0xff207FC5),
+                                            )
+                                        ),
+                                        validator: (val) => val.isEmpty ? 'Please enter a name' : null,
+                                        onChanged: (val) => setState(() {
+                                          _currentName = val;
+                                          _updateSettingsIcon = new Icon(Icons.refresh,
+                                              color: Color(0xff207FC5));
+                                        }),
+                                        style: TextStyle(
+                                            color: Color(0xff207FC5)
+                                        ),
+                                      ),
+                                      SizedBox(height: 20),
+                                      Text('REGNR',
+                                      style: TextStyle(
                                         color: Color(0xff207FC5)
-                                    ),
-                                  ),
+                                      ),
+                                      ),
+                                      TextFormField(
+                                        maxLength: 6,
+                                        onChanged: (val) => setState(() {
+                                          _currentRegNumber = val;
+                                          _updateSettingsIcon = new Icon(Icons.refresh,
+                                              color: Color(0xff207FC5));
+                                        }),
+                                        style: TextStyle(
+                                            color: Color(0xff207FC5)
+                                        ),
+                                        initialValue: '${userData.regNumber}',
+                                        decoration: InputDecoration(
+                                            contentPadding: EdgeInsets.only(top: 15),
+                                            prefixIcon: Icon(
+                                              Icons.directions_car,
+                                              color: Color(0xff207FC5),
+                                            )
+                                        ),
+                                      ),
+                                      SizedBox(height: 30),
+                                      Container(
+                                        width: double.infinity,
+                                        child: MaterialButton(
+
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.circular(10),
+                                              side: BorderSide(
+                                                  color: Color(0xff207FC5)
+                                              )
+                                          ),
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: <Widget>[
+                                              Text('Update settings ',
+                                                style: TextStyle(
+                                                    color: Color(0xff207FC5),
+                                                    fontSize: 18.0
+                                                ),
+                                              ),
+                                              _updateSettingsIcon
+                                            ],
+                                          ),
+                                          color: Colors.white,
+                                          elevation: 4.0,
+                                          onPressed: () async {
+                                            await DatabaseService(uid: userData.uid).updateUserData(
+                                                userData.parking,
+                                                _currentName ?? userData.name,
+                                                userData.maxPrice,
+                                                userData.radius,
+                                              _currentRegNumber ?? userData.regNumber,
+                                            );
+                                          },
+                                          padding: EdgeInsets.all(15),
+                                        ),
+                                      ),
+                                    ],
+                                  )
                                 ),
                               ],
                             )

@@ -13,14 +13,16 @@ class DatabaseService {
   final CollectionReference favoriteCollection = Firestore.instance.collection('favoriteParkings');
 
   //create user data & update user data
-  Future updateUserData(String parking, String name, int maxPrice, int radius) async {
+  Future updateUserData(String parking, String name, int maxPrice, int radius, String regNumber) async {
     return await parkCollection.document(uid).setData({
       'parkering': parking,
       'name': name,
       'maxPrice': maxPrice,
       'radius': radius,
+      'registrationNumber': regNumber
     });
   }
+
 
   Future updateUserFavorites(String latLong, String address, String serviceInfo, bool favorite, String availableSpots) async {
     return await parkCollection.document(uid).collection('favoriteParkings').document(address).setData({
@@ -67,7 +69,7 @@ class DatabaseService {
       name: snapshot.data['name'],
       parking: snapshot.data['parkering'],
       maxPrice: snapshot.data['maxPrice'],
-      radius: snapshot.data['radius']
+      radius: snapshot.data['radius'],
     );
   }
 
