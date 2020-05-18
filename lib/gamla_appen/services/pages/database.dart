@@ -19,7 +19,7 @@ class DatabaseService {
       'name': name,
       'maxPrice': maxPrice,
       'radius': radius,
-      'registrationNumber': regNumber
+      'regNumber': regNumber
     });
   }
 
@@ -70,6 +70,7 @@ class DatabaseService {
       parking: snapshot.data['parkering'],
       maxPrice: snapshot.data['maxPrice'],
       radius: snapshot.data['radius'],
+      regNumber: snapshot.data['regNumber']
     );
   }
 

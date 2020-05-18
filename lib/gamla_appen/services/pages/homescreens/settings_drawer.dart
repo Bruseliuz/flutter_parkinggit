@@ -21,8 +21,6 @@ class _SettingsFormDrawerState extends State<SettingsFormDrawer> {
   int currentNotMinutes = 1;
   String _currentRegNumber;
   String _currentName;
-  String _currentParking;
-  int _currentMaxPrice;
   Icon _updateSettingsIcon = new Icon(Icons.refresh,
       color: Color(0xff207FC5));
 
@@ -209,16 +207,11 @@ class _SettingsFormDrawerState extends State<SettingsFormDrawer> {
                                       ),
                                       ),
                                       TextFormField(
+                                        initialValue: ('${userData.regNumber}'),
                                         maxLength: 6,
-                                        onChanged: (val) => setState(() {
-                                          _currentRegNumber = val;
-                                          _updateSettingsIcon = new Icon(Icons.refresh,
-                                              color: Color(0xff207FC5));
-                                        }),
                                         style: TextStyle(
                                             color: Color(0xff207FC5)
                                         ),
-                                        initialValue: '${userData.regNumber}',
                                         decoration: InputDecoration(
                                             contentPadding: EdgeInsets.only(top: 15),
                                             prefixIcon: Icon(
@@ -226,6 +219,11 @@ class _SettingsFormDrawerState extends State<SettingsFormDrawer> {
                                               color: Color(0xff207FC5),
                                             )
                                         ),
+                                        onChanged: (val) => setState(() {
+                                          _currentRegNumber = val;
+                                          _updateSettingsIcon = new Icon(Icons.refresh,
+                                              color: Color(0xff207FC5));
+                                        }),
                                       ),
                                       SizedBox(height: 30),
                                       Container(
@@ -235,7 +233,8 @@ class _SettingsFormDrawerState extends State<SettingsFormDrawer> {
                                           shape: RoundedRectangleBorder(
                                               borderRadius: BorderRadius.circular(10),
                                               side: BorderSide(
-                                                  color: Color(0xff207FC5)
+                                                  color: Color(0xff207FC5),
+                                                width: 1.5
                                               )
                                           ),
                                           child: Row(
@@ -253,6 +252,9 @@ class _SettingsFormDrawerState extends State<SettingsFormDrawer> {
                                           color: Colors.white,
                                           elevation: 4.0,
                                           onPressed: () async {
+                                            print(_currentRegNumber);
+                                            print(userData.regNumber);
+                                            if(_formKey.currentState.validate())
                                             await DatabaseService(uid: userData.uid).updateUserData(
                                                 userData.parking,
                                                 _currentName ?? userData.name,
@@ -260,6 +262,11 @@ class _SettingsFormDrawerState extends State<SettingsFormDrawer> {
                                                 userData.radius,
                                               _currentRegNumber ?? userData.regNumber,
                                             );
+                                            _neverSatisfied();
+                                            setState(() {
+                                              _updateSettingsIcon = new Icon(Icons.check_circle_outline,
+                                                  color: Color(0xff207FC5));
+                                            });
                                           },
                                           padding: EdgeInsets.all(15),
                                         ),
@@ -293,7 +300,7 @@ class _SettingsFormDrawerState extends State<SettingsFormDrawer> {
       builder: (BuildContext context) {
         return AlertDialog(
           shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(18)
+              borderRadius: BorderRadius.circular(15)
           ),
           title: Text('Your settings have been saved.', style: TextStyle(color:  Color(0xff207FC5)),),
           content: SingleChildScrollView(
