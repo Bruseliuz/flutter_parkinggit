@@ -64,6 +64,7 @@ class _ParkingMapState extends State<ParkingMap> {
       new GoogleMapPolyline(apiKey: "AIzaSyDCKuA95vaqlu92GXWkgpc2vSrgYmCVabI");
   GoogleMapsPlaces _places =
       GoogleMapsPlaces(apiKey: "AIzaSyDCKuA95vaqlu92GXWkgpc2vSrgYmCVabI");
+  final homeScaffoldKey = GlobalKey<ScaffoldState>();
 
   getPoints(ParkingArea p) async {
     polyline.clear();
@@ -148,11 +149,12 @@ class _ParkingMapState extends State<ParkingMap> {
                         borderRadius: BorderRadius.circular(15.0),
                         color: Colors.transparent),*/
                     child: RaisedButton(
+                      color: Colors.transparent,
                       onPressed: () async {
                         Prediction p = await PlacesAutocomplete.show(
                             context: context,
                             apiKey: "AIzaSyDCKuA95vaqlu92GXWkgpc2vSrgYmCVabI");
-                        displayPrediction(p);
+                        displayPrediction(p, homeScaffoldKey.currentState);
                       },
                       child: TextField(
                         cursorColor: Color(0xff207FC5),
@@ -162,10 +164,6 @@ class _ParkingMapState extends State<ParkingMap> {
                             border: OutlineInputBorder(
                                 borderSide:
                                     BorderSide(color: Color(0xff207FC5)),
-                                borderRadius: BorderRadius.circular(15)),
-                            focusedBorder: OutlineInputBorder(
-                                borderSide:
-                                BorderSide(color: Color(0xff207FC5)),
                                 borderRadius: BorderRadius.circular(15)),
                             contentPadding:
                                 EdgeInsets.only(left: 15.0, top: 15.0),
@@ -207,16 +205,16 @@ class _ParkingMapState extends State<ParkingMap> {
         });
   }
 
-  Future<Null> displayPrediction(Prediction p) async {
+  Future<Null> displayPrediction(Prediction p, ScaffoldState scaffold) async {
     if (p != null) {
-      PlacesDetailsResponse detail =
-          await _places.getDetailsByPlaceId(p.placeId);
+      // get detail (lat/lng)
+      PlacesDetailsResponse detail = await _places.getDetailsByPlaceId(p.placeId);
+      final lat = detail.result.geometry.location.lat;
+      final lng = detail.result.geometry.location.lng;
 
-      var placeId = p.placeId;
-      double lat = detail.result.geometry.location.lat;
-      double lng = detail.result.geometry.location.lng;
-
-      var address = await Geocoder.local.findAddressesFromQuery(p.description);
+      scaffold.showSnackBar(
+        SnackBar(content: Text("${p.description} - $lat/$lng")),
+      );
     }
   }
 
