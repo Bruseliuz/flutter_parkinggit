@@ -28,6 +28,7 @@ import 'package:provider/provider.dart';
 import 'package:proj4dart/proj4dart.dart';
 import 'package:flutter_google_places/flutter_google_places.dart';
 import 'package:geocoder/geocoder.dart';
+import 'package:google_maps_webservice/places.dart';
 
 ParkingArea selectedParking;
 int distance;
