@@ -2,10 +2,8 @@
 //import 'dart:math';
 import 'dart:math';
 import 'package:flutterparkinggit/gamla_appen/services/pages/map/contains_location.dart';
-import 'package:geojson/geojson.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_map_polyline/google_map_polyline.dart';
-import 'package:google_map_polyutil/google_map_polyutil.dart';
 import 'dart:typed_data';
 import 'dart:io';
 import 'dart:ui' as ui;
@@ -631,6 +629,7 @@ class ParkingDialogState extends State<ParkingDialogWidget> {
                     color: Color(0xff207FC5), fontWeight: FontWeight.bold),
               ),
             ),
+            Divider(color: Colors.black),
             Flexible(
                 flex: 1,
                 fit: FlexFit.loose,
@@ -647,6 +646,9 @@ class ParkingDialogState extends State<ParkingDialogWidget> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
+              Divider(
+                  color: Colors.black
+              ),
               Row(
                 children: <Widget>[
                   Icon(
@@ -718,7 +720,10 @@ class ParkingDialogState extends State<ParkingDialogWidget> {
                     ),
                   )
                 ],
-              )
+              ),
+              Divider(
+                  color: Colors.black
+              ),
             ],
           ),
         ),
