@@ -14,6 +14,7 @@ import 'package:flutterparkinggit/gamla_appen/services/pages/map/price_area.dart
 import 'package:location/location.dart' as Location;
 import 'package:path_provider/path_provider.dart';
 import 'package:utm/utm.dart';
+import 'package:google_maps_webservice/places.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/database.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/map/park_timer.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -26,7 +27,6 @@ import 'package:provider/provider.dart';
 import 'package:proj4dart/proj4dart.dart';
 import 'package:flutter_google_places/flutter_google_places.dart';
 import 'package:geocoder/geocoder.dart';
-import 'package:google_maps_webservice/places.dart';
 
 ParkingArea selectedParking;
 int distance;
@@ -141,46 +141,38 @@ class _ParkingMapState extends State<ParkingMap> {
                   top: 30.0,
                   right: 15.0,
                   left: 15.0,
-                  child: Container(
-                    height: 50.0,
-                    width: double.infinity,
-                    color: Colors.transparent,
-                    /*     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15.0),
-                        color: Colors.transparent),*/
-                    child: RaisedButton(
-                      color: Colors.transparent,
-                      onPressed: () async {
-                        Prediction p = await PlacesAutocomplete.show(
-                            context: context,
-                            apiKey: "AIzaSyDCKuA95vaqlu92GXWkgpc2vSrgYmCVabI");
-                        displayPrediction(p, homeScaffoldKey.currentState);
-                      },
-                      child: TextField(
-                        cursorColor: Color(0xff207FC5),
-                        decoration: InputDecoration(
-                            hintText: 'Search for address',
-                            hintStyle: TextStyle(color: Color(0xff207FC5)),
-                            border: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Color(0xff207FC5)),
-                                borderRadius: BorderRadius.circular(15)),
-                            contentPadding:
-                                EdgeInsets.only(left: 15.0, top: 15.0),
-                            fillColor: Colors.white,
-                            filled: true,
-                            suffixIcon: IconButton(
-                                icon: Icon(Icons.search),
-                                color: Color(0xff207FC5),
-                                onPressed: searchAndNavigate,
-                                iconSize: 30.0)),
-                        onChanged: (val) {
-                          setState(() {
-                            searchAddress = val;
-                          });
-                        },
-                      ),
-                    ),
+                  child: TextField(
+                    onTap: () async {
+                      Prediction p = await PlacesAutocomplete.show(
+                          context: context,
+                          apiKey: "AIzaSyDCKuA95vaqlu92GXWkgpc2vSrgYmCVabI",
+                          mode: Mode.overlay,
+                          radius: 1000,
+                          language: "sv",
+                          components: [new Component(Component.country, "sv")]);
+                      displayPrediction(p, homeScaffoldKey.currentState);
+                    },
+                    cursorColor: Color(0xff207FC5),
+                    decoration: InputDecoration(
+                        hintText: 'Search for address',
+                        hintStyle: TextStyle(color: Color(0xff207FC5)),
+                        border: OutlineInputBorder(
+                            borderSide: BorderSide(color: Color(0xff207FC5)),
+                            borderRadius: BorderRadius.circular(15)),
+                        contentPadding:
+                        EdgeInsets.only(left: 15.0, top: 15.0, right: 15.0),
+                        fillColor: Colors.white,
+                        filled: true,
+                        suffixIcon: IconButton(
+                            icon: Icon(Icons.search),
+                            color: Color(0xff207FC5),
+                            onPressed: searchAndNavigate,
+                            iconSize: 30.0)),
+                    onChanged: (val) {
+                      setState(() {
+                        searchAddress = val;
+                      });
+                    },
                   ),
                 )
               ],
@@ -197,6 +189,7 @@ class _ParkingMapState extends State<ParkingMap> {
               label: Text('Find Nearby\n   Parking'),
               backgroundColor: Color(0xff207FC5),
               onPressed: () async {
+
                 await getCurrentLocation();
 //                    print(allMarkers.toString());
               },
@@ -208,7 +201,8 @@ class _ParkingMapState extends State<ParkingMap> {
   Future<Null> displayPrediction(Prediction p, ScaffoldState scaffold) async {
     if (p != null) {
       // get detail (lat/lng)
-      PlacesDetailsResponse detail = await _places.getDetailsByPlaceId(p.placeId);
+      PlacesDetailsResponse detail =
+      await _places.getDetailsByPlaceId(p.placeId);
       final lat = detail.result.geometry.location.lat;
       final lng = detail.result.geometry.location.lng;
 
@@ -492,8 +486,10 @@ class _ParkingMapState extends State<ParkingMap> {
         polygons.forEach((poly) async {
           bool result = checkLocationInPoly(lat, long, poly);
           if (result == true) {
+            List valueList = marker.markerId.value.split(', ');
+            String markerValue = valueList[0];
             markerPrice.putIfAbsent(
-                marker.markerId.value, () => poly.polygonId.value);
+                markerValue, () => poly.polygonId.value);
           }
         });
       });
@@ -501,12 +497,13 @@ class _ParkingMapState extends State<ParkingMap> {
   }
 
   Future getMarkers() async {
+    int counter = 0;
     List<Marker> list = [];
     for (var element in parkingSpotsList) {
       BitmapDescriptor bitmapDescriptor =
-          await createCustomMarkerBitmap(element);
+      await createCustomMarkerBitmap(element);
       list.add(Marker(
-          markerId: MarkerId(element.streetName),
+          markerId: MarkerId('${element.streetName}, $counter'),
           icon: bitmapDescriptor,
 //            icon: BitmapDescriptor.defaultMarker,
           visible: true,
@@ -519,6 +516,7 @@ class _ParkingMapState extends State<ParkingMap> {
             getPoints(element);
           },
           position: element.coordinates));
+      counter++;
     }
     setState(() {
       allMarkers = list;

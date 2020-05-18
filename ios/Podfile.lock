@@ -324,6 +324,8 @@ PODS:
     - Flutter
   - flutter_plugin_android_lifecycle (0.0.1):
     - Flutter
+  - geocoder (0.0.1):
+    - Flutter
   - geolocation (0.0.1):
     - Flutter
     - streams_channel
@@ -443,6 +445,7 @@ DEPENDENCIES:
   - Flutter (from `Flutter`)
   - flutter_facebook_login (from `.symlinks/plugins/flutter_facebook_login/ios`)
   - flutter_plugin_android_lifecycle (from `.symlinks/plugins/flutter_plugin_android_lifecycle/ios`)
+  - geocoder (from `.symlinks/plugins/geocoder/ios`)
   - geolocation (from `.symlinks/plugins/geolocation/ios`)
   - geolocator (from `.symlinks/plugins/geolocator/ios`)
   - google_api_availability (from `.symlinks/plugins/google_api_availability/ios`)
@@ -506,6 +509,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_facebook_login/ios"
   flutter_plugin_android_lifecycle:
     :path: ".symlinks/plugins/flutter_plugin_android_lifecycle/ios"
+  geocoder:
+    :path: ".symlinks/plugins/geocoder/ios"
   geolocation:
     :path: ".symlinks/plugins/geolocation/ios"
   geolocator:
@@ -558,6 +563,7 @@ SPEC CHECKSUMS:
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
   flutter_facebook_login: cfb5659f686b1c575ef205c6b6fd20db9679d3c4
   flutter_plugin_android_lifecycle: dc0b544e129eebb77a6bfb1239d4d1c673a60a35
+  geocoder: 3cfab70531a0b367e917bafe82df4c30f6d4c45a
   geolocation: c194aabfd0f48cd7d6041afa8ba6542aa5714dc2
   geolocator: 460cc8e850b616f8c0e90944c86517d91ccbb686
   google_api_availability: 15fa42a8cd83c0a6738507ffe6e87096f12abcb8
