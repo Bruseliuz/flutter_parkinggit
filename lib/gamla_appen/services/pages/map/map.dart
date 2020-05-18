@@ -149,6 +149,7 @@ class _ParkingMapState extends State<ParkingMap> {
                         borderRadius: BorderRadius.circular(15.0),
                         color: Colors.transparent),*/
                     child: RaisedButton(
+                      elevation: 0.0,
                       color: Colors.transparent,
                       onPressed: () async {
                         Prediction p = await PlacesAutocomplete.show(
@@ -157,6 +158,7 @@ class _ParkingMapState extends State<ParkingMap> {
                         displayPrediction(p, homeScaffoldKey.currentState);
                       },
                       child: TextField(
+                        enableSuggestions: true,
                         cursorColor: Color(0xff207FC5),
                         decoration: InputDecoration(
                             hintText: 'Search for address',
@@ -459,8 +461,6 @@ class _ParkingMapState extends State<ParkingMap> {
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20)),
                       onPressed: () {
-                        selectedParking =
-                            new ParkingArea(streetName: 'Randomvägen 1');
                         Navigator.pushNamed(context, '/timer');
                       },
                       icon: Icon(

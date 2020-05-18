@@ -25,7 +25,8 @@ class MyApp extends StatelessWidget{
       child: MaterialApp(
         home: Wrapper(),
         routes: {
-      '/register':(context) => Register(),
+          '/wrapper':(context)=> Wrapper(),
+          '/register':(context) => Register(),
           '/onBoarding': (context) => Onboarding(),
           '/signIn': (context) => SignIn(),
           '/timer': (context) => ParkTimer(),
