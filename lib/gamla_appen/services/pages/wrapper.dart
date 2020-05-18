@@ -22,7 +22,9 @@ class Wrapper extends StatelessWidget {
       return Home(screens: <Widget>[ParkingMap(),
         Favorites(),
         ParkList(),
-        SettingsForm(),],);
+        SettingsForm(),
+      ],
+      );
     }
   }
 }

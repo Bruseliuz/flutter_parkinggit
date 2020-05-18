@@ -1,5 +1,3 @@
-//import 'dart:html';
-//import 'dart:math';
 import 'dart:math';
 import 'package:flutterparkinggit/gamla_appen/services/pages/map/contains_location.dart';
 import 'package:geolocator/geolocator.dart';
@@ -13,7 +11,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/map/price_area.dart';
-import 'package:location/location.dart';
+import 'package:location/location.dart' as Location;
 import 'package:path_provider/path_provider.dart';
 import 'package:utm/utm.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/database.dart';
@@ -55,7 +53,7 @@ class ParkingMap extends StatefulWidget {
 
 class _ParkingMapState extends State<ParkingMap> {
   List<DocumentSnapshot> favoriteDocuments = [];
-  //Location _locationTracker = Location();
+  Location.Location _locationTracker = Location.Location();
   List<Marker> allMarkers = [];
   Completer<GoogleMapController> _controller = Completer();
   static LatLng _center = LatLng(59.334591, 18.063240);
@@ -366,12 +364,11 @@ class _ParkingMapState extends State<ParkingMap> {
   }
 
   Future getCurrentLocation() async {
-    var currentLocation = await Geolocator().getCurrentPosition();
-    //var location = await _locationTracker.getLocation();
-    String response = await setLocation(currentLocation);
+    var location = await _locationTracker.getLocation();
+    String response = await setLocation(location);
   }
 
-  Future setLocation(Position location) async {
+  Future setLocation(Location.LocationData location) async {
     final GoogleMapController controller = await _controller.future;
     LatLng newLocation = LatLng(location.latitude, location.longitude);
     CameraPosition cameraPosition = CameraPosition(
@@ -415,11 +412,10 @@ class _ParkingMapState extends State<ParkingMap> {
   }
 
   Future fakeMarkers() async {
-    var currentLocation = await Geolocator().getCurrentPosition();
-    //LocationData location = await _locationTracker.getLocation();
+    Location.LocationData location = await _locationTracker.getLocation();
 
     LatLng loc =
-    new LatLng((currentLocation.latitude + 0.01), (currentLocation.longitude + 0.01));
+    new LatLng((location.latitude + 0.01), (location.longitude + 0.01));
     //  BitmapDescriptor bitmapDescriptor = await createCustomMarkerBitmap(
     //       '5');
     setState(() {
@@ -511,7 +507,7 @@ class _ParkingMapState extends State<ParkingMap> {
 //            icon: BitmapDescriptor.defaultMarker,
           visible: true,
           draggable: false,
-          onTap: () {
+          onTap: () {// TODO - OnDoubleTap
             showDialog(
                 context: context,
                 builder: (_) => ParkingDialogWidget(parkingArea: element));
