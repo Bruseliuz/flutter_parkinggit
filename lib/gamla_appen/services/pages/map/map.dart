@@ -475,7 +475,7 @@ class _ParkingMapState extends State<ParkingMap> {
 //            icon: BitmapDescriptor.defaultMarker,
           visible: true,
           draggable: false,
-          onTap: () {
+          onTap: () {// TODO - OnDoubleTap
             showDialog(
                 context: context,
                 builder: (_) => ParkingDialogWidget(parkingArea: element));
