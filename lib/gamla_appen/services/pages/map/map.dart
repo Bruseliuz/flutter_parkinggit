@@ -138,16 +138,23 @@ class _ParkingMapState extends State<ParkingMap> {
                     height: 50.0,
                     width: double.infinity,
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10.0),
+                        borderRadius: BorderRadius.circular(15.0),
                         color: Colors.white),
                     child: TextField(
+                      cursorColor: Color(0xff207FC5),
                       decoration: InputDecoration(
                           hintText: 'Search for address',
-                          border: InputBorder.none,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15)
+                          ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15)
+                          ),
                           contentPadding:
                           EdgeInsets.only(left: 15.0, top: 15.0),
                           suffixIcon: IconButton(
                               icon: Icon(Icons.search),
+                              color: Color(0xff207FC5),
                               onPressed: searchAndNavigate,
                               iconSize: 30.0)),
                       onChanged: (val) {
