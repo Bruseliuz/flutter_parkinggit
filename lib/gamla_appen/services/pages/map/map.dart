@@ -26,6 +26,8 @@ import 'dart:convert';
 import 'package:flutterparkinggit/gamla_appen/models/user.dart';
 import 'package:provider/provider.dart';
 import 'package:proj4dart/proj4dart.dart';
+import 'package:flutter_google_places/flutter_google_places.dart';
+import 'package:geocoder/geocoder.dart';
 
 ParkingArea selectedParking;
 int distance;
@@ -61,6 +63,7 @@ class _ParkingMapState extends State<ParkingMap> {
   List<LatLng> routeCoords;
   GoogleMapPolyline googleMapPolyline =
   new GoogleMapPolyline(apiKey: "AIzaSyDCKuA95vaqlu92GXWkgpc2vSrgYmCVabI");
+  GoogleMapsPlaces _places = GoogleMapsPlaces(apiKey: "AIzaSyDCKuA95vaqlu92GXWkgpc2vSrgYmCVabI");
 
   getPoints(ParkingArea p) async {
     polyline.clear();
@@ -140,6 +143,14 @@ class _ParkingMapState extends State<ParkingMap> {
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15.0),
                         color: Colors.white),
+                    child: RaisedButton(
+                      onPressed: () async {
+                        // show input autocomplete with selected mode
+                        // then get the Prediction selected
+                        Prediction p = await PlacesAutocomplete.show(
+                            context: context, apiKey: "AIzaSyDCKuA95vaqlu92GXWkgpc2vSrgYmCVabI");
+                        displayPrediction(p);
+                      },
                     child: TextField(
                       cursorColor: Color(0xff207FC5),
                       decoration: InputDecoration(
@@ -162,6 +173,7 @@ class _ParkingMapState extends State<ParkingMap> {
                           searchAddress = val;
                         });
                       },
+                    ),
                     ),
                   ),
                 )
@@ -186,6 +198,19 @@ class _ParkingMapState extends State<ParkingMap> {
             ),
           );
         });
+  }
+
+  Future<Null> displayPrediction(Prediction p) async {
+    if (p != null) {
+      PlacesDetailsResponse detail =
+      await _places.getDetailsByPlaceId(p.placeId);
+
+      var placeId = p.placeId;
+      double lat = detail.result.geometry.location.lat;
+      double lng = detail.result.geometry.location.lng;
+
+      var address = await Geocoder.local.findAddressesFromQuery(p.description);
+    }
   }
 
   searchAndNavigate() {
