@@ -631,6 +631,7 @@ class ParkingDialogState extends State<ParkingDialogWidget> {
                     color: Color(0xff207FC5), fontWeight: FontWeight.bold),
               ),
             ),
+            Divider(color: Colors.black),
             Flexible(
                 flex: 1,
                 fit: FlexFit.loose,
@@ -647,6 +648,9 @@ class ParkingDialogState extends State<ParkingDialogWidget> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
+              Divider(
+                  color: Colors.black
+              ),
               Row(
                 children: <Widget>[
                   Icon(
@@ -718,7 +722,10 @@ class ParkingDialogState extends State<ParkingDialogWidget> {
                     ),
                   )
                 ],
-              )
+              ),
+              Divider(
+                  color: Colors.black
+              ),
             ],
           ),
         ),
