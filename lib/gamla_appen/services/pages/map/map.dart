@@ -26,6 +26,8 @@ import 'dart:convert';
 import 'package:flutterparkinggit/gamla_appen/models/user.dart';
 import 'package:provider/provider.dart';
 import 'package:proj4dart/proj4dart.dart';
+import 'package:flutter_google_places/flutter_google_places.dart';
+import 'package:geocoder/geocoder.dart';
 
 ParkingArea selectedParking;
 int distance;
@@ -61,6 +63,7 @@ class _ParkingMapState extends State<ParkingMap> {
   List<LatLng> routeCoords;
   GoogleMapPolyline googleMapPolyline =
   new GoogleMapPolyline(apiKey: "AIzaSyDCKuA95vaqlu92GXWkgpc2vSrgYmCVabI");
+  GoogleMapsPlaces _places = GoogleMapsPlaces(apiKey: "AIzaSyDCKuA95vaqlu92GXWkgpc2vSrgYmCVabI");
 
   getPoints(ParkingArea p) async {
     polyline.clear();
@@ -68,7 +71,7 @@ class _ParkingMapState extends State<ParkingMap> {
     routeCoords = await googleMapPolyline.getCoordinatesWithLocation(
         origin: LatLng(currentLocation.latitude, currentLocation.longitude),
         destination: p.coordinates,
-        mode: RouteMode.walking);
+        mode: RouteMode.driving);
     setState(() {
       polyline.add(Polyline(
           polylineId: PolylineId('route1'),
@@ -83,6 +86,9 @@ class _ParkingMapState extends State<ParkingMap> {
 
   @override
   void initState() {
+    if (polygons.isEmpty) {
+      getPriceAreas();
+    }
     super.initState();
   }
 
@@ -138,16 +144,31 @@ class _ParkingMapState extends State<ParkingMap> {
                     height: 50.0,
                     width: double.infinity,
                     decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10.0),
+                        borderRadius: BorderRadius.circular(15.0),
                         color: Colors.white),
+                    child: RaisedButton(
+                      onPressed: () async {
+                        // show input autocomplete with selected mode
+                        // then get the Prediction selected
+                        Prediction p = await PlacesAutocomplete.show(
+                            context: context, apiKey: "AIzaSyDCKuA95vaqlu92GXWkgpc2vSrgYmCVabI");
+                        displayPrediction(p);
+                      },
                     child: TextField(
+                      cursorColor: Color(0xff207FC5),
                       decoration: InputDecoration(
                           hintText: 'Search for address',
-                          border: InputBorder.none,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15)
+                          ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15)
+                          ),
                           contentPadding:
                           EdgeInsets.only(left: 15.0, top: 15.0),
                           suffixIcon: IconButton(
                               icon: Icon(Icons.search),
+                              color: Color(0xff207FC5),
                               onPressed: searchAndNavigate,
                               iconSize: 30.0)),
                       onChanged: (val) {
@@ -155,6 +176,7 @@ class _ParkingMapState extends State<ParkingMap> {
                           searchAddress = val;
                         });
                       },
+                    ),
                     ),
                   ),
                 )
@@ -172,13 +194,25 @@ class _ParkingMapState extends State<ParkingMap> {
               label: Text('Find Nearby\n   Parking'),
               backgroundColor: Color(0xff207FC5),
               onPressed: () async {
-                await getPriceAreas();
                 await getCurrentLocation();
 //                    print(allMarkers.toString());
               },
             ),
           );
         });
+  }
+
+  Future<Null> displayPrediction(Prediction p) async {
+    if (p != null) {
+      PlacesDetailsResponse detail =
+      await _places.getDetailsByPlaceId(p.placeId);
+
+      var placeId = p.placeId;
+      double lat = detail.result.geometry.location.lat;
+      double lng = detail.result.geometry.location.lng;
+
+      var address = await Geocoder.local.findAddressesFromQuery(p.description);
+    }
   }
 
   searchAndNavigate() {
@@ -448,25 +482,26 @@ class _ParkingMapState extends State<ParkingMap> {
     if (allMarkers.isEmpty) {
       showDialog(
           context: context, builder: (_) => _noParkingAlertDialogWidget());
-    }
-    allMarkers.forEach((marker) {
-      double lat = marker.position.latitude;
-      double long = marker.position.longitude;
-      polygons.forEach((poly) async {
-        bool result = checkLocationInPoly(lat, long, poly);
-        if (result == true) {
-          markerPrice.putIfAbsent(
-              marker.markerId.value, () => poly.polygonId.value);
-        }
+    } else {
+      allMarkers.forEach((marker) {
+        double lat = marker.position.latitude;
+        double long = marker.position.longitude;
+        polygons.forEach((poly) async {
+          bool result = checkLocationInPoly(lat, long, poly);
+          if (result == true) {
+            markerPrice.putIfAbsent(
+                marker.markerId.value, () => poly.polygonId.value);
+          }
+        });
       });
-    });
+    }
   }
 
   Future getMarkers() async {
     List<Marker> list = [];
     for (var element in parkingSpotsList) {
       BitmapDescriptor bitmapDescriptor =
-      await createCustomMarkerBitmap(element.availableParkingSpots);
+      await createCustomMarkerBitmap(element);
       list.add(Marker(
           markerId: MarkerId(element.streetName),
           icon: bitmapDescriptor,
@@ -487,7 +522,41 @@ class _ParkingMapState extends State<ParkingMap> {
     setMarkersPrice();
   }
 
-  Future<BitmapDescriptor> createCustomMarkerBitmap(String title) async {
+  Future<BitmapDescriptor> createCustomMarkerBitmap(ParkingArea element) async {
+    String price = '';
+    for (var polygon in polygons) {
+      if (price == '') {
+        if (checkLocationInPoly(
+            element.coordinates.latitude, element.coordinates.longitude,
+            polygon)) {
+          price = polygon.polygonId.value;
+        }
+      }
+    }
+    List stringList = price.split(' ');
+    price = stringList[0];
+    String imagePath = '';
+    switch (price) {
+      case '50':
+        imagePath = 'locmarker775.png';
+        break;
+      case '26':
+        imagePath = 'locmarker776.png';
+        break;
+      case '15':
+        imagePath = 'locmarker777.png';
+        break;
+      case '10':
+        imagePath = 'locmarker778.png';
+        break;
+      case '5':
+        imagePath = 'locmarker779.png';
+        break;
+      default:
+        imagePath = 'locmarker777.png';
+    }
+
+
     final Size size = Size(170, 170);
     final PictureRecorder recorder = new PictureRecorder();
     final Canvas c = new Canvas(recorder);
@@ -508,12 +577,12 @@ class _ParkingMapState extends State<ParkingMap> {
 
     TextSpan span = new TextSpan(
       style: new TextStyle(
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.transparent,
         color: Colors.black,
         fontSize: 34.0,
         fontWeight: FontWeight.bold,
       ),
-      text: title,
+      text: element.availableParkingSpots,
     );
 
     TextPainter tp = TextPainter(
@@ -533,7 +602,7 @@ class _ParkingMapState extends State<ParkingMap> {
 
     c.clipPath(Path()..addOval(oval));
 
-    ui.Image image = await getImageFromPath('locmarker777.png');
+    ui.Image image = await getImageFromPath(imagePath);
     paintImage(canvas: c, image: image, rect: oval, fit: BoxFit.fitWidth);
 
     final ui.Image markerAsImage = await recorder
@@ -641,7 +710,7 @@ class ParkingDialogState extends State<ParkingDialogWidget> {
           ],
         ),
         content: Container(
-          height: 150,
+          height: 160,
           width: double.infinity,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -722,7 +791,7 @@ class ParkingDialogState extends State<ParkingDialogWidget> {
                 ],
               ),
               Divider(
-                  color: Colors.black
+                color: Colors.black,
               ),
             ],
           ),

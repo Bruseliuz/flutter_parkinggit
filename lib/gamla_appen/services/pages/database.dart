@@ -32,16 +32,14 @@ class DatabaseService {
     });
   }
 
-  Future<int> getUsername(String username) async {
+  String getUsername(String username) {
     try {
-      DocumentReference docRef = parkCollection.document(uid);
-      if (docRef != null) {
-        return 1;
-      } else {
-        return 0;
-      }
+      DocumentReference docRef = parkCollection.document(username);
+      docRef.get().then((snapshot) {
+        return snapshot['name'];
+      });
     } catch (e) {
-      return 0;
+      return 'No Name';
     }
   }
 
