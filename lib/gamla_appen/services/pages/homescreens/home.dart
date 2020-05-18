@@ -39,13 +39,21 @@ class _HomeState extends State<Home> {
                   child: ListView(
                     children: <Widget>[
                       Container(
-                        padding: EdgeInsets.all(25),
-                        child: Text('PARK´N STOCKHOLM',
-                        style: TextStyle(
-                          color: Color(0xff207FC5),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 35
-                        ),),
+                        padding: EdgeInsets.fromLTRB(10, 25, 20, 20),
+                        child: Row(children: <Widget>[
+                          IconButton(
+                            icon: Icon(Icons.menu),
+                            onPressed: () => Navigator.pop(context),
+                            padding: EdgeInsets.fromLTRB(2, 0, 2, 0),
+                          ),
+                          Text(
+                            'PARK´N \nSTOCKHOLM',
+                            style: TextStyle(
+                                color: Color(0xff207FC5),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 33),
+                          ),
+                        ]),
                       ),
                       SizedBox(height: 20),
                       Divider(color: Color(0xff207FC5),),

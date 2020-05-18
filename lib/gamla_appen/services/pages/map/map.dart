@@ -2,10 +2,8 @@
 //import 'dart:math';
 import 'dart:math';
 import 'package:flutterparkinggit/gamla_appen/services/pages/map/contains_location.dart';
-import 'package:geojson/geojson.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_map_polyline/google_map_polyline.dart';
-import 'package:google_map_polyutil/google_map_polyutil.dart';
 import 'dart:typed_data';
 import 'dart:io';
 import 'dart:ui' as ui;
