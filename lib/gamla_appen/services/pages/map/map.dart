@@ -35,7 +35,7 @@ String parkingPrice;
 User globalUser;
 List<String> favoriteDocumentsId = [];
 final CollectionReference parkCollection =
-Firestore.instance.collection("parkingPreference");
+    Firestore.instance.collection("parkingPreference");
 List<ParkingArea> parkingSpotsList = [];
 Set<List<LatLng>> polygonPoints = {};
 Map<List<LatLng>, String> polygonPointsExtended = {};
@@ -61,8 +61,9 @@ class _ParkingMapState extends State<ParkingMap> {
   final Set<Polyline> polyline = {};
   List<LatLng> routeCoords;
   GoogleMapPolyline googleMapPolyline =
-  new GoogleMapPolyline(apiKey: "AIzaSyDCKuA95vaqlu92GXWkgpc2vSrgYmCVabI");
-  GoogleMapsPlaces _places = GoogleMapsPlaces(apiKey: "AIzaSyDCKuA95vaqlu92GXWkgpc2vSrgYmCVabI");
+      new GoogleMapPolyline(apiKey: "AIzaSyDCKuA95vaqlu92GXWkgpc2vSrgYmCVabI");
+  GoogleMapsPlaces _places =
+      GoogleMapsPlaces(apiKey: "AIzaSyDCKuA95vaqlu92GXWkgpc2vSrgYmCVabI");
 
   getPoints(ParkingArea p) async {
     polyline.clear();
@@ -142,47 +143,52 @@ class _ParkingMapState extends State<ParkingMap> {
                   child: Container(
                     height: 50.0,
                     width: double.infinity,
-                    decoration: BoxDecoration(
+                    color: Colors.transparent,
+                    /*     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(15.0),
-                        color: Colors.white),
+                        color: Colors.transparent),*/
                     child: RaisedButton(
                       onPressed: () async {
-                        // show input autocomplete with selected mode
-                        // then get the Prediction selected
                         Prediction p = await PlacesAutocomplete.show(
-                            context: context, apiKey: "AIzaSyDCKuA95vaqlu92GXWkgpc2vSrgYmCVabI");
+                            context: context,
+                            apiKey: "AIzaSyDCKuA95vaqlu92GXWkgpc2vSrgYmCVabI");
                         displayPrediction(p);
                       },
-                    child: TextField(
-                      cursorColor: Color(0xff207FC5),
-                      decoration: InputDecoration(
-                          hintText: 'Search for address',
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15)
-                          ),
+                      child: TextField(
+                        cursorColor: Color(0xff207FC5),
+                        decoration: InputDecoration(
+                            hintText: 'Search for address',
+                            hintStyle: TextStyle(color: Color(0xff207FC5)),
+                            border: OutlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Color(0xff207FC5)),
+                                borderRadius: BorderRadius.circular(15)),
                             focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15)
-                          ),
-                          contentPadding:
-                          EdgeInsets.only(left: 15.0, top: 15.0),
-                          suffixIcon: IconButton(
-                              icon: Icon(Icons.search),
-                              color: Color(0xff207FC5),
-                              onPressed: searchAndNavigate,
-                              iconSize: 30.0)),
-                      onChanged: (val) {
-                        setState(() {
-                          searchAddress = val;
-                        });
-                      },
-                    ),
+                                borderSide:
+                                BorderSide(color: Color(0xff207FC5)),
+                                borderRadius: BorderRadius.circular(15)),
+                            contentPadding:
+                                EdgeInsets.only(left: 15.0, top: 15.0),
+                            fillColor: Colors.white,
+                            filled: true,
+                            suffixIcon: IconButton(
+                                icon: Icon(Icons.search),
+                                color: Color(0xff207FC5),
+                                onPressed: searchAndNavigate,
+                                iconSize: 30.0)),
+                        onChanged: (val) {
+                          setState(() {
+                            searchAddress = val;
+                          });
+                        },
+                      ),
                     ),
                   ),
                 )
               ],
             ),
             floatingActionButtonLocation:
-            FloatingActionButtonLocation.centerFloat,
+                FloatingActionButtonLocation.centerFloat,
             floatingActionButton: FloatingActionButton.extended(
               elevation: 3.0,
               shape: RoundedRectangleBorder(
@@ -204,7 +210,7 @@ class _ParkingMapState extends State<ParkingMap> {
   Future<Null> displayPrediction(Prediction p) async {
     if (p != null) {
       PlacesDetailsResponse detail =
-      await _places.getDetailsByPlaceId(p.placeId);
+          await _places.getDetailsByPlaceId(p.placeId);
 
       var placeId = p.placeId;
       double lat = detail.result.geometry.location.lat;
@@ -219,7 +225,7 @@ class _ParkingMapState extends State<ParkingMap> {
       final GoogleMapController controller = await _controller.future;
       controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
           target:
-          LatLng(result[0].position.latitude, result[0].position.longitude),
+              LatLng(result[0].position.latitude, result[0].position.longitude),
           zoom: 15.0)));
       await getData(
           LatLng(result[0].position.latitude, result[0].position.longitude));
@@ -239,7 +245,7 @@ class _ParkingMapState extends State<ParkingMap> {
         child: FlatButton.icon(
           color: Colors.white,
           shape:
-          RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           onPressed: () {
             Navigator.of(context).pop();
           },
@@ -415,7 +421,7 @@ class _ParkingMapState extends State<ParkingMap> {
     Location.LocationData location = await _locationTracker.getLocation();
 
     LatLng loc =
-    new LatLng((location.latitude + 0.01), (location.longitude + 0.01));
+        new LatLng((location.latitude + 0.01), (location.longitude + 0.01));
     //  BitmapDescriptor bitmapDescriptor = await createCustomMarkerBitmap(
     //       '5');
     setState(() {
@@ -438,7 +444,7 @@ class _ParkingMapState extends State<ParkingMap> {
             contentPadding: EdgeInsets.fromLTRB(10, 5, 10, 10),
             elevation: 3.0,
             shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
             backgroundColor: Colors.white,
             title: Row(children: <Widget>[
               Flexible(
@@ -456,7 +462,7 @@ class _ParkingMapState extends State<ParkingMap> {
                           borderRadius: BorderRadius.circular(20)),
                       onPressed: () {
                         selectedParking =
-                        new ParkingArea(streetName: 'Randomvägen 1');
+                            new ParkingArea(streetName: 'Randomvägen 1');
                         Navigator.pushNamed(context, '/timer');
                       },
                       icon: Icon(
@@ -500,14 +506,15 @@ class _ParkingMapState extends State<ParkingMap> {
     List<Marker> list = [];
     for (var element in parkingSpotsList) {
       BitmapDescriptor bitmapDescriptor =
-      await createCustomMarkerBitmap(element);
+          await createCustomMarkerBitmap(element);
       list.add(Marker(
           markerId: MarkerId(element.streetName),
           icon: bitmapDescriptor,
 //            icon: BitmapDescriptor.defaultMarker,
           visible: true,
           draggable: false,
-          onTap: () {// TODO - OnDoubleTap
+          onTap: () {
+            // TODO - OnDoubleTap
             showDialog(
                 context: context,
                 builder: (_) => ParkingDialogWidget(parkingArea: element));
@@ -525,9 +532,8 @@ class _ParkingMapState extends State<ParkingMap> {
     String price = '';
     for (var polygon in polygons) {
       if (price == '') {
-        if (checkLocationInPoly(
-            element.coordinates.latitude, element.coordinates.longitude,
-            polygon)) {
+        if (checkLocationInPoly(element.coordinates.latitude,
+            element.coordinates.longitude, polygon)) {
           price = polygon.polygonId.value;
         }
       }
@@ -554,7 +560,6 @@ class _ParkingMapState extends State<ParkingMap> {
       default:
         imagePath = 'locmarker777.png';
     }
-
 
     final Size size = Size(170, 170);
     final PictureRecorder recorder = new PictureRecorder();
@@ -610,7 +615,7 @@ class _ParkingMapState extends State<ParkingMap> {
 
     // Convert image to bytes
     final ByteData byteData =
-    await markerAsImage.toByteData(format: ui.ImageByteFormat.png);
+        await markerAsImage.toByteData(format: ui.ImageByteFormat.png);
     final Uint8List uint8List = byteData.buffer.asUint8List();
 
     return BitmapDescriptor.fromBytes(uint8List);
@@ -714,9 +719,7 @@ class ParkingDialogState extends State<ParkingDialogWidget> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Divider(
-                  color: Colors.black
-              ),
+              Divider(color: Colors.black),
               Row(
                 children: <Widget>[
                   Icon(
@@ -818,11 +821,11 @@ class ParkingDialogState extends State<ParkingDialogWidget> {
                           '${element.coordinates.longitude}';
                       await DatabaseService(uid: globalUser.uid)
                           .updateUserFavorites(
-                          latLon,
-                          element.streetName,
-                          element.serviceDayInfo,
-                          element.favorite,
-                          element.availableParkingSpots);
+                              latLon,
+                              element.streetName,
+                              element.serviceDayInfo,
+                              element.favorite,
+                              element.availableParkingSpots);
                     } else if (element.favorite == true) {
                       await parkCollection
                           .document(globalUser.uid)
@@ -910,7 +913,7 @@ void parseParkingCoordinates(List<dynamic> coordinates) {
           numberOfParkingSpots: element.coordinatesList.length.toString(),
           serviceDayInfo: element.serviceDayInfo,
           availableParkingSpots:
-          getRandomAvailableParkingSpot(element.coordinatesList),
+              getRandomAvailableParkingSpot(element.coordinatesList),
           favorite: favorite),
     );
     parkingSpotsList = tempList;
