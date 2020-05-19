@@ -58,6 +58,7 @@ class AuthService{
       FirebaseUser user = result.user;
       //create a new document for the user with the uid
       await checkUserInDB(user.uid, name);
+      return _userFromFirebaseUser(user);
     }catch(e){
       print(e.toString());
       return null;

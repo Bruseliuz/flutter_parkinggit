@@ -196,7 +196,7 @@ class _OnboardingState extends State<Onboarding> {
           ),
           pages: getPages(),
           onDone: () {
-            Navigator.pushReplacementNamed(context, '/signIn');
+            Navigator.pushReplacementNamed(context, '/wrapper');
           },
         ),
       ),

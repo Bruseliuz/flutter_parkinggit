@@ -40,7 +40,7 @@ class ParkingArea {
 
   factory ParkingArea.fromJson(Map<String, dynamic> json) {
     return ParkingArea(
-        streetName: json['properties']['STREET_NAME'],
+        streetName: json['properties']['ADDRESS'],
         coordinatesList: json['geometry']['coordinates'],
         serviceDayInfo: json['properties']['OTHER_INFO']);
   }
