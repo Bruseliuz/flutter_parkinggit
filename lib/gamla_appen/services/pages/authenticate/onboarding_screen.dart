@@ -44,7 +44,7 @@ class _OnboardingState extends State<Onboarding> {
         bodyWidget: Container(
           child: Column(
             children: <Widget>[
-              Image.asset(('assets/Favorite.png')),
+              Image.asset(('assets/Onboarding2.png')),
               SizedBox(height: 20.0),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -91,7 +91,7 @@ class _OnboardingState extends State<Onboarding> {
         bodyWidget: Container(
           child: Column(
             children: <Widget>[
-              Placeholder(),
+              Image.asset(('assets/Onboarding3.png')),
               SizedBox(height: 20.0),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -139,7 +139,7 @@ class _OnboardingState extends State<Onboarding> {
         bodyWidget: Container(
           child: Column(
             children: <Widget>[
-              Placeholder(),
+              Image.asset(('assets/Onboarding4.png')),
               SizedBox(height: 20.0),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
