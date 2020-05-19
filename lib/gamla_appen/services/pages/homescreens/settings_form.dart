@@ -35,6 +35,19 @@ class _SettingsFormState extends State<SettingsForm> {
       builder: (context, snapshot) {
         if(snapshot.hasData){
           UserData userData = snapshot.data;
+            switch (userData.parking) {
+              case 'MC':
+                _selections[0] = true;
+                break;
+              case 'HCP':
+                _selections[1] = true;
+                break;
+              case 'No Preference':
+                _selections[2] = true;
+                break;
+              default:
+                break;
+            }
             return Stack(
               children: <Widget>[
                 Container(
@@ -164,7 +177,7 @@ class _SettingsFormState extends State<SettingsForm> {
                                 ),),
                               SizedBox(height: 20.0),
                               Center(
-                                  child: Text('${currentDistance.toString()} M',
+                                  child: Text('${userData.radius.toString()} M',
                                   style: TextStyle(
                                       color:  Color(0xff207FC5),
                                       fontSize: 15,
