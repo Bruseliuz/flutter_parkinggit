@@ -18,6 +18,8 @@ class _SettingsFormDrawerState extends State<SettingsFormDrawer> {
   final _formKey = GlobalKey<FormState>();
   final List<String> parkingType = ['MC','HCP','No Preference'];
 
+  bool switchTimeFromEnd = false;
+  bool switchEndReminder = false;
   int currentNotMinutes = 1;
   String _currentRegNumber;
   String _currentName;
@@ -27,7 +29,6 @@ class _SettingsFormDrawerState extends State<SettingsFormDrawer> {
   @override
   Widget build(BuildContext context) {
 
-    bool isSwitched = false;
     final user = Provider.of<User>(context);
 
 
@@ -88,10 +89,10 @@ class _SettingsFormDrawerState extends State<SettingsFormDrawer> {
                                       Padding(
                                         padding: EdgeInsets.only(left: 60),
                                         child: Switch(
-                                          value: isSwitched,
+                                          value: switchTimeFromEnd,
                                           onChanged:(value){
                                             setState(() {
-                                              isSwitched = value;
+                                              switchTimeFromEnd = value;
                                             });
                                           },
                                           activeTrackColor: Color(0xff207FC5),
@@ -147,10 +148,10 @@ class _SettingsFormDrawerState extends State<SettingsFormDrawer> {
                                     Padding(
                                       padding: EdgeInsets.only(left: 60),
                                       child: Switch(
-                                        value: isSwitched,
-                                        onChanged: (value) {
+                                        value: switchEndReminder,
+                                        onChanged:(value){
                                           setState(() {
-                                            value = isSwitched;
+                                            switchEndReminder = value;
                                           });
                                         },
                                         activeTrackColor: Color(0xff207FC5),

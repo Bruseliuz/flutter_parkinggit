@@ -12,7 +12,6 @@ class ParkTimer extends StatefulWidget {
 }
 
 class _ParkTimerState extends State<ParkTimer> {
-
   TimeOfDay _time = TimeOfDay.now();
   TimeOfDay picked;
   String setParkingText = '';
@@ -24,8 +23,6 @@ class _ParkTimerState extends State<ParkTimer> {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
-
-
     if(picked == null){
       picked = TimeOfDay.now();
     }
