@@ -191,8 +191,11 @@ class _ParkTimerState extends State<ParkTimer> {
                               SizedBox(height: 5.0),
                               Row(
                                 children: <Widget>[
-                                  Text('${regNumber.toUpperCase()}',
-                                    style: TextStyle(
+                                Text(
+                                  regNumber == null
+                                      ? 'null'
+                                      : '${regNumber.toUpperCase()}',
+                                  style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 50,
                                         fontWeight: FontWeight.w600
