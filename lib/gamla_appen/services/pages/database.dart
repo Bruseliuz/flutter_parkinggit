@@ -59,6 +59,7 @@ class DatabaseService {
         name: doc.data['name'] ?? '',
         parkering: doc.data['parkering'] ?? '',
         maxPrice: doc.data['maxPrice'] ?? 0,
+
       );
     }).toList();
   }

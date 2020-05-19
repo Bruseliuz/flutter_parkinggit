@@ -189,28 +189,29 @@ class _ParkTimerState extends State<ParkTimer> {
                                    ],
                                  ),
                               SizedBox(height: 5.0),
-                              Row(
-                                children: <Widget>[
-                                Text(
-                                  regNumber == null
-                                      ? 'null'
-                                      : '${regNumber.toUpperCase()}',
-                                  style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 50,
-                                        fontWeight: FontWeight.w600
+                              GestureDetector(
+                                onTap:(){
+                                  Navigator.pushReplacementNamed(context, '/settings');
+                                } ,
+                                child: Row(
+                                  children: <Widget>[
+                                  Text(
+                                    regNumber == null
+                                        ? 'null'
+                                        : '${regNumber.toUpperCase()}',
+                                    style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 50,
+                                          fontWeight: FontWeight.w600
+                                      ),
                                     ),
-                                  ),
-                                  SizedBox(width: 15),
-                                  GestureDetector(
-                                    onTap:(){
-                                      Navigator.pushReplacementNamed(context, '/settings');
-                                    } ,
-                                      child: Icon(Icons.edit,
-                                      size: 20,
-                                      color: Colors.white70,)
-                                  )
-                                ],
+                                    SizedBox(width: 15),
+                                   Icon(Icons.mode_edit,
+                                   color: Colors.white,
+                                     size: 15,
+                                   )
+                                  ],
+                                ),
                               ),
                               SizedBox(height: 30),
                               MaterialButton(
