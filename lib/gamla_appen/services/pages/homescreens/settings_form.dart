@@ -23,6 +23,7 @@ class _SettingsFormState extends State<SettingsForm> {
   int _currentMaxPrice;
   Icon _updateSettingsIcon = new Icon(Icons.refresh,
   color: Color(0xff207FC5));
+  List<bool> _selections = List.generate(3, (_) => false);
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +38,7 @@ class _SettingsFormState extends State<SettingsForm> {
             return Stack(
               children: <Widget>[
                 Container(
-                  color: Color(0xff207FC5),
+                  color: Colors.white,
                   height: double.infinity,
                   child: SingleChildScrollView(
                     physics: AlwaysScrollableScrollPhysics(),
@@ -48,44 +49,41 @@ class _SettingsFormState extends State<SettingsForm> {
                     child: Form(
                       key: _formKey,
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Container(
-                            decoration: settingsDecoration,
-                            height: 60,
-                            alignment: Alignment.center,
-                            child: TextFormField(
-                              initialValue: ('Name: ${userData.name}'),
-                              decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  prefixIcon: Icon(
-                                    Icons.perm_identity,
-                                    color: Color(0xff207FC5),
-                                  )
-                              ),
-                              validator: (val) => val.isEmpty ? 'Please enter a name' : null,
-                              onChanged: (val) => setState(() {
-                                _currentName = val;
-                                _updateSettingsIcon = new Icon(Icons.refresh,
-                                    color: Color(0xff207FC5));
-                              }),
-                              style: TextStyle(
-                                  color: Color(0xff207FC5)
-                              ),
-                            ),
+                          Text('TYPE OF PARKING',
+                          style: TextStyle(
+                            color:  Color(0xff207FC5),
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600
                           ),
-
-                          SizedBox(height: 20.0),
+                          ),
+                          ToggleButtons(
+                            children: <Widget>[
+                              Container(
+                                padding: EdgeInsets.only(left: 33, right: 33),
+                                  child: Icon(Icons.directions_car,)),
+                              Container(
+                                  padding: EdgeInsets.only(left: 33, right: 33),
+                                  child: Icon(Icons.motorcycle)),
+                              Container(
+                                  padding: EdgeInsets.only(left: 33, right: 33),
+                                  child: Icon(Icons.accessible)),
+                            ],
+                            isSelected: _selections,
+                          ),
                           Container(
-                            decoration: settingsDecoration,
+                            decoration: settingsDecoration.copyWith(borderRadius: BorderRadius.circular(5), color: Color(0xff207FC5)),
                             child: DropdownButtonFormField(
-                                iconEnabledColor: Color(0xff207FC5),
+                              isExpanded: false,
+                                iconEnabledColor: Colors.white,
                                 decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.all(5),
+                                    contentPadding: EdgeInsets.all(15),
                                     border: InputBorder.none,
                                     hintText: userData.parking,
-                                    hintStyle: TextStyle(color: Color(0xff207FC5)),
+                                    hintStyle: TextStyle(color: Colors.white),
                                     prefixIcon: Icon(
-                                      Icons.directions_car, color: Color(0xff207FC5),
+                                      Icons.directions_car, color: Colors.white,
 
                                     )
                                 ),
@@ -94,7 +92,7 @@ class _SettingsFormState extends State<SettingsForm> {
                                   return DropdownMenuItem(
                                     value: parking,
                                     child: Text('$parking',
-                                      style: TextStyle(color: Color(0xff207FC5)),),
+                                      style: TextStyle(color: Colors.white),),
                                   );
                                 }).toList(),
                                 onChanged: (val) {
@@ -159,7 +157,7 @@ class _SettingsFormState extends State<SettingsForm> {
                             width: double.infinity,
                             child: MaterialButton(
                               shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(30),
+                                  borderRadius: BorderRadius.circular(10),
                                   side: BorderSide(
                                       color: Colors.white
                                   )
