@@ -40,7 +40,11 @@ class _HomeState extends State<Home> {
                       child: Row(children: <Widget>[
                         IconButton(
                           icon: Icon(Icons.menu),
-                          onPressed: () => Navigator.pop(context),
+                          onPressed: () {
+                            FocusScope.of(context)
+                                .requestFocus(new FocusNode());
+                            Navigator.pop(context);
+                          },
                           padding: EdgeInsets.fromLTRB(2, 0, 2, 0),
                         ),
                         Text(
