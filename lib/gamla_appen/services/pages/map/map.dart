@@ -59,6 +59,8 @@ class ParkingMap extends StatefulWidget {
 class _ParkingMapState extends State<ParkingMap> {
 //  ClusterManager _manager;
 //  List<ClusterItem<Place>> items = [];
+  final _textController = TextEditingController();
+  var textFocusNode = new FocusNode();
   List<DocumentSnapshot> favoriteDocuments = [];
   Location.Location _locationTracker = Location.Location();
   Set<Marker> allMarkers = {};
@@ -68,11 +70,12 @@ class _ParkingMapState extends State<ParkingMap> {
   final Set<Polyline> polyline = {};
   List<LatLng> routeCoords;
   GoogleMapPolyline googleMapPolyline =
-      new GoogleMapPolyline(apiKey: "AIzaSyDCKuA95vaqlu92GXWkgpc2vSrgYmCVabI");
+  new GoogleMapPolyline(apiKey: "AIzaSyDCKuA95vaqlu92GXWkgpc2vSrgYmCVabI");
   GoogleMapsPlaces _places =
-      GoogleMapsPlaces(apiKey: "AIzaSyAMeqs9sFXRF0Wxi8t1c8hRMMDh20rx7rY");
+  GoogleMapsPlaces(apiKey: "AIzaSyAMeqs9sFXRF0Wxi8t1c8hRMMDh20rx7rY");
   final homeScaffoldKey = GlobalKey<ScaffoldState>();
   bool searchInitiated = false;
+  String textFieldString;
 
   getPoints(ParkingArea p) async {
     setState(() {
@@ -156,9 +159,12 @@ class _ParkingMapState extends State<ParkingMap> {
                 ),
                 Positioned(
                   top: 30.0,
-                  right: 15.0,
+                  right: 60.0,
                   left: 15.0,
                   child: TextField(
+                    textCapitalization: TextCapitalization.sentences,
+                    controller: _textController,
+                    focusNode: textFocusNode,
                     autofocus: false,
                     onTap: () async {
                       setState(() {
@@ -182,7 +188,7 @@ class _ParkingMapState extends State<ParkingMap> {
                       setState(() {
                         searchInitiated = false;
                       });
-                      FocusScope.of(context).unfocus();
+                      FocusScope.of(context).requestFocus(new FocusNode());
                     },
                     decoration: InputDecoration(
                         hintText: 'Search for address',
@@ -194,17 +200,14 @@ class _ParkingMapState extends State<ParkingMap> {
                         EdgeInsets.only(left: 15.0, top: 15.0, right: 15.0),
                         fillColor: Colors.white,
                         filled: true,
-                        suffixIcon: IconButton(
-                            icon: Icon(Icons.search),
-                            color: Color(0xff207FC5),
-                            onPressed: () {
-                              FocusScope.of(context).unfocus();
-                              setState(() {
-                                polyline.clear();
-                              });
-                              if (searchAddress != null) {
-                                searchAndNavigate();
-                              }
+                        suffixIcon: searchAddress == ''
+                            ? null
+                            : IconButton(
+                                icon: Icon(Icons.clear),
+                                color: Color(0xff808080),
+                                onPressed: () {
+                              _textController.clear();
+                              searchAddress = '';
                             },
                             iconSize: 30.0)),
                     onChanged: (val) {
@@ -213,11 +216,31 @@ class _ParkingMapState extends State<ParkingMap> {
                       });
                     },
                   ),
+                ),
+                Positioned(
+                    top: 28.0,
+                    right: 0.0,
+                    left: 350.0,
+                    child: IconButton(
+                        icon: Icon(Icons.search,
+                          size: 40,),
+                        splashColor: Colors.white,
+                        color: Color(0xff207FC5),
+                        onPressed: () {
+                          FocusScope.of(context).requestFocus(new FocusNode());
+                          setState(() {
+                            polyline.clear();
+                          });
+                          if (searchAddress != null) {
+                            searchAndNavigate();
+                          }
+                        },
+                        iconSize: 30.0)
                 )
               ],
             ),
             floatingActionButtonLocation:
-                FloatingActionButtonLocation.centerFloat,
+            FloatingActionButtonLocation.centerFloat,
             floatingActionButton: AnimatedOpacity(
               duration: Duration(milliseconds: 500),
               opacity: searchInitiated ? 0.0 : 1.0,
@@ -231,10 +254,11 @@ class _ParkingMapState extends State<ParkingMap> {
                 label: Text('Find Parking\n   Near Me'),
                 backgroundColor: Color(0xff207FC5),
                 onPressed: searchInitiated ? null : () async {
-                        setState(() {
-                          polyline.clear();
-                        });
-                        await getCurrentLocation();
+                  setState(() {
+                    polyline.clear();
+                    _textController.clear();
+                  });
+                  await getCurrentLocation();
 //                    print(allMarkers.toString());
                 },
               ),
@@ -262,7 +286,7 @@ class _ParkingMapState extends State<ParkingMap> {
       final GoogleMapController controller = await _controller.future;
       controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
           target:
-              LatLng(result[0].position.latitude, result[0].position.longitude),
+          LatLng(result[0].position.latitude, result[0].position.longitude),
           zoom: 15.0)));
       await getData(
           LatLng(result[0].position.latitude, result[0].position.longitude));
@@ -285,7 +309,7 @@ class _ParkingMapState extends State<ParkingMap> {
         child: FlatButton.icon(
           color: Colors.white,
           shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
           onPressed: () {
             Navigator.of(context).pop();
           },
@@ -463,7 +487,7 @@ class _ParkingMapState extends State<ParkingMap> {
     Location.LocationData location = await _locationTracker.getLocation();
 
     LatLng loc =
-        new LatLng((location.latitude + 0.01), (location.longitude + 0.01));
+    new LatLng((location.latitude + 0.01), (location.longitude + 0.01));
     //  BitmapDescriptor bitmapDescriptor = await createCustomMarkerBitmap(
     //       '5');
     setState(() {
@@ -486,7 +510,7 @@ class _ParkingMapState extends State<ParkingMap> {
             contentPadding: EdgeInsets.fromLTRB(10, 5, 10, 10),
             elevation: 3.0,
             shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
             backgroundColor: Colors.white,
             title: Row(children: <Widget>[
               Flexible(
@@ -504,7 +528,7 @@ class _ParkingMapState extends State<ParkingMap> {
                           borderRadius: BorderRadius.circular(20)),
                       onPressed: () {
                         selectedParking =
-                            new ParkingArea(streetName: 'Randomvägen 1');
+                        new ParkingArea(streetName: 'Randomvägen 1');
                         Navigator.pushNamed(context, '/timer');
                       },
                       icon: Icon(
@@ -726,7 +750,7 @@ class _ParkingMapState extends State<ParkingMap> {
 
     // Convert image to bytes
     final ByteData byteData =
-        await markerAsImage.toByteData(format: ui.ImageByteFormat.png);
+    await markerAsImage.toByteData(format: ui.ImageByteFormat.png);
     final Uint8List uint8List = byteData.buffer.asUint8List();
 
     return BitmapDescriptor.fromBytes(uint8List);
