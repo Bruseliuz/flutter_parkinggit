@@ -1,4 +1,6 @@
 import 'dart:math';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/map/contains_location.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_map_polyline/google_map_polyline.dart';
@@ -73,7 +75,9 @@ class _ParkingMapState extends State<ParkingMap> {
   bool searchInitiated = false;
 
   getPoints(ParkingArea p) async {
-    polyline.clear();
+    setState(() {
+      polyline.clear();
+    });
     var currentLocation = await Geolocator().getCurrentPosition();
     routeCoords = await googleMapPolyline.getCoordinatesWithLocation(
         origin: LatLng(currentLocation.latitude, currentLocation.longitude),
@@ -139,11 +143,11 @@ class _ParkingMapState extends State<ParkingMap> {
                   onMapCreated: _onMapCreated,
                   markers: Set<Marker>.of(allMarkers),
                   polylines: polyline,
-                  onCameraMoveStarted: () {
-                    setState(() {
-                      searchInitiated = false;
-                    });
-                  },
+//                  onCameraMoveStarted: () {
+//                    setState(() {
+//                      searchInitiated = false;
+//                    });
+//                  },
 //                  onCameraIdle: _manager.updateMap,
                   initialCameraPosition: CameraPosition(
                     target: _center,
@@ -155,6 +159,7 @@ class _ParkingMapState extends State<ParkingMap> {
                   right: 15.0,
                   left: 15.0,
                   child: TextField(
+                    autofocus: false,
                     onTap: () async {
                       setState(() {
                         searchInitiated = true;
@@ -169,6 +174,16 @@ class _ParkingMapState extends State<ParkingMap> {
 //                      displayPrediction(p, homeScaffoldKey.currentState);
                     },
                     cursorColor: Color(0xff207FC5),
+                    textInputAction: TextInputAction.search,
+                    onEditingComplete: () {
+                      if (searchAddress != null) {
+                        searchAndNavigate();
+                      }
+                      setState(() {
+                        searchInitiated = false;
+                      });
+                      FocusScope.of(context).unfocus();
+                    },
                     decoration: InputDecoration(
                         hintText: 'Search for address',
                         hintStyle: TextStyle(color: Color(0xff207FC5)),
@@ -183,7 +198,13 @@ class _ParkingMapState extends State<ParkingMap> {
                             icon: Icon(Icons.search),
                             color: Color(0xff207FC5),
                             onPressed: () {
-                              searchAndNavigate();
+                              FocusScope.of(context).unfocus();
+                              setState(() {
+                                polyline.clear();
+                              });
+                              if (searchAddress != null) {
+                                searchAndNavigate();
+                              }
                             },
                             iconSize: 30.0)),
                     onChanged: (val) {
@@ -207,10 +228,13 @@ class _ParkingMapState extends State<ParkingMap> {
                 icon: Icon(
                   Icons.local_parking,
                 ),
-                label: Text('Find Nearby\n   Parking'),
+                label: Text('Find Parking\n   Near Me'),
                 backgroundColor: Color(0xff207FC5),
                 onPressed: searchInitiated ? null : () async {
-                  await getCurrentLocation();
+                        setState(() {
+                          polyline.clear();
+                        });
+                        await getCurrentLocation();
 //                    print(allMarkers.toString());
                 },
               ),
@@ -242,6 +266,9 @@ class _ParkingMapState extends State<ParkingMap> {
           zoom: 15.0)));
       await getData(
           LatLng(result[0].position.latitude, result[0].position.longitude));
+      setState(() {
+        searchInitiated = false;
+      });
     });
   }
 
