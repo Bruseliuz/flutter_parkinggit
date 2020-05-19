@@ -285,6 +285,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.3.2"
+  geohash:
+    dependency: transitive
+    description:
+      name: geohash
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.2.1"
   geojson:
     dependency: "direct main"
     description:
@@ -341,6 +348,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.0"
+  google_maps_cluster_manager:
+    dependency: "direct main"
+    description:
+      name: google_maps_cluster_manager
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.0"
   google_maps_flutter:
     dependency: "direct main"
     description:

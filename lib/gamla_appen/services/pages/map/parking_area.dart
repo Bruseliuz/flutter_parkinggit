@@ -26,6 +26,7 @@ class ParkingArea {
   String availableParkingSpots;
   String serviceDayInfo;
   bool favorite;
+  String price;
 
   ParkingArea(
       {this.streetName,
@@ -34,7 +35,8 @@ class ParkingArea {
       this.numberOfParkingSpots,
       this.availableParkingSpots,
       this.serviceDayInfo,
-      this.favorite});
+      this.favorite,
+      this.price});
 
   factory ParkingArea.fromJson(Map<String, dynamic> json) {
     return ParkingArea(

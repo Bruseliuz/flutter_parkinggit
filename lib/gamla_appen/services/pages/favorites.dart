@@ -62,6 +62,7 @@ class _FavoritesState extends State<Favorites> {
       String long = splitList[1];
       LatLng latlng = new LatLng(double.tryParse(lat), double.tryParse(long));
       return ParkingArea(
+          price: doc.data['price'],
           streetName: doc.data['streetName'],
           coordinates: latlng,
           favorite: doc.data['favorite'],
@@ -105,8 +106,8 @@ class _FavoritesState extends State<Favorites> {
               ),
               title: Text('Adress: ${_favParksList[index].streetName}',
               maxLines: 2,),
-              subtitle: Text('Price: 12 kronor per hour'),
-              trailing: GestureDetector(
+            subtitle: Text('${_favParksList[index].price}'),
+            trailing: GestureDetector(
                 onTap: (){
                   setState((){
                     parkCollection
