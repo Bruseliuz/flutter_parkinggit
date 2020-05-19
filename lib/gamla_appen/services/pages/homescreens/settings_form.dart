@@ -23,6 +23,7 @@ class _SettingsFormState extends State<SettingsForm> {
   int _currentMaxPrice;
   Icon _updateSettingsIcon = new Icon(Icons.refresh,
   color: Color(0xff207FC5));
+  List<bool> _selections = List.generate(3, (_) => false);
 
   @override
   Widget build(BuildContext context) {
@@ -37,55 +38,94 @@ class _SettingsFormState extends State<SettingsForm> {
             return Stack(
               children: <Widget>[
                 Container(
-                  color: Color(0xff207FC5),
+                  color: Colors.white,
                   height: double.infinity,
                   child: SingleChildScrollView(
                     physics: AlwaysScrollableScrollPhysics(),
                     padding: EdgeInsets.symmetric(
-                        vertical: 70,
+                        vertical: 20,
                         horizontal: 40
                     ),
                     child: Form(
                       key: _formKey,
                       child: Column(
                         children: <Widget>[
-                          Container(
-                            decoration: settingsDecoration,
-                            height: 60,
-                            alignment: Alignment.center,
-                            child: TextFormField(
-                              initialValue: ('Name: ${userData.name}'),
-                              decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  prefixIcon: Icon(
-                                    Icons.perm_identity,
-                                    color: Color(0xff207FC5),
-                                  )
-                              ),
-                              validator: (val) => val.isEmpty ? 'Please enter a name' : null,
-                              onChanged: (val) => setState(() {
-                                _currentName = val;
-                                _updateSettingsIcon = new Icon(Icons.refresh,
-                                    color: Color(0xff207FC5));
-                              }),
-                              style: TextStyle(
-                                  color: Color(0xff207FC5)
-                              ),
-                            ),
+                          Text('FILTERS',
+                          style: TextStyle(
+                              color:  Color(0xff207FC5),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20)
                           ),
+                          SizedBox(height: 30),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Text('TYPE OF PARKING',
+                                style: TextStyle(
+                                    color:  Color(0xff207FC5),
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w600
+                                ),
+                              ),
+                              Text('Choose which type of parking \nto show',
+                                style: TextStyle(
+                                    color: Color(0xff207FC5),
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w300
+                                ),
+                              ),
+                              SizedBox(height: 10),
+                              ToggleButtons(
+                                children: <Widget>[
+                                  Container(
+                                      padding: EdgeInsets.only(left: 33, right: 33),
+                                      child: Icon(Icons.motorcycle)),
+                                  Container(
+                                      padding: EdgeInsets.only(left: 33, right: 33),
+                                      child: Icon(Icons.accessible)),
+                                  Container(
+                                      padding: EdgeInsets.only(left: 33, right: 33),
+                                      child: Icon(Icons.directions_car,)),
+                                ],
+                                color: Color(0xff207FC5),
+                                selectedColor: Colors.white,
+                                fillColor: Color(0xff207FC5),
+                                isSelected: _selections,
+                                onPressed: (int index) {
+                                  setState(() {
+                                    for (int buttonIndex = 0; buttonIndex < _selections.length; buttonIndex++) {
+                                      if (buttonIndex == index) {
+                                        _selections[buttonIndex] = true;
+                                      } else {
+                                        _selections[buttonIndex] = false;
+                                      }
+                                    }
+                                  });
+                                  if(index == 0){
+                                    _currentParking = 'MC';
+                                  } else if(index == 1){
+                                    _currentParking = 'HCP';
+                                  }else if(index == 2){
+                                    _currentParking = 'No preference';
+                                  }
+                                  print(_currentParking);
+                                  _updateSettingsIcon = new Icon(Icons.refresh,
+                                      color: Colors.white);
+                                },
 
-                          SizedBox(height: 20.0),
-                          Container(
-                            decoration: settingsDecoration,
+                              ),
+                              /*Container(
+                            decoration: settingsDecoration.copyWith(borderRadius: BorderRadius.circular(5), color: Color(0xff207FC5)),
                             child: DropdownButtonFormField(
-                                iconEnabledColor: Color(0xff207FC5),
+                                isExpanded: false,
+                                iconEnabledColor: Colors.white,
                                 decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.all(5),
+                                    contentPadding: EdgeInsets.all(15),
                                     border: InputBorder.none,
                                     hintText: userData.parking,
-                                    hintStyle: TextStyle(color: Color(0xff207FC5)),
+                                    hintStyle: TextStyle(color: Colors.white),
                                     prefixIcon: Icon(
-                                      Icons.directions_car, color: Color(0xff207FC5),
+                                      Icons.directions_car, color: Colors.white,
 
                                     )
                                 ),
@@ -94,7 +134,7 @@ class _SettingsFormState extends State<SettingsForm> {
                                   return DropdownMenuItem(
                                     value: parking,
                                     child: Text('$parking',
-                                      style: TextStyle(color: Color(0xff207FC5)),),
+                                      style: TextStyle(color: Colors.white),),
                                   );
                                 }).toList(),
                                 onChanged: (val) {
@@ -106,77 +146,110 @@ class _SettingsFormState extends State<SettingsForm> {
                                   });
                                 }
                             ),
-                          ),
-                          SizedBox(height: 30.0),
-                          Text(
-                              'Chosen max price: ${userData.maxPrice} kr / hour',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18,
-                              )
-                          ),
-                          SizedBox(height: 20.0),
-                          Slider(
-                            label: _currentMaxPrice.toString() ,
-                            activeColor: Colors.black54,
-                            inactiveColor: Colors.white,
-                            value: (_currentMaxPrice ?? userData.maxPrice).toDouble(),
-                            min: 10,
-                            max: 90,
-                            divisions: 8,
-                            onChanged: (val) => setState(() {
-                              _currentMaxPrice = val.round();
-                              _updateSettingsIcon = new Icon(Icons.refresh,
-                                  color: Color(0xff207FC5));
-                            }),
+                          ),*/
+                              SizedBox(height: 30.0),
+                              Text(
+                                'DISTANCE',
+                                style: TextStyle(
+                                    color:  Color(0xff207FC5),
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w600
+                                ),
+                              ),
+                              Text('Select radius around position to search\nfor parking',
+                                style: TextStyle(
+                                    color: Color(0xff207FC5),
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w300
+                                ),),
+                              SizedBox(height: 20.0),
+                              Center(
+                                  child: Text('${currentDistance.toString()} M',
+                                  style: TextStyle(
+                                      color:  Color(0xff207FC5),
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w600
+                                  ),
+                                  )
+                              ),
+                              Slider(
+                                activeColor: Color(0xff207FC5),
+                                inactiveColor: Colors.black54,
+                                value: (currentDistance ?? userData.radius).toDouble(),
+                                min: 100,
+                                max: 500,
+                                divisions: 4,
+                                onChanged: (val) => setState(() {
+                                  currentDistance = val.round();
+                                  _updateSettingsIcon = new Icon(Icons.refresh,
+                                      color: Colors.white);
+                                }),
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: <Widget>[
+                                  Text('100',
+                                  style: TextStyle(
+                                      color:  Color(0xff207FC5),
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w300
+                                  ),),
+                                  Text('500',
+                                  style: TextStyle(
+                                      color:  Color(0xff207FC5),
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w300
+                                  ),),
+                                ],
+                              ),
+                              Text(
+                                  'Chosen max price: ${userData.maxPrice} kr / hour',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 18,
+                                  )
+                              ),
+                              SizedBox(height: 20.0),
+                              Slider(
+                                label: _currentMaxPrice.toString() ,
+                                activeColor: Colors.black54,
+                                inactiveColor: Colors.white,
+                                value: (_currentMaxPrice ?? userData.maxPrice).toDouble(),
+                                min: 10,
+                                max: 90,
+                                divisions: 8,
+                                onChanged: (val) => setState(() {
+                                  _currentMaxPrice = val.round();
+                                  _updateSettingsIcon = new Icon(Icons.refresh,
+                                      color: Colors.white);
+                                }),
+                              ),
+                            ],
                           ),
                           SizedBox(height: 40.0),
-                          Text(
-                              'Chosen radius: ${userData.radius} meters',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18,
-                              )
-                          ),
-                          SizedBox(height: 20.0),
-                          Slider(
-                            label: currentDistance.toString(),
-                            activeColor: Colors.black54,
-                            inactiveColor: Colors.white,
-                            value: (currentDistance ?? userData.radius).toDouble(),
-                            min: 100,
-                            max: 500,
-                            divisions: 4,
-                            onChanged: (val) => setState(() {
-                              currentDistance = val.round();
-                              _updateSettingsIcon = new Icon(Icons.refresh,
-                                  color: Color(0xff207FC5));
-                            }),
-
-                          ),
                           Container(
                             padding: EdgeInsets.symmetric(vertical: 25),
                             width: double.infinity,
                             child: MaterialButton(
                               shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(30),
+                                  borderRadius: BorderRadius.circular(10),
                                   side: BorderSide(
-                                      color: Colors.white
+                                      color: Color(0xff207FC5)
                                   )
                               ),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
-                                  Text('Update settings ',
+                                  Text('SET FILTERS ',
                                     style: TextStyle(
-                                        color: Color(0xff207FC5),
-                                        fontSize: 18.0
+                                        color: Colors.white,
+                                        fontSize: 14.0
                                     ),
                                   ),
                                   _updateSettingsIcon
                                 ],
                               ),
-                              color: Colors.white,
+                              color: Color(0xff207FC5),
                               elevation: 4.0,
                               onPressed: () async {
                                 if(_formKey.currentState.validate()) {
@@ -190,7 +263,7 @@ class _SettingsFormState extends State<SettingsForm> {
                                   _neverSatisfied();
                                   setState(() {
                                     _updateSettingsIcon = new Icon(Icons.check_circle_outline,
-                                        color: Color(0xff207FC5));
+                                        color: Colors.white);
                                   });
                                 }
                               },
