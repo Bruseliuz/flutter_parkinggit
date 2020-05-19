@@ -26,17 +26,30 @@ class _FavoritesState extends State<Favorites> {
           if (!snapshot.hasData) return new Text("There are no favorites");
             _favParksList = getParkingSpots(snapshot);
           return Scaffold(
-              backgroundColor: Color(0xff207FC5),
+              backgroundColor: Colors.white,
               appBar: AppBar(
+                elevation: 2.0,
                 backgroundColor: Color(0xff207FC5),
-                title: const Text("Your favorites"),
-                centerTitle: true,
+                title: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    const Text("FAVORITES",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 18,
+                          letterSpacing: 1.2
+                      ),),
+                    Icon(Icons.favorite_border,
+                    color: Colors.white,)
+                  ],
+                ),
               ),
               body: _favParksList.isEmpty ? _emptyList(context) : ListView
                   .separated(
                 separatorBuilder: (context, index) =>
                     Divider(
-                      color: Color(0xff207FC5),
+                      color: Colors.white,
                     ),
                 padding: const EdgeInsets.all(8),
                 itemCount: _favParksList.length,
@@ -88,8 +101,15 @@ class _FavoritesState extends State<Favorites> {
           child: Container(
             height: 70,
             decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                    color: Colors.black26,
+                    blurRadius: 5.0,
+                    offset: Offset(0,2)
+                )
+              ],
               borderRadius: BorderRadius.circular(10),
-              color: Color(0xffA5C9EA),
+              color: Color(0xff207FC5),
             ),
             child: ListTile(
               leading: Column(
@@ -97,16 +117,26 @@ class _FavoritesState extends State<Favorites> {
                   Text('${_favParksList[index].availableParkingSpots.toString()}',
                     style: TextStyle(
                       fontSize: 25,
+                      color: Colors.white
                     ),),
                   Text('     Available \n parking spots',
                   style: TextStyle(
-                    fontSize: 7
+                    color: Colors.white,
+                    fontSize: 7,
+                    fontWeight: FontWeight.w600
                   ),)
                 ],
               ),
-              title: Text('Adress: ${_favParksList[index].streetName}',
+              title: Text('${_favParksList[index].streetName}',
+              style: TextStyle(
+                fontWeight:FontWeight.w600,
+                color: Colors.white
+              ),
               maxLines: 2,),
-            subtitle: Text('${_favParksList[index].price}'),
+            subtitle: Text('${_favParksList[index].price}',
+            style: TextStyle(
+              color: Colors.white
+            ),),
             trailing: GestureDetector(
                 onTap: (){
                   setState((){
@@ -120,12 +150,12 @@ class _FavoritesState extends State<Favorites> {
                   child: Icon(
                       Icons.delete_forever,
                     size: 35,
+                    color: Colors.white70,
                   )
               ),
             ),
           ),
         ),
-
     );
   }
 
@@ -133,19 +163,20 @@ class _FavoritesState extends State<Favorites> {
     return Container(
       height: double.infinity,
       width: double.infinity,
-      color: Color(0xff207FC5),
+      color: Colors.white,
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           SizedBox(height: 50.0),
           Text('You have no favorites',
               style: TextStyle(
-                color: Colors.white,
+                color: Color(0xff207FC5),
                 fontSize: 18,
               )),
           SizedBox(height: 20.0),
           Text('Tap a marker on the map to select a favorite',
               style: TextStyle(
-                color: Colors.white,
+                color: Color(0xff207FC5),
                 fontSize: 18,
               ))
         ],

@@ -220,7 +220,7 @@ class _ParkingMapState extends State<ParkingMap> {
                 Positioned(
                     top: 28.0,
                     right: 0.0,
-                    left: 350.0,
+                    left: 280.0,
                     child: IconButton(
                         icon: Icon(Icons.search,
                           size: 40,),
