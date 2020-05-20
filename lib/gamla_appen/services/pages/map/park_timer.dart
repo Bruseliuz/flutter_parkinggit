@@ -13,6 +13,8 @@ class ParkTimer extends StatefulWidget {
 }
 
 class _ParkTimerState extends State<ParkTimer> {
+
+  DateTime date;
   TimeOfDay _time = TimeOfDay.now();
   TimeOfDay picked;
   String setParkingText = '';
@@ -223,7 +225,10 @@ class _ParkTimerState extends State<ParkTimer> {
                                   await DatabaseService(uid: globalUser.uid).updateUserParkingHistory(
                                       selectedParking.streetName,
                                       TimeOfDay.now().format(context),
-                                      _time.format(context));
+                                      _time.format(context),
+                                    DateTime.now().toIso8601String()
+                                  );
+                                  print(DateTime.now().toIso8601String());
                                   setState(() {
                                     if(picked == TimeOfDay.now()){
                                       noTimeSelectedDialog(context);

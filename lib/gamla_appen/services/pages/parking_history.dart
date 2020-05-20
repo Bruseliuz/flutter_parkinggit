@@ -84,7 +84,7 @@ class _ParkingHistoryState extends State<ParkingHistory> {
                       color: Colors.white,
                       fontSize: 12
                   ),),
-                  Text('Date: ',
+                  Text('Date: ${tempList[index].date}',
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 12
@@ -123,10 +123,14 @@ class _ParkingHistoryState extends State<ParkingHistory> {
       String streetName = doc.data['streetName'];
       String startTime = doc.data['startTime'];
       String endTime = doc.data['endTime'];
+      String date = doc.data['date'];
+      List<String> temp = date.split('T');
+      String dateOnly = temp[0];
       return ActiveParking(
           streetName: streetName,
         startTime: startTime,
         endTime: endTime,
+        date: dateOnly
       );
     }).toList();
   }
