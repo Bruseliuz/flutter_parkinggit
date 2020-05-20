@@ -44,6 +44,14 @@ class DatabaseService {
     });
   }
 
+  Future clearUserParkingHistory()async {
+    return await parkCollection.document(uid).collection('parkinghistory').getDocuments().then((snapshot) {
+    for(DocumentSnapshot ds in snapshot.documents) {
+      ds.reference.delete();
+    }});
+  }
+
+
   String getUsername() {
     try {
       DocumentReference docRef = parkCollection.document(uid);

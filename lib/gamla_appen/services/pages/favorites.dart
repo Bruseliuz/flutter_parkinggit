@@ -37,11 +37,12 @@ class _FavoritesState extends State<Favorites> {
                       style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.w600,
-                          fontSize: 18,
+                          fontSize: 17,
                           letterSpacing: 1.2
                       ),),
                     Icon(Icons.favorite_border,
-                    color: Colors.white,)
+                    color: Colors.white,
+                    size: 18,)
                   ],
                 ),
               ),

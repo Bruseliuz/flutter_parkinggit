@@ -301,7 +301,7 @@ class _ParkingMapState extends State<ParkingMap> {
       controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
           target:
           LatLng(result[0].position.latitude, result[0].position.longitude),
-          zoom: 16.0)));
+          zoom: 15.0)));
       await getData(
           LatLng(result[0].position.latitude, result[0].position.longitude));
       setState(() {
@@ -454,7 +454,7 @@ class _ParkingMapState extends State<ParkingMap> {
     final GoogleMapController controller = await _controller.future;
     LatLng newLocation = LatLng(location.latitude, location.longitude);
     CameraPosition cameraPosition = CameraPosition(
-      zoom: 16.0,
+      zoom: 15.0,
       target: newLocation,
     );
 
