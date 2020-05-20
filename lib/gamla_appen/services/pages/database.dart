@@ -35,9 +35,9 @@ class DatabaseService {
     });
   }
 
-  String getUsername(String username) {
+  String getUsername() {
     try {
-      DocumentReference docRef = parkCollection.document(username);
+      DocumentReference docRef = parkCollection.document(uid);
       docRef.get().then((snapshot) {
         return snapshot['name'];
       });

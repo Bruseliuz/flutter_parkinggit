@@ -5,6 +5,7 @@ import 'package:flutterparkinggit/gamla_appen/services/pages/map/contains_locati
 import 'package:geolocator/geolocator.dart';
 import 'package:google_map_polyline/google_map_polyline.dart';
 import 'dart:typed_data';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:io';
 import 'dart:ui' as ui;
 import 'dart:ui';
@@ -40,7 +41,7 @@ String parkingPrice;
 User globalUser;
 List<String> favoriteDocumentsId = [];
 final CollectionReference parkCollection =
-    Firestore.instance.collection("parkingPreference");
+Firestore.instance.collection("parkingPreference");
 List<ParkingArea> parkingSpotsList = [];
 Set<List<LatLng>> polygonPoints = {};
 Map<List<LatLng>, String> polygonPointsExtended = {};
@@ -66,7 +67,7 @@ class _ParkingMapState extends State<ParkingMap> {
   Set<Marker> allMarkers = {};
   Completer<GoogleMapController> _controller = Completer();
   static LatLng _center = LatLng(59.334591, 18.063240);
-  String searchAddress;
+  String searchAddress = '';
   final Set<Polyline> polyline = {};
   List<LatLng> routeCoords;
   GoogleMapPolyline googleMapPolyline =
@@ -139,37 +140,43 @@ class _ParkingMapState extends State<ParkingMap> {
           return Scaffold(
             body: Stack(
               children: <Widget>[
-                GoogleMap(
-                  myLocationEnabled: true,
-                  myLocationButtonEnabled: false,
-                  zoomControlsEnabled: false,
-                  onMapCreated: _onMapCreated,
-                  markers: Set<Marker>.of(allMarkers),
-                  polylines: polyline,
+                GestureDetector(
+                  onTap: () =>
+                      FocusScope.of(context).requestFocus(new FocusNode()),
+                  child: GoogleMap(
+                    myLocationEnabled: true,
+                    myLocationButtonEnabled: false,
+                    zoomControlsEnabled: false,
+                    onMapCreated: _onMapCreated,
+                    markers: Set<Marker>.of(allMarkers),
+                    polylines: polyline,
 //                  onCameraMoveStarted: () {
 //                    setState(() {
 //                      searchInitiated = false;
 //                    });
 //                  },
 //                  onCameraIdle: _manager.updateMap,
-                  initialCameraPosition: CameraPosition(
-                    target: _center,
-                    zoom: 12.0,
+                    initialCameraPosition: CameraPosition(
+                      target: _center,
+                      zoom: 12.0,
+                    ),
                   ),
                 ),
                 Positioned(
                   top: 30.0,
-                  right: 60.0,
+                  right: 15.0,
                   left: 15.0,
-                  child: TextField(
-                    textCapitalization: TextCapitalization.sentences,
-                    controller: _textController,
-                    focusNode: textFocusNode,
-                    autofocus: false,
-                    onTap: () async {
-                      setState(() {
-                        searchInitiated = true;
-                      });
+                  child: Row(children: <Widget>[
+                    Expanded(
+                      child: TextField(
+                        textCapitalization: TextCapitalization.sentences,
+                        controller: _textController,
+                        focusNode: textFocusNode,
+                        autofocus: false,
+                        onTap: () async {
+                          setState(() {
+                            searchInitiated = true;
+                          });
 //                      Prediction p = await PlacesAutocomplete.show(
 //                          context: context,
 //                          apiKey: "AIzaSyDCKuA95vaqlu92GXWkgpc2vSrgYmCVabI",
@@ -178,65 +185,75 @@ class _ParkingMapState extends State<ParkingMap> {
 //                          language: "sv",
 //                          components: [new Component(Component.country, "sv")]);
 //                      displayPrediction(p, homeScaffoldKey.currentState);
-                    },
-                    cursorColor: Color(0xff207FC5),
-                    textInputAction: TextInputAction.search,
-                    onEditingComplete: () {
-                      if (searchAddress != null) {
-                        searchAndNavigate();
-                      }
-                      setState(() {
-                        searchInitiated = false;
-                      });
-                      FocusScope.of(context).requestFocus(new FocusNode());
-                    },
-                    decoration: InputDecoration(
-                        hintText: 'Search for address',
-                        hintStyle: TextStyle(color: Color(0xff207FC5)),
-                        border: OutlineInputBorder(
-                            borderSide: BorderSide(color: Color(0xff207FC5)),
-                            borderRadius: BorderRadius.circular(15)),
-                        contentPadding:
-                        EdgeInsets.only(left: 15.0, top: 15.0, right: 15.0),
-                        fillColor: Colors.white,
-                        filled: true,
-                        suffixIcon: searchAddress == ''
-                            ? null
-                            : IconButton(
-                                icon: Icon(Icons.clear),
-                                color: Color(0xff808080),
-                                onPressed: () {
-                              _textController.clear();
-                              searchAddress = '';
                             },
-                            iconSize: 30.0)),
-                    onChanged: (val) {
-                      setState(() {
-                        searchAddress = val;
-                      });
-                    },
+                            cursorColor: Color(0xff207FC5),
+                            textInputAction: TextInputAction.search,
+                            onEditingComplete: () {
+                              if (searchAddress != '') {
+                                searchAndNavigate();
+                              } else {
+                                showCenterShortToast();
+                                setState(() {
+                                  searchInitiated = false;
+                                });
+                              }
+                              FocusScope.of(context).requestFocus(
+                                  new FocusNode());
+                            },
+                            decoration: InputDecoration(
+                                hintText: 'Search for address',
+                                hintStyle: TextStyle(color: Color(0xff207FC5)),
+                                border: OutlineInputBorder(
+                                    borderSide: BorderSide(
+                                        color: Color(0xff207FC5)),
+                                    borderRadius: BorderRadius.circular(15)),
+                                contentPadding:
+                                EdgeInsets.only(
+                                    left: 15.0, top: 15.0, right: 15.0),
+                                fillColor: Colors.white,
+                                filled: true,
+                                suffixIcon: searchAddress == ''
+                                    ? null
+                                    : IconButton(
+                                    icon: Icon(Icons.clear),
+                                    color: Color(0xff808080),
+                                    onPressed: () {
+                                      _textController.clear();
+                                      searchAddress = '';
+                                    },
+                                    iconSize: 30.0)),
+                            onChanged: (val) {
+                              setState(() {
+                                searchAddress = val;
+                              });
+                            },
+                          ),
+                        ),
+                        IconButton(
+                            padding: EdgeInsets.fromLTRB(10, 10, 5, 0),
+                            icon: Icon(Icons.search,
+                              size: 40,),
+                            splashColor: Colors.white,
+                            color: Color(0xff207FC5),
+                            onPressed: () {
+                              FocusScope.of(context).requestFocus(
+                                  new FocusNode());
+                              setState(() {
+                                polyline.clear();
+                              });
+                              if (searchAddress != '') {
+                                searchAndNavigate();
+                              } else {
+                                showCenterShortToast();
+                                setState(() {
+                                  searchInitiated = false;
+                                });
+                              }
+                            },
+                            iconSize: 30.0)
+                      ]
                   ),
                 ),
-                Positioned(
-                    top: 28.0,
-                    right: 0.0,
-                    left: 280.0,
-                    child: IconButton(
-                        icon: Icon(Icons.search,
-                          size: 40,),
-                        splashColor: Colors.white,
-                        color: Color(0xff207FC5),
-                        onPressed: () {
-                          FocusScope.of(context).requestFocus(new FocusNode());
-                          setState(() {
-                            polyline.clear();
-                          });
-                          if (searchAddress != null) {
-                            searchAndNavigate();
-                          }
-                        },
-                        iconSize: 30.0)
-                )
               ],
             ),
             floatingActionButtonLocation:
@@ -265,6 +282,15 @@ class _ParkingMapState extends State<ParkingMap> {
             ),
           );
         });
+  }
+
+  void showCenterShortToast() {
+    Fluttertoast.showToast(
+        backgroundColor: Color(0xff207FC5),
+        msg: "You have to enter\n     an address!",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 2);
   }
 
   Future<Null> displayPrediction(Prediction p, ScaffoldState scaffold) async {
@@ -336,7 +362,6 @@ class _ParkingMapState extends State<ParkingMap> {
         dataList.map<PriceArea>((json) => PriceArea.fromJson(json)).toSet();
     int counter = 0;
     priceAreas.forEach((area) {
-//      print(area.coordinates);
       if (area.polygonType == 'Polygon') {
         area.coordinates.forEach((coordinates) {
           List<LatLng> tempList = [];
@@ -373,7 +398,6 @@ class _ParkingMapState extends State<ParkingMap> {
         });
       }
     });
-    print(polygonPointsExtended.length);
     polygonPointsExtended.forEach((key, value) {
       createPolygon(key, value);
     });
@@ -436,7 +460,7 @@ class _ParkingMapState extends State<ParkingMap> {
 
   Future getCurrentLocation() async {
     var location = await _locationTracker.getLocation();
-    String response = await setLocation(location);
+    await setLocation(location);
   }
 
   Future setLocation(Location.LocationData location) async {
@@ -449,7 +473,7 @@ class _ParkingMapState extends State<ParkingMap> {
 
     await controller
         .animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
-    String response = await getData(newLocation);
+    await getData(newLocation);
   }
 
   Widget getFavoriteLabel(element) {
@@ -461,10 +485,12 @@ class _ParkingMapState extends State<ParkingMap> {
   }
 
   Future getData(LatLng location) async {
-//    print(distance);
     Response response = await get(
         'https://openparking.stockholm.se/LTF-Tolken/v1/${preference.toString()}/within?radius=$distance&lat=${location.latitude.toString()}&lng=${location.longitude.toString()}&outputFormat=json&apiKey=e734eaa7-d9b5-422a-9521-844554d9965b');
-    print(        'https://openparking.stockholm.se/LTF-Tolken/v1/${preference.toString()}/within?radius=$distance&lat=${location.latitude.toString()}&lng=${location.longitude.toString()}&outputFormat=json&apiKey=e734eaa7-d9b5-422a-9521-844554d9965b');
+    print('https://openparking.stockholm.se/LTF-Tolken/v1/${preference
+        .toString()}/within?radius=$distance&lat=${location.latitude
+        .toString()}&lng=${location.longitude
+        .toString()}&outputFormat=json&apiKey=e734eaa7-d9b5-422a-9521-844554d9965b');
     try {
       Map data = jsonDecode(response.body);
       var dataList = data['features'] as List;
@@ -476,7 +502,7 @@ class _ParkingMapState extends State<ParkingMap> {
       });
       allMarkers.clear();
 
-      String resp = await getMarkers();
+      await getMarkers();
     } catch (e) {
       getMarkers();
       return 'failed';
@@ -973,12 +999,10 @@ class ParkingDialogState extends State<ParkingDialogWidget> {
                           .document(element.streetName)
                           .delete();
                     }
-                    // ignore: unnecessary_statements
                     setState(() {
                       element.favorite == true
                           ? element.favorite = false
                           : element.favorite = true;
-//                      print(element.favorite);
                       if (element.favorite == false) {
                         favoriteIconData = Icons.favorite_border;
                         favoriteString = 'Add to favorites';
