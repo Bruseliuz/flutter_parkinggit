@@ -49,7 +49,7 @@ class _ParkingHistoryState extends State<ParkingHistory> {
           ListView.separated(
             separatorBuilder: (context, index) =>
                 Divider(
-                  color: Colors.white,
+                  color: Color(0xff207FC5),
                 ),
             padding: const EdgeInsets.all(8),
             itemCount: tempList.length,
@@ -77,41 +77,39 @@ class _ParkingHistoryState extends State<ParkingHistory> {
     return GestureDetector(
       child: Container(
         padding: EdgeInsets.all(10),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color:  Color(0xff207FC5),
-          boxShadow: [
-            BoxShadow(
-                color: Colors.black12,
-                blurRadius: 5.0,
-                offset: Offset(0,2)
-            )
-          ],
-        ),
+
         child: ListTile(
           title: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text('${tempList[index].streetName}',
             style: TextStyle(
-                color: Colors.white,
+                color: Color(0xff207FC5),
               fontWeight: FontWeight.w600,
+              fontSize: 20
             ),),
               SizedBox(height: 10),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
-                  Text('Time: ${tempList[index].startTime} - ${tempList[index].endTime}',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 12
-                  ),),
-                  Text('Date: ${tempList[index].date}',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 12
-                    ),),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text('Time: ${tempList[index].startTime} - ${tempList[index].endTime}',
+                        style: TextStyle(
+                            color: Color(0xff207FC5),
+                            fontSize: 14
+                        ),),
+                      SizedBox(height: 5),
+                      Text('Date: ${tempList[index].date}',
+                        style: TextStyle(
+                            color: Color(0xff207FC5),
+                            fontSize: 14
+                        ),),
+                    ],
+                  ),
                 ],
-              ),
+              )
             ],
         ),
       ),
