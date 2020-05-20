@@ -44,13 +44,13 @@ class _HomeState extends State<Home> {
                       padding: EdgeInsets.fromLTRB(10, 25, 20, 20),
                       child: Row(children: <Widget>[
                         IconButton(
-                          icon: Icon(Icons.menu),
+                          icon: Icon(Icons.menu, size: 30),
                           onPressed: () {
                             FocusScope.of(context)
                                 .requestFocus(new FocusNode());
                             Navigator.pop(context);
                           },
-                          padding: EdgeInsets.fromLTRB(2, 0, 2, 0),
+                          padding: EdgeInsets.fromLTRB(2, 0, 10, 0),
                         ),
                         Text(
                           'PARK´N \nSTOCKHOLM',
@@ -58,6 +58,7 @@ class _HomeState extends State<Home> {
                               color: Color(0xff207FC5),
                               fontWeight: FontWeight.bold,
                               fontSize: 33),
+
                         ),
                       ]),
                     ),
@@ -123,44 +124,55 @@ class _HomeState extends State<Home> {
 //                    Container(
 //                      child: Text('none' ?? name),
 //                    ),
-                    Container(
-                      padding: EdgeInsets.only(left: 68, top: 20),
-                      child: ListTile(
-                        title: Container(
-                          child: Row(
-                            children: <Widget>[
-                              Icon(
-                                Icons.exit_to_app,
-                                color: Color(0xff207FC5),
-                              ),
-                              Text(
-                                ' SIGN OUT',
-                                style: TextStyle(
-                                  color: Color(0xff207FC5),
-                                  fontSize: 17,
-                                  letterSpacing: 1.0,
+                    Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          Flexible(
+                            fit: FlexFit.loose,
+                            flex: 1,
+                            child: Container(
+                              padding: EdgeInsets.only(left: 80, top: 20),
+                              child: ListTile(
+                                title: Container(
+                                  child: Row(
+                                    children: <Widget>[
+                                      Icon(
+                                        Icons.exit_to_app,
+                                        color: Color(0xff207FC5),
+                                      ),
+                                      Text(
+                                        ' SIGN OUT',
+                                        style: TextStyle(
+                                          color: Color(0xff207FC5),
+                                          fontSize: 17,
+                                          letterSpacing: 1.0,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
+                                onTap: () {
+                                  _auth.signOut();
+                                },
                               ),
-                            ],
+                            ),
                           ),
-                        ),
-                        onTap: () {
-                          _auth.signOut();
-                        },
-                      ),
+                          Flexible(
+                            fit: FlexFit.loose,
+                            flex: 1,
+                            child: Text(
+                              '   An app by students \nat Stockholm University',
+                              style: TextStyle(color: Colors.black54),
+                            ),
+                          )
+                        ]
                     ),
-                    Container(
-                      padding: EdgeInsets.only(left: 70),
-                      child: Text(
-                        '   An app by students \nat Stockholm University',
-                        style: TextStyle(color: Colors.black54),
-                      ),
-                    )
                   ],
                 ),
               ),
             ),
             appBar: AppBar(
+              brightness: Brightness.light,
               automaticallyImplyLeading: false,
               centerTitle: true,
               elevation: 0.0,
