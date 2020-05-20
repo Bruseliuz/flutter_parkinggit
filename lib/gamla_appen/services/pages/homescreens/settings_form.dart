@@ -69,7 +69,7 @@ class _SettingsFormState extends State<SettingsForm> {
                               fontWeight: FontWeight.bold,
                               fontSize: 20)
                           ),
-                          SizedBox(height: 30),
+                          SizedBox(height: 20),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
@@ -160,7 +160,7 @@ class _SettingsFormState extends State<SettingsForm> {
                                 }
                             ),
                           ),*/
-                              SizedBox(height: 30.0),
+                              SizedBox(height: 20.0),
                               Text(
                                 'DISTANCE',
                                 style: TextStyle(
@@ -175,7 +175,7 @@ class _SettingsFormState extends State<SettingsForm> {
                                     fontSize: 14,
                                     fontWeight: FontWeight.w300
                                 ),),
-                              SizedBox(height: 20.0),
+                              SizedBox(height: 10.0),
                               Center(
                                   child: Text('${userData.radius.toString()} M',
                                   style: TextStyle(
@@ -215,18 +215,34 @@ class _SettingsFormState extends State<SettingsForm> {
                                   ),),
                                 ],
                               ),
-                              Text(
-                                  'Chosen max price: ${userData.maxPrice} kr / hour',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 18,
-                                  )
-                              ),
                               SizedBox(height: 20.0),
+                              Text(
+                                  'PRICE',
+                                style: TextStyle(
+                                    color:  Color(0xff207FC5),
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w600
+                                ),
+                              ),
+                              Text('Set maxprice for parking',
+                              style: TextStyle(
+                                  color: Color(0xff207FC5),
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w300
+                              ),),
+                              SizedBox(height: 10.0),
+                              Center(
+                                child: Text('$_currentMaxPrice kr/h',
+                                  style: TextStyle(
+                                      color:  Color(0xff207FC5),
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w600
+                                  ),
+                                ),
+                              ),
                               Slider(
-                                label: _currentMaxPrice.toString() ,
-                                activeColor: Colors.black54,
-                                inactiveColor: Colors.white,
+                                activeColor: Color(0xff207FC5),
+                                inactiveColor: Colors.black54,
                                 value: (_currentMaxPrice ?? userData.maxPrice).toDouble(),
                                 min: 10,
                                 max: 90,
@@ -239,7 +255,7 @@ class _SettingsFormState extends State<SettingsForm> {
                               ),
                             ],
                           ),
-                          SizedBox(height: 40.0),
+                          SizedBox(height: 10.0),
                           Container(
                             padding: EdgeInsets.symmetric(vertical: 25),
                             width: double.infinity,

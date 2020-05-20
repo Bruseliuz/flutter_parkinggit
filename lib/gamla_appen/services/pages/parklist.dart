@@ -20,18 +20,17 @@ class _ParkListState extends State<ParkList> {
 
   @override
   Widget build(BuildContext context) {
-    print('LÄÄÄÄÄÄÄNGD');
-    print(parkingSpotsList.length);
-    print(parkingSpotsList.toString());
     return Scaffold(
-        backgroundColor: Color(0xff207FC5),
+        backgroundColor: Colors.white,
         appBar: AppBar(
+          elevation: 2.0,
           backgroundColor: Color(0xff207FC5),
           title: Text("Availabe parking areas nearby: ${parkingSpotsList.length.toString()}"),
           centerTitle: true,
         ),
         body: ListView.separated(
           separatorBuilder: (context, index) => Divider(
+            color: Colors.white,
           ),
 
           padding: const EdgeInsets.all(8),
@@ -63,26 +62,44 @@ class _ParkListState extends State<ParkList> {
       child: Container(
         height: 70,
         decoration: BoxDecoration(
+          boxShadow: [
+            BoxShadow(
+                color: Colors.black26,
+                blurRadius: 5.0,
+                offset: Offset(0,2)
+            )
+          ],
           borderRadius: BorderRadius.circular(10),
-          color: Color(0xffA5C9EA),
+          color: Color(0xff207FC5),
         ),
         child: ListTile(
           leading: Column(
             children: <Widget>[
               Text(
-                  '${parkingSpotsList[index].availableParkingSpots}'),
+                  '${parkingSpotsList[index].availableParkingSpots}',
+              style: TextStyle(
+                color: Colors.white
+              ),),
               Text('    Available \n parking spots',
               style: TextStyle(
                 fontSize: 10,
+                color: Colors.white
               ),
               ),
             ],
           ),
           title: Text('Address: ${parkingSpotsList[index].streetName}',
-          maxLines: 2,),
+          maxLines: 2,
+          style: TextStyle(
+            color: Colors.white
+          ),),
           subtitle: Text(
-              'Price: 12 kronor per hour'),
-          trailing: Icon(Icons.directions_car),
+              'Price: 12 kronor per hour',
+          style: TextStyle(
+            color: Colors.white
+          ),),
+          trailing: Icon(Icons.directions_car,
+              color: Colors.white),
 
         ),
       ),
