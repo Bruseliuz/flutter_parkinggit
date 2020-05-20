@@ -627,19 +627,15 @@ class _ParkingMapState extends State<ParkingMap> {
     String imagePath = '';
     switch (price) {
       case '50':
-        imagePath = 'locmarker775.png';
-        break;
-      case '26':
-        imagePath = 'locmarker776.png';
-        break;
-      case '15':
-        imagePath = 'locmarker777.png';
-        break;
-      case '10':
         imagePath = 'locmarker778.png';
         break;
+      case '26':
+      case '15':
+        imagePath = 'locmarker776.png';
+        break;
+      case '10':
       case '5':
-        imagePath = 'locmarker779.png';
+        imagePath = 'locmarker775.png';
         break;
       default:
         imagePath = 'locmarker777.png';
