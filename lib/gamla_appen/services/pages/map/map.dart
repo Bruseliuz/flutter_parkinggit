@@ -1053,7 +1053,7 @@ void parseParkingCoordinates(List<dynamic> coordinates) {
           numberOfParkingSpots: element.coordinatesList.length.toString(),
           serviceDayInfo: element.serviceDayInfo,
           availableParkingSpots:
-              getRandomAvailableParkingSpot(element.coordinatesList),
+          getRandomAvailableParkingSpot(element.coordinatesList),
           favorite: favorite),
     );
     parkingSpotsList = tempList;
