@@ -116,6 +116,9 @@ class _HomeState extends State<Home> {
                           letterSpacing: 1.0,
                         ),
                       ),
+                      onTap:() {
+                        Navigator.pushNamed(context, '/help');
+                      } ,
                     ),
                     Divider(
                       color: Color(0xff207FC5),

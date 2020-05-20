@@ -25,7 +25,13 @@ class _ParkListState extends State<ParkList> {
         appBar: AppBar(
           elevation: 2.0,
           backgroundColor: Color(0xff207FC5),
-          title: Text("Availabe parking areas nearby: ${parkingSpotsList.length.toString()}"),
+          title: Text("Availabe parking areas nearby: ${parkingSpotsList.length.toString()}",
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w600,
+            letterSpacing: 1.2,
+            fontSize: 17
+          ),),
           centerTitle: true,
         ),
         body: ListView.separated(
