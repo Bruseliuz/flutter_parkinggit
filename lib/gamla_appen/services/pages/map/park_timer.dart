@@ -13,7 +13,6 @@ class ParkTimer extends StatefulWidget {
 }
 
 class _ParkTimerState extends State<ParkTimer> {
-  List<ActiveParking> tempList = [];
   TimeOfDay _time = TimeOfDay.now();
   TimeOfDay picked;
   String setParkingText = '';

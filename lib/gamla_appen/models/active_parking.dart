@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 class ActiveParking{
   String streetName;
-  TimeOfDay startTime;
-  TimeOfDay endTime;
+  String startTime;
+  String endTime;
 
   ActiveParking({this.streetName, this.endTime, this.startTime});
 

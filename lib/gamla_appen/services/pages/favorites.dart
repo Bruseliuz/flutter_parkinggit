@@ -24,7 +24,7 @@ class _FavoritesState extends State<Favorites> {
         stream: Firestore.instance.collection('parkingPreference').document(globalUser.uid).collection('favoriteParkings').snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (!snapshot.hasData) return new Text("There are no favorites");
-            _favParksList = getParkingSpots(snapshot);
+          _favParksList = getParkingSpots(snapshot);
           return Scaffold(
               backgroundColor: Colors.white,
               appBar: AppBar(
@@ -63,7 +63,6 @@ class _FavoritesState extends State<Favorites> {
                 backgroundColor: Colors.white,
               ));
         }
-
     );
   }
 
