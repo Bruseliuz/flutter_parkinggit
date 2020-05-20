@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutterparkinggit/gamla_appen/models/active_parking.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/map/map.dart';
 import 'package:flutterparkinggit/gamla_appen/models/user.dart';
 import 'package:provider/provider.dart';
@@ -218,7 +219,11 @@ class _ParkTimerState extends State<ParkTimer> {
                                 key: Key('START PARKING'),
                                 color: startTimerColor,
                                 elevation: 4.0,
-                                onPressed: () {
+                                onPressed: () async{
+                                  await DatabaseService(uid: globalUser.uid).updateUserParkingHistory(
+                                      selectedParking.streetName,
+                                      TimeOfDay.now().format(context),
+                                      _time.format(context));
                                   setState(() {
                                     if(picked == TimeOfDay.now()){
                                       noTimeSelectedDialog(context);
@@ -227,6 +232,7 @@ class _ParkTimerState extends State<ParkTimer> {
                                       endTimerColor = Colors.red[300];
                                       timerStarted = true;
                                     }
+
                                   });
                                   },
                                 padding: EdgeInsets.all(15),
