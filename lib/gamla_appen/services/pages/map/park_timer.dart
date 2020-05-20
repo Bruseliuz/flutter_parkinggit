@@ -222,13 +222,6 @@ class _ParkTimerState extends State<ParkTimer> {
                                 color: startTimerColor,
                                 elevation: 4.0,
                                 onPressed: () async{
-                                  await DatabaseService(uid: globalUser.uid).updateUserParkingHistory(
-                                      selectedParking.streetName,
-                                      TimeOfDay.now().format(context),
-                                      _time.format(context),
-                                    DateTime.now().toIso8601String()
-                                  );
-                                  print(DateTime.now().toIso8601String());
                                   setState(() {
                                     if(picked == TimeOfDay.now()){
                                       noTimeSelectedDialog(context);
@@ -338,7 +331,13 @@ class _ParkTimerState extends State<ParkTimer> {
                   Container(
                     padding: EdgeInsets.only(right: 120),
                     child: MaterialButton(
-                      onPressed: (){
+                      onPressed: () async {
+                        await DatabaseService(uid: globalUser.uid).updateUserParkingHistory(
+                            selectedParking.streetName,
+                            TimeOfDay.now().format(context),
+                            _time.format(context),
+                            DateTime.now().toIso8601String()
+                        );
                         Navigator.pushNamed(context, '/wrapper');
                       },
                       color: Colors.white,

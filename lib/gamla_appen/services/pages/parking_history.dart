@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterparkinggit/gamla_appen/models/active_parking.dart';
 import 'package:flutterparkinggit/gamla_appen/models/user.dart';
+import 'package:flutterparkinggit/gamla_appen/services/pages/database.dart';
 import 'package:provider/provider.dart';
 
 class ParkingHistory extends StatefulWidget {
@@ -55,6 +56,19 @@ class _ParkingHistoryState extends State<ParkingHistory> {
             itemCount: tempList.length,
             itemBuilder: _getParkingHistoryList,
           ),
+          floatingActionButton: FloatingActionButton.extended(
+              onPressed: () async{
+                setState(() async {
+                  await DatabaseService(uid: globalUser.uid).clearUserParkingHistory();
+                });
+              },
+              backgroundColor: Color(0xff207FC5),
+              icon: Icon(Icons.delete_forever,
+              color: Colors.white70,),
+              label: Text('CLEAR HISTORY',
+              style: TextStyle(
+                color: Colors.white
+              ),)),
         );
       }
     );
@@ -63,9 +77,17 @@ class _ParkingHistoryState extends State<ParkingHistory> {
   Widget _getParkingHistoryList(BuildContext context, int index){
     return GestureDetector(
       child: Container(
+        padding: EdgeInsets.all(10),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(0),
+          borderRadius: BorderRadius.circular(10),
           color:  Color(0xff207FC5),
+          boxShadow: [
+            BoxShadow(
+                color: Colors.black12,
+                blurRadius: 5.0,
+                offset: Offset(0,2)
+            )
+          ],
         ),
         child: ListTile(
           title: Column(
@@ -107,16 +129,21 @@ class _ParkingHistoryState extends State<ParkingHistory> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           SizedBox(height: 50.0),
-          Text('Youre parking history\nis empty.',
-              style: TextStyle(
-                color: Color(0xff207FC5),
-                fontSize: 18,
-              )),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text('NO PARKING HISTORY',
+                  style: TextStyle(
+                    color: Color(0xff207FC5),
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600
+                  )),
+            ],
+          )
         ],
       ),
     );
   }
-
 
   getParkingHistory(AsyncSnapshot<QuerySnapshot> snapshot) {
     return snapshot.data.documents.map((doc) {
