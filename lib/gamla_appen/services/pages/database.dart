@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:flutterparkinggit/gamla_appen/models/parking.dart';
 import 'package:flutterparkinggit/gamla_appen/models/user.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/map/parking_area.dart';
@@ -32,6 +33,13 @@ class DatabaseService {
       'serviceDayInfo': serviceInfo,
       'favorite': favorite,
       'availableParkingSpots': availableSpots
+    });
+  }
+  Future updateUserParkingHistory(String streetName, String startTime, String endTime) async {
+    return await parkCollection.document(uid).collection('parkinghistory').document(streetName).setData({
+      'streetName':streetName,
+      'startTime':startTime,
+      'endTime':endTime
     });
   }
 
