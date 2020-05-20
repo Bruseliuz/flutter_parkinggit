@@ -9,7 +9,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'dart:io';
 import 'dart:ui' as ui;
 import 'dart:ui';
-import 'package:google_maps_cluster_manager/google_maps_cluster_manager.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -17,10 +16,8 @@ import 'package:flutter/services.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/map/price_area.dart';
 import 'package:location/location.dart' as Location;
 import 'package:path_provider/path_provider.dart';
-import 'package:utm/utm.dart';
 import 'package:google_maps_webservice/places.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/database.dart';
-import 'package:flutterparkinggit/gamla_appen/services/pages/map/park_timer.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/map/parking_area.dart';
 import 'dart:async';
@@ -29,10 +26,7 @@ import 'dart:convert';
 import 'package:flutterparkinggit/gamla_appen/models/user.dart';
 import 'package:provider/provider.dart';
 import 'package:proj4dart/proj4dart.dart';
-import 'package:flutter_google_places/flutter_google_places.dart';
-import 'package:geocoder/geocoder.dart';
 
-import '../../places.dart';
 
 ParkingArea selectedParking;
 int distance;
@@ -58,8 +52,6 @@ class ParkingMap extends StatefulWidget {
 }
 
 class _ParkingMapState extends State<ParkingMap> {
-//  ClusterManager _manager;
-//  List<ClusterItem<Place>> items = [];
   final _textController = TextEditingController();
   var textFocusNode = new FocusNode();
   List<DocumentSnapshot> favoriteDocuments = [];
@@ -101,7 +93,6 @@ class _ParkingMapState extends State<ParkingMap> {
 
   @override
   void initState() {
-//    _manager = _initClusterManager();
     if (polygons.isEmpty) {
       getPriceAreas();
     }
@@ -155,7 +146,6 @@ class _ParkingMapState extends State<ParkingMap> {
 //                      searchInitiated = false;
 //                    });
 //                  },
-//                  onCameraIdle: _manager.updateMap,
                     initialCameraPosition: CameraPosition(
                       target: _center,
                       zoom: 12.0,
@@ -236,18 +226,15 @@ class _ParkingMapState extends State<ParkingMap> {
                             splashColor: Colors.white,
                             color: Color(0xff207FC5),
                             onPressed: () {
-                              FocusScope.of(context).requestFocus(
-                                  new FocusNode());
-                              setState(() {
-                                polyline.clear();
-                              });
-                              if (searchAddress != '') {
+                          if (searchAddress != '') {
+                                FocusScope.of(context).requestFocus(
+                                    new FocusNode());
+                                setState(() {
+                                  polyline.clear();
+                                });
                                 searchAndNavigate();
                               } else {
                                 showCenterShortToast();
-                                setState(() {
-                                  searchInitiated = false;
-                                });
                               }
                             },
                             iconSize: 30.0)
@@ -274,6 +261,7 @@ class _ParkingMapState extends State<ParkingMap> {
                   setState(() {
                     polyline.clear();
                     _textController.clear();
+                    searchAddress = '';
                   });
                   await getCurrentLocation();
 //                    print(allMarkers.toString());
@@ -313,7 +301,7 @@ class _ParkingMapState extends State<ParkingMap> {
       controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
           target:
           LatLng(result[0].position.latitude, result[0].position.longitude),
-          zoom: 15.0)));
+          zoom: 16.0)));
       await getData(
           LatLng(result[0].position.latitude, result[0].position.longitude));
       setState(() {
@@ -454,7 +442,6 @@ class _ParkingMapState extends State<ParkingMap> {
   }
 
   void _onMapCreated(GoogleMapController controller) {
-//    _manager.setMapController(controller);
     _controller.complete(controller);
   }
 
@@ -467,7 +454,7 @@ class _ParkingMapState extends State<ParkingMap> {
     final GoogleMapController controller = await _controller.future;
     LatLng newLocation = LatLng(location.latitude, location.longitude);
     CameraPosition cameraPosition = CameraPosition(
-      zoom: 15.0,
+      zoom: 16.0,
       target: newLocation,
     );
 
@@ -575,66 +562,6 @@ class _ParkingMapState extends State<ParkingMap> {
             ])));
   }
 
-//  ClusterManager _initClusterManager() {
-//    return ClusterManager<Place>(items, _updateMarkers,
-//        markerBuilder: _markerBuilder, initialZoom: 14.0);
-//  }
-//
-//  void _updateMarkers(Set<Marker> markers) {
-//    print('Updated ${markers.length} markers');
-//    setState(() {
-//      this.allMarkers = markers;
-//    });
-//  }
-//
-//  Future<Marker> Function(Cluster<Place>) get _markerBuilder =>
-//          (cluster) async {
-//        return Marker(
-//          markerId: MarkerId(cluster.getId()),
-//          position: cluster.location,
-//          onTap: () {
-//            print('---- $cluster');
-//            cluster.items.forEach((p) => print(p));
-//          },
-//          icon: await _getMarkerBitmap(cluster.isMultiple ? 125 : 75,
-//              text: cluster.isMultiple ? cluster.count.toString() : null),
-//        );
-//      };
-//
-//  Future<BitmapDescriptor> _getMarkerBitmap(int size, {String text}) async {
-//    assert(size != null);
-//
-//    final PictureRecorder pictureRecorder = PictureRecorder();
-//    final Canvas canvas = Canvas(pictureRecorder);
-//    final Paint paint1 = Paint()..color = Colors.orange;
-//    final Paint paint2 = Paint()..color = Colors.white;
-//
-//    canvas.drawCircle(Offset(size / 2, size / 2), size / 2.0, paint1);
-//    canvas.drawCircle(Offset(size / 2, size / 2), size / 2.2, paint2);
-//    canvas.drawCircle(Offset(size / 2, size / 2), size / 2.8, paint1);
-//
-//    if (text != null) {
-//      TextPainter painter = TextPainter(textDirection: TextDirection.ltr);
-//      painter.text = TextSpan(
-//        text: text,
-//        style: TextStyle(
-//            fontSize: size / 3,
-//            color: Colors.white,
-//            fontWeight: FontWeight.normal),
-//      );
-//      painter.layout();
-//      painter.paint(
-//        canvas,
-//        Offset(size / 2 - painter.width / 2, size / 2 - painter.height / 2),
-//      );
-//    }
-//
-//    final img = await pictureRecorder.endRecording().toImage(size, size);
-//    final data = await img.toByteData(format: ImageByteFormat.png);
-//
-//    return BitmapDescriptor.fromBytes(data.buffer.asUint8List());
-//  }
-
 
   setMarkersPrice() {
     if (allMarkers.isEmpty) {
@@ -683,10 +610,6 @@ class _ParkingMapState extends State<ParkingMap> {
       allMarkers = list;
     });
     setMarkersPrice();
-//    allMarkers.forEach((element) {
-//      _manager.addItem(ClusterItem(element.position,
-//          item: Place('none', element.markerId.value, 'none')));
-//    });
   }
 
   Future<BitmapDescriptor> createCustomMarkerBitmap(ParkingArea element) async {

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutterparkinggit/gamla_appen/models/user.dart';
 import 'package:flutterparkinggit/gamla_appen/services/auth.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/database.dart';
@@ -26,6 +27,10 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     return StreamProvider.value(
         value: DatabaseService().parking,
         child: Scaffold(
