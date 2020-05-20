@@ -114,18 +114,22 @@ class _FavoritesState extends State<Favorites> {
             child: ListTile(
               leading: Column(
                 children: <Widget>[
-                  Text('${_favParksList[index].availableParkingSpots.toString()}',
+                Expanded(
+                  child: Text(
+                    '${_favParksList[index].availableParkingSpots.toString()}',
+                    style: TextStyle(fontSize: 25, color: Colors.white),
+                  ),
+                ),
+                Expanded(
+                  child: Text(
+                    '     Available \n parking spots',
                     style: TextStyle(
-                      fontSize: 25,
-                      color: Colors.white
-                    ),),
-                  Text('     Available \n parking spots',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 7,
-                    fontWeight: FontWeight.w600
-                  ),)
-                ],
+                        color: Colors.white,
+                        fontSize: 9,
+                        fontWeight: FontWeight.w600),
+                  ),
+                )
+              ],
               ),
               title: Text('${_favParksList[index].streetName}',
               style: TextStyle(
