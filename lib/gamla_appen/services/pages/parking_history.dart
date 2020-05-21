@@ -14,7 +14,7 @@ User globalUser;
 
 class _ParkingHistoryState extends State<ParkingHistory> {
 
-  List<ActiveParking> tempList = [];
+  List<ActiveParking> parkingHistoryList = [];
 
   @override
   Widget build(BuildContext context) {
@@ -23,8 +23,7 @@ class _ParkingHistoryState extends State<ParkingHistory> {
     return StreamBuilder<QuerySnapshot>(
       stream: Firestore.instance.collection('parkingPreference').document(globalUser.uid).collection('parkinghistory').snapshots(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-        tempList = getParkingHistory(snapshot);
-        print(tempList);
+        parkingHistoryList = getParkingHistory(snapshot);
         return Scaffold(
           appBar: AppBar(
             backgroundColor: Color(0xff207FC5),
@@ -45,14 +44,14 @@ class _ParkingHistoryState extends State<ParkingHistory> {
               ],
             ),
           ),
-          body: tempList.isEmpty ? _emptyList(context) :
+          body: parkingHistoryList.isEmpty ? _emptyList(context) :
           ListView.separated(
             separatorBuilder: (context, index) =>
                 Divider(
                   color: Color(0xff207FC5),
                 ),
             padding: const EdgeInsets.all(8),
-            itemCount: tempList.length,
+            itemCount: parkingHistoryList.length,
             itemBuilder: _getParkingHistoryList,
           ),
           floatingActionButton: FloatingActionButton.extended(
@@ -82,7 +81,7 @@ class _ParkingHistoryState extends State<ParkingHistory> {
           title: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text('${tempList[index].streetName}',
+              Text('${parkingHistoryList[index].streetName}',
             style: TextStyle(
                 color: Color(0xff207FC5),
               fontWeight: FontWeight.w600,
@@ -95,13 +94,13 @@ class _ParkingHistoryState extends State<ParkingHistory> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text('Time: ${tempList[index].startTime} - ${tempList[index].endTime}',
+                      Text('Time: ${parkingHistoryList[index].startTime} - ${parkingHistoryList[index].endTime}',
                         style: TextStyle(
                             color: Color(0xff207FC5),
                             fontSize: 14
                         ),),
                       SizedBox(height: 5),
-                      Text('Date: ${tempList[index].date}',
+                      Text('Date: ${parkingHistoryList[index].date}',
                         style: TextStyle(
                             color: Color(0xff207FC5),
                             fontSize: 14
@@ -142,7 +141,7 @@ class _ParkingHistoryState extends State<ParkingHistory> {
     );
   }
 
-  getParkingHistory(AsyncSnapshot<QuerySnapshot> snapshot) {
+  getParkingHistory(AsyncSnapshot<QuerySnapshot> snapshot)  {
     return snapshot.data.documents.map((doc) {
       String streetName = doc.data['streetName'];
       String startTime = doc.data['startTime'];
