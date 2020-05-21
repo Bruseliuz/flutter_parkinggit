@@ -33,6 +33,7 @@ int distance;
 String preference;
 String parkingPrice;
 User globalUser;
+UserData userData;
 List<String> favoriteDocumentsId = [];
 final CollectionReference parkCollection =
 Firestore.instance.collection("parkingPreference");
@@ -121,7 +122,7 @@ class _ParkingMapState extends State<ParkingMap> {
         stream: DatabaseService(uid: globalUser.uid).userData,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            UserData userData = snapshot.data;
+            userData = snapshot.data;
             setPreference(userData);
           } else {
             distance = 100;
@@ -316,8 +317,9 @@ class _ParkingMapState extends State<ParkingMap> {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       backgroundColor: Colors.white70,
       title: Text(
-        'No parking available in your area.',
+        'Parking is either not available in your area or to the price you have chosen.',
         style: TextStyle(color: Color(0xff207FC5), fontWeight: FontWeight.bold),
+        textAlign: TextAlign.center,
       ),
       content: Container(
         child: FlatButton.icon(
@@ -489,7 +491,11 @@ class _ParkingMapState extends State<ParkingMap> {
       });
       allMarkers.clear();
 
-      await getMarkers();
+      bool markers = await getMarkers();
+      if (markers == false) {
+        showDialog(
+            context: context, builder: (_) => _noParkingAlertDialogWidget());
+      }
     } catch (e) {
       getMarkers();
       return 'failed';
@@ -563,53 +569,86 @@ class _ParkingMapState extends State<ParkingMap> {
   }
 
 
-  setMarkersPrice() {
-    if (allMarkers.isEmpty) {
-      showDialog(
-          context: context, builder: (_) => _noParkingAlertDialogWidget());
-    } else {
-      allMarkers.forEach((marker) {
-        double lat = marker.position.latitude;
-        double long = marker.position.longitude;
-        polygons.forEach((poly) async {
-          bool result = checkLocationInPoly(lat, long, poly);
-          if (result == true) {
-            List valueList = marker.markerId.value.split(', ');
-            String markerValue = valueList[0];
-            markerPrice.putIfAbsent(
-                markerValue, () => poly.polygonId.value);
-          }
-        });
-      });
+//  setMarkersPrice() {
+//    if (allMarkers.isEmpty) {
+//      showDialog(
+//          context: context, builder: (_) => _noParkingAlertDialogWidget());
+//    } else {
+//      allMarkers.forEach((marker) {
+//        double lat = marker.position.latitude;
+//        double long = marker.position.longitude;
+//        polygons.forEach((poly) async {
+//          bool result = checkLocationInPoly(lat, long, poly);
+//          if (result == true) {
+//            List valueList = marker.markerId.value.split(', ');
+//            String markerValue = valueList[0];
+//            markerPrice.putIfAbsent(
+//                markerValue, () => poly.polygonId.value);
+//          }
+//        });
+//      });
+//    }
+//  }
+
+  Future<Marker> createMarker(ParkingArea area, int id) async {
+    double price;
+    Marker newMarker;
+    bool visibility = true;
+    BitmapDescriptor bitmapDescriptor = await createCustomMarkerBitmap(area);
+    for (var polygon in polygons) {
+      bool result = checkLocationInPoly(
+          area.coordinates.latitude, area.coordinates.longitude, polygon);
+      if (result == true) {
+        List priceInfo = polygon.polygonId.value.split(' ');
+        String priceInt = priceInfo[0];
+        price = double.parse(priceInt);
+        if (price > userData.maxPrice) {
+          visibility = false;
+        }
+        newMarker = Marker(
+            markerId: MarkerId('${area.streetName}, $price, $id'),
+            icon: bitmapDescriptor,
+            visible: visibility,
+            draggable: false,
+            onTap: () {
+              showDialog(
+                  context: context,
+                  builder: (_) => ParkingDialogWidget(parkingArea: area));
+              getPoints(area);
+            },
+            position: area.coordinates);
+        List valueList = newMarker.markerId.value.split(', ');
+        String markerValue = valueList[0];
+        markerPrice.putIfAbsent(markerValue, () => polygon.polygonId.value);
+        break;
+      }
     }
+    return newMarker;
   }
 
-  Future getMarkers() async {
+  Future<bool> getMarkers() async {
     int counter = 0;
     Set<Marker> list = {};
     for (var element in parkingSpotsList) {
-      BitmapDescriptor bitmapDescriptor =
-      await createCustomMarkerBitmap(element);
-      list.add(Marker(
-          markerId: MarkerId('${element.streetName}, $counter'),
-          icon: bitmapDescriptor,
-//            icon: BitmapDescriptor.defaultMarker,
-          visible: true,
-          draggable: false,
-          onTap: () {
-            // TODO - OnDoubleTap
-            showDialog(
-                context: context,
-                builder: (_) => ParkingDialogWidget(parkingArea: element));
-            getPoints(element);
-          },
-          position: element.coordinates));
+      Marker marker = await createMarker(element, counter);
+      list.add(marker);
       counter++;
     }
     setState(() {
       allMarkers = list;
     });
-    setMarkersPrice();
+    bool markers;
+    for (var element in allMarkers) {
+      if (element.visible == true) {
+        markers = true;
+        break;
+      } else {
+        markers = false;
+      }
+    }
+    print(markers);
+    return markers;
+//    setMarkersPrice();
   }
 
   Future<BitmapDescriptor> createCustomMarkerBitmap(ParkingArea element) async {

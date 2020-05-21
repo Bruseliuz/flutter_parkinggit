@@ -245,8 +245,8 @@ class _SettingsFormState extends State<SettingsForm> {
                                 inactiveColor: Colors.black54,
                                 value: (_currentMaxPrice ?? userData.maxPrice).toDouble(),
                                 min: 10,
-                                max: 90,
-                                divisions: 8,
+                                max: 50,
+                                divisions: 4,
                                 onChanged: (val) => setState(() {
                                   _currentMaxPrice = val.round();
                                   _updateSettingsIcon = new Icon(Icons.refresh,
