@@ -232,7 +232,7 @@ class _SettingsFormState extends State<SettingsForm> {
                               ),),
                               SizedBox(height: 10.0),
                               Center(
-                                child: Text('$_currentMaxPrice kr/h',
+                                child: Text('${_currentMaxPrice ?? userData.maxPrice} kr/h',
                                   style: TextStyle(
                                       color:  Color(0xff207FC5),
                                       fontSize: 15,
