@@ -474,12 +474,9 @@ class _ParkingMapState extends State<ParkingMap> {
   }
 
   Future getData(LatLng location) async {
+    allMarkers.clear();
     Response response = await get(
-        'https://openparking.stockholm.se/LTF-Tolken/v1/${preference.toString()}/within?radius=$distance&lat=${location.latitude.toString()}&lng=${location.longitude.toString()}&outputFormat=json&apiKey=e734eaa7-d9b5-422a-9521-844554d9965b');
-    print('https://openparking.stockholm.se/LTF-Tolken/v1/${preference
-        .toString()}/within?radius=$distance&lat=${location.latitude
-        .toString()}&lng=${location.longitude
-        .toString()}&outputFormat=json&apiKey=e734eaa7-d9b5-422a-9521-844554d9965b');
+        'https://openparking.stockholm.se/LTF-Tolken/v1/$preference/within?radius=$distance&lat=${location.latitude}&lng=${location.longitude}&outputFormat=json&apiKey=e734eaa7-d9b5-422a-9521-844554d9965b');
     try {
       Map data = jsonDecode(response.body);
       var dataList = data['features'] as List;
@@ -490,9 +487,8 @@ class _ParkingMapState extends State<ParkingMap> {
         parseParkingCoordinates(list);
       });
       allMarkers.clear();
-
       bool markers = await getMarkers();
-      if (markers == false) {
+      if (markers == null) {
         showDialog(
             context: context, builder: (_) => _noParkingAlertDialogWidget());
       }
@@ -647,6 +643,7 @@ class _ParkingMapState extends State<ParkingMap> {
       }
     }
     print(markers);
+    print(allMarkers);
     return markers;
 //    setMarkersPrice();
   }
