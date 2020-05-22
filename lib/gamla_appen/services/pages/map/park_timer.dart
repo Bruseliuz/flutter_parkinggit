@@ -386,7 +386,8 @@ class _ParkTimerState extends State<ParkTimer> {
                             selectedParking.streetName,
                             TimeOfDay.now().format(context),
                             _time.format(context),
-                            DateTime.now().toIso8601String()
+                            DateTime.now().toIso8601String(),
+                          calculatePrice()
                         );
                         Navigator.pushNamedAndRemoveUntil(context, '/wrapper', (_) => false);
                       },

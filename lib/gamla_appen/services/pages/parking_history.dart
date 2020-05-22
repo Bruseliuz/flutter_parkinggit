@@ -104,7 +104,15 @@ class _ParkingHistoryState extends State<ParkingHistory> {
                         style: TextStyle(
                             color: Color(0xff207FC5),
                             fontSize: 14
-                        ),),
+                        ),
+                      ),
+                      SizedBox(height: 5),
+                      Text('Total cost: ${parkingHistoryList[index].totalPrice}',
+                        style: TextStyle(
+                            color: Color(0xff207FC5),
+                            fontSize: 14
+                        ),
+                      ),
                     ],
                   ),
                 ],
@@ -147,13 +155,15 @@ class _ParkingHistoryState extends State<ParkingHistory> {
       String startTime = doc.data['startTime'];
       String endTime = doc.data['endTime'];
       String date = doc.data['date'];
+      String totalPrice = doc.data['totalPrice'];
       List<String> temp = date.split('T');
       String dateOnly = temp[0];
       return ActiveParking(
           streetName: streetName,
         startTime: startTime,
         endTime: endTime,
-        date: dateOnly
+        date: dateOnly,
+        totalPrice: totalPrice
       );
     }).toList();
   }

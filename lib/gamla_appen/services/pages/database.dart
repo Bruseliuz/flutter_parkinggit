@@ -35,12 +35,13 @@ class DatabaseService {
       'availableParkingSpots': availableSpots
     });
   }
-  Future updateUserParkingHistory(String streetName, String startTime, String endTime, String date) async {
+  Future updateUserParkingHistory(String streetName, String startTime, String endTime, String date, String totalPrice) async {
     return await parkCollection.document(uid).collection('parkinghistory').document(streetName).setData({
       'streetName':streetName,
       'startTime':startTime,
       'endTime':endTime,
-      'date': date
+      'date': date,
+      'totalPrice': totalPrice
     });
   }
 
