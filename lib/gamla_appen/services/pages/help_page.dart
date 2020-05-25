@@ -30,7 +30,7 @@ class _HelpPageState extends State<HelpPage> {
         height: double.infinity,
         width: double.infinity,
         child: SingleChildScrollView(
-          physics: AlwaysScrollableScrollPhysics(),
+          physics: NeverScrollableScrollPhysics(),
           padding: EdgeInsets.symmetric(
               vertical: 20,
               horizontal: 20
@@ -172,17 +172,19 @@ class _HelpPageState extends State<HelpPage> {
                       ],
                     ),
                     Padding(
-                      padding: EdgeInsets.only(left: 15,right: 15,top: 10),
+                      padding: EdgeInsets.only(left: 40, right: 35, top: 10),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
                           Text('MC',
+                            textAlign: TextAlign.center,
                             style: TextStyle(
                                 color: Color(0xff207FC5),
                                 fontWeight: FontWeight.w400,
                                 fontSize: 13
                             ),),
-                          Text('Dissabled parking',
+                          Text(
+                            'Disabled parking',
                             style: TextStyle(
                                 color: Color(0xff207FC5),
                                 fontWeight: FontWeight.w400,
