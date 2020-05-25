@@ -3,6 +3,10 @@ import 'package:test/test.dart';
 
 void main() {
   group('flutter app test', () {
+    final emailField = find.byValueKey("email");
+    final passwordField = find.byValueKey("password");
+    final signInButton = find.byValueKey("SignIn");
+    final googleMaps = find.byType("ParkingMap");
     FlutterDriver driver;
     setUpAll(() async {
       driver = await FlutterDriver.connect();
@@ -13,18 +17,16 @@ void main() {
       }
     });
 
-    var emailField = find.text('Email');
-    var passwordField = find.text('Password');
-    var button = find.text('LOGIN');
-
-    //test för att se hur det ser ut när användaren gör detta.
-    //Funkar inte :(
     test("integration test", () async {
       await driver.tap(emailField);
       await driver.enterText('admin@parkapp.se');
       await driver.tap(passwordField);
       await driver.enterText('test1234');
-      await driver.tap(button);
+      await driver.tap(signInButton);
+      assert(googleMaps != null);
+      await driver.waitUntilNoTransientCallbacks();
+
     });
   });
+
 }

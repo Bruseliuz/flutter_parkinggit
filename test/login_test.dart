@@ -61,10 +61,10 @@ void main() {
 
     await tester.pumpWidget(makeTestableWidget(child: page, auth: mockAuth));
     Finder emailField = find.byKey(Key('email'));
-    await tester.enterText(emailField, 'admin@parkapp.se');
+    await tester.enterText(emailField, 'email');
 
     Finder passwordField = find.byKey(Key('password'));
-    await tester.enterText(passwordField, 'test1234');
+    await tester.enterText(passwordField, 'password');
 
     await tester.tap(find.byKey(Key('SignIn')));
 
