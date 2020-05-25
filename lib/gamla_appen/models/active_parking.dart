@@ -5,8 +5,9 @@ class ActiveParking{
   String startTime;
   String endTime;
   String date;
+  String totalPrice;
 
-  ActiveParking({this.streetName, this.endTime, this.startTime, this.date});
+  ActiveParking({this.streetName, this.endTime, this.startTime, this.date, this.totalPrice});
 
   @override
   toString() =>

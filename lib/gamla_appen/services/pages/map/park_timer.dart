@@ -22,6 +22,33 @@ class _ParkTimerState extends State<ParkTimer> {
   Color endTimerColor = Colors.red[100];
   bool timerStarted = false;
   String regNumber;
+  int price;
+
+  String calculatePrice(){
+    int hour = picked.hour -  TimeOfDay.now().hour;
+    int minute = picked.minute -   TimeOfDay.now().minute;
+    int hourInMinute = hour * 60;
+    int totalTime = hourInMinute + minute;
+    switch(parkingPrice) {
+      case '5':
+        {price = 5;}
+        break;
+      case '10':
+        {price = 10;}
+        break;
+      case '15':
+        {price = 15;}
+        break;
+      case '26':
+        {price = 26;}
+        break;
+      case '50':
+        {price = 50;}
+        break;
+    }
+    double calculatedPrice = price / 60 * totalTime;
+    return calculatedPrice.toStringAsFixed(2);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -154,6 +181,30 @@ class _ParkTimerState extends State<ParkTimer> {
                         Row(
                           children: <Widget>[
                             SizedBox(width: 10),
+                            Text('TOTAL COST',
+                              style: TextStyle(
+                                  color: Colors.white70,
+                                  fontSize: 12.0,
+                                  fontWeight: FontWeight.bold
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: <Widget>[
+                            SizedBox(width: 10),
+                            Text('${calculatePrice() }kr',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 50,
+                                  fontWeight: FontWeight.w600
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: <Widget>[
+                            SizedBox(width: 10),
                             Text('PRICE',
                               style: TextStyle(
                                   color: Colors.white70,
@@ -230,7 +281,6 @@ class _ParkTimerState extends State<ParkTimer> {
                                       endTimerColor = Colors.red[300];
                                       timerStarted = true;
                                     }
-
                                   });
                                   },
                                 padding: EdgeInsets.all(15),
@@ -336,7 +386,8 @@ class _ParkTimerState extends State<ParkTimer> {
                             selectedParking.streetName,
                             TimeOfDay.now().format(context),
                             _time.format(context),
-                            DateTime.now().toIso8601String()
+                            DateTime.now().toIso8601String(),
+                          calculatePrice()
                         );
                         Navigator.pushNamedAndRemoveUntil(context, '/wrapper', (_) => false);
                       },
@@ -444,6 +495,7 @@ class _ParkTimerState extends State<ParkTimer> {
     setState(() {
       picked = _time;
       setParkingText = 'PARKING IS SET FOR';
+      calculatePrice();
     });
   }
 }
