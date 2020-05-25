@@ -17,7 +17,7 @@ class _ParkTimerState extends State<ParkTimer> {
   DateTime date;
   TimeOfDay _time = TimeOfDay.now();
   TimeOfDay picked;
-  String setParkingText = '';
+  String setParkingText = 'TIME';
   Color startTimerColor = Colors.green[300];
   Color endTimerColor = Colors.red[100];
   bool timerStarted = false;
@@ -278,11 +278,10 @@ class _ParkTimerState extends State<ParkTimer> {
                                   setState(() {
                                     if(picked == TimeOfDay.now()){
                                       noTimeSelectedDialog(context);
-                                    }else{
+                                    }else if(calculatedPrice > 0){
                                       startTimerColor = Colors.lightGreen[100];
                                       endTimerColor = Colors.red[300];
                                       timerStarted = true;
-                                      print(calculatedPrice);
                                     }
                                   });
                                   },
@@ -406,7 +405,6 @@ class _ParkTimerState extends State<ParkTimer> {
                       ),
                     ),
                   ),
-
                   Container(
                     child: MaterialButton(
                       onPressed: (){
