@@ -23,6 +23,7 @@ class _ParkTimerState extends State<ParkTimer> {
   bool timerStarted = false;
   String regNumber;
   int price;
+  double calculatedPrice;
 
   String calculatePrice(){
     int hour = picked.hour -  TimeOfDay.now().hour;
@@ -46,10 +47,7 @@ class _ParkTimerState extends State<ParkTimer> {
         {price = 50;}
         break;
     }
-    double calculatedPrice = price / 60 * totalTime;
-    if(calculatedPrice < 1){
-      return '';
-    }
+    calculatedPrice = price / 60 * totalTime;
     return '${calculatedPrice.toStringAsFixed(2)} kr';
   }
 
@@ -59,6 +57,7 @@ class _ParkTimerState extends State<ParkTimer> {
     if(picked == null){
       picked = TimeOfDay.now();
     }
+    print(picked);
     return StreamBuilder<UserData>(
       stream: DatabaseService(uid: user.uid).userData,
       builder: (context, snapshot) {
@@ -283,6 +282,7 @@ class _ParkTimerState extends State<ParkTimer> {
                                       startTimerColor = Colors.lightGreen[100];
                                       endTimerColor = Colors.red[300];
                                       timerStarted = true;
+                                      print(calculatedPrice);
                                     }
                                   });
                                   },
@@ -433,6 +433,55 @@ class _ParkTimerState extends State<ParkTimer> {
     );
   }
 
+  Future<void>  negativeTimeSelectedDialog(BuildContext context) {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          child: AlertDialog(
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+            contentPadding: EdgeInsets.fromLTRB(10, 5, 10, 10),
+            elevation: 3.0,
+            title: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Icon(Icons.error_outline,
+                      color: Color(0xff207FC5)),
+                ]),
+            content: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                Text('Please enter the end-time\n       for your parking.',
+                  style: TextStyle(
+                      color: Color(0xff207FC5)
+                  ),),
+              ],
+            ),
+            actions: <Widget>[
+              Container(
+                padding: EdgeInsets.only(left: 100, right: 100),
+                child: MaterialButton(
+                  onPressed: (){
+                    Navigator.pop(context);
+                  },
+                  color: Colors.white,
+                  elevation: 0.0,
+                  child: Row(
+                    children: <Widget>[
+                      Text('OK',
+                        style: TextStyle(
+                            color: Color(0xff207FC5)
+                        ),)
+                    ],
+                  ),
+                ),
+              )
+            ],
+          ),
+        );
+      },
+    );
+  }
 
   Future<void> noTimeSelectedDialog(BuildContext context) {
     return showDialog<void>(
