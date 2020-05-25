@@ -47,7 +47,10 @@ class _ParkTimerState extends State<ParkTimer> {
         break;
     }
     double calculatedPrice = price / 60 * totalTime;
-    return calculatedPrice.toStringAsFixed(2);
+    if(calculatedPrice < 1){
+      return '';
+    }
+    return '${calculatedPrice.toStringAsFixed(2)} kr';
   }
 
   @override
@@ -193,7 +196,7 @@ class _ParkTimerState extends State<ParkTimer> {
                         Row(
                           children: <Widget>[
                             SizedBox(width: 10),
-                            Text('${calculatePrice() }kr',
+                            Text('${calculatePrice()}',
                               style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 50,

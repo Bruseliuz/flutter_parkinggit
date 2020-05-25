@@ -177,7 +177,7 @@ class _SettingsFormState extends State<SettingsForm> {
                                 ),),
                               SizedBox(height: 10.0),
                               Center(
-                                  child: Text('${userData.radius.toString()} M',
+                                  child: Text('${currentDistance ?? userData.radius.toString()} M',
                                   style: TextStyle(
                                       color:  Color(0xff207FC5),
                                       fontSize: 15,

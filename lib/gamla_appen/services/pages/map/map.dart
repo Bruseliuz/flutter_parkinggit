@@ -270,6 +270,7 @@ class _ParkingMapState extends State<ParkingMap> {
                       icon: Icon(Icons.aspect_ratio),
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(15)),
+                      heroTag: 'Find parking in this area',
                       onPressed: () async {
                         final GoogleMapController controller = await _controller
                             .future;
@@ -311,6 +312,7 @@ class _ParkingMapState extends State<ParkingMap> {
                 ),
                 label: Text('Find Parking\n   Near Me'),
                 backgroundColor: Color(0xff207FC5),
+                heroTag: 'Find parking near me',
                 onPressed: searchInitiated ? null : () async {
                   setState(() {
                     polyline.clear();
