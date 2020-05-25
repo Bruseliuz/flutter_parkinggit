@@ -54,7 +54,7 @@ class _SettingsFormState extends State<SettingsForm> {
                   color: Colors.white,
                   height: double.infinity,
                   child: SingleChildScrollView(
-                    physics: AlwaysScrollableScrollPhysics(),
+                    physics: NeverScrollableScrollPhysics(),
                     padding: EdgeInsets.symmetric(
                         vertical: 20,
                         horizontal: 40
@@ -261,7 +261,7 @@ class _SettingsFormState extends State<SettingsForm> {
                             width: double.infinity,
                             child: MaterialButton(
                               shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
+                                  borderRadius: BorderRadius.circular(30),
                                   side: BorderSide(
                                       color: Color(0xff207FC5)
                                   )

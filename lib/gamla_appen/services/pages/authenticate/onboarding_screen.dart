@@ -305,6 +305,81 @@ class _OnboardingState extends State<Onboarding> {
           ),
         ),
       ),
+      PageViewModel(
+        titleWidget: Container(
+          padding: EdgeInsets.only(top: 20),
+          child: Column(
+            children: <Widget>[
+              SizedBox(height: 25),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    'Set personal preferences!',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+        bodyWidget: Container(
+          padding: EdgeInsets.only(top: 0,left: 30,right: 30, bottom: 30),
+          child: Column(
+            children: <Widget>[
+              SizedBox(height: 10),
+              Center(
+                child: Container(
+                  padding: EdgeInsets.only(top: 5, left: 5, right: 5, bottom: 5),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12)),
+                  child: Column(
+                    children: <Widget>[
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: Image.asset(
+                          ('assets/Filters.jpg'),
+                          height: 400,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(height: 10),
+              Center(
+                child: Container(
+                  width: 300,
+                  padding: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(10)),
+                  child: Column(
+                    children: <Widget>[
+                      Text('Choose which types of parking you want to see and filter them by price and distance.',
+                      style: TextStyle(
+                          color: Color(0xff207FC5),
+                          fontWeight: FontWeight.w300,
+                          fontSize: 13
+                      ),)
+                    ],
+                  ),
+                ),
+              ),
+              /*: TextStyle(
+    color: Color(0xff207FC5),
+    fontWeight: FontWeight.w400,
+    fontSize: 13),
+    ),*/
+            ],
+          ),
+        ),
+      ),
     ];
   }
 

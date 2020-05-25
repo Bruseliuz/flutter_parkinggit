@@ -23,6 +23,7 @@ class _ParkingHistoryState extends State<ParkingHistory> {
     return StreamBuilder<QuerySnapshot>(
       stream: Firestore.instance.collection('parkingPreference').document(globalUser.uid).collection('parkinghistory').snapshots(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if(snapshot.hasData)
         parkingHistoryList = getParkingHistory(snapshot);
         return Scaffold(
           appBar: AppBar(

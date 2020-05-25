@@ -24,7 +24,7 @@ class _SettingsFormDrawerState extends State<SettingsFormDrawer> {
   String _currentRegNumber;
   String _currentName;
   Icon _updateSettingsIcon = new Icon(Icons.refresh,
-      color: Color(0xff207FC5));
+      color: Colors.white);
 
   @override
   Widget build(BuildContext context) {
@@ -223,34 +223,34 @@ class _SettingsFormDrawerState extends State<SettingsFormDrawer> {
                                         onChanged: (val) => setState(() {
                                           _currentRegNumber = val;
                                           _updateSettingsIcon = new Icon(Icons.refresh,
-                                              color: Color(0xff207FC5));
+                                              color: Colors.white);
                                         }),
                                       ),
                                       SizedBox(height: 30),
                                       Container(
                                         width: double.infinity,
                                         child: MaterialButton(
-
                                           shape: RoundedRectangleBorder(
-                                              borderRadius: BorderRadius.circular(10),
+                                              borderRadius: BorderRadius.circular(30),
                                               side: BorderSide(
                                                   color: Color(0xff207FC5),
                                                 width: 1.5
                                               )
-                                          ),
+                                        ),
+
                                           child: Row(
                                             mainAxisAlignment: MainAxisAlignment.center,
                                             children: <Widget>[
                                               Text('Update settings ',
                                                 style: TextStyle(
-                                                    color: Color(0xff207FC5),
+                                                    color: Colors.white,
                                                     fontSize: 18.0
                                                 ),
                                               ),
                                               _updateSettingsIcon
                                             ],
                                           ),
-                                          color: Colors.white,
+                                          color: Color(0xff207FC5),
                                           elevation: 4.0,
                                           onPressed: () async {
                                             print(_currentRegNumber);
@@ -266,7 +266,7 @@ class _SettingsFormDrawerState extends State<SettingsFormDrawer> {
                                             _neverSatisfied();
                                             setState(() {
                                               _updateSettingsIcon = new Icon(Icons.check_circle_outline,
-                                                  color: Color(0xff207FC5));
+                                                  color: Colors.white);
                                             });
                                           },
                                           padding: EdgeInsets.all(15),

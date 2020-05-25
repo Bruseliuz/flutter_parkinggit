@@ -28,21 +28,16 @@ class _FavoritesState extends State<Favorites> {
           return Scaffold(
               backgroundColor: Colors.white,
               appBar: AppBar(
-                elevation: 2.0,
-                backgroundColor: Color(0xff207FC5),
+                elevation: 0.0,
+                backgroundColor: Colors.white,
                 title: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     const Text("FAVORITES",
                       style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 17,
-                          letterSpacing: 1.2
-                      ),),
-                    Icon(Icons.favorite_border,
-                    color: Colors.white,
-                    size: 18,)
+                          color:  Color(0xff207FC5),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20),),
                   ],
                 ),
               ),

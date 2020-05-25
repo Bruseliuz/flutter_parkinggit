@@ -23,15 +23,13 @@ class _ParkListState extends State<ParkList> {
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          elevation: 2.0,
-          backgroundColor: Color(0xff207FC5),
+          elevation: 0.0,
+          backgroundColor: Colors.white,
           title: Text("Availabe parking areas nearby: ${parkingSpotsList.length.toString()}",
           style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.w600,
-            letterSpacing: 1.2,
-            fontSize: 17
-          ),),
+              color:  Color(0xff207FC5),
+            fontWeight: FontWeight.bold,
+            fontSize: 20),),
           centerTitle: true,
         ),
         body: ListView.separated(
