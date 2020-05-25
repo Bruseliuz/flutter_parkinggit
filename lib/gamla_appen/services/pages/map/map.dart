@@ -624,28 +624,6 @@ class _ParkingMapState extends State<ParkingMap> {
             ])));
   }
 
-
-//  setMarkersPrice() {
-//    if (allMarkers.isEmpty) {
-//      showDialog(
-//          context: context, builder: (_) => _noParkingAlertDialogWidget());
-//    } else {
-//      allMarkers.forEach((marker) {
-//        double lat = marker.position.latitude;
-//        double long = marker.position.longitude;
-//        polygons.forEach((poly) async {
-//          bool result = checkLocationInPoly(lat, long, poly);
-//          if (result == true) {
-//            List valueList = marker.markerId.value.split(', ');
-//            String markerValue = valueList[0];
-//            markerPrice.putIfAbsent(
-//                markerValue, () => poly.polygonId.value);
-//          }
-//        });
-//      });
-//    }
-//  }
-
   Future<Marker> createMarker(ParkingArea area, int id) async {
     double price;
     Marker newMarker;
