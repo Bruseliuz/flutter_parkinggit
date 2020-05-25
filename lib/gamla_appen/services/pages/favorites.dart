@@ -56,13 +56,7 @@ class _FavoritesState extends State<Favorites> {
                 itemCount: _favParksList.length,
                 itemBuilder: _getFavoriteParksList,
               ),
-              floatingActionButton: FloatingActionButton(
-                heroTag: 'button3',
-                elevation: 3.0,
-                onPressed: () async {},
-                child: Icon(Icons.refresh, color: Color(0xff207FC5)),
-                backgroundColor: Colors.white,
-              ));
+          );
         }
     );
   }
@@ -87,33 +81,40 @@ class _FavoritesState extends State<Favorites> {
 
   Widget _getFavoriteParksList(BuildContext context, int index) {
     return GestureDetector(
-        child: Dismissible(
-          key: UniqueKey(),
-          onDismissed: (direction) {
-            setState((){
-              parkCollection
-                  .document(globalUser.uid)
-                  .collection('favoriteParkings')
-                  .document(_favParksList[index].streetName)//streetName
-                  .delete();
-            });
-          },
-          child: Container(
-            height: 70,
-            decoration: BoxDecoration(
-              boxShadow: [
-                BoxShadow(
-                    color: Colors.black26,
-                    blurRadius: 5.0,
-                    offset: Offset(0,2)
-                )
-              ],
-              borderRadius: BorderRadius.circular(10),
-              color: Color(0xff207FC5),
-            ),
-            child: ListTile(
-              leading: Column(
-                children: <Widget>[
+      onTap: () {
+        showDialog(
+            context: context,
+            builder: (_) =>
+                ParkingDialogWidget(parkingArea: parkingSpotsList[index]));
+//        openPage(context, _parkingAreasList.parkingAreas[index].coordinates);
+      },
+      child: Dismissible(
+        key: UniqueKey(),
+        onDismissed: (direction) {
+          setState((){
+            parkCollection
+                .document(globalUser.uid)
+                .collection('favoriteParkings')
+                .document(_favParksList[index].streetName)//streetName
+                .delete();
+          });
+        },
+        child: Container(
+          height: 70,
+          decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                  color: Colors.black26,
+                  blurRadius: 5.0,
+                  offset: Offset(0,2)
+              )
+            ],
+            borderRadius: BorderRadius.circular(10),
+            color: Color(0xff207FC5),
+          ),
+          child: ListTile(
+            leading: Column(
+              children: <Widget>[
                 Expanded(
                   child: Text(
                     '${_favParksList[index].availableParkingSpots.toString()}',
@@ -130,17 +131,17 @@ class _FavoritesState extends State<Favorites> {
                   ),
                 )
               ],
-              ),
-              title: Text('${_favParksList[index].streetName}',
+            ),
+            title: Text('${_favParksList[index].streetName}',
               style: TextStyle(
-                fontWeight:FontWeight.w600,
-                color: Colors.white
+                  fontWeight:FontWeight.w600,
+                  color: Colors.white
               ),
               maxLines: 2,),
             subtitle: Text('${_favParksList[index].price}',
-            style: TextStyle(
-              color: Colors.white
-            ),),
+              style: TextStyle(
+                  color: Colors.white
+              ),),
             trailing: GestureDetector(
                 onTap: (){
                   setState((){
@@ -151,15 +152,15 @@ class _FavoritesState extends State<Favorites> {
                         .delete();
                   });
                 },
-                  child: Icon(
-                      Icons.delete_forever,
-                    size: 35,
-                    color: Colors.white70,
-                  )
-              ),
+                child: Icon(
+                  Icons.delete_forever,
+                  size: 35,
+                  color: Colors.white70,
+                )
             ),
           ),
         ),
+      ),
     );
   }
 

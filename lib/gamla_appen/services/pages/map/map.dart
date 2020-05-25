@@ -76,7 +76,6 @@ class _ParkingMapState extends State<ParkingMap> {
   GoogleMapsPlaces(apiKey: "AIzaSyAMeqs9sFXRF0Wxi8t1c8hRMMDh20rx7rY");
   final homeScaffoldKey = GlobalKey<ScaffoldState>();
   bool searchInitiated = false;
-  bool mapMoving = false;
   String textFieldString;
 
   getPoints(ParkingArea p) async {
@@ -148,18 +147,6 @@ class _ParkingMapState extends State<ParkingMap> {
                     myLocationButtonEnabled: false,
                     zoomControlsEnabled: false,
                     onMapCreated: _onMapCreated,
-                    onCameraIdle: () {
-                      setState(() {
-                        mapMoving = false;
-                      });
-                      print('stopped');
-                    },
-                    onCameraMoveStarted: () {
-                      setState(() {
-                        mapMoving = true;
-                      });
-                      print('moving');
-                    },
                     markers: Set<Marker>.of(allMarkers),
                     polylines: polyline,
                     initialCameraPosition: CameraPosition(
@@ -263,41 +250,38 @@ class _ParkingMapState extends State<ParkingMap> {
                           height: 10,
                         ),
                         Center(
-                          child: AnimatedOpacity(
-                            duration: Duration(milliseconds: 200),
-                            opacity: mapMoving ? 0.0 : 1.0,
-                            child: FloatingActionButton.extended(
-                          heroTag: 'area',
+                      child: FloatingActionButton.extended(
+                        heroTag: 'area',
                           label: Text('Find Parking\nIn This Area',
-                                  textAlign: TextAlign.center),
-                              backgroundColor: Color(0xff207FC5),
-                              elevation: 3.0,
-                              icon: Icon(Icons.aspect_ratio),
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(15)),
-                              onPressed: () async {
-                                final GoogleMapController controller = await _controller
-                                    .future;
-                                setState(() {
-                                  allMarkers.clear();
-                                  screenWidth = MediaQuery
-                                      .of(context)
-                                      .size
-                                      .width;
-                                  screenHeight = MediaQuery
-                                      .of(context)
-                                      .size
-                                      .height;
-                                  middleX = screenWidth / 2;
-                                  middleY = screenHeight / 2;
-                                  screenCoordinate = ScreenCoordinate(
-                                      x: middleX.round(), y: middleY.round());
-                                });
-                                _lastCameraPosition =
-                                await controller.getLatLng(screenCoordinate);
-                                getData(_lastCameraPosition);
-                              },
-                            ),
+                              textAlign: TextAlign.center),
+                            backgroundColor: Color(0xff207FC5),
+                            elevation: 3.0,
+                            icon: Icon(Icons.aspect_ratio),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15)),
+                            onPressed: () async {
+                              final GoogleMapController controller = await _controller
+                                  .future;
+                              setState(() {
+                                allMarkers.clear();
+                                screenWidth = MediaQuery
+                                    .of(context)
+                                    .size
+                                    .width;
+                                screenHeight = MediaQuery
+                                    .of(context)
+                                    .size
+                                    .height;
+                                middleX = screenWidth / 2;
+                                middleY = screenHeight / 2;
+                                screenCoordinate = ScreenCoordinate(
+                                    x: middleX.round(), y: middleY.round());
+                              });
+                              _lastCameraPosition =
+                              await controller.getLatLng(screenCoordinate);
+                              await getData(_lastCameraPosition);
+                              _controller.complete(controller);
+                            },
                           ),
                         )
                       ]
