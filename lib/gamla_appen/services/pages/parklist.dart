@@ -92,10 +92,11 @@ class _ParkListState extends State<ParkList> {
               ),
             ],
           ),
-          title: Text('Address: ${parkingSpotsList[index].streetName}',
+          title: Text('${parkingSpotsList[index].streetName}',
           maxLines: 2,
           style: TextStyle(
-            color: Colors.white
+            color: Colors.white,
+            fontWeight: FontWeight.w600
           ),),
           subtitle: Text(
               'Price: 12 kronor per hour',

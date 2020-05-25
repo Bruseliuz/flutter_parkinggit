@@ -25,13 +25,14 @@ class DatabaseService {
   }
 
   Future updateUserFavorites(String price, String latLong, String address,
-      String serviceInfo, bool favorite, String availableSpots) async {
+      String serviceInfo, bool favorite,String numberOfParkingSpots, String availableSpots) async {
     return await parkCollection.document(uid).collection('favoriteParkings').document(address).setData({
       'price': price,
       'streetName': address,
       'coordinates': latLong,
       'serviceDayInfo': serviceInfo,
       'favorite': favorite,
+      'numberOfParkingSpots': numberOfParkingSpots,
       'availableParkingSpots': availableSpots
     });
   }

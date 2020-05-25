@@ -54,7 +54,7 @@ class ParkingArea {
 
   @override
   toString() =>
-      'Streetname: $streetName Coordinateslist: $coordinatesList Coordinates: ${coordinates.toString()}';
+      'Streetname: $streetName Coordinateslist: $coordinatesList Coordinates: ${coordinates.toString()} No: ${numberOfParkingSpots}';
 
   bool operator ==(o) =>
       o is ParkingArea &&

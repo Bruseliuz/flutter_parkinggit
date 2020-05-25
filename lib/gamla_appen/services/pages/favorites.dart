@@ -77,10 +77,11 @@ class _FavoritesState extends State<Favorites> {
   Widget _getFavoriteParksList(BuildContext context, int index) {
     return GestureDetector(
       onTap: () {
+        print(_favParksList[index]);
         showDialog(
             context: context,
             builder: (_) =>
-                ParkingDialogWidget(parkingArea: parkingSpotsList[index]));
+                ParkingDialogWidget(parkingArea: _favParksList[index]));
 //        openPage(context, _parkingAreasList.parkingAreas[index].coordinates);
       },
       child: Dismissible(

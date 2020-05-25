@@ -249,41 +249,6 @@ class _ParkingMapState extends State<ParkingMap> {
                         SizedBox(
                           height: 10,
                         ),
-                        Center(
-                      child: FloatingActionButton.extended(
-                        heroTag: 'area',
-                          label: Text('Find Parking\nIn This Area',
-                              textAlign: TextAlign.center),
-                            backgroundColor: Color(0xff207FC5),
-                            elevation: 3.0,
-                            icon: Icon(Icons.aspect_ratio),
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15)),
-                            onPressed: () async {
-                              final GoogleMapController controller = await _controller
-                                  .future;
-                              setState(() {
-                                allMarkers.clear();
-                                screenWidth = MediaQuery
-                                    .of(context)
-                                    .size
-                                    .width;
-                                screenHeight = MediaQuery
-                                    .of(context)
-                                    .size
-                                    .height;
-                                middleX = screenWidth / 2;
-                                middleY = screenHeight / 2;
-                                screenCoordinate = ScreenCoordinate(
-                                    x: middleX.round(), y: middleY.round());
-                              });
-                              _lastCameraPosition =
-                              await controller.getLatLng(screenCoordinate);
-                              await getData(_lastCameraPosition);
-                              _controller.complete(controller);
-                            },
-                          ),
-                        )
                       ]
                   ),
                 ),
@@ -292,31 +257,66 @@ class _ParkingMapState extends State<ParkingMap> {
             ),
             floatingActionButtonLocation:
             FloatingActionButtonLocation.centerFloat,
-            floatingActionButton: AnimatedOpacity(
-              duration: Duration(milliseconds: 500),
-              opacity: searchInitiated ? 0.0 : 1.0,
-              child: FloatingActionButton.extended(
-                heroTag: 'location',
-                elevation: 3.0,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15)),
-                icon: Icon(
-                  Icons.my_location,
-                ),
-                label: Text('Find Parking\nNear Me',
-                  textAlign: TextAlign.center,),
-                backgroundColor: Color(0xff207FC5),
-                onPressed: searchInitiated ? null : () async {
-                  setState(() {
-                    polyline.clear();
-                    _textController.clear();
-                    searchAddress = '';
-                  });
-                  await getCurrentLocation();
+            floatingActionButton: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget>[
+                    AnimatedOpacity(
+                      duration: Duration(milliseconds: 500),
+                      opacity: searchInitiated ? 0.0 : 1.0,
+                      child: FloatingActionButton(
+                        child: Icon(Icons.my_location),
+                        backgroundColor: Color(0xff207FC5),
+                        onPressed: searchInitiated ? null : () async {
+                          setState(() {
+                            polyline.clear();
+                            _textController.clear();
+                            searchAddress = '';
+                          });
+                          await getCurrentLocation();
 //                    print(allMarkers.toString());
-                },
-              ),
-            ),
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+                FloatingActionButton.extended(
+                  heroTag: 'area',
+                  label: Text('Find Parking\nIn This Area',
+                      textAlign: TextAlign.center),
+                  backgroundColor: Color(0xff207FC5),
+                  elevation: 3.0,
+                  icon: Icon(Icons.aspect_ratio),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30)),
+                  onPressed: () async {
+                    final GoogleMapController controller = await _controller
+                        .future;
+                    setState(() {
+                      allMarkers.clear();
+                      screenWidth = MediaQuery
+                          .of(context)
+                          .size
+                          .width;
+                      screenHeight = MediaQuery
+                          .of(context)
+                          .size
+                          .height;
+                      middleX = screenWidth / 1;
+                      middleY = screenHeight / 1;
+                      screenCoordinate = ScreenCoordinate(
+                          x: middleX.round(), y: middleY.round());
+                    });
+                    _lastCameraPosition =
+                    await controller.getLatLng(screenCoordinate);
+                    await getData(_lastCameraPosition);
+                    _controller.complete(controller);
+                  },
+                ),
+              ],
+            )
           );
         });
   }
@@ -854,7 +854,6 @@ class ParkingDialogState extends State<ParkingDialogWidget> {
                     color: Color(0xff207FC5), fontWeight: FontWeight.bold),
               ),
             ),
-            Divider(color: Colors.black),
             Flexible(
                 flex: 1,
                 fit: FlexFit.loose,
@@ -867,12 +866,11 @@ class ParkingDialogState extends State<ParkingDialogWidget> {
           ],
         ),
         content: Container(
-          height: 160,
+          height: 130,
           width: double.infinity,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Divider(color: Color(0xff207FC5)),
               Row(
                 children: <Widget>[
                   Icon(
@@ -945,9 +943,6 @@ class ParkingDialogState extends State<ParkingDialogWidget> {
                   )
                 ],
               ),
-              Divider(
-                color: Color(0xff207FC5),
-              ),
             ],
           ),
         ),
@@ -979,6 +974,7 @@ class ParkingDialogState extends State<ParkingDialogWidget> {
                           element.streetName,
                           element.serviceDayInfo,
                           element.favorite,
+                          element.numberOfParkingSpots,
                           element.availableParkingSpots);
                     } else if (element.favorite == true) {
                       await parkCollection
