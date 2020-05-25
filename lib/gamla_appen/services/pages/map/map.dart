@@ -169,20 +169,21 @@ class _ParkingMapState extends State<ParkingMap> {
                   ),
                 ),
                 Positioned(
-                  top: 30.0,
+                  top: 15.0,
                   right: 15.0,
                   left: 15.0,
-                  child: Row(children: <Widget>[
-                    Expanded(
-                      child: TextField(
-                        textCapitalization: TextCapitalization.sentences,
-                        controller: _textController,
-                        focusNode: textFocusNode,
-                        autofocus: false,
-                        onTap: () async {
-                          setState(() {
-                            searchInitiated = true;
-                          });
+                  child: Column(children: <Widget>[
+                    Row(children: <Widget>[
+                      Expanded(
+                        child: TextField(
+                          textCapitalization: TextCapitalization.sentences,
+                          controller: _textController,
+                          focusNode: textFocusNode,
+                          autofocus: false,
+                          onTap: () async {
+                            setState(() {
+                              searchInitiated = true;
+                            });
 //                      Prediction p = await PlacesAutocomplete.show(
 //                          context: context,
 //                          apiKey: "AIzaSyDCKuA95vaqlu92GXWkgpc2vSrgYmCVabI",
@@ -191,111 +192,117 @@ class _ParkingMapState extends State<ParkingMap> {
 //                          language: "sv",
 //                          components: [new Component(Component.country, "sv")]);
 //                      displayPrediction(p, homeScaffoldKey.currentState);
-                        },
-                        cursorColor: Color(0xff207FC5),
-                        textInputAction: TextInputAction.search,
-                        onEditingComplete: () {
-                          if (searchAddress != '') {
-                            searchAndNavigate();
-                          } else {
-                            showCenterShortToast();
-                            setState(() {
-                              searchInitiated = false;
-                            });
-                          }
-                          FocusScope.of(context).requestFocus(
-                              new FocusNode());
-                        },
-                        decoration: InputDecoration(
-                            hintText: 'Search for address',
-                            hintStyle: TextStyle(color: Color(0xff207FC5)),
-                            border: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                    color: Color(0xff207FC5)),
-                                borderRadius: BorderRadius.circular(15)),
-                            contentPadding:
-                            EdgeInsets.only(
-                                left: 15.0, top: 15.0, right: 15.0),
-                            fillColor: Colors.white,
-                            filled: true,
-                            suffixIcon: searchAddress == ''
-                                ? null
-                                : IconButton(
-                                icon: Icon(Icons.clear),
-                                color: Color(0xff808080),
-                                onPressed: () {
-                                  _textController.clear();
-                                  searchAddress = '';
-                                },
-                                iconSize: 30.0)),
-                        onChanged: (val) {
-                          setState(() {
-                            searchAddress = val;
-                          });
-                        },
-                      ),
-                    ),
-                    IconButton(
-                        padding: EdgeInsets.fromLTRB(10, 10, 5, 0),
-                        icon: Icon(Icons.search,
-                          size: 40,),
-                        splashColor: Colors.white,
-                        color: Color(0xff207FC5),
-                        onPressed: () {
-                          if (searchAddress != '') {
-                            FocusScope.of(context).requestFocus(
-                                new FocusNode());
-                            setState(() {
-                              polyline.clear();
-                            });
-                            searchAndNavigate();
-                          } else {
-                            showCenterShortToast();
-                          }
-                        },
-                        iconSize: 30.0)
-                  ]
+                                  },
+                                  cursorColor: Color(0xff207FC5),
+                                  textInputAction: TextInputAction.search,
+                                  onEditingComplete: () {
+                                    if (searchAddress != '') {
+                                      searchAndNavigate();
+                                    } else {
+                                      showCenterShortToast();
+                                      setState(() {
+                                        searchInitiated = false;
+                                      });
+                                    }
+                                    FocusScope.of(context).requestFocus(
+                                        new FocusNode());
+                                  },
+                                  decoration: InputDecoration(
+                                      hintText: 'Search for address',
+                                      hintStyle: TextStyle(
+                                          color: Color(0xff207FC5)),
+                                      border: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: Color(0xff207FC5)),
+                                          borderRadius: BorderRadius.circular(
+                                              15)),
+                                      contentPadding:
+                                      EdgeInsets.only(
+                                          left: 15.0, top: 15.0, right: 15.0),
+                                      fillColor: Colors.white,
+                                      filled: true,
+                                      suffixIcon: searchAddress == ''
+                                          ? null
+                                          : IconButton(
+                                          icon: Icon(Icons.clear),
+                                          color: Color(0xff808080),
+                                          onPressed: () {
+                                            _textController.clear();
+                                            searchAddress = '';
+                                          },
+                                          iconSize: 30.0)),
+                                  onChanged: (val) {
+                                    setState(() {
+                                      searchAddress = val;
+                                    });
+                                  },
+                                ),
+                              ),
+                              IconButton(
+                                  padding: EdgeInsets.fromLTRB(10, 10, 5, 0),
+                                  icon: Icon(Icons.search,
+                                    size: 40,),
+                                  splashColor: Colors.white,
+                                  color: Color(0xff207FC5),
+                                  onPressed: () {
+                                    if (searchAddress != '') {
+                                      FocusScope.of(context).requestFocus(
+                                          new FocusNode());
+                                      setState(() {
+                                        polyline.clear();
+                                      });
+                                      searchAndNavigate();
+                                    } else {
+                                      showCenterShortToast();
+                                    }
+                                  },
+                                  iconSize: 30.0)
+                            ]
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Center(
+                          child: AnimatedOpacity(
+                            duration: Duration(milliseconds: 200),
+                            opacity: mapMoving ? 0.0 : 1.0,
+                            child: FloatingActionButton.extended(
+                              label: Text('Find Parking\nIn This Area',
+                                  textAlign: TextAlign.center),
+                              backgroundColor: Color(0xff207FC5),
+                              elevation: 3.0,
+                              icon: Icon(Icons.aspect_ratio),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15)),
+                              onPressed: () async {
+                                final GoogleMapController controller = await _controller
+                                    .future;
+                                setState(() {
+                                  allMarkers.clear();
+                                  screenWidth = MediaQuery
+                                      .of(context)
+                                      .size
+                                      .width;
+                                  screenHeight = MediaQuery
+                                      .of(context)
+                                      .size
+                                      .height;
+                                  middleX = screenWidth / 2;
+                                  middleY = screenHeight / 2;
+                                  screenCoordinate = ScreenCoordinate(
+                                      x: middleX.round(), y: middleY.round());
+                                });
+                                _lastCameraPosition =
+                                await controller.getLatLng(screenCoordinate);
+                                getData(_lastCameraPosition);
+                              },
+                            ),
+                          ),
+                        )
+                      ]
                   ),
                 ),
-                Positioned(
-                  top: 85,
-                  left: 125,
-                  child: AnimatedOpacity(
-                    duration: Duration(milliseconds: 200),
-                    opacity: mapMoving ? 0.0 : 1.0,
-                    child: FloatingActionButton.extended(
-                      label: Text('Find Parking \nIn This Area'),
-                      backgroundColor: Color(0xff207FC5),
-                      elevation: 3.0,
-                      icon: Icon(Icons.aspect_ratio),
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15)),
-                      heroTag: 'Find parking in this area',
-                      onPressed: () async {
-                        final GoogleMapController controller = await _controller
-                            .future;
-                        setState(() {
-                          allMarkers.clear();
-                          screenWidth = MediaQuery
-                              .of(context)
-                              .size
-                              .width;
-                          screenHeight = MediaQuery
-                              .of(context)
-                              .size
-                              .height;
-                          middleX = screenWidth / 2;
-                          middleY = screenHeight / 2;
-                          screenCoordinate = ScreenCoordinate(
-                              x: middleX.round(), y: middleY.round());
-                        });
-                        _lastCameraPosition =
-                        await controller.getLatLng(screenCoordinate);
-                        getData(_lastCameraPosition);
-                      },
-                    ),
-                  ),
-                )
+
               ],
             ),
             floatingActionButtonLocation:
@@ -310,9 +317,9 @@ class _ParkingMapState extends State<ParkingMap> {
                 icon: Icon(
                   Icons.my_location,
                 ),
-                label: Text('Find Parking\n   Near Me'),
+                label: Text('Find Parking\nNear Me',
+                  textAlign: TextAlign.center,),
                 backgroundColor: Color(0xff207FC5),
-                heroTag: 'Find parking near me',
                 onPressed: searchInitiated ? null : () async {
                   setState(() {
                     polyline.clear();
@@ -625,28 +632,6 @@ class _ParkingMapState extends State<ParkingMap> {
               ),
             ])));
   }
-
-
-//  setMarkersPrice() {
-//    if (allMarkers.isEmpty) {
-//      showDialog(
-//          context: context, builder: (_) => _noParkingAlertDialogWidget());
-//    } else {
-//      allMarkers.forEach((marker) {
-//        double lat = marker.position.latitude;
-//        double long = marker.position.longitude;
-//        polygons.forEach((poly) async {
-//          bool result = checkLocationInPoly(lat, long, poly);
-//          if (result == true) {
-//            List valueList = marker.markerId.value.split(', ');
-//            String markerValue = valueList[0];
-//            markerPrice.putIfAbsent(
-//                markerValue, () => poly.polygonId.value);
-//          }
-//        });
-//      });
-//    }
-//  }
 
   Future<Marker> createMarker(ParkingArea area, int id) async {
     double price;
