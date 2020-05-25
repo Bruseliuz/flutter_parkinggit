@@ -267,7 +267,8 @@ class _ParkingMapState extends State<ParkingMap> {
                             duration: Duration(milliseconds: 200),
                             opacity: mapMoving ? 0.0 : 1.0,
                             child: FloatingActionButton.extended(
-                              label: Text('Find Parking\nIn This Area',
+                          heroTag: 'area',
+                          label: Text('Find Parking\nIn This Area',
                                   textAlign: TextAlign.center),
                               backgroundColor: Color(0xff207FC5),
                               elevation: 3.0,
@@ -311,6 +312,7 @@ class _ParkingMapState extends State<ParkingMap> {
               duration: Duration(milliseconds: 500),
               opacity: searchInitiated ? 0.0 : 1.0,
               child: FloatingActionButton.extended(
+                heroTag: 'location',
                 elevation: 3.0,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15)),
