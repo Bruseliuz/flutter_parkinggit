@@ -69,7 +69,8 @@ class _FavoritesState extends State<Favorites> {
           coordinates: latlng,
           favorite: doc.data['favorite'],
           serviceDayInfo: doc.data['serviceDayInfo'],
-          availableParkingSpots: doc.data['availableParkingSpots']
+          availableParkingSpots: doc.data['availableParkingSpots'],
+          numberOfParkingSpots: doc.data['numberOfParkingSpots']
       );
     }).toList();
   }
