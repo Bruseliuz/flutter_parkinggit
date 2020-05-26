@@ -307,8 +307,8 @@ class _ParkingMapState extends State<ParkingMap> {
                             .of(context)
                             .size
                             .height;
-                        middleX = screenWidth / 1;
-                        middleY = screenHeight / 1;
+                        middleX = screenWidth / 2;
+                        middleY = screenHeight / 2;
                         screenCoordinate = ScreenCoordinate(
                             x: middleX.round(), y: middleY.round());
                       });
