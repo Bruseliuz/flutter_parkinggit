@@ -282,38 +282,42 @@ class _ParkingMapState extends State<ParkingMap> {
                     ),
                   ],
                 ),
-                FloatingActionButton.extended(
-                  heroTag: 'area',
-                  label: Text('Find Parking\nIn This Area',
-                      textAlign: TextAlign.center),
-                  backgroundColor: Color(0xff207FC5),
-                  elevation: 3.0,
-                  icon: Icon(Icons.aspect_ratio),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30)),
-                  onPressed: () async {
-                    final GoogleMapController controller = await _controller
-                        .future;
-                    setState(() {
-                      allMarkers.clear();
-                      screenWidth = MediaQuery
-                          .of(context)
-                          .size
-                          .width;
-                      screenHeight = MediaQuery
-                          .of(context)
-                          .size
-                          .height;
-                      middleX = screenWidth / 1;
-                      middleY = screenHeight / 1;
-                      screenCoordinate = ScreenCoordinate(
-                          x: middleX.round(), y: middleY.round());
-                    });
-                    _lastCameraPosition =
-                    await controller.getLatLng(screenCoordinate);
-                    await getData(_lastCameraPosition);
-                    _controller.complete(controller);
-                  },
+                AnimatedOpacity(
+                  duration: Duration(milliseconds: 500),
+                  opacity: searchInitiated ? 0.0 : 1.0,
+                  child: FloatingActionButton.extended(
+                    heroTag: 'area',
+                    label: Text('Find Parking\nIn This Area',
+                        textAlign: TextAlign.center),
+                    backgroundColor: Color(0xff207FC5),
+                    elevation: 3.0,
+                    icon: Icon(Icons.aspect_ratio),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30)),
+                    onPressed: () async {
+                      final GoogleMapController controller = await _controller
+                          .future;
+                      setState(() {
+                        allMarkers.clear();
+                        screenWidth = MediaQuery
+                            .of(context)
+                            .size
+                            .width;
+                        screenHeight = MediaQuery
+                            .of(context)
+                            .size
+                            .height;
+                        middleX = screenWidth / 1;
+                        middleY = screenHeight / 1;
+                        screenCoordinate = ScreenCoordinate(
+                            x: middleX.round(), y: middleY.round());
+                      });
+                      _lastCameraPosition =
+                      await controller.getLatLng(screenCoordinate);
+                      await getData(_lastCameraPosition);
+                      _controller.complete(controller);
+                    },
+                  ),
                 ),
               ],
             )
