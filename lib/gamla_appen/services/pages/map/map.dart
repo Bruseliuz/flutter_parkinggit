@@ -147,8 +147,8 @@ class _ParkingMapState extends State<ParkingMap> {
                     myLocationButtonEnabled: false,
                     zoomControlsEnabled: false,
                     onMapCreated: _onMapCreated,
-                    markers: Set<Marker>.of(allMarkers),
-                    polylines: polyline,
+                      markers: allMarkers,
+                      polylines: polyline,
                     initialCameraPosition: CameraPosition(
                       target: _center,
                       zoom: 12.0,
@@ -304,8 +304,8 @@ class _ParkingMapState extends State<ParkingMap> {
                           .of(context)
                           .size
                           .height;
-                      middleX = screenWidth / 1;
-                      middleY = screenHeight / 1;
+                      middleX = screenWidth / 2;
+                      middleY = screenHeight / 2;
                       screenCoordinate = ScreenCoordinate(
                           x: middleX.round(), y: middleY.round());
                     });
@@ -532,24 +532,31 @@ class _ParkingMapState extends State<ParkingMap> {
         .toString()}&lng=${location.longitude
         .toString()}&outputFormat=json&apiKey=e734eaa7-d9b5-422a-9521-844554d9965b');
     try {
-      Map data = jsonDecode(response.body);
-      var dataList = data['features'] as List;
-      List list = dataList
-          .map<ParkingArea>((json) => ParkingArea.fromJson(json))
-          .toList();
-      setState(() {
-        parseParkingCoordinates(list);
-      });
-      allMarkers.clear();
+      if (response != null) {
+        Map data = jsonDecode(response.body);
+        if (data['features'] != null) {
+          var dataList = data['features'] as List;
 
-      bool markers = await getMarkers();
-      if (markers == false || markers == null) {
-        showDialog(
-            context: context, builder: (_) => _noParkingAlertDialogWidget());
+          List list = dataList
+              .map<ParkingArea>((json) => ParkingArea.fromJson(json))
+              .toList();
+          setState(() {
+            parseParkingCoordinates(list);
+          });
+          allMarkers.clear();
+
+          bool markers = await getMarkers();
+          if (markers == false || markers == null) {
+            showDialog(
+                context: context,
+                builder: (_) => _noParkingAlertDialogWidget());
+          }
+        }
+
       }
     } catch (e) {
-      getMarkers();
-      return 'failed';
+      showDialog(
+          context: context, builder: (_) => _noParkingAlertDialogWidget());
     }
   }
 
@@ -658,25 +665,31 @@ class _ParkingMapState extends State<ParkingMap> {
   Future<bool> getMarkers() async {
     int counter = 0;
     Set<Marker> list = {};
-    for (var element in parkingSpotsList) {
-      Marker marker = await createMarker(element, counter);
-      list.add(marker);
-      counter++;
-    }
-    setState(() {
-      allMarkers = list;
-    });
-    bool markers;
-    for (var element in allMarkers) {
-      if (element.visible == true) {
-        markers = true;
-        break;
-      } else {
-        markers = false;
+    bool markers = false;
+    if (parkingSpotsList.isNotEmpty || parkingSpotsList != null) {
+      for (var element in parkingSpotsList) {
+        Marker marker = await createMarker(element, counter);
+        list.add(marker);
+        counter++;
+      }
+      if (list.elementAt(0) != null) {
+        setState(() {
+          allMarkers = list;
+        });
+      }
+
+      for (var element in allMarkers) {
+        if (element.visible == true) {
+          markers = true;
+          break;
+        } else {
+          markers = false;
+        }
       }
     }
     print(markers);
     return markers;
+
 //    setMarkersPrice();
   }
 
