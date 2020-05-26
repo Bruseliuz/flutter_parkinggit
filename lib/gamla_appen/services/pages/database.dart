@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 import 'package:flutterparkinggit/gamla_appen/models/parking.dart';
 import 'package:flutterparkinggit/gamla_appen/models/user.dart';
+import 'package:flutterparkinggit/gamla_appen/models/paymentModel.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/map/parking_area.dart';
 
 class DatabaseService {
@@ -36,11 +36,12 @@ class DatabaseService {
       'availableParkingSpots': availableSpots
     });
   }
-  Future updateUserPaymentCard(String cardNumber, String monthYear, String cvcCode) async{
-    return await parkCollection.document(uid).collection('paymentinfo').document(cardNumber).setData({
+  Future updateUserPaymentCard(String cardNumber, String monthYear, String cvcCode, String cardHolderName) async{
+    return await parkCollection.document(uid).collection('paymentinfo').document('card information').setData({
       'cardNumber': cardNumber,
       'monthYear': monthYear,
-      'cvcCode': cvcCode
+      'cvcCode': cvcCode,
+      'cardHolderName':cardHolderName
     });
   }
 
@@ -61,6 +62,17 @@ class DatabaseService {
     }});
   }
 
+  String getCardNumber() {
+    try {
+      DocumentReference docRef = parkCollection.document(uid).collection(
+          'paymentinfo').document('card information');
+      docRef.get().then((snapshot) {
+        return snapshot['cardNumber'];
+      });
+    } catch (e) {
+      return 'No cardNumber';
+    }
+  }
 
   String getUsername() {
     try {
@@ -103,6 +115,15 @@ class DatabaseService {
     );
   }
 
+  PaymentModel _paymentDataFromSnapshot(DocumentSnapshot snapshot){
+    return PaymentModel(
+      cardHolderName: snapshot.data['cardHolderName'],
+      cardNumber: snapshot.data['cardNumber'],
+      cvcCode: snapshot.data['cvcCode'],
+      monthYear: snapshot.data['monthYear']
+    );
+  }
+
   List<ParkingArea> _favoriteListFromSnapshot(QuerySnapshot snapshot) {
     print(parkCollection.document(uid).collection('favoriteParkings').snapshots().toString());
     return snapshot.documents.map((doc) {
@@ -131,5 +152,10 @@ class DatabaseService {
   Stream<UserData> get userData{
     return parkCollection.document(uid).snapshots()
     .map(_userDataFromSnapshot);
+  }
+
+  Stream<PaymentModel> get paymentInfo{
+    return parkCollection.document(uid).collection('paymentinfo').document('card information').snapshots()
+        .map(_paymentDataFromSnapshot);
   }
 }

@@ -62,7 +62,7 @@ class _SettingsFormAnonState extends State<SettingsFormAnon> {
                       ),
                     ),
                     SizedBox(height: 40.0),
-                    Text('To adjust your settings you \nmust first create an account.',
+                    Text('This is a feature that\nrequires a registered account.',
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 17.0,
