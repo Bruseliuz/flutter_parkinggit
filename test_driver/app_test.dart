@@ -6,7 +6,8 @@ void main() {
     final emailField = find.byValueKey("email");
     final passwordField = find.byValueKey("password");
     final signInButton = find.byValueKey("SignIn");
-    final googleMaps = find.byType("ParkingMap");
+    final googleMapsPage = find.byType("ParkingMap");
+    final googleMap = find.byType('GoogleMap');
     FlutterDriver driver;
     setUpAll(() async {
       driver = await FlutterDriver.connect();
@@ -17,14 +18,15 @@ void main() {
       }
     });
 
-    test("integration test", () async {
+    test("login and map test", () async {
       await driver.tap(emailField);
       await driver.enterText('admin@parkapp.se');
       await driver.tap(passwordField);
       await driver.enterText('test1234');
       await driver.tap(signInButton);
-      assert(googleMaps != null);
+      assert(googleMapsPage != null);
       await driver.waitUntilNoTransientCallbacks();
+      assert(googleMap!= null);
 
     });
   });
