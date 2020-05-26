@@ -312,7 +312,6 @@ class _ParkingMapState extends State<ParkingMap> {
                     _lastCameraPosition =
                     await controller.getLatLng(screenCoordinate);
                     await getData(_lastCameraPosition);
-                    _controller.complete(controller);
                   },
                 ),
               ],
