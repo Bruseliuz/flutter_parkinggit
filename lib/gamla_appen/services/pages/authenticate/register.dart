@@ -176,7 +176,6 @@ class _RegisterState extends State<Register> {
                             alignment: Alignment.centerLeft,
                             height: 50.0,
                             child: TextFormField(
-
                               validator: (val) => val.length < 1 ? 'Your have to enter a name': null,
                               onChanged: (val){
                                 setState(() => name = val);

@@ -105,6 +105,26 @@ class _HomeState extends State<Home> {
                     ),
                     ListTile(
                       leading: Icon(
+                        Icons.payment,
+                        color: Color(0xff207FC5),
+                      ),
+                      title: Text(
+                        'PAYMENT',
+                        style: TextStyle(
+                          color: Color(0xff207FC5),
+                          fontSize: 23,
+                          letterSpacing: 1.0,
+                        ),
+                      ),
+                      onTap:() {
+                        Navigator.pushNamed(context, '/payment');
+                      } ,
+                    ),
+                    Divider(
+                      color: Color(0xff207FC5),
+                    ),
+                    ListTile(
+                      leading: Icon(
                         Icons.help_outline,
                         color: Color(0xff207FC5),
                       ),

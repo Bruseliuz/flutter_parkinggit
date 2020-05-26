@@ -36,6 +36,14 @@ class DatabaseService {
       'availableParkingSpots': availableSpots
     });
   }
+  Future updateUserPaymentCard(String cardNumber, String monthYear, String cvcCode) async{
+    return await parkCollection.document(uid).collection('paymentinfo').document(cardNumber).setData({
+      'cardNumber': cardNumber,
+      'monthYear': monthYear,
+      'cvcCode': cvcCode
+    });
+  }
+
   Future updateUserParkingHistory(String streetName, String startTime, String endTime, String date, String totalPrice) async {
     return await parkCollection.document(uid).collection('parkinghistory').document(streetName).setData({
       'streetName':streetName,

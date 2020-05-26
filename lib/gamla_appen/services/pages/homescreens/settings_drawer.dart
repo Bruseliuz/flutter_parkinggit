@@ -208,7 +208,7 @@ class _SettingsFormDrawerState extends State<SettingsFormDrawer> {
                                       ),
                                       ),
                                       TextFormField(
-                                        initialValue: ('${userData.regNumber}'),
+                                        initialValue: ('${userData.regNumber}' ?? 'ABC123'),
                                         maxLength: 6,
                                         style: TextStyle(
                                             color: Color(0xff207FC5)
