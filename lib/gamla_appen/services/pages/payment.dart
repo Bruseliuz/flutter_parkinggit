@@ -75,33 +75,51 @@ Widget _getPaymentInfoList(BuildContext context, int index){
   return GestureDetector(
     child: Container(
       decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            Color(0xff207FC5),
+            Color(0xff348aca),
+            Color(0xff4896cf),
+            Color(0xff4896cf)
+          ],
+          stops: [0.1,0.4,0.7,0.9],
+        ),
         borderRadius: BorderRadius.circular(10),
-        color: Color(0xff207FC5),
         boxShadow: [
           BoxShadow(
               color: Colors.black54,
               blurRadius: 5.0,
-              offset: Offset(0,2)
+              offset: Offset(0,2),
           )
         ]
       ),
       padding: EdgeInsets.all(10),
       child: ListTile(
         title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.end,
           children: <Widget>[
+            Container(
+              padding: EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(100),
+              ),
+              child: Icon(Icons.local_parking,
+              color: Color(0xff207FC5),),
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    SizedBox(height: 10),
                     Row(
                       children: <Widget>[
                         Icon(Icons.credit_card,
                         color: Colors.white,
-                        size: 30,),
+                        size: 35,),
                         Text('  **** **** **** ${paymentList[index].cardNumber.substring(0,(4))}',
                           style: TextStyle(
                               color: Colors.white,
@@ -111,27 +129,30 @@ Widget _getPaymentInfoList(BuildContext context, int index){
                       ],
                     ),
                     SizedBox(height: 5),
-                    Text('MM/YY: ${paymentList[index].monthYear}',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w300,
-                          fontSize: 14
-                      ),),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 20),
+                      child: Text('Valid through: ${paymentList[index].monthYear.substring(0,(2))} / ${paymentList[index].monthYear.substring(2,(4))}',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w400,
+                            fontSize: 10
+                        ),),
+                    ),
                   ],
                 )
 
               ],
             ),
             SizedBox(height: 10),
-            Text('Card holder: ${paymentList[index].cardHolderName}',
-              style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w300,
-                  fontSize: 14
-              ),),
             Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
+                Text('Card holder: ${paymentList[index].cardHolderName}',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w400,
+                      fontSize: 14
+                  ),),
                 GestureDetector(
                   onTap: (){
                     setState((){

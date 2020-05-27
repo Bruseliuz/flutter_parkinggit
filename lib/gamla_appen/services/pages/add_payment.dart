@@ -207,6 +207,7 @@ class _PaymentState extends State<Payment> {
                       _currentCVC,
                       _currentCardHolder
                   );
+                  Navigator.pushReplacementNamed(context, '/payment');
                 },
                 label: Text('SAVE'),
                 icon: Icon(Icons.save),),
