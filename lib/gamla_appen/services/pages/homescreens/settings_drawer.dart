@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterparkinggit/gamla_appen/models/user.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/database.dart';
+import 'package:flutterparkinggit/gamla_appen/services/pages/homescreens/settings_anon_drawer.dart';
 import 'package:flutterparkinggit/gamla_appen/shared/constants.dart';
 import 'package:provider/provider.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/homescreens/setting_anon.dart';
@@ -286,7 +287,7 @@ class _SettingsFormDrawerState extends State<SettingsFormDrawer> {
               ),
             );
           }else{
-            return SettingsFormAnon();
+            return SettingsFormAnonDrawer();
           }
         }
     );
