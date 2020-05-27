@@ -48,7 +48,6 @@ class _PaymentState extends State<Payment> {
                     color: Colors.white,
                     height: double.infinity,
                     child: SingleChildScrollView(
-                      physics: NeverScrollableScrollPhysics(),
                       padding: EdgeInsets.symmetric(
                           vertical: 20,
                           horizontal: 20
@@ -78,9 +77,10 @@ class _PaymentState extends State<Payment> {
                               ],
                             ),
                             TextFormField(
+                              validator: (val) => val.length < 12 ? "Please enter full carn number" : null,
                               onChanged: (val) {
                                 setState(() {
-                                  _currentCardNumber = val;
+                                  _currentCardNumber = val.trim();
                                 });
                               },
                               decoration: InputDecoration(
@@ -109,6 +109,7 @@ class _PaymentState extends State<Payment> {
                               padding: const EdgeInsets.only(
                                   right: 240),
                               child: TextFormField(
+                                validator: (val) => val.length < 4 ? "DD/YY" : null,
                                 onChanged: (val) {
                                   setState(() {
                                     _currentDateMonth = val;
@@ -138,6 +139,7 @@ class _PaymentState extends State<Payment> {
                               padding: const EdgeInsets.only(
                                   right: 240),
                               child: TextFormField(
+                                  validator: (val) => val.length < 3 ? "Three numbers" : null,
                                   onChanged: (val) {
                                     setState(() => _currentCVC = val);
                                   },
@@ -176,6 +178,7 @@ class _PaymentState extends State<Payment> {
                                   color: Color(0xff207FC5),
                                 ),
                               ),
+                              validator: (val) => val.length < 1 ? "Enter a name" : null,
                               onChanged: (val) {
                                 setState(() =>
                                 _currentCardHolder = val);
@@ -201,14 +204,16 @@ class _PaymentState extends State<Payment> {
                 elevation: 3.0,
                 backgroundColor: Color(0xff207FC5),
                 onPressed: () async {
-                  await DatabaseService(uid: user.uid)
-                      .updateUserPaymentCard(
-                      _currentCardNumber,
-                      _currentDateMonth,
-                      _currentCVC,
-                      _currentCardHolder
-                  );
-                  Navigator.pushReplacementNamed(context, '/payment');
+                  if(_formKey.currentState.validate()) {
+                    await DatabaseService(uid: user.uid)
+                        .updateUserPaymentCard(
+                        _currentCardNumber,
+                        _currentDateMonth,
+                        _currentCVC,
+                        _currentCardHolder
+                    );
+                    Navigator.pushReplacementNamed(context, '/payment');
+                  }
                 },
                 label: Text('SAVE'),
                 icon: Icon(Icons.save),),

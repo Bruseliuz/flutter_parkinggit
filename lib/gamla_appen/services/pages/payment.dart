@@ -32,6 +32,12 @@ class _PaymentListState extends State<PaymentList> {
           paymentList = getPaymentInformation(snapshot);
         return Scaffold(
                 appBar: AppBar(
+                  leading: GestureDetector(
+                    child: Icon(Icons.arrow_back),
+                    onTap: (){
+                      Navigator.pop(context);
+                    },
+                  ),
                   backgroundColor: Color(0xff207FC5),
                   title: Text('PAYMENT',
                     style: TextStyle(
@@ -53,10 +59,10 @@ class _PaymentListState extends State<PaymentList> {
                   itemBuilder: _getPaymentInfoList,
                 ),
                 floatingActionButton: FloatingActionButton.extended(
-                  backgroundColor: Color(0xff207FC5),
+                  backgroundColor: Color(0xff4896cf),
                   label: Row(
                     children: <Widget>[
-                      Text('ADD CARD'),
+                      Text('ADD CARD',),
                       Icon(Icons.add,
                       size: 20,),
                     ],
@@ -103,11 +109,11 @@ Widget _getPaymentInfoList(BuildContext context, int index){
             Container(
               padding: EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: Colors.white,
+                color: Color(0xff4896cf),
                 borderRadius: BorderRadius.circular(100),
               ),
-              child: Icon(Icons.local_parking,
-              color: Color(0xff207FC5),),
+              child: Icon(Icons.directions_car,
+              color: Colors.white,),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
