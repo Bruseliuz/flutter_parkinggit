@@ -5,6 +5,7 @@ import 'package:flutterparkinggit/gamla_appen/models/user.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/database.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/favorites.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/homescreens/setting_anon.dart';
+import 'package:flutterparkinggit/gamla_appen/services/pages/homescreens/settings_anon_drawer.dart';
 import 'package:provider/provider.dart';
 
 
@@ -213,7 +214,7 @@ class _PaymentState extends State<Payment> {
                 icon: Icon(Icons.save),),
             );
           } else{
-            return SettingsFormAnon();
+            return SettingsFormAnonDrawer();
           }
         }
     );

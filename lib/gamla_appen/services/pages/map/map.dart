@@ -132,7 +132,7 @@ class _ParkingMapState extends State<ParkingMap> {
             userData = snapshot.data;
             setPreference(userData);
           } else {
-            distance = 100;
+            distance = 500;
             preference = 'ptillaten';
           }
 

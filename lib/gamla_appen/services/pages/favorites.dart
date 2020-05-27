@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterparkinggit/gamla_appen/models/user.dart';
+import 'package:flutterparkinggit/gamla_appen/services/pages/database.dart';
+import 'package:flutterparkinggit/gamla_appen/services/pages/homescreens/setting_anon.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/map/map.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/map/parking_area.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -162,27 +164,36 @@ class _FavoritesState extends State<Favorites> {
   }
 
   Widget _emptyList(BuildContext context) {
-    return Container(
-      height: double.infinity,
-      width: double.infinity,
-      color: Colors.white,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          SizedBox(height: 50.0),
-          Text('You have no favorites',
-              style: TextStyle(
-                color: Color(0xff207FC5),
-                fontSize: 18,
-              )),
-          SizedBox(height: 20.0),
-          Text('Tap a marker on the map to select a favorite',
-              style: TextStyle(
-                color: Color(0xff207FC5),
-                fontSize: 18,
-              ))
-        ],
-      ),
+    return StreamBuilder<UserData>(
+      stream: DatabaseService(uid: userData.uid).userData,
+      builder: (context, snapshot) {
+        if(!snapshot.hasData){
+        return Container(
+          height: double.infinity,
+          width: double.infinity,
+          color: Colors.white,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              SizedBox(height: 50.0),
+              Text('You have no favorites',
+                  style: TextStyle(
+                    color: Color(0xff207FC5),
+                    fontSize: 18,
+                  )),
+              SizedBox(height: 20.0),
+              Text('Tap a marker on the map to select a favorite',
+                  style: TextStyle(
+                    color: Color(0xff207FC5),
+                    fontSize: 18,
+                  ))
+            ],
+          ),
+        );
+        }else{
+          return SettingsFormAnon();
+        }
+      }
     );
   }
 

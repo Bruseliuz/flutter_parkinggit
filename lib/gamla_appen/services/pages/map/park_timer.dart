@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutterparkinggit/gamla_appen/models/active_parking.dart';
+import 'package:flutterparkinggit/gamla_appen/models/paymentModel.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/map/map.dart';
 import 'package:flutterparkinggit/gamla_appen/models/user.dart';
 import 'package:provider/provider.dart';
@@ -51,6 +53,8 @@ class _ParkTimerState extends State<ParkTimer> {
     return '${calculatedPrice.toStringAsFixed(2)} kr';
   }
 
+  List<PaymentModel> paymentList = [];
+
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
@@ -72,8 +76,6 @@ class _ParkTimerState extends State<ParkTimer> {
           appBar: AppBar(
             centerTitle: true,
             backgroundColor: Color(0xff207FC5),
-            leading: Icon(Icons.local_parking,
-              color: Colors.white,),
             elevation: 0.0,
             title: Text('PARK´N STOCKHOLM',
               style: TextStyle(
@@ -143,7 +145,7 @@ class _ParkTimerState extends State<ParkTimer> {
                             ),
                           ],
                         ),
-                        SizedBox(height: 40),
+                        SizedBox(height: 20),
                         Row(
                           children: <Widget>[
                             SizedBox(width: 10),
@@ -264,7 +266,7 @@ class _ParkTimerState extends State<ParkTimer> {
                                     SizedBox(width: 15),
                                    Icon(Icons.mode_edit,
                                    color: Colors.white,
-                                     size: 15,
+                                     size: 25,
                                    )
                                   ],
                                 ),
@@ -353,6 +355,7 @@ class _ParkTimerState extends State<ParkTimer> {
     );
   }
 
+
   Future<void> endTimerDialog(BuildContext context) {
     return showDialog<void>(
       context: context,
@@ -430,6 +433,22 @@ class _ParkTimerState extends State<ParkTimer> {
       },
     );
   }
+
+  getPaymentInformation(AsyncSnapshot<QuerySnapshot> snapshot){
+    return snapshot.data.documents.map((doc){
+      String cardNumber = doc.data['cardNumber'];
+      String cvcCode = doc.data['cvcCode'];
+      String monthYear = doc.data['monthYear'];
+      String cardHolderName = doc.data['cardHolderName'];
+      return PaymentModel(
+          cardNumber: cardNumber,
+          cvcCode: cvcCode,
+          cardHolderName: cardHolderName,
+          monthYear: monthYear
+      );
+    }).toList();
+  }
+
 
   Future<void>  negativeTimeSelectedDialog(BuildContext context) {
     return showDialog<void>(
