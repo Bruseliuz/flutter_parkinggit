@@ -126,7 +126,7 @@ Widget _getPaymentInfoList(BuildContext context, int index){
                         Icon(Icons.credit_card,
                         color: Colors.white,
                         size: 35,),
-                        Text('  **** **** **** ${paymentList[index].cardNumber.substring(0,(4))}',
+                        Text('  **** **** **** ${paymentList[index].cardNumber.substring(12,(16))}',
                           style: TextStyle(
                               color: Colors.white,
                               fontSize: 22

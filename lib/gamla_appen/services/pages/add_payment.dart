@@ -77,7 +77,7 @@ class _PaymentState extends State<Payment> {
                               ],
                             ),
                             TextFormField(
-                              validator: (val) => val.length < 12 ? "Please enter full carn number" : null,
+                              validator: (val) => val.length < 16 && val.length > 16 ? "Cardnumber, 12 numbers." : null,
                               onChanged: (val) {
                                 setState(() {
                                   _currentCardNumber = val.trim();
