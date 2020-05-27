@@ -49,6 +49,9 @@ class _ParkTimerState extends State<ParkTimer> {
         {price = 50;}
         break;
     }
+    if(parkingPrice.contains('Ingen')){
+      price = 0;
+    }
     calculatedPrice = price / 60 * totalTime;
     return '${calculatedPrice.toStringAsFixed(2)} kr';
   }

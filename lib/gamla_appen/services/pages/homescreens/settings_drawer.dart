@@ -116,9 +116,9 @@ class _SettingsFormDrawerState extends State<SettingsFormDrawer> {
                                         activeColor: Color(0xff207FC5),
                                         inactiveColor: Color(0xff5ca1d1),
                                         value: currentNotMinutes.toDouble() ?? 50,
-                                        min: 1,
+                                        min: 0,
                                         max: 60,
-                                        divisions: 59,
+                                        divisions: 60,
                                         onChanged: (val) => setState(() {
                                           currentNotMinutes = val.round();
                                         })
