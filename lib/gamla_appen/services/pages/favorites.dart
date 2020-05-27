@@ -165,9 +165,9 @@ class _FavoritesState extends State<Favorites> {
 
   Widget _emptyList(BuildContext context) {
     return StreamBuilder<UserData>(
-      stream: DatabaseService(uid: userData.uid).userData,
+      stream: DatabaseService(uid: globalUser.uid).userData,
       builder: (context, snapshot) {
-        if(!snapshot.hasData){
+        if(snapshot.hasData){
         return Container(
           height: double.infinity,
           width: double.infinity,
