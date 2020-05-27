@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterparkinggit/gamla_appen/models/paymentModel.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/authenticate/onboarding_screen.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/authenticate/register.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/authenticate/sign_in.dart';
@@ -7,10 +8,11 @@ import 'package:flutterparkinggit/gamla_appen/services/pages/help_page.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/map/park_timer.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/parking_history.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/homescreens/settings_drawer.dart';
-import 'package:flutterparkinggit/gamla_appen/services/pages/payment.dart';
+import 'package:flutterparkinggit/gamla_appen/services/pages/add_payment.dart';
 import 'package:provider/provider.dart';
 import 'gamla_appen/services/auth.dart';
 import 'gamla_appen/services/pages/authenticate/register.dart';
+import 'gamla_appen/services/pages/payment.dart';
 import 'gamla_appen/services/pages/wrapper.dart';
 import 'gamla_appen/models/user.dart';
 
@@ -35,7 +37,8 @@ class MyApp extends StatelessWidget{
           '/history': (context) => ParkingHistory(),
           '/settings': (context) => SettingsFormDrawer(),
           '/help':(context)=>HelpPage(),
-          '/payment': (context)=>Payment()
+          '/payment': (context)=>PaymentList(),
+          '/addPayment': (context)=>Payment()
       }),
     );
   }

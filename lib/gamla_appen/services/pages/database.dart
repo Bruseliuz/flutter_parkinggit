@@ -37,7 +37,7 @@ class DatabaseService {
     });
   }
   Future updateUserPaymentCard(String cardNumber, String monthYear, String cvcCode, String cardHolderName) async{
-    return await parkCollection.document(uid).collection('paymentinfo').document('card information').setData({
+    return await parkCollection.document(uid).collection('paymentinfo').document(cardNumber).setData({
       'cardNumber': cardNumber,
       'monthYear': monthYear,
       'cvcCode': cvcCode,

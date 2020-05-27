@@ -1,0 +1,220 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutterparkinggit/gamla_appen/models/paymentModel.dart';
+import 'package:flutterparkinggit/gamla_appen/models/user.dart';
+import 'package:flutterparkinggit/gamla_appen/services/pages/database.dart';
+import 'package:flutterparkinggit/gamla_appen/services/pages/favorites.dart';
+import 'package:flutterparkinggit/gamla_appen/services/pages/homescreens/setting_anon.dart';
+import 'package:provider/provider.dart';
+
+
+
+class Payment extends StatefulWidget {
+  @override
+  _PaymentState createState() => _PaymentState();
+}
+
+class _PaymentState extends State<Payment> {
+  final _formKey = GlobalKey<FormState>();
+
+
+  String _currentCardNumber = '';
+  String _currentDateMonth = '';
+  String _currentCVC= '';
+  String _currentCardHolder = '';
+  @override
+  Widget build(BuildContext context) {
+    final user = Provider.of<User>(context);
+    return StreamBuilder<UserData>(
+        stream: DatabaseService(uid: user.uid).userData,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return Scaffold(
+              appBar: AppBar(
+                centerTitle: true,
+                backgroundColor: Color(0xff207FC5),
+                elevation: 0.0,
+                title: Text('PARK´N STOCKHOLM',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 18
+                  ),
+                ),
+              ),
+              body: Stack(
+                children: <Widget>[
+                  Container(
+                    color: Colors.white,
+                    height: double.infinity,
+                    child: SingleChildScrollView(
+                      physics: NeverScrollableScrollPhysics(),
+                      padding: EdgeInsets.symmetric(
+                          vertical: 20,
+                          horizontal: 20
+                      ),
+                      child: Form(
+                        key: _formKey,
+                        child: Column(
+                          children: <Widget>[
+                            Text('PAYMENT',
+                              style: TextStyle(
+                                  color: Color(0xff207FC5),
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20
+                              ),
+                            ),
+                            SizedBox(height: 20),
+                            Row(
+                              children: <Widget>[
+                                Text('CARD NUMBER',
+                                  style: TextStyle(
+                                      color: Color(0xff207FC5),
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w600
+
+                                  ),
+                                )
+                              ],
+                            ),
+                            TextFormField(
+                              onChanged: (val) {
+                                setState(() {
+                                  _currentCardNumber = val;
+                                });
+                              },
+                              decoration: InputDecoration(
+                                  hintText: '**** **** **** ****',
+                                  contentPadding: EdgeInsets.only(
+                                      top: 15),
+                                  prefixIcon: Icon(
+                                    Icons.credit_card,
+                                    color: Color(0xff207FC5),
+                                  )
+                              ),
+                            ),
+                            SizedBox(height: 10),
+                            Row(
+                              children: <Widget>[
+                                Text('DATE MM/YY',
+                                  style: TextStyle(
+                                      color: Color(0xff207FC5),
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w600
+                                  ),
+                                )
+                              ],
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  right: 240),
+                              child: TextFormField(
+                                onChanged: (val) {
+                                  setState(() {
+                                    _currentDateMonth = val;
+                                  });
+                                },
+                                decoration: InputDecoration(
+
+                                ),
+                                inputFormatters: [
+                                  LengthLimitingTextInputFormatter(4),
+                                ],
+                              ),
+                            ),
+                            SizedBox(height: 10),
+                            Row(
+                              children: <Widget>[
+                                Text('CVC code',
+                                  style: TextStyle(
+                                      color: Color(0xff207FC5),
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w600
+                                  ),
+                                )
+                              ],
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  right: 240),
+                              child: TextFormField(
+                                  onChanged: (val) {
+                                    setState(() => _currentCVC = val);
+                                  },
+                                  decoration: InputDecoration(
+                                    hintText: '***',
+                                    hintStyle: TextStyle(
+                                      color: Color(0xff207FC5),
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                  obscureText: true,
+                                  inputFormatters: [
+                                    LengthLimitingTextInputFormatter(
+                                        3),
+                                  ]
+                              ),
+                            ),
+                            SizedBox(height: 10),
+                            Row(
+                              children: <Widget>[
+                                Text('Cardholders Name',
+                                  style: TextStyle(
+                                      color: Color(0xff207FC5),
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w600
+                                  ),
+                                )
+                              ],
+                            ),
+                            TextFormField(
+                              decoration: InputDecoration(
+                                contentPadding: EdgeInsets.only(
+                                    top: 15),
+                                prefixIcon: Icon(
+                                  Icons.perm_identity,
+                                  color: Color(0xff207FC5),
+                                ),
+                              ),
+                              onChanged: (val) {
+                                setState(() =>
+                                _currentCardHolder = val);
+                              },
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  top: 30.0),
+                              child: Text(
+                                'Your card is always handled in a secure way.',
+                                style: TextStyle(
+                                    color: Colors.black54),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+              floatingActionButton: FloatingActionButton.extended(
+                elevation: 3.0,
+                backgroundColor: Color(0xff207FC5),
+                onPressed: () async {
+                  await DatabaseService(uid: user.uid)
+                      .updateUserPaymentCard(
+                      _currentCardNumber,
+                      _currentDateMonth,
+                      _currentCVC,
+                      _currentCardHolder
+                  );
+                },
+                label: Text('SAVE'),
+                icon: Icon(Icons.save),),
+            );
+          } else{
+            return SettingsFormAnon();
+          }
+        }
+    );
+  }
+}
