@@ -21,8 +21,7 @@ class _SettingsFormState extends State<SettingsForm> {
   String _currentName;
   String _currentParking;
   int _currentMaxPrice;
-  Icon _updateSettingsIcon = new Icon(Icons.refresh,
-  color: Color(0xff207FC5));
+  Icon _updateSettingsIcon = new Icon(Icons.refresh, color: Colors.white);
   List<bool> _selections = List.generate(3, (_) => false);
 
   @override

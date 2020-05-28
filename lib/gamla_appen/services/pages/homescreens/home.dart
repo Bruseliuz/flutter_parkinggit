@@ -41,10 +41,14 @@ class _HomeState extends State<Home> {
                 child: ListView(
                   children: <Widget>[
                     Container(
-                      padding: EdgeInsets.fromLTRB(10, 25, 20, 20),
+                      padding: EdgeInsets.fromLTRB(10, 5, 20, 20),
                       child: Row(children: <Widget>[
                         IconButton(
-                          icon: Icon(Icons.menu, size: 30),
+                          icon: Icon(
+                            Icons.arrow_back,
+                            size: 25,
+                            color: Color(0xff207FC5),
+                          ),
                           onPressed: () {
                             FocusScope.of(context)
                                 .requestFocus(new FocusNode());
@@ -98,6 +102,26 @@ class _HomeState extends State<Home> {
                       ),
                       onTap: () {
                         Navigator.pushNamed(context, '/history');
+                      },
+                    ),
+                    Divider(
+                      color: Color(0xff207FC5),
+                    ),
+                    ListTile(
+                      leading: Icon(
+                        Icons.payment,
+                        color: Color(0xff207FC5),
+                      ),
+                      title: Text(
+                        'PAYMENT',
+                        style: TextStyle(
+                          color: Color(0xff207FC5),
+                          fontSize: 23,
+                          letterSpacing: 1.0,
+                        ),
+                      ),
+                      onTap: () {
+                        Navigator.pushNamed(context, '/payment');
                       },
                     ),
                     Divider(
@@ -164,10 +188,14 @@ class _HomeState extends State<Home> {
                             fit: FlexFit.loose,
                             flex: 1,
                             child: Text(
-                              '   An app by students \nat Stockholm University',
+                              'An app by students',
                               style: TextStyle(color: Colors.black54),
                             ),
-                          )
+                          ),
+                          Text(
+                            'at Stockholm University',
+                            style: TextStyle(color: Colors.black54),
+                          ),
                         ]
                     ),
                   ],

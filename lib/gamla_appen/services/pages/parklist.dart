@@ -29,7 +29,8 @@ class _ParkListState extends State<ParkList> {
           style: TextStyle(
               color:  Color(0xff207FC5),
             fontWeight: FontWeight.bold,
-            fontSize: 20),),
+                fontSize: 16),
+          ),
           centerTitle: true,
         ),
         body: ListView.separated(
@@ -48,9 +49,9 @@ class _ParkListState extends State<ParkList> {
           onPressed: () async {
             await getCurrentLocation();
           },
-          child: Icon(Icons.refresh, color: Color(0xff207FC5),
+          child: Icon(Icons.refresh
           ),
-          backgroundColor:Colors.white,
+          backgroundColor: Color(0xff4896cf),
         )
     );
   }

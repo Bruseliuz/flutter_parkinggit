@@ -19,7 +19,6 @@ class _ParkingHistoryState extends State<ParkingHistory> {
   @override
   Widget build(BuildContext context) {
     globalUser = Provider.of<User>(context);
-
     return StreamBuilder<QuerySnapshot>(
       stream: Firestore.instance.collection('parkingPreference').document(globalUser.uid).collection('parkinghistory').snapshots(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -77,7 +76,6 @@ class _ParkingHistoryState extends State<ParkingHistory> {
     return GestureDetector(
       child: Container(
         padding: EdgeInsets.all(10),
-
         child: ListTile(
           title: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

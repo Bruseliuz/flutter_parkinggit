@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterparkinggit/gamla_appen/models/user.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/database.dart';
+import 'package:flutterparkinggit/gamla_appen/services/pages/homescreens/settings_anon_drawer.dart';
 import 'package:flutterparkinggit/gamla_appen/shared/constants.dart';
 import 'package:provider/provider.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/homescreens/setting_anon.dart';
@@ -116,9 +117,9 @@ class _SettingsFormDrawerState extends State<SettingsFormDrawer> {
                                         activeColor: Color(0xff207FC5),
                                         inactiveColor: Color(0xff5ca1d1),
                                         value: currentNotMinutes.toDouble() ?? 50,
-                                        min: 1,
+                                        min: 0,
                                         max: 60,
-                                        divisions: 59,
+                                        divisions: 60,
                                         onChanged: (val) => setState(() {
                                           currentNotMinutes = val.round();
                                         })
@@ -208,8 +209,10 @@ class _SettingsFormDrawerState extends State<SettingsFormDrawer> {
                                       ),
                                       ),
                                       TextFormField(
-                                        initialValue: ('${userData.regNumber}'),
-                                        maxLength: 6,
+                                          initialValue:
+                                              ('${userData.regNumber}' ??
+                                                  'ABC123'),
+                                          maxLength: 6,
                                         style: TextStyle(
                                             color: Color(0xff207FC5)
                                         ),
@@ -286,7 +289,7 @@ class _SettingsFormDrawerState extends State<SettingsFormDrawer> {
               ),
             );
           }else{
-            return SettingsFormAnon();
+            return SettingsFormAnonDrawer();
           }
         }
     );
