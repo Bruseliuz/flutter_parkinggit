@@ -1,8 +1,7 @@
 import 'package:flutter/services.dart';
 import 'dart:async';
 
-import 'package:flutterparkinggit/gamla_appen/services/places.dart';
-
+import 'package:flutterparkinggit/services/places.dart';
 
 class PlacePlugin {
   static const MethodChannel _channel = const MethodChannel('place_plugin');

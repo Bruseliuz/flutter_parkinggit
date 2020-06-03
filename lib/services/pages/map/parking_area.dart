@@ -2,11 +2,10 @@ import 'dart:collection';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:quiver/core.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:flutterparkinggit/gamla_appen/services/pages/map/map.dart';
+import 'package:flutterparkinggit/services/pages/map/map.dart';
 import 'dart:math';
 
 class ParkingAreasList {
-  //denna som ska visas på kartan
   List<ParkingArea> parkingAreas;
 
   ParkingAreasList() {

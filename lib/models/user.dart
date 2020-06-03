@@ -1,4 +1,4 @@
-import 'package:flutterparkinggit/gamla_appen/services/pages/map/parking_area.dart';
+import 'package:flutterparkinggit/services/pages/map/parking_area.dart';
 
 class User {
 

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutterparkinggit/gamla_appen/models/user.dart';
-import 'package:flutterparkinggit/gamla_appen/services/pages/database.dart';
-import 'package:flutterparkinggit/gamla_appen/services/pages/homescreens/settings_anon_drawer.dart';
+import 'package:flutterparkinggit/models/user.dart';
+import 'package:flutterparkinggit/services/pages/database.dart';
+import 'package:flutterparkinggit/services/pages/homescreens/settings_anon_drawer.dart';
 import 'package:provider/provider.dart';
 
 class Payment extends StatefulWidget {

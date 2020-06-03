@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutterparkinggit/gamla_appen/models/user.dart';
-import 'package:flutterparkinggit/gamla_appen/services/pages/database.dart';
-import 'package:flutterparkinggit/gamla_appen/services/pages/homescreens/setting_anon.dart';
-import 'package:flutterparkinggit/gamla_appen/services/pages/map/map.dart';
-import 'package:flutterparkinggit/gamla_appen/services/pages/map/parking_area.dart';
+import 'package:flutterparkinggit/models/user.dart';
+import 'package:flutterparkinggit/services/pages/database.dart';
+import 'package:flutterparkinggit/services/pages/homescreens/setting_anon.dart';
+import 'package:flutterparkinggit/services/pages/map/map.dart';
+import 'package:flutterparkinggit/services/pages/map/parking_area.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 

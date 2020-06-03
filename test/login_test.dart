@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutterparkinggit/gamla_appen/models/user.dart';
-import 'package:flutterparkinggit/gamla_appen/services/auth_provider.dart';
-import 'package:flutterparkinggit/gamla_appen/services/auth.dart';
-import 'package:flutterparkinggit/gamla_appen/services/pages/authenticate/authenticate.dart';
-import 'package:flutterparkinggit/gamla_appen/services/pages/authenticate/sign_in.dart';
+import 'package:flutterparkinggit/models/user.dart';
+import 'package:flutterparkinggit/services/auth_provider.dart';
+import 'package:flutterparkinggit/services/auth.dart';
+import 'package:flutterparkinggit/services/pages/authenticate/authenticate.dart';
+import 'package:flutterparkinggit/services/pages/authenticate/sign_in.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:mockito/mockito.dart';
 

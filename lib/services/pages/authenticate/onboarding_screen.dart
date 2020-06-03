@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutterparkinggit/gamla_appen/services/auth.dart';
-import 'package:flutterparkinggit/gamla_appen/services/pages/authenticate/authenticate.dart';
+import 'package:flutterparkinggit/services/auth.dart';
+import 'package:flutterparkinggit/services/pages/authenticate/authenticate.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 
 class Onboarding extends StatefulWidget {

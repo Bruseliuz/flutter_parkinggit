@@ -1,14 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutterparkinggit/gamla_appen/models/user.dart';
-import 'package:flutterparkinggit/gamla_appen/services/auth.dart';
-import 'package:flutterparkinggit/gamla_appen/services/pages/database.dart';
-import 'package:flutterparkinggit/gamla_appen/services/pages/favorites.dart';
+import 'package:flutterparkinggit/models/user.dart';
+import 'package:flutterparkinggit/services/auth.dart';
+import 'package:flutterparkinggit/services/pages/database.dart';
+import 'package:flutterparkinggit/services/pages/favorites.dart';
 import 'package:provider/provider.dart';
-import 'package:flutterparkinggit/gamla_appen/services/pages/map/map.dart';
-import 'package:flutterparkinggit/gamla_appen/services/pages/homescreens/settings_form.dart';
-import 'package:flutterparkinggit/gamla_appen/services/pages/parklist.dart';
+import 'package:flutterparkinggit/services/pages/map/map.dart';
+import 'package:flutterparkinggit/services/pages/homescreens/settings_form.dart';
+import 'package:flutterparkinggit/services/pages/parklist.dart';
 
 class Home extends StatefulWidget {
   Home({this.screens});

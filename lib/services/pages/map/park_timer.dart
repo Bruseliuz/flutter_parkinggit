@@ -2,12 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutterparkinggit/gamla_appen/models/active_parking.dart';
-import 'package:flutterparkinggit/gamla_appen/models/paymentModel.dart';
-import 'package:flutterparkinggit/gamla_appen/services/pages/map/map.dart';
-import 'package:flutterparkinggit/gamla_appen/models/user.dart';
+import 'package:flutterparkinggit/models/active_parking.dart';
+import 'package:flutterparkinggit/models/paymentModel.dart';
+import 'package:flutterparkinggit/services/pages/map/map.dart';
+import 'package:flutterparkinggit/models/user.dart';
 import 'package:provider/provider.dart';
-import 'package:flutterparkinggit/gamla_appen/services/pages/database.dart';
+import 'package:flutterparkinggit/services/pages/database.dart';
 
 class ParkTimer extends StatefulWidget {
   @override

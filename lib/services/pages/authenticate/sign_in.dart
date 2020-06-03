@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutterparkinggit/gamla_appen/services/auth.dart';
-import 'package:flutterparkinggit/gamla_appen/shared/constants.dart';
-import 'package:flutterparkinggit/gamla_appen/shared/loading.dart';
-import 'package:flutterparkinggit/gamla_appen/services/pages/authenticate/register.dart';
+import 'package:flutterparkinggit/services/auth.dart';
+import 'package:flutterparkinggit/shared/constants.dart';
+import 'package:flutterparkinggit/shared/loading.dart';
+import 'package:flutterparkinggit/services/pages/authenticate/register.dart';
 import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
-import 'package:flutterparkinggit/gamla_appen/models/user.dart';
+import 'package:flutterparkinggit/models/user.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({this.toggleView});

@@ -1,8 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutterparkinggit/gamla_appen/services/auth.dart';
-import 'package:flutterparkinggit/gamla_appen/services/pages/homescreens/settings_form.dart';
-
+import 'package:flutterparkinggit/services/auth.dart';
+import 'package:flutterparkinggit/services/pages/homescreens/settings_form.dart';
 
 class SettingsFormAnon extends StatefulWidget {
   @override

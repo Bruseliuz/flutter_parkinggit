@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutterparkinggit/gamla_appen/services/auth.dart';
+import 'package:flutterparkinggit/services/auth.dart';
 
 class AuthProvider extends InheritedWidget {
   const AuthProvider({Key key, Widget child, this.auth}) : super(key: key, child: child);

@@ -2,8 +2,8 @@ import 'dart:collection';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutterparkinggit/gamla_appen/models/user.dart';
-import 'package:flutterparkinggit/gamla_appen/services/pages/database.dart';
+import 'package:flutterparkinggit/models/user.dart';
+import 'package:flutterparkinggit/services/pages/database.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';

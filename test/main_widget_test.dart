@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutterparkinggit/gamla_appen/services/pages/authenticate/sign_in.dart';
-import 'package:flutterparkinggit/gamla_appen/services/pages/wrapper.dart';
+import 'package:flutterparkinggit/services/pages/authenticate/sign_in.dart';
+import 'package:flutterparkinggit/services/pages/wrapper.dart';
 import 'package:flutterparkinggit/main.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter/material.dart';

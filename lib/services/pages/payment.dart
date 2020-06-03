@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutterparkinggit/gamla_appen/models/paymentModel.dart';
-import 'package:flutterparkinggit/gamla_appen/models/user.dart';
+import 'package:flutterparkinggit/models/paymentModel.dart';
+import 'package:flutterparkinggit/models/user.dart';
 import 'package:provider/provider.dart';
 
 import 'map/map.dart';

@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutterparkinggit/gamla_appen/models/parking.dart';
-import 'package:flutterparkinggit/gamla_appen/models/user.dart';
-import 'package:flutterparkinggit/gamla_appen/models/paymentModel.dart';
-import 'package:flutterparkinggit/gamla_appen/services/pages/map/parking_area.dart';
+import 'package:flutterparkinggit/models/parking.dart';
+import 'package:flutterparkinggit/models/user.dart';
+import 'package:flutterparkinggit/models/paymentModel.dart';
+import 'package:flutterparkinggit/services/pages/map/parking_area.dart';
 
 class DatabaseService {
 

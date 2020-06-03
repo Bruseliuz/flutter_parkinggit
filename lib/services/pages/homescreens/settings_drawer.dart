@@ -1,13 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutterparkinggit/gamla_appen/models/user.dart';
-import 'package:flutterparkinggit/gamla_appen/services/pages/database.dart';
-import 'package:flutterparkinggit/gamla_appen/services/pages/homescreens/settings_anon_drawer.dart';
-import 'package:flutterparkinggit/gamla_appen/shared/constants.dart';
+import 'package:flutterparkinggit/models/user.dart';
+import 'package:flutterparkinggit/services/pages/database.dart';
+import 'package:flutterparkinggit/services/pages/homescreens/settings_anon_drawer.dart';
+import 'package:flutterparkinggit/shared/constants.dart';
 import 'package:provider/provider.dart';
-import 'package:flutterparkinggit/gamla_appen/services/pages/homescreens/setting_anon.dart';
-
-
+import 'package:flutterparkinggit/services/pages/homescreens/setting_anon.dart';
 
 class SettingsFormDrawer extends StatefulWidget {
   @override
