@@ -22,7 +22,6 @@ class _RegisterState extends State<Register> {
   final _formKey = GlobalKey<FormState>();
   bool loading = false;
 
-  //textfield state
   String name= "";
   String email ="";
   String password ="";

@@ -234,8 +234,8 @@ class _ParkTimerState extends State<ParkTimer> {
                             ],
                           ),
                           Container(
-                            padding: EdgeInsets.only(left: 10),//TODO - Dela upp i två text fields
-                            child: Column(
+                        padding: EdgeInsets.only(left: 10),
+                        child: Column(
                               children: <Widget>[
                                 SizedBox(width: 10),
                                 Row(

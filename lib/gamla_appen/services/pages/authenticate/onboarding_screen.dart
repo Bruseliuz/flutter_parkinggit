@@ -296,11 +296,6 @@ class _OnboardingState extends State<Onboarding> {
                   ),
                 ),
               ),
-              /*: TextStyle(
-    color: Color(0xff207FC5),
-    fontWeight: FontWeight.w400,
-    fontSize: 13),
-    ),*/
             ],
           ),
         ),
@@ -371,11 +366,6 @@ class _OnboardingState extends State<Onboarding> {
                   ),
                 ),
               ),
-              /*: TextStyle(
-    color: Color(0xff207FC5),
-    fontWeight: FontWeight.w400,
-    fontSize: 13),
-    ),*/
             ],
           ),
         ),
@@ -415,7 +405,6 @@ class _OnboardingState extends State<Onboarding> {
             Navigator.pushReplacementNamed(context, '/wrapper');
           },
         ),
-
     );
   }
 }

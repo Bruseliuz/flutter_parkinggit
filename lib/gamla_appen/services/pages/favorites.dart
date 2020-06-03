@@ -23,36 +23,40 @@ class _FavoritesState extends State<Favorites> {
     globalUser = Provider.of<User>(context);
 
     return StreamBuilder<QuerySnapshot>(
-        stream: Firestore.instance.collection('parkingPreference').document(globalUser.uid).collection('favoriteParkings').snapshots(),
+        stream: Firestore.instance
+            .collection('parkingPreference')
+            .document(globalUser.uid)
+            .collection('favoriteParkings')
+            .snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (!snapshot.hasData) return new Text("There are no favorites");
           _favParksList = getParkingSpots(snapshot);
           return Scaffold(
+            backgroundColor: Colors.white,
+            appBar: AppBar(
+              elevation: 0.0,
               backgroundColor: Colors.white,
-              appBar: AppBar(
-                elevation: 0.0,
-                backgroundColor: Colors.white,
-                title: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    const Text("FAVORITES",
-                      style: TextStyle(
-                          color:  Color(0xff207FC5),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20),),
-                  ],
-                ),
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  const Text("FAVORITES",
+                    style: TextStyle(
+                        color: Color(0xff207FC5),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20),),
+                ],
               ),
-              body: _favParksList.isEmpty ? _emptyList(context) : ListView
-                  .separated(
-                separatorBuilder: (context, index) =>
-                    Divider(
-                      color: Colors.white,
-                    ),
-                padding: const EdgeInsets.all(8),
-                itemCount: _favParksList.length,
-                itemBuilder: _getFavoriteParksList,
-              ),
+            ),
+            body: _favParksList.isEmpty ? _emptyList(context) : ListView
+                .separated(
+              separatorBuilder: (context, index) =>
+                  Divider(
+                    color: Colors.white,
+                  ),
+              padding: const EdgeInsets.all(8),
+              itemCount: _favParksList.length,
+              itemBuilder: _getFavoriteParksList,
+            ),
           );
         }
     );
@@ -85,16 +89,15 @@ class _FavoritesState extends State<Favorites> {
             context: context,
             builder: (_) =>
                 ParkingDialogWidget(parkingArea: _favParksList[index]));
-//        openPage(context, _parkingAreasList.parkingAreas[index].coordinates);
       },
       child: Dismissible(
         key: UniqueKey(),
         onDismissed: (direction) {
-          setState((){
+          setState(() {
             parkCollection
                 .document(globalUser.uid)
                 .collection('favoriteParkings')
-                .document(_favParksList[index].streetName)//streetName
+                .document(_favParksList[index].streetName) //streetName
                 .delete();
           });
         },
@@ -105,7 +108,7 @@ class _FavoritesState extends State<Favorites> {
               BoxShadow(
                   color: Colors.black26,
                   blurRadius: 5.0,
-                  offset: Offset(0,2)
+                  offset: Offset(0, 2)
               )
             ],
             borderRadius: BorderRadius.circular(10),
@@ -133,7 +136,7 @@ class _FavoritesState extends State<Favorites> {
             ),
             title: Text('${_favParksList[index].streetName}',
               style: TextStyle(
-                  fontWeight:FontWeight.w600,
+                  fontWeight: FontWeight.w600,
                   color: Colors.white
               ),
               maxLines: 2,),
@@ -142,12 +145,12 @@ class _FavoritesState extends State<Favorites> {
                   color: Colors.white
               ),),
             trailing: GestureDetector(
-                onTap: (){
-                  setState((){
+                onTap: () {
+                  setState(() {
                     parkCollection
                         .document(globalUser.uid)
                         .collection('favoriteParkings')
-                        .document(_favParksList[index].streetName)//streetName
+                        .document(_favParksList[index].streetName) //streetName
                         .delete();
                   });
                 },
@@ -194,12 +197,5 @@ class _FavoritesState extends State<Favorites> {
             return SettingsFormAnon();
           }
         });
-  }
-
-
-
-
-  void openPage(BuildContext context, LatLng location) {
-    //Gå till parkeringsarean i map
   }
 }

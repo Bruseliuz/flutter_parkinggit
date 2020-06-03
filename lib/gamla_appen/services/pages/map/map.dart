@@ -46,7 +46,6 @@ Set<PriceArea> priceAreas = {};
 Map<String, String> markerPrice = {};
 
 class ParkingMap extends StatefulWidget {
-//  ParkingMap({@required Key key}) : super(key: key);
 
   @override
   _ParkingMapState createState() => _ParkingMapState();
@@ -74,9 +73,7 @@ class _ParkingMapState extends State<ParkingMap> {
   new GoogleMapPolyline(apiKey: "AIzaSyDCKuA95vaqlu92GXWkgpc2vSrgYmCVabI");
   GoogleMapsPlaces _places =
   GoogleMapsPlaces(apiKey: "AIzaSyAMeqs9sFXRF0Wxi8t1c8hRMMDh20rx7rY");
-  final homeScaffoldKey = GlobalKey<ScaffoldState>();
   bool searchInitiated = false;
-  String textFieldString;
 
   getPoints(ParkingArea p) async {
     setState(() {
@@ -171,14 +168,6 @@ class _ParkingMapState extends State<ParkingMap> {
                             setState(() {
                               searchInitiated = true;
                             });
-//                      Prediction p = await PlacesAutocomplete.show(
-//                          context: context,
-//                          apiKey: "AIzaSyDCKuA95vaqlu92GXWkgpc2vSrgYmCVabI",
-//                          mode: Mode.overlay,
-//                          radius: 1000,
-//                          language: "sv",
-//                          components: [new Component(Component.country, "sv")]);
-//                      displayPrediction(p, homeScaffoldKey.currentState);
                                   },
                                   cursorColor: Color(0xff207FC5),
                                   textInputAction: TextInputAction.search,
@@ -276,7 +265,6 @@ class _ParkingMapState extends State<ParkingMap> {
                             searchAddress = '';
                           });
                           await getCurrentLocation();
-//                    print(allMarkers.toString());
                         },
                       ),
                     ),

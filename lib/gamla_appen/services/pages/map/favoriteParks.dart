@@ -1,15 +1,6 @@
 import 'package:flutterparkinggit/gamla_appen/services/pages/map/parking_area.dart';
 import 'package:flutterparkinggit/gamla_appen/services/pages/map/map.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-/*class FavoriteParks extends ParkingAreas {
-  String streetName;
-  List<dynamic> coordinatesList;
-  LatLng coordinates;
-  String numberOfParkingSpots;
-  String availableParkingSpots;
-  String serviceDayInfo;
-}*/
 
 class FavoriteParksList {
   List<ParkingArea> favoriteParks = [];

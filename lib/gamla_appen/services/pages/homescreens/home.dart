@@ -62,7 +62,6 @@ class _HomeState extends State<Home> {
                               color: Color(0xff207FC5),
                               fontWeight: FontWeight.bold,
                               fontSize: 33),
-
                         ),
                       ]),
                     ),
@@ -148,9 +147,6 @@ class _HomeState extends State<Home> {
                       color: Color(0xff207FC5),
                     ),
                     SizedBox(height: 170),
-//                    Container(
-//                      child: Text('none' ?? name),
-//                    ),
                     Column(
                         mainAxisSize: MainAxisSize.min,
                         children: <Widget>[

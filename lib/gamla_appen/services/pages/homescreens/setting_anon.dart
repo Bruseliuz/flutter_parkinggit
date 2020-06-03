@@ -12,16 +12,6 @@ class SettingsFormAnon extends StatefulWidget {
 
 class _SettingsFormAnonState extends State<SettingsFormAnon> {
 
-  final AuthService _auth = AuthService();
-
-
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
       return Scaffold(

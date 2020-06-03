@@ -64,50 +64,6 @@ class ParkingArea {
   int get hashCode => hash2(streetName.hashCode, coordinates.hashCode);
 }
 
-//Future<void> getData(LatLng location) async {
-//  Response response = await get('https://openparking.stockholm.se/LTF-Tolken/v1/ptillaten/within?radius=100&lat=${location.latitude.toString()}&lng=${location.longitude.toString()}&outputFormat=json&apiKey=e734eaa7-d9b5-422a-9521-844554d9965b');
-//  Map data = jsonDecode(response.body);
-//  var dataList = data['features'] as List;
-//  List list = dataList.map<TestParking>((json) => TestParking.fromJson(json)).toList();
-//  print(list);
-//  parseCoordinates(list);
-//
-//}
-
-
-
-//void parseParkingCoordinates(List<dynamic> coordinates) {
-//  bool favorite = false;
-//
-//  parkingSpotsList.clear();
-//  coordinates.forEach((element) {
-//    if (favoriteDocumentsId.contains(element.streetName)) {
-//      favorite = true;
-//    } else {
-//      favorite = false;
-//    }
-//    print('${element.coordinatesList} HÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄR');
-//    List temp = element.coordinatesList[1];
-//    double longitude = temp[1];
-//    double latitude = temp[0];
-//    LatLng coordinatesParsed = new LatLng(longitude, latitude);
-//    parkingSpotsList.add(
-//      ParkingArea(
-//          streetName: element.streetName,
-//          coordinates: coordinatesParsed,
-//          numberOfParkingSpots: element.coordinatesList.length.toString(),
-//          serviceDayInfo: element.serviceDayInfo,
-//          availableParkingSpots:
-//              getRandomAvailableParkingSpot(element.coordinatesList),
-//          favorite: favorite),
-//    );
-//    checkParkingSpot();
-//    print('-------------------Lista på parkeringsplatser-------------------');
-//    print(parkingSpotsList);
-//    print('Längden på listan: ${parkingSpotsList.length}');
-//  });
-//}
-
 String getRandomAvailableParkingSpot(List<dynamic> coordinates) {
   var random = new Random();
   int randomNumber = random.nextInt(coordinates.length);

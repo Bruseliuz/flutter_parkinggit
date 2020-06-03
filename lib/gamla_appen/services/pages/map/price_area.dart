@@ -1,6 +1,3 @@
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:flutterparkinggit/gamla_appen/services/pages/map/map.dart';
-
 class PriceArea {
   List<dynamic> coordinates;
   List<List<dynamic>> multiCoordinates;

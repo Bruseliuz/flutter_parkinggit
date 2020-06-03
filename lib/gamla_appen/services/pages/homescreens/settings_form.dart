@@ -126,39 +126,6 @@ class _SettingsFormState extends State<SettingsForm> {
                                 },
 
                               ),
-                              /*Container(
-                            decoration: settingsDecoration.copyWith(borderRadius: BorderRadius.circular(5), color: Color(0xff207FC5)),
-                            child: DropdownButtonFormField(
-                                isExpanded: false,
-                                iconEnabledColor: Colors.white,
-                                decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.all(15),
-                                    border: InputBorder.none,
-                                    hintText: userData.parking,
-                                    hintStyle: TextStyle(color: Colors.white),
-                                    prefixIcon: Icon(
-                                      Icons.directions_car, color: Colors.white,
-
-                                    )
-                                ),
-                                value: (_currentParking ?? userData.parking),
-                                items: parkingType.map((parking){
-                                  return DropdownMenuItem(
-                                    value: parking,
-                                    child: Text('$parking',
-                                      style: TextStyle(color: Colors.white),),
-                                  );
-                                }).toList(),
-                                onChanged: (val) {
-                                  setState(() {
-                                    _currentParking = val;
-                                    print(_currentParking);
-                                    _updateSettingsIcon = new Icon(Icons.refresh,
-                                        color: Color(0xff207FC5));
-                                  });
-                                }
-                            ),
-                          ),*/
                               SizedBox(height: 20.0),
                               Text(
                                 'DISTANCE',

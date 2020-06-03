@@ -15,7 +15,6 @@ class ParkList extends StatefulWidget {
 }
 
 class _ParkListState extends State<ParkList> {
-  ParkingAreasList _parkingAreasList = new ParkingAreasList();
   Location _locationTracker = Location();
 
   @override
@@ -62,7 +61,6 @@ class _ParkListState extends State<ParkList> {
         showDialog(
             context: context,
             builder: (_) => ParkingDialogWidget(parkingArea: parkingSpotsList[index]));
-//        openPage(context, _parkingAreasList.parkingAreas[index].coordinates);
       },
       child: Container(
         height: 70,
@@ -128,10 +126,6 @@ class _ParkListState extends State<ParkList> {
     );
   }
 
-  void openPage(BuildContext context, LatLng location) {
-    //Gå till parkeringsarean i map
-  }
-
   Future getCurrentLocation() async {
     var location = await _locationTracker.getLocation();
     LatLng newLocation = LatLng(location.latitude, location.longitude);
@@ -148,45 +142,3 @@ class _ParkListState extends State<ParkList> {
     parseParkingCoordinates(list);
   }
 }
-
-
-
-/* void openPage(BuildContext context) {
-    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
-      return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Color(0xff207FC5),
-          title: const Text('Available parking lots in this area'),
-        ),
-        body: ListView.separated(
-          separatorBuilder: (context, index) => Divider(
-            color: Colors.white,
-          ),
-          padding: const EdgeInsets.all(8),
-          itemCount: _parkingLotsList.parkingLots.length,
-          itemBuilder: _getParkingLotsList,
-        ),
-      );
-    }));
-  } */
-
-/*  Widget _getParkingLotsList(BuildContext context, int index) {
-    return GestureDetector(
-      onTap: () {},
-      child: Container(
-        height: 70,
-        color: Color(0xffA5C9EA),
-        child: ListTile(
-          leading: _parkingLotsList.parkingLots[index].occupied == true
-              ? new Icon(Icons.sentiment_dissatisfied)
-              : new Icon(Icons.sentiment_very_satisfied),
-          title: Text(
-              'Located: ${_parkingLotsList.parkingLots[index].locationCoords}'),
-          subtitle: Text('Go there'),
-          trailing: Icon(Icons.accessibility),
-        ),
-      ),
-    );
-  }
-}
-*/

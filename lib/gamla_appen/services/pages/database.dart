@@ -9,11 +9,8 @@ class DatabaseService {
   final String uid;
   DatabaseService({ this.uid });
 
-  // collection reference
   final CollectionReference parkCollection = Firestore.instance.collection("parkingPreference");
-  final CollectionReference favoriteCollection = Firestore.instance.collection('favoriteParkings');
 
-  //create user data & update user data
   Future updateUserData(String parking, String name, int maxPrice, int radius, String regNumber) async {
     return await parkCollection.document(uid).setData({
       'parkering': parking,
@@ -129,24 +126,6 @@ class DatabaseService {
         monthYear: snapshot.data['monthYear']
     );
   }
-
-  List<ParkingArea> _favoriteListFromSnapshot(QuerySnapshot snapshot) {
-    print(parkCollection.document(uid).collection('favoriteParkings').snapshots().toString());
-    return snapshot.documents.map((doc) {
-      return ParkingArea(
-        streetName: doc.data['streetName'],
-        coordinates: doc.data['coordinates'],
-        favorite: doc.data['favorite'],
-        serviceDayInfo: doc.data['serviceDayInfo'],
-        availableParkingSpots: doc.data['availableParkingSpots']
-      );
-    }).toList();
-  }
-
-//  Stream<List<ParkingArea>> get parkingArea{
-//    return parkCollection.document(uid).collection('favoriteParkings').getDocuments()
-//        .map(_favoriteListFromSnapshot);
-//  }
 
   //get parkingPreference stream
   Stream<List<Parking>> get parking{
